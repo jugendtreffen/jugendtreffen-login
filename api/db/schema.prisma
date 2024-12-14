@@ -5,20 +5,53 @@
 // https://www.prisma.io/docs/orm/prisma-migrate
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = "native"
+model User {
+  id                    BigInt   @id @default(autoincrement())
+  email                 String
+  name                  String
+  familyName            String
+  birthdate             DateTime
+  gender                String
+  roleId                Int
+  country               String
+  city                  String
+  postalCode            String
+  address               String
+  phoneNumber           String
+  phoneCaretakerContact String?
+
+  role SystemRole @relation(fields: [roleId], references: [id])
 }
 
-// Define your own datamodels here and run `yarn redwood prisma migrate dev`
-// to create migrations for them and apply to your dev DB.
-// TODO: Please remove the following example:
-model UserExample {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Participation {
+  id                  BigInt   @id @default(autoincrement())
+  year                Int
+  travelMethod        String?
+  participationRoleId Int?
+  accomodation        Boolean?
+  arrival             DateTime
+  departure           DateTime
+  helpAfterwards      Boolean?
+  foundUsBy           String?
+  acceptPhotos        Boolean
+  acceptCoC           Boolean
+
+  participationRole ParticipationRole? @relation(fields: [participationRoleId], references: [id])
+}
+
+model SystemRole {
+  id   Int    @id @default(autoincrement())
+  desc String @unique
+  User User[]
+}
+
+model ParticipationRole {
+  id            Int             @id @default(autoincrement())
+  desc          String          @unique
+  Participation Participation[]
 }
