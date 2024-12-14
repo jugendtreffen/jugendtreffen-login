@@ -6,6 +6,14 @@
       "web"
     ]
   },
+  "scripts": {
+    "dev": "redwood dev",
+    "build": "redwood build",
+    "migrate": "redwood prisma migrate dev",
+    "format-db": "redwood prisma format",
+    "seed": "redwood prisma db seed",
+    "test": "redwood test --watchAll"
+  },
   "devDependencies": {
     "@redwoodjs/core": "8.4.1",
     "@redwoodjs/project-config": "8.4.1"
