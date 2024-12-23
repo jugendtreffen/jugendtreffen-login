@@ -10,19 +10,24 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
+}
+
 model User {
   id                    BigInt   @id @default(autoincrement())
-  email                 String
+  email                 String   @unique
   name                  String
   familyName            String
-  birthdate             DateTime
-  gender                String
+  birthdate             DateTime?
+  gender                String?
   roleId                Int
-  country               String
-  city                  String
-  postalCode            String
-  address               String
-  phoneNumber           String
+  country               String?
+  city                  String?
+  postalCode            String?
+  address               String?
+  phoneNumber           String?
   phoneCaretakerContact String?
 
   role SystemRole @relation(fields: [roleId], references: [id])
