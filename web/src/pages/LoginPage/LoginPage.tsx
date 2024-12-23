@@ -5,44 +5,43 @@ import { Metadata } from '@redwoodjs/web'
 
 import { useAuth } from 'src/auth'
 
-const SignupPage = () => {
-  const { client, isAuthenticated, userMetadata } = useAuth()
+const LoginPage = () => {
+  const { logIn, isAuthenticated, userMetadata } = useAuth()
   const [error, setError] = React.useState(null)
 
   const onSubmit = async (data) => {
     setError(null)
     try {
-      const response = await client.auth.signUp({
+      const response = await logIn({
         email: data.email,
         password: data.password,
+        authMethod: 'password',
       })
-      console.log('response: ', response)
       response?.error?.message
         ? setError(response.error.message)
         : navigate(routes.home())
     } catch (error) {
-      console.log('error:  ', error)
       setError(error.message)
     }
   }
 
   return (
     <>
-      <Metadata title="Signup" description="Signup page" />
+      <Metadata title="Login" description="Login page" />
 
-      <h1>SignupPage</h1>
+      <h1>LoginPage</h1>
       {isAuthenticated ? (
         <div>You are already logged in as {userMetadata.email}</div>
       ) : (
         <Form onSubmit={onSubmit}>
-          {error && <div className="error">{error}</div>}
+          {error && <p>{error}</p>}
           <TextField name="email" placeholder="email" />
           <PasswordField name="password" placeholder="password" />
-          <Submit>Sign Up</Submit>
+          <Submit>Sign In</Submit>
         </Form>
       )}
     </>
   )
 }
 
-export default SignupPage
+export default LoginPage

@@ -11,10 +11,12 @@
     "build": "redwood build",
     "migrate": "redwood prisma migrate dev",
     "format-db": "redwood prisma format",
+    "push-db": "redwood prisma db push",
     "seed": "redwood prisma db seed",
     "test": "redwood test --watchAll"
   },
   "devDependencies": {
+    "@redwoodjs/auth-supabase-setup": "8.4.1",
     "@redwoodjs/core": "8.4.1",
     "@redwoodjs/project-config": "8.4.1"
   },

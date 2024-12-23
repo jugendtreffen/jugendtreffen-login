@@ -1,29 +1,28 @@
-// import { Link, routes } from '@redwoodjs/router'
+import { Link } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
-import routes from "src/Routes";
-import { Link } from "@redwoodjs/router";
+
+import { useAuth } from 'src/auth'
+import routes from 'src/Routes'
 
 const HomePage = () => {
+  const { isAuthenticated } = useAuth()
   return (
-    <div style={{ textAlign: 'center', padding: '20px', backgroundColor: '#e7f3ff' }}>
-      <header style={{ backgroundColor: '#cce7ff', padding: '10px 0', borderBottom: '1px solid #99ccff' }}>
-        <h1>Welcome to My Website</h1>
-      </header>
-
-      <main style={{ padding: '20px' }}>
-        <p>
-          This is a simple homepage built with React. Explore the features and learn more about what we have to offer.
-        </p>
-
-        <div style={{ margin: '20px 0' }}>
-          <Link to={routes.signup()}>Signup</Link>
+    <>
+      <Metadata title="Home" description="Home page" />
+      {isAuthenticated ? (
+        <div>
+          <button>Jugendtreffen 2024</button>
         </div>
-      </main>
+      ) : (
+        <div>
+          <p>Banner Text + Picture for Jugendtreffen</p>
 
-      <footer style={{ backgroundColor: '#cce7ff', padding: '10px 0', borderTop: '1px solid #99ccff' }}>
-        <p>&copy; 2024 My Website. All rights reserved.</p>
-      </footer>
-    </div>
+          <Link className="link" to="/signup">
+            Sign up
+          </Link>
+        </div>
+      )}
+    </>
   )
 }
 

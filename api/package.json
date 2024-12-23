@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@redwoodjs/api": "8.4.1",
+    "@redwoodjs/auth-supabase-api": "8.4.1",
     "@redwoodjs/graphql-server": "8.4.1"
   }
 }
