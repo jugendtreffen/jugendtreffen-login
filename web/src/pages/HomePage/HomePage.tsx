@@ -10,7 +10,7 @@ const HomePage = () => {
     <>
       <Metadata title="Home" description="Home page" />
       {isAuthenticated ? (
-        <div>
+        <div className="">
           <button>Jugendtreffen 2024</button>
         </div>
       ) : (
