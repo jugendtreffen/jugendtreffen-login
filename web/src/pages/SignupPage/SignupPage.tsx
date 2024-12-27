@@ -4,6 +4,9 @@ import { navigate, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 
 import { useAuth } from 'src/auth'
+import MultiStepForm from "src/components/MultiStepForm/MultiStepForm";
+import Step from "src/components/MultiStepForm/Step";
+import Card from "src/components/Card/Card";
 
 const SignupPage = () => {
   const { client, isAuthenticated, userMetadata } = useAuth()
@@ -34,12 +37,27 @@ const SignupPage = () => {
       {isAuthenticated ? (
         <div>You are already logged in as {userMetadata.email}</div>
       ) : (
-        <Form onSubmit={onSubmit}>
+        <>
           {error && <div className="error">{error}</div>}
-          <TextField name="email" placeholder="email" />
-          <PasswordField name="password" placeholder="password" />
-          <Submit>Sign Up</Submit>
-        </Form>
+        <MultiStepForm onSubmit={onSubmit}>
+          <Step>
+            <Form onSubmit={onSubmit}>
+
+              <TextField name="email" placeholder="email" />
+              <PasswordField name="password" placeholder="password" />
+              <Submit>Sign Up</Submit>
+            </Form>
+          </Step>
+          <Step>
+            <Form>
+              step 2 Form
+            </Form>
+          </Step>
+        </MultiStepForm>
+          <Card>
+            <h1>Title</h1>
+          </Card>
+        </>
       )}
     </>
   )

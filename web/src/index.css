@@ -1,63 +1,96 @@
-* {
-  --bg: #222A2C;
-  --accent: #0D3066;
-  --fg: #c6d7ec;
-  --error: #B94D47;
-}
-
+@tailwind base;
 body {
+  margin: 0;
+  box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
   Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  background: var(--bg);
-  color: var(--fg);
 }
+
 ul {
   list-style-type: none;
   margin: 1rem 0;
   padding: 0;
 }
+
 li {
   display: inline-block;
   margin: 0 1rem 0 0;
 }
+
 h1 > a {
   text-decoration: none;
-  color: var(--fg);
 }
-button,
 input,
-label,
 textarea {
   display: block;
   outline: none;
+  border: 1px solid #000000;
 }
 label {
+  display: block;
+  outline: none;
   margin-top: 1rem;
 }
-.error {
-  color: var(--error);
+
+@tailwind components;
+a.primary,
+button.primary {
+  @apply text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-3 py-2 text-center
+  dark:bg-blue-600 dark:hover:bg-blue-700
 }
+
+button.secondary {
+  @apply py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200
+  hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600
+  dark:hover:text-white dark:hover:bg-gray-700
+}
+
+textarea.input,
+input.input {
+  @apply bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5 dark:bg-gray-700
+  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+}
+
+label.label {
+  @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white
+}
+
+.error {
+  @apply text-rose-900
+}
+
 input.error,
 textarea.error {
-  border: 1px solid var(--error);
+  @apply border border-red-600 placeholder-red-600
 }
+
 .form-error {
-  color: var(--error);
   padding: 1rem;
   display: inline-block;
+  @apply text-rose-900
 }
+
 .form-error ul {
   list-style-type: disc;
   margin: 1rem;
   padding: 1rem;
 }
+
 .form-error li {
   display: list-item;
 }
+
+@tailwind utilities;
 .flex-between {
   display: flex;
   justify-content: space-between;
 }
+
 .flex-between button {
   display: inline;
+}
+
+.card {
+  border: 1px solid #000;
+  width: fit-content;
 }
