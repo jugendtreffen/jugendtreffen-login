@@ -12,13 +12,15 @@ const GlobalLayout = ({ children }: GlobalLayoutProps) => {
         <Navigation />
       </header>
       <main className="bg-gradient-to-t from-gray-900 to-slate-900">
-        {children}
+        <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
+          {children}
+        </section>
       </main>
       <footer>
-        <Footer/>
+        <Footer />
       </footer>
     </div>
-  )
+)
 }
 
 export default GlobalLayout
