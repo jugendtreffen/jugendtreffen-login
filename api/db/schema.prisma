@@ -39,8 +39,8 @@ model Participation {
   travelMethod        String?
   participationRoleId Int?
   accomodation        Boolean?
-  arrival             DateTime
-  departure           DateTime
+  startDate           DateTime
+  endDate             DateTime
   helpAfterwards      Boolean?
   foundUsBy           String?
   acceptPhotos        Boolean

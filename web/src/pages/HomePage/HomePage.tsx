@@ -1,8 +1,8 @@
-import { Link } from '@redwoodjs/router'
+import { Link, routes } from "@redwoodjs/router";
 import { Metadata } from '@redwoodjs/web'
 
 import { useAuth } from 'src/auth'
-import routes from 'src/Routes'
+import Card from 'src/components/Card/Card'
 
 const HomePage = () => {
   const { isAuthenticated } = useAuth()
@@ -10,8 +10,16 @@ const HomePage = () => {
     <>
       <Metadata title="Home" description="Home page" />
       {isAuthenticated ? (
-        <div className="">
-          <button>Jugendtreffen 2024</button>
+        <div>
+          <Card
+            title={'Jugendtreffen 2025'}
+            description={'Hier kann eine weitere Beschreibeung stehen'}
+            button={{
+              message: 'Teilnehmen',
+              to: routes.events({id: '2025'}),
+            }}
+            imgSrc={'https://photos.app.goo.gl/6kQ4kDjUCM1YVCwS7'}
+          ></Card>
         </div>
       ) : (
         <div>
