@@ -1,7 +1,11 @@
 @tailwind base;
-body {
+
+* {
   margin: 0;
   box-sizing: border-box;
+}
+
+body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
   Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
@@ -26,10 +30,16 @@ textarea {
   outline: none;
   border: 1px solid #000000;
 }
+form {
+  @apply max-w-md mx-auto
+}
 label {
   display: block;
   outline: none;
-  margin-top: 1rem;
+  @apply block text-sm font-medium text-white
+}
+select {
+  @apply border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500
 }
 
 @tailwind components;
