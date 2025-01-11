@@ -1,3 +1,5 @@
+import { Link, routes } from "@redwoodjs/router";
+
 export default () => (
   <main>
     <style
@@ -14,31 +16,31 @@ export default () => (
                 align-items: center;
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
                 text-align: center;
-                background-color: #E2E8F0;
+                background-color: #111827;
                 height: 100vh;
               }
               section {
-                background-color: white;
-                border-radius: 0.25rem;
                 width: 32rem;
                 padding: 1rem;
                 margin: 0 auto;
-                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-              }
-              h1 {
-                font-size: 2rem;
-                margin: 0;
-                font-weight: 500;
-                line-height: 1;
-                color: #2D3748;
               }
             `,
       }}
     />
-    <section>
-      <h1>
-        <span>404 Page Not Found</span>
-      </h1>
+    <section className="bg-gray-900">
+      <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+        <div className="mx-auto max-w-screen-sm text-center">
+          <h1
+            className="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 text-blue-600">404</h1>
+          <p className="mb-4 text-3xl tracking-tight font-bold md:text-4xl text-white">Something's
+            missing.</p>
+          <p className="mb-4 text-lg font-light text-gray-400">Sorry, we can't find that page. You'll
+            find lots to explore on the home page. </p>
+          <Link to={routes.home()} className="secondary">
+            Back to Homepage
+          </Link>
+        </div>
+      </div>
     </section>
   </main>
 )
