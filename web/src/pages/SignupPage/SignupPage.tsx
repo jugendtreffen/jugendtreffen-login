@@ -1,15 +1,11 @@
-// import { Link, routes } from '@redwoodjs/router'
 import { Form, PasswordField, Submit, TextField } from '@redwoodjs/forms'
 import { navigate, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 
 import { useAuth } from 'src/auth'
-import MultiStepForm from "src/components/MultiStepForm/MultiStepForm";
-import Step from "src/components/MultiStepForm/Step";
-import Card from "src/components/Card/Card";
 
 const SignupPage = () => {
-  const { client, isAuthenticated, userMetadata } = useAuth()
+   const { client, isAuthenticated, userMetadata } = useAuth()
   const [error, setError] = React.useState(null)
 
   const onSubmit = async (data) => {

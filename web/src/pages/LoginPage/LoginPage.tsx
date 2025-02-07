@@ -1,38 +1,38 @@
 // import { Link, routes } from '@redwoodjs/router'
-import { Form, InputField, Label, PasswordField, Submit, TextField } from "@redwoodjs/forms";
+import { Form, InputField, Label, PasswordField, Submit } from "@redwoodjs/forms";
 import { Link, navigate, routes } from "@redwoodjs/router";
-import { Metadata } from '@redwoodjs/web'
+import { Metadata } from "@redwoodjs/web";
 
-import { useAuth } from 'src/auth'
-import Alert from "src/components/Alert/Alert";
+import { useAuth } from "src/auth";
+import { useAlert } from "src/components/Alert/AlertContext";
+import AlertCenter from "src/components/Alert/AlertCenter";
 
 const LoginPage = () => {
-  const { logIn, isAuthenticated, userMetadata } = useAuth()
-  const [error, setError] = React.useState(null)
+  const { logIn, isAuthenticated, userMetadata } = useAuth();
+  const { addAlert } = useAlert()
 
   const onSubmit = async (data) => {
-    setError(null)
     try {
       const response = await logIn({
         email: data.email,
         password: data.password,
-        authMethod: 'password',
-      })
+        authMethod: "password"
+      });
       response?.error?.message
-        ? setError(response.error.message)
-        : navigate(routes.home())
+        ? addAlert(response.error.message, "error")
+        : navigate(routes.home());
     } catch (error) {
-      setError(error.message)
+      addAlert(error.message, "error");
     }
-  }
+  };
 
   return (
     <>
       <Metadata title="Anmelden" description="Login page" />
 
-      <section className="flex flex-col items-center py-6 mx-auto lg:py-0">
-        <Alert type={'error'} message={error} show={error != null} dismiss={true}></Alert>
-        <div className="w-full bg-white rounded-lg shadow dark:border mt-6 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <AlertCenter></AlertCenter>
+        <div
+          className="w-full rounded-lg shadow border mt-6 sm:max-w-md xl:p-0 bg-gray-800 border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
 
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -53,7 +53,7 @@ const LoginPage = () => {
                   className="input"
                   placeholder="your@mail.com"
                   validation={{
-                    required: true,
+                    required: true
                   }}
                 />
               </div>
@@ -64,14 +64,13 @@ const LoginPage = () => {
                 >
                   Passwort
                 </Label>
-                <InputField
-                  type="password"
+                <PasswordField
                   name="password"
                   placeholder="••••••••"
                   className="input"
                   errorClassName="input error"
                   validation={{
-                    required: true,
+                    required: true
                   }}
                 />
               </div>
@@ -87,7 +86,7 @@ const LoginPage = () => {
                 Anmelden
               </Submit>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Du hast noch keinen Account?{' '}
+                Du hast noch keinen Account?{" "}
                 <Link
                   to={routes.signup()}
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
@@ -98,9 +97,8 @@ const LoginPage = () => {
             </Form>
           </div>
         </div>
-      </section>
     </>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;
