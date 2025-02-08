@@ -14,7 +14,7 @@ const Navigation = () => {
   }
 
   return (
-    <nav className="bg-gradient-to-r from-teal-200 to-blue-400 rounded-md">
+    <nav className="bg-black bg-opacity-10 border-b border-zinc-600">
       <div className="flex flex-wrap items-center justify-between mx-auto p-4">
         <Link to={routes.home()}>
           <img
@@ -48,14 +48,14 @@ const Navigation = () => {
           id="navbar-cta"
         >
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-zinc-200 rounded-lg bg-b md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
-            <li>
-              <Link
-                className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"
-                to={routes.signup()}
-              >
-                Sign Up
-              </Link>
-            </li>
+            {/*<li>*/}
+            {/*  <Link*/}
+            {/*    className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"*/}
+            {/*    to={routes.signup()}*/}
+            {/*  >*/}
+            {/*    Sign Up*/}
+            {/*  </Link>*/}
+            {/*</li>*/}
           </ul>
         </div>
       </div>

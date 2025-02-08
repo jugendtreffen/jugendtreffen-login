@@ -1,5 +1,6 @@
-import Navigation from 'src/components/Navigation/Navigation'
+import Navigation from "src/components/Navigation/Navigation";
 import Footer from "src/components/Navigation/Footer";
+import { AlertProvider } from "src/components/Alert/AlertContext";
 
 type GlobalLayoutProps = {
   children?: React.ReactNode
@@ -7,20 +8,22 @@ type GlobalLayoutProps = {
 
 const GlobalLayout = ({ children }: GlobalLayoutProps) => {
   return (
-    <div className="min-h-screen flex flex-col justify-between">
-      <header className="sticky top-0 bg-slate-900">
+    <div className="min-h-screen flex flex-col justify-between bg-gray-900">
+      <header className="sticky top-0 ">
         <Navigation />
       </header>
-      <main className="bg-gradient-to-t from-gray-900 to-slate-900">
-        <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
-          {children}
-        </section>
+      <main className="">
+        <AlertProvider>
+          <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
+            {children}
+          </section>
+        </AlertProvider>
       </main>
       <footer>
         <Footer />
       </footer>
     </div>
-)
-}
+  );
+};
 
-export default GlobalLayout
+export default GlobalLayout;
