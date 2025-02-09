@@ -1,14 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import Alert from './Alert'
+import LoadingSpinner from './LoadingSpinner'
 
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components
 
-describe('Alert', () => {
+describe('LoadingSpinner', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<Alert id={"000"} message={"message"} />)
+      render(<LoadingSpinner />)
     }).not.toThrow()
   })
 })

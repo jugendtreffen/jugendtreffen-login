@@ -3,9 +3,19 @@ import { Metadata } from '@redwoodjs/web'
 
 import { useAuth } from 'src/auth'
 import EventsCell from 'src/components/EventsCell'
+import LoadingSpinner from "src/components/Loading/LoadingSpinner";
 
 const HomePage = () => {
-  const { isAuthenticated } = useAuth()
+  const { loading, isAuthenticated } = useAuth()
+
+  if(loading) {
+    return (
+      <>
+        <Metadata title="Home" description="Home page" />
+        <LoadingSpinner/>
+      </>
+    )
+  }
 
   return (
     <>

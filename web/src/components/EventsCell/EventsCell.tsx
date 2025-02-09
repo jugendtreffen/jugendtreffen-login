@@ -8,6 +8,7 @@ import type {
 import Card from "src/components/Card/Card";
 import { routes } from "@redwoodjs/router";
 import Alert, { generateAlertId } from "src/components/Alert/Alert";
+import LoadingSpinner from "src/components/Loading/LoadingSpinner";
 
 export const QUERY: TypedDocumentNode<EventsQuery, EventsQueryVariables> = gql`
   query EventsQuery {
@@ -19,8 +20,7 @@ export const QUERY: TypedDocumentNode<EventsQuery, EventsQueryVariables> = gql`
   }
 `;
 
-export const Loading = () => <div
-  className="px-3 py-1 text-xs font-medium leading-none text-center rounded-full animate-pulse bg-blue-900 text-blue-200">loading...</div>;
+export const Loading = () => <LoadingSpinner/>;
 
 export const Empty = () => <Alert id={generateAlertId()} message="No Events found!" dismissible={false}></Alert>;
 
