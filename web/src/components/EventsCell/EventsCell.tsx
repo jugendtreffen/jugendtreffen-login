@@ -30,18 +30,18 @@ export const Failure = ({ error }: CellFailureProps) => (
 
 export const Success = ({ events }: CellSuccessProps<EventsQuery>) => {
   return (
-    <ul>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
       {events.map((item, index) => {
         return <Card
           key={index}
           title={item.name}
-          description={item.description}
+          description={item.desc}
           button={{
             message: "Teilnehmen",
             to: routes.events({ id: item.name.toLocaleLowerCase().replace(/ /g, "-")  })
           }}
         />;
       })}
-    </ul>
+    </div>
   );
 };

@@ -1,23 +1,19 @@
-// Don't forget to tell Prisma about your edits to this file using
-// `yarn rw prisma migrate dev` or `yarn rw prisma db push`.
-// `migrate` is like committing while `push` is for prototyping.
-// Read more about both here:
-// https://www.prisma.io/docs/orm/prisma-migrate
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+  binaryTargets   = ["native"]
+}
 
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
-}
-
-generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = "native"
+  schemas   = ["auth", "public"]
 }
 
 model User {
-  id                    BigInt    @id @default(autoincrement())
-  email                 String    @unique
+  id                    BigInt     @id @default(autoincrement())
+  email                 String     @unique
   name                  String
   familyName            String
   birthdate             DateTime?
@@ -29,13 +25,15 @@ model User {
   address               String?
   phoneNumber           String?
   phoneCaretakerContact String?
+  userId                String?    @db.Uuid
+  role                  SystemRole @relation(fields: [roleId], references: [id])
+  users                 users?     @relation(fields: [userId], references: [id], onDelete: SetDefault)
 
-  role SystemRole @relation(fields: [roleId], references: [id])
+  @@schema("public")
 }
 
 model Participation {
-  id                  BigInt   @id @default(autoincrement())
-  eventId             Int
+  id                  BigInt             @id @default(autoincrement())
   travelMethod        String?
   participationRoleId Int?
   accomodation        Boolean?
@@ -45,27 +43,34 @@ model Participation {
   foundUsBy           String?
   acceptPhotos        Boolean
   acceptCoC           Boolean
+  eventId             Int
+  event               Event              @relation(fields: [eventId], references: [id], onDelete: SetDefault)
+  participationRole   ParticipationRole? @relation(fields: [participationRoleId], references: [id], onDelete: SetDefault)
 
-  event             Event              @relation(fields: [eventId], references: [id])
-  participationRole ParticipationRole? @relation(fields: [participationRoleId], references: [id])
+  @@schema("public")
 }
 
 model SystemRole {
   id   Int    @id @default(autoincrement())
   desc String @unique
   User User[]
+
+  @@schema("public")
 }
 
 model ParticipationRole {
   id            Int             @id @default(autoincrement())
   desc          String          @unique
   Participation Participation[]
+
+  @@schema("public")
 }
 
 model Event {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  desc String
-
+  id            Int             @id @default(autoincrement())
+  name          String          @unique
+  desc          String
   Participation Participation[]
+
+  @@schema("public")
 }

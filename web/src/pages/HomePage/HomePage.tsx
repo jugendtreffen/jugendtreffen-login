@@ -5,7 +5,7 @@ import { useAuth } from 'src/auth'
 import EventsCell from 'src/components/EventsCell'
 
 const HomePage = () => {
-  const { isAuthenticated, client } = useAuth()
+  const { isAuthenticated } = useAuth()
 
   return (
     <>
