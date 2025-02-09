@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { AlertProps } from "src/components/Alert/Alert";
+import { AlertProps, generateAlertId } from "src/components/Alert/Alert";
 
 type Alert = {
   id: string;
@@ -19,7 +19,7 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
 
   const addAlert = (message: string, type?: Alert["type"]) => {
     console.log('addAlert',message, type)
-    const id = Math.random().toString(36).substring(2,15)
+    const id = generateAlertId()
     setAlerts( [...alerts, { id, message, type }]);
     return id;
   }

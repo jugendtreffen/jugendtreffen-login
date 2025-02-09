@@ -16,8 +16,8 @@ generator client {
 }
 
 model User {
-  id                    BigInt   @id @default(autoincrement())
-  email                 String   @unique
+  id                    BigInt    @id @default(autoincrement())
+  email                 String    @unique
   name                  String
   familyName            String
   birthdate             DateTime?
@@ -35,7 +35,7 @@ model User {
 
 model Participation {
   id                  BigInt   @id @default(autoincrement())
-  year                Int
+  eventId             Int
   travelMethod        String?
   participationRoleId Int?
   accomodation        Boolean?
@@ -46,6 +46,7 @@ model Participation {
   acceptPhotos        Boolean
   acceptCoC           Boolean
 
+  event             Event              @relation(fields: [eventId], references: [id])
   participationRole ParticipationRole? @relation(fields: [participationRoleId], references: [id])
 }
 
@@ -58,5 +59,13 @@ model SystemRole {
 model ParticipationRole {
   id            Int             @id @default(autoincrement())
   desc          String          @unique
+  Participation Participation[]
+}
+
+model Event {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  desc String
+
   Participation Participation[]
 }
