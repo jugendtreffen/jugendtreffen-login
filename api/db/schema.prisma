@@ -1,6 +1,5 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["multiSchema"]
   binaryTargets   = ["native"]
 }
 
@@ -8,12 +7,10 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
-  schemas   = ["auth", "public"]
 }
 
-model User {
+model PersonalData {
   id                    BigInt     @id @default(autoincrement())
-  email                 String     @unique
   name                  String
   familyName            String
   birthdate             DateTime?
@@ -25,52 +22,51 @@ model User {
   address               String?
   phoneNumber           String?
   phoneCaretakerContact String?
-  userId                String?    @db.Uuid
-  role                  SystemRole @relation(fields: [roleId], references: [id])
-  users                 users?     @relation(fields: [userId], references: [id], onDelete: SetDefault)
+  userId                String?    @unique @db.Uuid
+  role                  SystemRole @relation(fields: [roleId], references: [id], onDelete: SetDefault, onUpdate: Cascade)
 
-  @@schema("public")
+  @@map("personalDatas")
 }
 
 model Participation {
   id                  BigInt             @id @default(autoincrement())
   travelMethod        String?
   participationRoleId Int?
-  accomodation        Boolean?
+  accommodation       Boolean?
   startDate           DateTime
   endDate             DateTime
   helpAfterwards      Boolean?
   foundUsBy           String?
   acceptPhotos        Boolean
   acceptCoC           Boolean
-  eventId             Int
-  event               Event              @relation(fields: [eventId], references: [id], onDelete: SetDefault)
-  participationRole   ParticipationRole? @relation(fields: [participationRoleId], references: [id], onDelete: SetDefault)
+  eventId             Int?
+  event               Event?             @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  participationRole   ParticipationRole? @relation(fields: [participationRoleId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 
-  @@schema("public")
+  @@map("participations")
 }
 
 model SystemRole {
-  id   Int    @id @default(autoincrement())
-  desc String @unique
-  User User[]
+  id         Int            @id @default(autoincrement())
+  desc       String         @unique
+  references PersonalData[]
 
-  @@schema("public")
+  @@map("systemRoles")
 }
 
 model ParticipationRole {
-  id            Int             @id @default(autoincrement())
-  desc          String          @unique
-  Participation Participation[]
+  id         Int             @id @default(autoincrement())
+  desc       String          @unique
+  references Participation[]
 
-  @@schema("public")
+  @@map("participationRoles")
 }
 
 model Event {
-  id            Int             @id @default(autoincrement())
-  name          String          @unique
-  desc          String
-  Participation Participation[]
+  id             Int             @id @default(autoincrement())
+  name           String          @unique
+  desc           String
+  participations Participation[]
 
-  @@schema("public")
+  @@map("events")
 }

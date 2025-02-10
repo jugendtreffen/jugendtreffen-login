@@ -26,7 +26,7 @@ export default async () => {
       {id: 4, desc: "Vortragender"},
     ]
 
-    const users = [
+    const personalDatas = [
       {
         email: 'admin@jugendtreffen.at',
         name: 'admin',
@@ -60,9 +60,9 @@ export default async () => {
       })
     }
     console.info('-> done')
-    console.info('seeding users')
-    for (const item of users) {
-      await db.User.upsert({
+    console.info('seeding personalDatas')
+    for (const item of personalDatas) {
+      await db.PersonalData.upsert({
         where: { email: item.email },
         update: {
           email: item.email,
