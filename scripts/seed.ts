@@ -28,19 +28,29 @@ export default async () => {
 
     const personalDatas = [
       {
-        email: 'admin@jugendtreffen.at',
+        id: 0,
         name: 'admin',
-        familyName: '',
+        familyName: 'user',
         systemRole: 0,
       },
       {
-        email: 'test@jugendtreffen.at',
+        id: 1,
         name: 'test',
         familyName: 'user',
         birthdate: new Date(2000, 0, 1),
         gender: 'unknown',
         systemRole: 3,
       },
+    ]
+
+    const events = [
+      {
+        id: 0,
+        name: 'Jugendtreffen 2025',
+        description: 'Hier kann eine Beschreibung über das jeweilige Event stehen',
+        // startDate: new Date(2021, 0, 1),
+        // endDate: new Date(2021, 0, 1),
+      }
     ]
     console.info('seeding systemRoles')
     for (const item of systemRoles) {
@@ -63,15 +73,14 @@ export default async () => {
     console.info('seeding personalDatas')
     for (const item of personalDatas) {
       await db.PersonalData.upsert({
-        where: { email: item.email },
+        where: { id: item.id },
         update: {
-          email: item.email,
           name: item.name,
           familyName: item.familyName,
           role: { connect: { id: item.systemRole } },
         },
         create: {
-          email: item.email,
+          id: item.id,
           name: item.name,
           familyName: item.familyName,
           gender: item.gender,
@@ -81,6 +90,27 @@ export default async () => {
       })
     }
     console.info('-> done')
+    console.info('seeding events')
+    for(const item of events) {
+      await db.Event.upsert({
+        where: { id: item.id },
+        update: {
+          name: item.name,
+          desc: item.description
+          // Uncomment the following lines if startDate and endDate are needed
+          // startDate: item.startDate,
+          // endDate: item.endDate,
+        },
+        create: {
+          id: item.id,
+          name: item.name,
+          desc: item.description
+          // Uncomment the following lines if startDate and endDate are needed
+          // startDate: item.startDate,
+          // endDate: item.endDate,
+        }
+      });
+    }
   } catch (error) {
     console.error(error)
   }
