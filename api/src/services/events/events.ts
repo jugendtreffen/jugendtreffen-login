@@ -1,7 +1,6 @@
 import type { QueryResolvers, EventRelationResolvers } from 'types/graphql'
 
 import { db } from 'src/lib/db'
-import { validate } from "@redwoodjs/api";
 import { UserInputError } from "@redwoodjs/graphql-server";
 
 export const events: QueryResolvers['events'] = () => {
