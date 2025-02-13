@@ -5,18 +5,18 @@ export const standard = defineScenario<Prisma.ParticipationCreateArgs>({
   participation: {
     one: {
       data: {
-        year: 6118464,
-        arrival: '2024-12-23T09:45:02.120Z',
-        departure: '2024-12-23T09:45:02.120Z',
+        startDate: '2025-02-11T14:28:17.049Z',
+        endDate: '2025-02-11T14:28:17.049Z',
+        foodChoice: 'String',
         acceptPhotos: true,
         acceptCoC: true,
       },
     },
     two: {
       data: {
-        year: 9147956,
-        arrival: '2024-12-23T09:45:02.120Z',
-        departure: '2024-12-23T09:45:02.120Z',
+        startDate: '2025-02-11T14:28:17.049Z',
+        endDate: '2025-02-11T14:28:17.049Z',
+        foodChoice: 'String',
         acceptPhotos: true,
         acceptCoC: true,
       },

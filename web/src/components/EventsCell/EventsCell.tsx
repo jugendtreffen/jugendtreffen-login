@@ -18,14 +18,14 @@ export const QUERY: TypedDocumentNode<EventsQuery, EventsQueryVariables> = gql`
       desc
     }
   }
-`;
+`
 
 export const Loading = () => <LoadingSpinner/>;
 
 export const Empty = () => <Alert id={generateAlertId()} message="No Events found!" dismissible={false}></Alert>;
 
 export const Failure = ({ error }: CellFailureProps) => (
-  <div style={{ color: "red" }}>Error: {error?.message}</div>
+  <Alert id={generateAlertId()} message={error?.message} dismissible={false}></Alert>
 );
 
 export const Success = ({ events }: CellSuccessProps<EventsQuery>) => {
@@ -38,7 +38,7 @@ export const Success = ({ events }: CellSuccessProps<EventsQuery>) => {
           description={item.desc}
           button={{
             message: "Teilnehmen",
-            to: routes.events({ id: item.name.toLocaleLowerCase().replace(/ /g, "-")  })
+            to: routes.events({ id: item.id.toString()  })
           }}
         />;
       })}

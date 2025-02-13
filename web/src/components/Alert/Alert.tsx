@@ -21,7 +21,7 @@ const Alert = (props: AlertProps) => {
       textColor = "text-blue-400";
       break;
     case "error":
-      textColor = "text-red-600";
+      textColor = "text-rose-600";
       break;
     case "success":
       textColor = "text-green-600";

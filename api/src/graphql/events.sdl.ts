@@ -7,17 +7,7 @@ export const schema = gql`
   }
 
   type Query {
-    events: [Event!]! @requireAuth
-    event(id: Int!): Event @requireAuth
-  }
-
-  input CreateEventInput {
-    name: String!
-    desc: String
-  }
-
-  input UpdateEventInput {
-    name: String
-    desc: String
+    events: [Event!]! @skipAuth
+    event(id: Int!): Event @skipAuth
   }
 `

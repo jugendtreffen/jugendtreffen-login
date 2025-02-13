@@ -68,6 +68,18 @@ yarn rw prisma migrate dev
 
 The above methods can be used if you have relations to other schemas in supabase and don't want to touch them.
 
+## API
+
+The Api fetches data via [GraphQL](https://graphql.org/learn/). There is a Playground where you can run your gql queries, but note that there is authentication needed for most of them.
+
+> To Authenticaate use the Headers:
+> ```
+> { "auth-provider": "supabase", "Authorization": "Bearer <token>" }
+> ```
+> You can get the token either by copying one of a running session or by the getToken() from the supabase hook.
+> (For example log it into the console)
+
+
 ## UI & Storybook
 
 Don't know what your data models look like? That's more than ok—Redwood integrates Storybook so that you can work on design without worrying about data. Mockup, build, and verify your React components, even in complete isolation from the backend:

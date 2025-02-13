@@ -8,6 +8,7 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
   Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  scroll-behavior: smooth;
 }
 
 h1 {
@@ -40,17 +41,41 @@ h1 > a {
 }
 input,
 textarea {
-  display: block;
-  outline: none;
-  border: 1px solid #000000;
+  @apply border rounded-lg block w-full p-2.5 bg-gray-700
+  border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500
 }
+input[type="checkbox"] {
+  appearance: none;
+  cursor: pointer;
+  line-height: 1em;
+  @apply h-4 w-4 p-0 text-center text-blue-600 rounded-sm focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border border-gray-600
+}
+input[type="checkbox"]:checked {
+  @apply bg-blue-600 border-blue-600
+}
+input[type="checkbox"]:checked::before {
+  content: '\2713';
+  margin-top: -3px;
+  margin-left: -5px;
+  @apply text-white text-sm font-bold absolute
+}
+input[type="radio"] {
+  appearance: none;
+  @apply h-4 w-4 p-0 rounded-full text-blue-600 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border border-gray-600
+}
+input[type="radio"]:checked {
+  @apply bg-blue-600 border-blue-600 ring-offset-white flex items-center justify-center
+}
+input[type="radio"]:checked::before {
+  content: "";
+  @apply w-[7px] h-[7px] rounded-full bg-white
+}
+
 form {
   @apply max-w-md mx-auto
 }
 label {
-  display: block;
-  outline: none;
-  @apply block text-sm font-medium text-white
+  @apply block ms-2 font-medium text-white
 }
 select {
   @apply border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500
@@ -59,8 +84,8 @@ select {
 @tailwind components;
 a.primary,
 button.primary {
-  @apply text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-3 py-2 text-center
-  dark:bg-blue-600 dark:hover:bg-blue-700
+  @apply text-white font-medium rounded-lg text-sm px-3 py-2 text-center
+  bg-blue-600 hover:bg-blue-700
 }
 
 a.secondary,
@@ -71,32 +96,26 @@ button.secondary {
 }
 
 a.link {
-
+  @apply text-blue-600 dark:text-blue-500 hover:underline
 }
 
-textarea.input,
-input.input {
-  @apply bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5 dark:bg-gray-700
-  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
-}
-
-label.label {
-  @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white
+.label {
+  @apply block ms-2 font-medium text-white
 }
 
 .error {
-  @apply text-rose-900
+  @apply text-rose-600
 }
 
 input.error,
 textarea.error {
-  @apply border border-red-600 placeholder-red-600
+  @apply border border-rose-600 placeholder-rose-600
 }
 
 .form-error {
   padding: 1rem;
   display: inline-block;
-  @apply text-rose-900
+  @apply text-rose-600
 }
 
 .form-error ul {
@@ -110,16 +129,3 @@ textarea.error {
 }
 
 @tailwind utilities;
-.flex-between {
-  display: flex;
-  justify-content: space-between;
-}
-
-.flex-between button {
-  display: inline;
-}
-
-.card {
-  border: 1px solid #000;
-  width: fit-content;
-}

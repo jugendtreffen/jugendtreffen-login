@@ -1,16 +1,18 @@
 export const schema = gql`
   type Participation {
     id: BigInt!
-    year: Int!
     travelMethod: String
     participationRoleId: Int
-    accomodation: Boolean
-    arrival: DateTime!
-    departure: DateTime!
+    accommodation: Boolean
+    startDate: DateTime!
+    endDate: DateTime!
+    foodChoice: String!
     helpAfterwards: Boolean
     foundUsBy: String
     acceptPhotos: Boolean!
     acceptCoC: Boolean!
+    eventId: Int
+    event: Event
     participationRole: ParticipationRole
   }
 
@@ -20,29 +22,31 @@ export const schema = gql`
   }
 
   input CreateParticipationInput {
-    year: Int!
     travelMethod: String
     participationRoleId: Int
-    accomodation: Boolean
-    arrival: DateTime!
-    departure: DateTime!
+    accommodation: Boolean
+    startDate: DateTime!
+    endDate: DateTime!
+    foodChoice: String!
     helpAfterwards: Boolean
     foundUsBy: String
     acceptPhotos: Boolean!
     acceptCoC: Boolean!
+    eventId: Int
   }
 
   input UpdateParticipationInput {
-    year: Int
     travelMethod: String
     participationRoleId: Int
-    accomodation: Boolean
-    arrival: DateTime
-    departure: DateTime
+    accommodation: Boolean
+    startDate: DateTime
+    endDate: DateTime
+    foodChoice: String
     helpAfterwards: Boolean
     foundUsBy: String
     acceptPhotos: Boolean
     acceptCoC: Boolean
+    eventId: Int
   }
 
   type Mutation {

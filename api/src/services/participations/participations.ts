@@ -19,8 +19,25 @@ export const participation: QueryResolvers['participation'] = ({ id }) => {
 export const createParticipation: MutationResolvers['createParticipation'] = ({
   input,
 }) => {
+  // Todo: validation
   return db.participation.create({
-    data: input,
+    data: {
+      travelMethod: input.travelMethod,
+      accommodation: input.accommodation,
+      startDate: input.startDate,
+      endDate: input.endDate,
+      foodChoice: input.foodChoice,
+      helpAfterwards: input.helpAfterwards,
+      foundUsBy: input.foundUsBy,
+      acceptCoC: input.acceptCoC,
+      acceptPhotos: input.acceptPhotos,
+      participationRole: {
+        connect: {id: input.participationRoleId}
+      },
+      event: {
+        connect: {id: input.eventId}
+      }
+    },
   })
 }
 
@@ -43,6 +60,9 @@ export const deleteParticipation: MutationResolvers['deleteParticipation'] = ({
 }
 
 export const Participation: ParticipationRelationResolvers = {
+  event: (_obj, { root }) => {
+    return db.participation.findUnique({ where: { id: root?.id } }).event()
+  },
   participationRole: (_obj, { root }) => {
     return db.participation
       .findUnique({ where: { id: root?.id } })
