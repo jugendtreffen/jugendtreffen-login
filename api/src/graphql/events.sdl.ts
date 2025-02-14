@@ -3,6 +3,8 @@ export const schema = gql`
     id: Int!
     name: String!
     desc: String
+    startDate: DateTime
+    endDate: DateTime
     Participation: [Participation]!
   }
 

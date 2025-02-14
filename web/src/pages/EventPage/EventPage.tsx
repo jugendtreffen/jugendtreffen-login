@@ -4,7 +4,7 @@ import {
   CheckboxField,
   DateField,
   FieldError,
-  Form,
+  Form, FormError,
   Label,
   RadioField,
   SelectField,
@@ -39,12 +39,14 @@ const CREATE_PARTICIPATION = gql`
   }
 `;
 
-const QUERY_EVENT: TypedDocumentNode<EventsQuery, EventsQueryVariables> = gql`
-  query getEvent($id: Int!) {
+const FIND_EVENT: TypedDocumentNode<EventsQuery, EventsQueryVariables> = gql`
+  query FindEvent($id: Int!) {
     event(id: $id) {
       id,
       name,
-      desc
+      desc,
+      startDate,
+      endDate,
     }
   }
 `;
@@ -127,7 +129,7 @@ const EventPage = () => {
           <span className="text-blue-500 font-bold">*</span>
           <span>Pflichtfelder</span>
         </div>
-        <Form onSubmit={onSubmit} config={{ mode: "onBlur" }} className="flex flex-col gap-4 max-w-lg">
+        <Form onSubmit={onSubmit} config={{ mode: "onBlur" }} error={error} className="flex flex-col gap-4 max-w-lg">
           <div>
             <Label name="travelMethod" errorClassName="error">
               Anreise<span className="font-bold text-blue-500">*</span>
@@ -357,6 +359,7 @@ const EventPage = () => {
           >
             An "event.name" Teilnehmen
           </Submit>
+          <FormError  error={error} wrapperClassName="form-error"/>
         </Form>
       </div>
     </>
