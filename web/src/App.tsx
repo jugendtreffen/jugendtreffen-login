@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
-
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import FatalErrorPage from 'src/pages/FatalErrorPage'
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import { AuthProvider, useAuth } from './auth'
 
@@ -20,6 +20,7 @@ const App = ({ children }: AppProps) => (
         <RedwoodApolloProvider useAuth={useAuth}>{children}</RedwoodApolloProvider>
       </AuthProvider>
     </RedwoodProvider>
+    <SpeedInsights/>
   </FatalErrorBoundary>
 )
 

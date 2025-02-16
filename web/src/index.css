@@ -11,10 +11,7 @@ body {
 }
 
 h1 {
-  font-size: 1.5rem;
-  line-height: 2rem;
-  font-weight: 600;
-  color: #fff;
+  @apply text-xl font-bold leading-tight tracking-tight md:text-2xl text-white
 }
 
 h2 {
@@ -59,12 +56,12 @@ select {
 @tailwind components;
 a.primary,
 button.primary {
-  @apply text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-3 py-2 text-center
+  @apply text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2 text-center
   dark:bg-blue-600 dark:hover:bg-blue-700
 }
 a.secondary,
 button.secondary {
-  @apply py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200
+  @apply py-2 px-5 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200
   hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600
   dark:hover:text-white dark:hover:bg-gray-700
 }
@@ -105,16 +102,4 @@ textarea.error {
 }
 
 @tailwind utilities;
-.flex-between {
-  display: flex;
-  justify-content: space-between;
-}
 
-.flex-between button {
-  display: inline;
-}
-
-.card {
-  border: 1px solid #000;
-  width: fit-content;
-}

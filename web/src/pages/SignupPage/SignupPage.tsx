@@ -1,62 +1,131 @@
-import { Form, PasswordField, Submit, TextField } from '@redwoodjs/forms'
-import { navigate, routes } from '@redwoodjs/router'
-import { Metadata } from '@redwoodjs/web'
+import { InputField, Label, PasswordField, TextField } from "@redwoodjs/forms";
+import { Link, navigate, routes } from "@redwoodjs/router";
+import { Metadata } from "@redwoodjs/web";
 
-import { useAuth } from 'src/auth'
+import { useAuth } from "src/auth";
+import Card from "src/components/Card/Card";
+import AlertCenter from "src/components/Alert/AlertCenter";
+import { useAlert } from "src/components/Alert/AlertContext";
+import { useState } from "react";
+import MultiStepForm from "src/components/MultiStepForm/MultiStepForm";
+import Step from "src/components/MultiStepForm/Step";
 
 const SignupPage = () => {
-   const { client, isAuthenticated, userMetadata } = useAuth()
-  const [error, setError] = React.useState(null)
+  const { client, isAuthenticated, userMetadata } = useAuth();
+  const { addAlert, removeAllAlerts } = useAlert();
 
   const onSubmit = async (data) => {
-    setError(null)
+    removeAllAlerts();
     try {
       const response = await client.auth.signUp({
         email: data.email,
-        password: data.password,
-      })
-      console.log('response: ', response)
+        password: data.password
+      });
+      console.log("response: ", response);
       response?.error?.message
-        ? setError(response.error.message)
-        : navigate(routes.home())
+        ? addAlert(response.error.message, "error")
+        : navigate(routes.home());
     } catch (error) {
-      console.log('error:  ', error)
-      setError(error.message)
+      console.log("error:  ", error);
+      addAlert(error.message, "error");
     }
+  };
+
+  if (isAuthenticated) {
+    return (
+      <>
+        <Metadata title="Signup success" description="Signup page" />
+
+        <Card className="flex flex-col gap-1">
+          <h2>You are already logged in as <span className="code">{userMetadata.email}</span></h2>
+          <Link className="primary" to={routes.home()}>Home</Link>
+        </Card>
+      </>
+    );
   }
 
   return (
     <>
       <Metadata title="Signup" description="Signup page" />
 
-      <h1>SignupPage</h1>
-      {isAuthenticated ? (
-        <div>You are already logged in as {userMetadata.email}</div>
-      ) : (
-        <>
-          {error && <div className="error">{error}</div>}
-        <MultiStepForm onSubmit={onSubmit}>
+      <AlertCenter></AlertCenter>
+      <Card>
+        <h1>
+          Werde ein Teil von uns!
+        </h1>
+        <MultiStepForm className="space-y-4 md:space-y-6" finishText="account erstellen" onSubmit={onSubmit}>
           <Step>
-            <Form onSubmit={onSubmit}>
-
-              <TextField name="email" placeholder="email" />
-              <PasswordField name="password" placeholder="password" />
-              <Submit>Sign Up</Submit>
-            </Form>
+            <div>
+              <Label
+                name="email"
+                className="label"
+              >
+                Email
+              </Label>
+              <InputField
+                type="email"
+                name="email"
+                errorClassName="input error"
+                className="input"
+                placeholder="your@mail.com"
+                validation={{
+                  required: true
+                }}
+              />
+            </div>
+            <div>
+              <Label
+                name="password"
+                className="label"
+              >
+                Passwort
+              </Label>
+              <PasswordField
+                name="password"
+                placeholder="••••••••"
+                className="input"
+                errorClassName="input error"
+                validation={{
+                  required: true
+                }}
+              />
+            </div>
+            <div>
+              <Label
+                name="password"
+                className="label"
+              >
+                Passwort bestätigen
+              </Label>
+              <PasswordField
+                name="password"
+                placeholder="••••••••"
+                className="input"
+                errorClassName="input error"
+                validation={{
+                  required: true
+                }}
+              />
+            </div>
           </Step>
           <Step>
-            <Form>
-              step 2 Form
-            </Form>
+            <TextField name="name"></TextField>
           </Step>
         </MultiStepForm>
-          <Card>
-            <h1>Title</h1>
-          </Card>
-        </>
-      )}
-    </>
-  )
-}
+        <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+          Du hast bereits einen Account?{" "}
+          <Link
+            to={routes.login()}
+            className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+          >
+            Melde dich hier an
+          </Link>
+        </p>
 
-export default SignupPage
+      </Card>
+
+    </>
+  );
+};
+
+export default SignupPage;
