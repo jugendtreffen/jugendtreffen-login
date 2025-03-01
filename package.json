@@ -38,6 +38,6 @@
     "@storybook/react-dom-shim@npm:7.6.17": "https://verdaccio.tobbe.dev/@storybook/react-dom-shim/-/react-dom-shim-8.0.8.tgz"
   },
   "dependencies": {
-    "@vercel/speed-insights": "^1.2.0"
+    "@vercel/analytics": "^1.5.0"
   }
 }

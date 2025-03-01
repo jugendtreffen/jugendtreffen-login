@@ -1,4 +1,4 @@
-import { InputField, Label, PasswordField, TextField } from "@redwoodjs/forms";
+import { InputField, Label, PasswordField, SelectField, SubmitHandler, TextField } from "@redwoodjs/forms";
 import { Link, navigate, routes } from "@redwoodjs/router";
 import { Metadata } from "@redwoodjs/web";
 
@@ -6,15 +6,30 @@ import { useAuth } from "src/auth";
 import Card from "src/components/Card/Card";
 import AlertCenter from "src/components/Alert/AlertCenter";
 import { useAlert } from "src/components/Alert/AlertContext";
-import { useState } from "react";
+import React, { useState } from "react";
 import MultiStepForm from "src/components/MultiStepForm/MultiStepForm";
 import Step from "src/components/MultiStepForm/Step";
+
+interface FormValues {
+  email: string;
+  password: string;
+  password_ctl: string;
+  name: string;
+  familyName: string;
+  birthdate: Date;
+  gender: string;
+  phoneNumber: string;
+  country: string;
+  city: string;
+  postalCode: string;
+  address: string;
+}
 
 const SignupPage = () => {
   const { client, isAuthenticated, userMetadata } = useAuth();
   const { addAlert, removeAllAlerts } = useAlert();
 
-  const onSubmit = async (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     removeAllAlerts();
     try {
       const response = await client.auth.signUp({
@@ -92,13 +107,14 @@ const SignupPage = () => {
             </div>
             <div>
               <Label
-                name="password"
+                name="password_ctl"
                 className="label"
               >
                 Passwort bestätigen
               </Label>
               <PasswordField
-                name="password"
+                id="password_ctl"
+                name="password_ctl"
                 placeholder="••••••••"
                 className="input"
                 errorClassName="input error"
@@ -109,10 +125,50 @@ const SignupPage = () => {
             </div>
           </Step>
           <Step>
-            <TextField name="name"></TextField>
+            <Label name="name" errorClassName="error">
+              Anreise
+            </Label>
+            <InputField
+              name="name"
+              placeholder="Vorname"
+              validation={{ required: true }}
+              errorClassName="error"
+            />
+
+            <Label name="familyName" errorClassName="error">
+              Anreise
+            </Label>
+            <InputField
+              name="familyName"
+              placeholder="Familienname"
+              validation={{ required: true }}
+              errorClassName="error"
+            />
+          </Step>
+          <Step>
+            <Label name="country" errorClassName="error">
+              Anreise
+            </Label>
+            <SelectField
+              name="country"
+              validation={{ required: true }}
+              errorClassName="error"
+            >
+              <option value="" disabled selected={true}>
+                Bitte wählen Sie
+              </option>
+              <option value="AT">Österreich</option>
+              <option value="DE">Deutschland</option>
+              <option value="IT">Italien</option>
+              <option value="FR">Frankreich</option>
+              <option value="HU">Ungarn</option>
+              <option value="CH">Schweiz</option>
+              <option value="LU">Luxemburg</option>
+              <option value="--">Anderes</option>
+            </SelectField>
           </Step>
         </MultiStepForm>
-        <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+        <p className="mt-5 text-sm font-light text-gray-500 dark:text-gray-400">
           Du hast bereits einen Account?{" "}
           <Link
             to={routes.login()}
