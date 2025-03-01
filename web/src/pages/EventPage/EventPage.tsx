@@ -144,9 +144,6 @@ const EventPage = () => {
               </option>
               <option value="auto">mit dem Auto</option>
               <option value="zug">mit dem Zug</option>
-              <option value="jungfamilientreffen">
-                bin schon beim Jungfamilientreffen da
-              </option>
             </SelectField>
             <FieldError name="travelMethod" className="error ms-2" />
           </div>
