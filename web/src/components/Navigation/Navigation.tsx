@@ -14,7 +14,7 @@ const Navigation = () => {
   }
 
   return (
-    <nav className="bg-black bg-opacity-10 border-b border-zinc-600">
+    <nav className="bg-black bg-opacity-20 border-b border-zinc-600">
       <div className="flex flex-wrap items-center justify-between mx-auto p-4">
         <Link to={routes.home()}>
           <img

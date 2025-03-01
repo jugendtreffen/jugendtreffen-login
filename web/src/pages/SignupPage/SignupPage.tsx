@@ -35,24 +35,12 @@ const SignupPage = () => {
       ) : (
         <>
           {error && <div className="error">{error}</div>}
-        <MultiStepForm onSubmit={onSubmit}>
-          <Step>
-            <Form onSubmit={onSubmit}>
+          <Form onSubmit={onSubmit}>
 
-              <TextField name="email" placeholder="email" />
-              <PasswordField name="password" placeholder="password" />
-              <Submit>Sign Up</Submit>
-            </Form>
-          </Step>
-          <Step>
-            <Form>
-              step 2 Form
-            </Form>
-          </Step>
-        </MultiStepForm>
-          <Card>
-            <h1>Title</h1>
-          </Card>
+            <TextField name="email" placeholder="email" />
+            <PasswordField name="password" placeholder="password" />
+            <Submit>Sign Up</Submit>
+          </Form>
         </>
       )}
     </>

@@ -34,17 +34,17 @@ describe('participations', () => {
   scenario('creates a participation', async () => {
     const result = await createParticipation({
       input: {
-        year: 9178272,
-        arrival: '2024-12-23T09:45:02.093Z',
-        departure: '2024-12-23T09:45:02.093Z',
+        startDate: '2025-02-11T14:28:17.024Z',
+        endDate: '2025-02-11T14:28:17.024Z',
+        foodChoice: 'String',
         acceptPhotos: true,
         acceptCoC: true,
       },
     })
 
-    expect(result.year).toEqual(9178272)
-    expect(result.arrival).toEqual(new Date('2024-12-23T09:45:02.093Z'))
-    expect(result.departure).toEqual(new Date('2024-12-23T09:45:02.093Z'))
+    expect(result.startDate).toEqual(new Date('2025-02-11T14:28:17.024Z'))
+    expect(result.endDate).toEqual(new Date('2025-02-11T14:28:17.024Z'))
+    expect(result.foodChoice).toEqual('String')
     expect(result.acceptPhotos).toEqual(true)
     expect(result.acceptCoC).toEqual(true)
   })
@@ -55,10 +55,10 @@ describe('participations', () => {
     })) as Participation
     const result = await updateParticipation({
       id: original.id,
-      input: { year: 2357002 },
+      input: { startDate: '2025-02-12T14:28:17.024Z' },
     })
 
-    expect(result.year).toEqual(2357002)
+    expect(result.startDate).toEqual(new Date('2025-02-12T14:28:17.024Z'))
   })
 
   scenario('deletes a participation', async (scenario: StandardScenario) => {

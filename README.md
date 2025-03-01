@@ -1,6 +1,6 @@
-# README
+# Jugendtreffen login
 
-Welcome to [RedwoodJS](https://redwoodjs.com)!
+## Setup
 
 > **Prerequisites**
 >
@@ -21,28 +21,17 @@ yarn redwood dev
 
 Your browser should automatically open to [http://localhost:8910](http://localhost:8910) where you'll see the Welcome Page, which links out to many great resources.
 
-> **The Redwood CLI**
->
-> Congratulations on running your first Redwood CLI command! From dev to deploy, the CLI is with you the whole way. And there's quite a few commands at your disposal:
->
-> ```
-> yarn redwood --help
-> ```
->
-> For all the details, see the [CLI reference](https://redwoodjs.com/docs/cli-commands).
+**The Redwood CLI**
+
+Congratulations on running your first Redwood CLI command! From dev to deploy, the CLI is with you the whole way. And there's quite a few commands at your disposal:
+```
+yarn redwood --help
+```
+For all the details, see the [CLI reference](https://redwoodjs.com/docs/cli-commands).
 
 ## Prisma and the database
 
-Redwood wouldn't be a full-stack framework without a database. It all starts with the schema. Open the [`schema.prisma`](api/db/schema.prisma) file in `api/db` and replace the `UserExample` model with the following `Post` model:
-
-```prisma
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  body      String
-  createdAt DateTime @default(now())
-}
-```
+The Db data model is saved in the [`schema.prisma`](api/db/schema.prisma) file in `api/db` see [Prisma Data Modelling](https://www.prisma.io/docs/orm/overview/introduction/data-modeling) and [Prisma with Supabase](https://www.prisma.io/docs/orm/overview/databases/supabase) for further expalination of how all of this works. I wont explain it here.
 
 Redwood uses [Prisma](https://www.prisma.io/), a next-gen Node.js and TypeScript ORM, to talk to the database. Prisma's schema offers a declarative way of defining your app's data models. And Prisma [Migrate](https://www.prisma.io/migrate) uses that schema to make database migrations hassle-free:
 
@@ -51,24 +40,47 @@ yarn rw prisma migrate dev
 
 # ...
 
-? Enter a name for the new migration: › create posts
+? Enter a name for the new migration: › <YOUR_MIGRATION_NAME>
 ```
 
-> `rw` is short for `redwood`
+`rw` is short for `redwood`
 
-You'll be prompted for the name of your migration. `create posts` will do.
+### Custom SQL
 
-Now let's generate everything we need to perform all the CRUD (Create, Retrieve, Update, Delete) actions on our `Post` model:
+> I couldn't figure out how to effectively connect the users with their personal Data so I just manually insert this foreign Key, please don't forget to run this before and after creating a new migration!
+> (Otherwise you will get an error)
+>
+> Remove the fkey causing the trouble:
+> ```
+> yarn rw  prisma db execute --file=./api/db/pre_migration.sql
+> ```
+> Then execute your migration:
+> ```
+> yarn rw prisma migrate dev
+> ```
+>
+> After that add the fkey to the db with:
+> ```
+> yarn rw  prisma db execute --file=./api/db/add_personalDatas_users_fkey.sql
+> ```
+>
+> Tipp: You can also add the snippet, that creates the fkey, to your migration.sql file
 
-```
-yarn redwood generate scaffold post
-```
+The above methods can be used if you have relations to other schemas in supabase and don't want to touch them.
 
-Navigate to [http://localhost:8910/posts/new](http://localhost:8910/posts/new), fill in the title and body, and click "Save".
+## API
 
-Did we just create a post in the database? Yup! With `yarn rw generate scaffold <model>`, Redwood created all the pages, components, and services necessary to perform all CRUD actions on our posts table.
+The Api fetches data via [GraphQL](https://graphql.org/learn/). There is a Playground where you can run your gql queries, but note that there is authentication needed for most of them.
 
-## Frontend first with Storybook
+> To Authenticaate use the Headers:
+> ```
+> { "auth-provider": "supabase", "Authorization": "Bearer <token>" }
+> ```
+> You can get the token either by copying one of a running session or by the getToken() from the supabase hook.
+> (For example log it into the console)
+
+
+## UI & Storybook
 
 Don't know what your data models look like? That's more than ok—Redwood integrates Storybook so that you can work on design without worrying about data. Mockup, build, and verify your React components, even in complete isolation from the backend:
 
@@ -88,6 +100,12 @@ The Storybook server should hot reload and now you'll have four stories to work 
 yarn rw setup ui --help
 ```
 
+### UI Templates:
+Most of the Blocks are borrowed from [Flowbite](https://flowbite.com/) check them out bevore designing something on your own only to find out it already exists, but better.
+
+Also consider taking a look into the [Tailwind docs](https://tailwindcss.com/docs/) as I used Tailwind extensively.
+
+
 ## Testing with Jest
 
 It'd be hard to scale from side project to startup without a few tests. Redwood fully integrates Jest with both the front- and back-ends, and makes it easy to keep your whole app covered by generating test files with all your components and services:
@@ -98,31 +116,15 @@ yarn rw test
 
 To make the integration even more seamless, Redwood augments Jest with database [scenarios](https://redwoodjs.com/docs/testing#scenarios) and [GraphQL mocking](https://redwoodjs.com/docs/testing#mocking-graphql-calls).
 
-## Ship it
+## Deployment & Furhter Infos
 
-Redwood is designed for both serverless deploy targets like Netlify and Vercel and serverful deploy targets like Render and AWS:
+U can use serverless deploy targets like Netlify and Vercel and serverful deploy targets like Render and AWS:
 
 ```
 yarn rw setup deploy --help
 ```
+This will help setting up the deployment.
 
-Don't go live without auth! Lock down your app with Redwood's built-in, database-backed authentication system ([dbAuth](https://redwoodjs.com/docs/authentication#self-hosted-auth-installation-and-setup)), or integrate with nearly a dozen third-party auth providers:
-
-```
-yarn rw setup auth --help
-```
-
-## Next Steps
+How to handle data fetching, Cells, Scaffolds and other Concepts of [RedwoodJS](https://redwoodjs.com/docs) please read up in the documentation of Redwood, I wont explain it here.
 
 The best way to learn Redwood is by going through the comprehensive [tutorial](https://redwoodjs.com/docs/tutorial/foreword) and joining the community (via the [Discourse forum](https://community.redwoodjs.com) or the [Discord server](https://discord.gg/redwoodjs)).
-
-## Quick Links
-
-- Stay updated: read [Forum announcements](https://community.redwoodjs.com/c/announcements/5), follow us on [Twitter](https://twitter.com/redwoodjs), and subscribe to the [newsletter](https://redwoodjs.com/newsletter)
-- [Learn how to contribute](https://redwoodjs.com/docs/contributing)
-
-## UI Templates:
-https://flowbite.com/
-
-Tailwind docs:
-https://tailwindcss.com/docs/
