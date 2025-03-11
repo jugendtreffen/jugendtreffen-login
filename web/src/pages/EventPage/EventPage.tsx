@@ -37,7 +37,7 @@ const CREATE_PARTICIPATION = gql`
       eventId,
     }
   }
-`;
+`
 
 const FIND_EVENT: TypedDocumentNode<EventsQuery, EventsQueryVariables> = gql`
   query FindEvent($id: Int!) {
@@ -49,58 +49,58 @@ const FIND_EVENT: TypedDocumentNode<EventsQuery, EventsQueryVariables> = gql`
       endDate,
     }
   }
-`;
+`
 
 interface FormValues {
-  eventId: number;
-  travelMethod: string;
-  participationRoleId: number;
-  accommodation: boolean;
-  startDate: Date;
-  endDate: Date;
-  foodChoice: string;
-  acceptCoC: boolean;
-  helpAfterwards: boolean;
-  acceptPhotos: boolean;
-  foundUsBy: string;
+  eventId: number
+  travelMethod: string
+  participationRoleId: number
+  accommodation: boolean
+  startDate: Date
+  endDate: Date
+  foodChoice: string
+  acceptCoC: boolean
+  helpAfterwards: boolean
+  acceptPhotos: boolean
+  foundUsBy: string
 }
 
 const EventPage = () => {
-  const { id } = useParams();
+  const { id } = useParams()
   const [completed, setCompleted] = useState(false)
   const [create, {
     loading,
     error
   }] = useMutation<CreateParticipationMutation, CreateParticipationMutationVariables>(CREATE_PARTICIPATION, {onCompleted: () => {toast.success('Deine Teilnahme wurde gespeichert'); setCompleted(true)}});
 
-  const minDate = new Date("2025-07-20");
-  const maxDate = new Date("2025-07-25");
+  const minDate = new Date("2025-07-20")
+  const maxDate = new Date("2025-07-25")
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    data.eventId = 0;
-    data.foundUsBy = ""; // noch Feld erstellen
-    data.participationRoleId = parseInt(String(data.participationRoleId), 10);
-    data.accommodation = String(data.accommodation) == "true";
-    console.log(data);
+    data.eventId = 0
+    data.foundUsBy = "" // noch Feld erstellen
+    data.participationRoleId = parseInt(String(data.participationRoleId), 10)
+    data.accommodation = String(data.accommodation) == "true"
+    console.log(data)
     // @ts-ignore
-    create({ variables: { input: data } }).then((r) => console.log);
+    create({ variables: { input: data } }).then((r) => console.log)
   };
 
   const validateStartDate = (value, context) => {
     if (context.startDate < minDate || context.startDate > maxDate) {
-      return "Jugendtreffen findet zwischen 20.Juli 2025 und 25.Juli 2025 statt";
+      return "Jugendtreffen findet zwischen 20.Juli 2025 und 25.Juli 2025 statt"
     }
     return true;
   };
 
   const validateEndDate = (value, context) => {
     if (context.endDate < context.startDate) {
-      return "Du kannst nicht vor deiner Ankunft abreisen";
+      return "Du kannst nicht vor deiner Ankunft abreisen"
     }
     if (context.endDate > maxDate) {
-      return "Das Jugendtreffen endet am 25.Juli 2025";
+      return "Das Jugendtreffen endet am 25.Juli 2025"
     }
-    return true;
+    return true
   };
 
   if(completed) {

@@ -1,6 +1,6 @@
 import { InputField, Label, PasswordField, SelectField, SubmitHandler, TextField } from "@redwoodjs/forms";
 import { Link, navigate, routes } from "@redwoodjs/router";
-import { Metadata } from "@redwoodjs/web";
+import { Metadata, useMutation } from "@redwoodjs/web";
 
 import { useAuth } from "src/auth";
 import Card from "src/components/Card/Card";
@@ -9,41 +9,78 @@ import { useAlert } from "src/components/Alert/AlertContext";
 import React, { useState } from "react";
 import MultiStepForm from "src/components/MultiStepForm/MultiStepForm";
 import Step from "src/components/MultiStepForm/Step";
+import {
+  CreateParticipationMutation,
+  CreateParticipationMutationVariables,
+  CreatePersonalDataInput, CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables
+} from "types/graphql";
+import { toast } from "@redwoodjs/web/toast";
+
+const CREATE_PERSONALDATA = gql`
+  mutation CreatePersonlaDataMutation($input: CreatePersonalDataInput!) {
+    createPersonalData(input: $input) {
+      name,
+      familyName,
+      birthdate,
+      gender,
+      country,
+      city,
+      postalCode,
+      address,
+      phoneNumber,
+      phoneCaretakerContact,
+      userId,
+    }
+  }
+`
 
 interface FormValues {
-  email: string;
-  password: string;
-  password_ctl: string;
-  name: string;
-  familyName: string;
-  birthdate: Date;
-  gender: string;
-  phoneNumber: string;
-  country: string;
-  city: string;
-  postalCode: string;
-  address: string;
+  email: string
+  password: string
+  password_ctl: string
+  name: string
+  familyName: string
+  birthdate: string
+  gender: string
+  phoneNumber: string
+  country: string
+  city: string
+  postalCode: string
+  address: string
+  roleId: number
+  userId: string
 }
 
 const SignupPage = () => {
-  const { client, isAuthenticated, userMetadata } = useAuth();
-  const { addAlert, removeAllAlerts } = useAlert();
+  const { client, isAuthenticated, userMetadata, reauthenticate } = useAuth()
+  const { addAlert, removeAllAlerts } = useAlert()
+  const [create, {
+    loading,
+    error
+  }] = useMutation<CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables>(CREATE_PERSONALDATA, {onCompleted: () => {toast.success('Dein Account wurde erstellt')}});
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    removeAllAlerts();
+    removeAllAlerts()
+    data.roleId = 3
+    console.log(data)
     try {
       const response = await client.auth.signUp({
         email: data.email,
         password: data.password
       });
-      console.log("response: ", response);
+      console.log("response: ", response)
       response?.error?.message
         ? addAlert(response.error.message, "error")
-        : navigate(routes.home());
+        : data.userId = response.data.user.id
     } catch (error) {
-      console.log("error:  ", error);
-      addAlert(error.message, "error");
+      console.log("error:  ", error)
+      addAlert(error.message, "error")
     }
+    const { email, password, password_ctl, ...personalData } = data;
+    create({ variables: { input: personalData } }).then((r) => console.log)
+      .then(() => reauthenticate())
+      .then(() => navigate(routes.home()))
+      .catch((err) => console.log(err))
   };
 
   if (isAuthenticated) {
@@ -68,7 +105,7 @@ const SignupPage = () => {
         <h1>
           Werde ein Teil von uns!
         </h1>
-        <MultiStepForm className="space-y-4 md:space-y-6" finishText="account erstellen" onSubmit={onSubmit}>
+        <MultiStepForm className="space-y-4 md:space-y-6" finishText="Account erstellen" onSubmit={onSubmit}>
           <Step>
             <div>
               <Label
@@ -125,9 +162,7 @@ const SignupPage = () => {
             </div>
           </Step>
           <Step>
-            <Label name="name" errorClassName="error">
-              Anreise
-            </Label>
+
             <InputField
               name="name"
               placeholder="Vorname"
@@ -135,9 +170,6 @@ const SignupPage = () => {
               errorClassName="error"
             />
 
-            <Label name="familyName" errorClassName="error">
-              Anreise
-            </Label>
             <InputField
               name="familyName"
               placeholder="Familienname"
@@ -146,26 +178,53 @@ const SignupPage = () => {
             />
           </Step>
           <Step>
-            <Label name="country" errorClassName="error">
-              Anreise
-            </Label>
-            <SelectField
-              name="country"
+            <div className="mt-4">
+              <Label name="country" errorClassName="error">
+                Woher kommst du?
+              </Label>
+              <SelectField
+                name="country"
+                validation={{ required: true }}
+                errorClassName="error"
+              >
+                <option value="" disabled selected={true}>
+                  Bitte wählen Sie
+                </option>
+                <option value="AT">Österreich</option>
+                <option value="DE">Deutschland</option>
+                <option value="IT">Italien</option>
+                <option value="FR">Frankreich</option>
+                <option value="HU">Ungarn</option>
+                <option value="CH">Schweiz</option>
+                <option value="LU">Luxemburg</option>
+                <option value="--">Anderes</option>
+              </SelectField>
+            </div>
+
+            <div className="flex flex-row gap-4">
+              <InputField
+                className="w-1/4"
+                name="postalCode"
+                errorClassName="error w-1/4"
+                placeholder="PLZ"
+              />
+              <InputField
+                className="w-3/4"
+                name="city"
+                validation={{ required: true }}
+                errorClassName="error w-3/4"
+                placeholder="Stadt"
+              />
+            </div>
+
+            <InputField
+              name="address"
               validation={{ required: true }}
               errorClassName="error"
-            >
-              <option value="" disabled selected={true}>
-                Bitte wählen Sie
-              </option>
-              <option value="AT">Österreich</option>
-              <option value="DE">Deutschland</option>
-              <option value="IT">Italien</option>
-              <option value="FR">Frankreich</option>
-              <option value="HU">Ungarn</option>
-              <option value="CH">Schweiz</option>
-              <option value="LU">Luxemburg</option>
-              <option value="--">Anderes</option>
-            </SelectField>
+              placeholder="Straße, Hausnummer"
+            />
+
+
           </Step>
         </MultiStepForm>
         <p className="mt-5 text-sm font-light text-gray-500 dark:text-gray-400">
