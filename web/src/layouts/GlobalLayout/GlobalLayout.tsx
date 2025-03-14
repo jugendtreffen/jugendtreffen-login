@@ -12,11 +12,9 @@ const GlobalLayout = ({ children }: GlobalLayoutProps) => {
       <header className="sticky top-0 ">
         <Navigation />
       </header>
-      <main className="">
+      <main className="relative w-screen overflow-hidden">
         <AlertProvider>
-          <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
-            {children}
-          </section>
+          {children}
         </AlertProvider>
       </main>
       <footer>

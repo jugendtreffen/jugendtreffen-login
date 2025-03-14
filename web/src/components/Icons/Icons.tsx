@@ -1,3 +1,4 @@
+import React from "react";
 export const BurgerMenueIcon = () => {
   return (
     <svg
@@ -9,9 +10,9 @@ export const BurgerMenueIcon = () => {
     >
       <path
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
         d="M1 1h15M1 7h15M1 13h15"
       />
     </svg>
@@ -29,9 +30,9 @@ export const CloseIcon = () => {
     >
       <path
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
         d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
       />
     </svg>
@@ -49,9 +50,9 @@ export const ArrowRightIcon = () => {
     >
       <path
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
         d="M1 5h12m0 0L9 1m4 4L9 9"
       />
     </svg>
@@ -77,8 +78,28 @@ export const CheckIcon = () => {
   return (
     <svg className="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
          width="24" height="24" fill="none" viewBox="0 0 24 24">
-      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
             d="M5 11.917 9.724 16.5 19 7.5" />
+    </svg>
+  )
+}
+
+export const CollapseIcon = (up: boolean) => {
+  return (
+    <svg
+      className={`w-3 h-3 ${up ? 'rotate-180' : ''} shrink-0`}
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 10 6"
+    >
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M9 5L5 1 1 5"
+      />
     </svg>
   )
 }

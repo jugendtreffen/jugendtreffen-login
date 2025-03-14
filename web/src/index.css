@@ -1,8 +1,8 @@
 @tailwind base;
-
 * {
   margin: 0;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 body {
@@ -12,16 +12,20 @@ body {
   scroll-behavior: smooth;
 }
 
-h1 {
-  font-size: 1.5rem;
-  line-height: 2rem;
-  font-weight: 600;
+h1 {;
+  @apply flex justify-center text-5xl font-bold h-14 w-full;
 }
 
 h2 {
-  font-size: 1.25rem;
-  line-height: 1.5rem;
-  font-weight: 600;
+  @apply text-2xl h-fit
+}
+
+h3 {
+  @apply text-xl h-fit
+}
+
+p {
+  @apply leading-tight;
 }
 
 ul {
@@ -130,6 +134,10 @@ textarea.error {
 
 .form-error li {
   display: list-item;
+}
+
+p.secondary {
+  @apply block text-gray-400
 }
 
 @tailwind utilities;
