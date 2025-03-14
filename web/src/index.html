@@ -4,12 +4,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- SEO -->
+  <meta name="description" content="Jugendtreffen beschreibung">
+  <meta name="keywords" content="Jugendtreffen, Pöllau, Kremsmünster, christlich, treffen">
+  <meta name="author" content="Jugendtreffen Pöllau">
+  <meta name="robots" content="index, follow">
+<!-- Open Graph -->
+  <meta property="og:title" content="Jugendtreffen in Kremsmünster">
+  <meta property="og:description" content="Jugendtreffen beschreibung">
+  <meta property="og:image" content="https://example.com/image.jpg">
+  <meta property="og:url" content="https://jugendtreffen.at">
+  <meta property="og:type" content="website">
+<!-- cannonical link -->
+  <link rel="canonical" href="https://jugendtreffen.at/">
+<!-- icon -->
   <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/favicon.png">
+
 </head>
 
 <body>
   <!-- Please keep this div empty -->
   <div id="redwood-app"></div>
+
+<!-- better search capabilities -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Jugendtreffen Pöllau",
+      "url": "https://jugendtreffen.at",
+      "logo": "https://jugendtreffen.at//favicon.png"
+    }
+  </script>
+
+<!-- better visibility for Social Media -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-XXXXXX-X');
+  </script>
+
 </body>
 
 </html>
