@@ -27,9 +27,14 @@ const Navigation = () => {
           {isAuthenticated ? (
             <SignoutButton />
           ) : (
-            <button className="primary" onClick={() => navigate(routes.login())}>
-              Anmelden
-            </button>
+            <div className="flex space-x-2">
+              <button className="secondary" onClick={() => navigate(routes.signup())}>
+                Account erstellen
+              </button>
+              <button className="primary" onClick={() => navigate(routes.login())}>
+                Anmelden
+              </button>
+            </div>
           )}
           <button
             onClick={handleNavToggle}
