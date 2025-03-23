@@ -1,5 +1,4 @@
 @tailwind base;
-
 * {
   margin: 0;
   box-sizing: border-box;
@@ -91,5 +90,12 @@ textarea.error {
   display: list-item;
 }
 
+p.secondary {
+  @apply block text-gray-400
+}
+
 @tailwind utilities;
 
+.w-screen-minus-scrollbar {
+  width: calc(100vw - 17px);
+}

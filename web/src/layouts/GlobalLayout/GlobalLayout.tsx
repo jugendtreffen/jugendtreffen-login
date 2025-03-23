@@ -9,14 +9,12 @@ type GlobalLayoutProps = {
 const GlobalLayout = ({ children }: GlobalLayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col justify-between bg-gray-900">
-      <header className="sticky top-0 ">
+      <header className="sticky top-0 z-50">
         <Navigation />
       </header>
-      <main className="">
+      <main className="relative overflow-hidden">
         <AlertProvider>
-          <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
-            {children}
-          </section>
+          {children}
         </AlertProvider>
       </main>
       <footer>

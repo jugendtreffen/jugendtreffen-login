@@ -6,7 +6,7 @@
 # https://redwoodjs.com/docs/app-configuration-redwood-toml
 
 [web]
-  title = "Jugendtreffen Pöllau"
+  title = "Jugendtreffen Kremsmünster"
   port = 8910
   apiUrl = "${API_URL:/.redwood/functions}" # You can customize graphql and dbauth urls individually too: see https://redwoodjs.com/docs/app-configuration-redwood-toml#api-paths
   includeEnvironmentVariables = [
