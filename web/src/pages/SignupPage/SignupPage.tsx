@@ -1,3 +1,4 @@
+
 import {
   DateField,
   FieldError,
@@ -127,7 +128,7 @@ const SignupPage = () => {
   return (
     <>
       <Metadata title="Signup" description="Signup page" />
-
+      
       <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
         <Toaster></Toaster>
         <AlertCenter></AlertCenter>
@@ -298,7 +299,6 @@ const SignupPage = () => {
 
         </Card>
       </section>
-
     </>
   );
 };
