@@ -71,7 +71,7 @@ const EventPage = () => {
   const [create, {
     loading,
     error
-  }] = useMutation<CreateParticipationMutation, CreateParticipationMutationVariables>(CREATE_PARTICIPATION, {onCompleted: () => {toast.success('Deine Teilnahme wurde gespeichert'); setCompleted(true)}});
+  }] = useMutation<CreateParticipationMutation, CreateParticipationMutationVariables>(CREATE_PARTICIPATION, {onCompleted: () => {toast.success('Deine Teilnahme wurde gespeichert'); setCompleted(true);}});
 
   const minDate = new Date("2025-07-20")
   const maxDate = new Date("2025-07-25")
