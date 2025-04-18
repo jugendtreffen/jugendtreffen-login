@@ -7,13 +7,6 @@ export const schema = gql`
 
   type Query {
     systemRoles: [SystemRole!]! @requireAuth
-  }
-
-  input CreateSystemRoleInput {
-    desc: String!
-  }
-
-  input UpdateSystemRoleInput {
-    desc: String
+    systemRole(id: Int!): SystemRole! @requireAuth
   }
 `
