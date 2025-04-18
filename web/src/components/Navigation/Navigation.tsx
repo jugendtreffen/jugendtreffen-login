@@ -18,7 +18,7 @@ const Navigation = () => {
       <div className="flex flex-wrap items-center justify-between mx-auto p-4">
         <Link to={routes.home()}>
           <img
-            src="https://jugendtreffen.at/wp-content/uploads/2021/06/Jugendtreffen-Logo-2.png"
+            src="/Jugendtreffen-Logo-2.png"
             className="h-8"
             alt="Jugendtreffen"
           />

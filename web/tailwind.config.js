@@ -15,7 +15,7 @@ module.exports = {
         'primary-900': '#22313F',
         'accent': '#FF7043',
         'accent-dark': '#c35b3a',
-        'secondary': '#2C3E50',
+        'secondary': '#0d3066',
       },
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],

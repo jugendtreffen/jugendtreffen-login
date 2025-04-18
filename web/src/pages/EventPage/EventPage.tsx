@@ -1,4 +1,4 @@
-import { Metadata, useMutation, useQuery } from "@redwoodjs/web";
+import { Metadata, useMutation } from "@redwoodjs/web";
 import { routes, useParams } from "@redwoodjs/router";
 import {
   CheckboxField,
@@ -19,7 +19,6 @@ import {
 } from "types/graphql";
 import Card from "src/components/Card/Card";
 import EventCell from "src/components/EventCell/EventCell"
-import { CheckIcon } from "src/components/Icons/Icons";
 
 const CREATE_PARTICIPATION = gql`
   mutation CreateParticipationMutation($input: CreateParticipationInput!) {

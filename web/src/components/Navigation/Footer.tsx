@@ -10,7 +10,7 @@ const Footer = () => {
             className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
           >
             <img
-              src="https://jugendtreffen.at/wp-content/uploads/2021/06/Jugendtreffen-Logo-2.png"
+              src="/Jugendtreffen-Logo-2.png"
               className="h-8"
               alt="Jugendtreffen"
             />
