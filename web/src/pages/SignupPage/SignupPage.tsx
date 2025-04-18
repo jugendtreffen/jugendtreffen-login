@@ -7,7 +7,7 @@ import {
   PasswordField,
   SelectField,
   SubmitHandler,
-  useForm,
+  useForm
 } from "@redwoodjs/forms";
 import { Link, routes } from "@redwoodjs/router";
 import { Metadata, useMutation } from "@redwoodjs/web";
@@ -16,16 +16,15 @@ import { useAuth } from "src/auth";
 import Card from "src/components/Card/Card";
 import AlertCenter from "src/components/Alert/AlertCenter";
 import { useAlert } from "src/components/Alert/AlertContext";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import MultiStepForm from "src/components/MultiStepForm/MultiStepForm";
 import Step from "src/components/MultiStepForm/Step";
 import {
-  CreateParticipationMutation,
-  CreateParticipationMutationVariables,
-  CreatePersonalDataInput, CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables
+ CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables
 } from "types/graphql";
 import { toast, Toaster } from "@redwoodjs/web/toast";
 import { CheckIcon } from "src/components/Icons/Icons";
+import LoadingSpinner from "src/components/Loading/LoadingSpinner";
 
 const CREATE_PERSONALDATA = gql`
   mutation CreatePersonlaDataMutation($input: CreatePersonalDataInput!) {
@@ -70,8 +69,7 @@ const SignupPage = () => {
     resolver: null
   });
   const [create, {
-    loading,
-    error
+    loading
   }] = useMutation<CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables>(CREATE_PERSONALDATA, {
     onCompleted: () => {
       toast.success("Dein Account wurde erstellt");
@@ -89,23 +87,19 @@ const SignupPage = () => {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     removeAllAlerts();
     data.roleId = 3;
-    console.log(data);
     try {
       const response = await client.auth.signUp({
         email: data.email,
         password: data.password
       });
-      console.log("response: ", response);
       response?.error?.message
         ? addAlert(response.error.message, "error")
         : data.userId = response.data.user.id;
     } catch (error) {
-      console.log("error:  ", error);
       addAlert(error.message, "error");
     }
     const { email, password, password_ctl, ...personalData } = data;
-    console.log("pd: ", personalData);
-    create({ variables: { input: personalData } }).then((r) => console.log)
+    create({ variables: { input: personalData } })
       .then(() => reauthenticate())
       .catch((err) => console.log(err));
   };
@@ -116,9 +110,10 @@ const SignupPage = () => {
         <Metadata title="Signup success" description="Signup page" />
         <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
           <Toaster></Toaster>
-          <Card className="flex flex-col gap-1" button={{message: "Zu den Events", to: routes.home()}}>
-            <span className={"text-green-500"}><CheckIcon/></span>
-            <h2 className={"mb-3"}>Du bist als <span className="code text-primary-500">{userMetadata.email}</span> angemeldet!</h2>
+          <Card className="flex flex-col gap-1" button={{ message: "Zu den Events", to: routes.home() }}>
+            <span className={"text-green-500"}><CheckIcon /></span>
+            <h2 className={"mb-3"}>Du bist als <span
+              className="code text-primary-500">{userMetadata.email}</span> angemeldet!</h2>
           </Card>
         </section>
       </>
@@ -128,7 +123,7 @@ const SignupPage = () => {
   return (
     <>
       <Metadata title="Signup" description="Signup page" />
-      
+
       <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
         <Toaster></Toaster>
         <AlertCenter></AlertCenter>
@@ -136,8 +131,7 @@ const SignupPage = () => {
           <h1>
             Werde ein Teil von uns!
           </h1>
-          <MultiStepForm className="space-y-4 md:space-y-6" finishText="Account erstellen" onSubmit={onSubmit}
-                         formMethods={formMethods}>
+          <MultiStepForm className="space-y-4 md:space-y-6" finishText="Account erstellen" onSubmit={onSubmit} formMethods={formMethods}>
             <Step>
               <div>
                 <Label
@@ -199,6 +193,7 @@ const SignupPage = () => {
                 <FieldError name="password_ctl" className="error ms-2" />
               </div>
             </Step>
+
             <Step>
               <InputField
                 name="name"
@@ -225,7 +220,7 @@ const SignupPage = () => {
                 </Label>
                 <SelectField
                   name={"gender"}
-                  validation={{required: true}}
+                  validation={{ required: true }}
                   errorClassName={"error"}
                 >
                   <option value="" disabled selected={true}>
@@ -235,68 +230,72 @@ const SignupPage = () => {
                   <option value="female">Weiblich</option>
                 </SelectField>
               </div>
-
             </Step>
+
             <Step>
-              <div className="mt-4">
-                <Label name="country" errorClassName="error">
-                  Woher kommst du?
-                </Label>
-                <SelectField
-                  name="country"
-                  validation={{ required: true }}
-                  errorClassName="error"
-                >
-                  <option value="" disabled selected={true}>
-                    Bitte wählen Sie
-                  </option>
-                  <option value="AT">Österreich</option>
-                  <option value="DE">Deutschland</option>
-                  <option value="IT">Italien</option>
-                  <option value="FR">Frankreich</option>
-                  <option value="HU">Ungarn</option>
-                  <option value="CH">Schweiz</option>
-                  <option value="LU">Luxemburg</option>
-                  <option value="--">Anderes</option>
-                </SelectField>
-              </div>
+              {loading ? (
+                <LoadingSpinner />
+              ) : (
+                <>
+                  <div className="mt-4">
+                    <Label name="country" errorClassName="error">
+                      Woher kommst du?
+                    </Label>
+                    <SelectField
+                      name="country"
+                      validation={{ required: true }}
+                      errorClassName="error"
+                    >
+                      <option value="" disabled selected={true}>
+                        Bitte wählen Sie
+                      </option>
+                      <option value="AT">Österreich</option>
+                      <option value="DE">Deutschland</option>
+                      <option value="IT">Italien</option>
+                      <option value="FR">Frankreich</option>
+                      <option value="HU">Ungarn</option>
+                      <option value="CH">Schweiz</option>
+                      <option value="LU">Luxemburg</option>
+                      <option value="--">Anderes</option>
+                    </SelectField>
+                  </div>
 
-              <div className="flex flex-row gap-4">
-                <InputField
-                  className="w-1/4"
-                  name="postalCode"
-                  validation={{ required: true }}
-                  errorClassName="error w-1/4"
-                  placeholder="PLZ"
-                />
-                <InputField
-                  className="w-3/4"
-                  name="city"
-                  validation={{ required: true }}
-                  errorClassName="error w-3/4"
-                  placeholder="Stadt"
-                />
-              </div>
+                  <div className="flex flex-row gap-4">
+                    <InputField
+                      className="w-1/4"
+                      name="postalCode"
+                      validation={{ required: true }}
+                      errorClassName="error w-1/4"
+                      placeholder="PLZ"
+                    />
+                    <InputField
+                      className="w-3/4"
+                      name="city"
+                      validation={{ required: true }}
+                      errorClassName="error w-3/4"
+                      placeholder="Stadt"
+                    />
+                  </div>
 
-              <InputField
-                name="address"
-                validation={{ required: true }}
-                errorClassName="error"
-                placeholder="Straße, Hausnummer"
-              />
-
+                  <InputField
+                    name="address"
+                    validation={{ required: true }}
+                    errorClassName="error"
+                    placeholder="Straße, Hausnummer"
+                  />
+                </>
+              )}
             </Step>
           </MultiStepForm>
           <p className="mt-5 text-sm font-light text-gray-500 dark:text-gray-400">
             Du hast bereits einen Account?{" "}
             <Link
               to={routes.login()}
-              className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+              className="font-medium hover:underline "
             >
               Melde dich hier an
             </Link>
           </p>
-
         </Card>
       </section>
     </>
