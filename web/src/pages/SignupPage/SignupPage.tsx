@@ -108,6 +108,7 @@ const SignupPage = () => {
     return (
       <>
         <Metadata title="Signup success" description="Signup page" />
+
         <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
           <Toaster></Toaster>
           <Card className="flex flex-col gap-1" button={{ message: "Zu den Events", to: routes.home() }}>
@@ -182,7 +183,7 @@ const SignupPage = () => {
                   className="input"
                   errorClassName="input error"
                   validation={{
-                    required: true,
+                    required: {value: true, message: "Bitte Betätige das Passwort" },
                     validate: {
                       passwordConfirmation: (value) => {
                         return validatePassword(value);
@@ -279,7 +280,7 @@ const SignupPage = () => {
 
                   <InputField
                     name="address"
-                    validation={{ required: true }}
+                    validation={{ required: true}}
                     errorClassName="error"
                     placeholder="Straße, Hausnummer"
                   />

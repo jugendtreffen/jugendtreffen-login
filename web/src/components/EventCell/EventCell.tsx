@@ -1,0 +1,45 @@
+import type { FindEventQuery, FindEventQueryVariables } from 'types/graphql'
+
+import type {
+  CellSuccessProps,
+  CellFailureProps,
+  TypedDocumentNode,
+} from '@redwoodjs/web'
+
+export const QUERY: TypedDocumentNode<
+  FindEventQuery,
+  FindEventQueryVariables
+> = gql`
+  query FindEventQuery($id: Int!) {
+    event: event(id: $id) {
+      id,
+      name,
+      desc,
+      startDate,
+      endDate,
+    }
+  }
+`
+
+export const Loading = () => <div className={"text-white"}>Loading...</div>
+
+export const Empty = () => <div>Event</div>
+
+export const Failure = ({
+  error,
+}: CellFailureProps<FindEventQueryVariables>) => (
+  <div className={"error"}>Error: {error?.message}</div>
+)
+
+export const Success = ({
+  event,
+}: CellSuccessProps<FindEventQuery, FindEventQueryVariables>) => {
+  let startDate = new Date(event.startDate)
+  let endDate = new Date(event.endDate)
+  return (
+    <div className={"flex flex-col justify-end gap-2 items-center"}>
+      <h1 className={"md:text-3xl"}>{event.name}</h1>
+      <h3 className={"text-gray-500"}>Von <span className={"text-blue-500"}>{startDate.getDate()}.{startDate.getMonth()+1}.{startDate.getFullYear()}</span> bis <span className={"text-blue-500"}>{endDate.getDate()}.{endDate.getMonth()+1}.{endDate.getFullYear()}</span></h3>
+    </div>
+  )
+}

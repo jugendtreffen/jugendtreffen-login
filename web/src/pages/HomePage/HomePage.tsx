@@ -31,6 +31,7 @@ const HomePage = () => {
     return (
       <>
         <Metadata title="Home" description="Home page" />
+
         <LoadingSpinner />
       </>
     );
@@ -40,7 +41,10 @@ const HomePage = () => {
     return (
       <>
         <Metadata title="Dashboard" description="Home Page" />
-        <EventsCell />
+
+        <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
+          <EventsCell />
+        </section>
       </>
     );
   }

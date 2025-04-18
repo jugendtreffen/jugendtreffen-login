@@ -31,10 +31,13 @@ const LoginPage = () => {
     return (
       <>
         <Metadata title="Anmelden" description="Login page" />
-        <Card className="flex flex-col gap-1">
-          <h2>You are already logged in as <span className="code">{userMetadata.email}</span></h2>
-          <Link className="primary" to={routes.home()}>Home</Link>
-        </Card>
+
+        <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
+          <Card className="flex flex-col gap-1">
+            <h2>You are already logged in as <span className="code">{userMetadata.email}</span></h2>
+            <Link className="primary" to={routes.home()}>Home</Link>
+          </Card>
+        </section>
       </>
     );
   }
@@ -43,6 +46,7 @@ const LoginPage = () => {
     <>
       <Metadata title="Anmelden" description="Login page" />
 
+      <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
       <AlertCenter></AlertCenter>
       <Card>
         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -99,13 +103,14 @@ const LoginPage = () => {
             Du hast noch keinen Account?{" "}
             <Link
               to={routes.signup()}
-              className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+              className="font-medium text-primary-600 hover:underline"
             >
               Erstelle hier einen
             </Link>
           </p>
         </Form>
       </Card>
+      </section>
     </>
   );
 };
