@@ -55,7 +55,7 @@ const HomePage = () => {
 
       <section id="hero section" className="w-screen-minus-scrollbar bg-secondary">
         <div
-          className="absolute w-screen-minus-scrollbar h-screen inset-0 flex flex-col gap-2 items-center justify-center text-center bg-black bg-opacity-60 z-10">
+          className="absolute w-screen h-screen inset-0 flex flex-col gap-2 items-center justify-center text-center bg-black bg-opacity-60 z-10">
           <h1 className={"md:text-7xl"}>Jugendtreffen</h1>
           <h2 className={"md:text-2xl"}>15. bis 20. Juli 2025 in Kremsmünster</h2>
           <button className="primary inline-flex items-center mt-4" onClick={() => navigate(routes.signup())}>

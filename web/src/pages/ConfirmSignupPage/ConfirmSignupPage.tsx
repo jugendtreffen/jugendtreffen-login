@@ -8,7 +8,7 @@ import { CheckIcon } from "src/components/Icons/Icons";
 import Alert from "src/components/Alert/Alert";
 
 const ConfirmSignupPage = (props) => {
-  const { token_hash, type, email, next } = props;
+  const { token_hash, email, next } = props;
   const { client, isAuthenticated, userMetadata } = useAuth();
   const [confirmationStatus, setConfirmationStatus] = useState("pending");
   const [errorMessage, setErrorMessage] = useState("Es ist ein Fehler aufgetreten");
@@ -30,7 +30,7 @@ const ConfirmSignupPage = (props) => {
         setErrorMessage(error.message)
       } else {
         setConfirmationStatus("success")
-        // navigate(redirectTo || routes.home())
+        setTimeout(() => navigate(redirectTo || routes.home(), { replace: true }), 1000)
       }
     } catch (error) {
       setConfirmationStatus("error")
@@ -59,13 +59,13 @@ const ConfirmSignupPage = (props) => {
 
 
   useEffect(() => {
-    if (token_hash && type === "email") {
+    if (token_hash) {
       confirmEmail(token_hash, next)
     } else {
       setConfirmationStatus("error")
       setErrorMessage("Bestätigungslink nicht gültig")
     }
-  }, [token_hash, type, next])
+  }, [token_hash, next])
 
   if (isAuthenticated) {
     return (

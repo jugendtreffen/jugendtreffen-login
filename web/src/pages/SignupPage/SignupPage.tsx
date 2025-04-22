@@ -89,7 +89,7 @@ const SignupPage = () => {
     try {
       const response = await client.auth.signUp({
         email: data.email,
-        password: data.password
+        password: data.password,
       });
       response?.error?.message
         ? addAlert(response.error.message, "error")

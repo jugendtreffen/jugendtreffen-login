@@ -16,14 +16,14 @@ const Routes = () => {
   return (
     <Router useAuth={useAuth}>
       <Set wrap={GlobalLayout}>
-        <Route path="/" page={HomePage} name="home" />
+        <Route path="/" page={HomePage} name="home" prerender />
         <Route path="/login" page={LoginPage} name="login" />
         <Route path="/signup" page={SignupPage} name="signup" />
         <Route path="/confirm" page={ConfirmSignupPage} name="confirmSignup" />
         <Route path="/teilnehmen" page={ParticipatePage} name="participate" />
         <Route path="/events/{id}" page={EventPage} name="events" />
       </Set>
-      <Route notfound page={NotFoundPage} />
+      <Route notfound page={NotFoundPage} prerender />
     </Router>
   )
 }
