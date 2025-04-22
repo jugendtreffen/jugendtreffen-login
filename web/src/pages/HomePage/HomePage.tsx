@@ -66,7 +66,8 @@ const HomePage = () => {
           style={{ width: `calc(${images.length * 100}vw - ${images.length * 16}px)` }}
         >
           {images.map((src, i) => (
-            <img key={i} src={src} alt={`Slide ${i}`} className="w-screen-minus-scrollbar h-screen object-cover flex-shrink-0" />
+            <img key={i} src={src} alt={`Slide ${i}`}
+                 className="w-screen-minus-scrollbar h-screen object-cover flex-shrink-0" />
           ))}
         </motion.div>
       </section>
@@ -78,13 +79,35 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section id="Stories" className="flex flex-col p-6 md:px-12 mx-auto lg:py-0 h-full w-full my-12">
-        <h1>Stories</h1>
-        <h2 className="text-red-500 mb-4">Hier brauch ich Ideen & Content zum hinschreiben</h2>
-        <Card
-          title="David G."
-          description="Hier die Geschichte, Idee, whatever einfüllen">
-        </Card>
+      <section id="Socials" className="flex flex-col p-6 md:px-12 mx-auto lg:py-0 h-full w-full my-12 gap-2">
+        <h1>Mehr vom Jugendtreffen</h1>
+        <div className="flex flex-row flex-wrap gap-4 w-full">
+          <a href="https://www.instagram.com/jugendtreffen/" target="_blank" rel="noreferrer">
+            <Card description="Folge uns auf Instagramm">
+              <div className="flex flex-row gap-2 mb-2 h-8">
+                <img className="h-8 rounded-full" src="/jugendtreffen-logo-v1.webp" alt="logo"/>
+                <h2>jugendtreffen</h2>
+              </div>
+            </Card>
+          </a>
+          <a href="https://open.spotify.com/playlist/5tiCqfN1eIQtjmtRklgP2Q" target="_blank" rel="noreferrer">
+            <Card description="Stimm dich mit unserer Playlist ein">
+              <div className="flex flex-row gap-2 mb-2">
+                <img className="h-8" src="/spotify-white.png" />
+                <h2>Jugendtreffen 2024 Worship</h2>
+              </div>
+            </Card>
+          </a>
+          <a href="https://www.youtube.com/@jugendtreffenkremsmuenster" target="_blank" rel="noreferrer">
+            <Card description="Schau dich auf unserm Youtube-Kanal um">
+              <div className="flex flex-row gap-2 mb-2">
+                <img className="h-7" src="/youtube-white.png" />
+                <h2>@jugendtreffenkremsmuenster</h2>
+              </div>
+            </Card>
+          </a>
+        </div>
+
       </section>
 
     </>
