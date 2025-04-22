@@ -7,6 +7,7 @@ interface MultiStepFormProps<TFieldValues> {
   finishText: string
   className: string
   onSubmit: (values: any) => void
+  disableSubmit?: boolean
   config?: UseFormProps<TFieldValues>
   formMethods: any
 }
@@ -41,7 +42,7 @@ const MultiStepForm = ({ children, ...props }: MultiStepFormProps<any>) => {
           {currentStep > 0 && (
             <button className="secondary" type={"button"} onClick={handlePrevStep}>Zurück</button>)}
           {!isLastStep() && (<button type={"button"} className="primary" onClick={handleNextStep}>Weiter</button>)}
-          {isLastStep() && (<Submit className="primary">{props.finishText} </Submit>)}
+          {isLastStep() && (<Submit className="primary" disabled={props.disableSubmit === true}>{props.finishText} </Submit>)}
         </div>
       </Form>
     </>

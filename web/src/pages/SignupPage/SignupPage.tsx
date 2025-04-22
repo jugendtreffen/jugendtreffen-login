@@ -21,7 +21,7 @@ import Step from "src/components/MultiStepForm/Step";
 import {
   CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables
 } from "types/graphql";
-import { CheckIcon, PhoneIcon } from "src/components/Icons/Icons";
+import { CheckIcon } from "src/components/Icons/Icons";
 import LoadingSpinner from "src/components/Loading/LoadingSpinner";
 
 const CREATE_PERSONALDATA = gql`
@@ -125,10 +125,9 @@ const SignupPage = () => {
         <Metadata title="Anmeldung"/>
 
         <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
-          <Card className="flex flex-col gap-1">
+          <Card className="flex flex-col gap-1" button={{message: "weiter zur Anmeldung", to: routes.login()}}>
             <span className={"text-green-500"}><CheckIcon /></span>
-            <h2 className={"mb-3"}>Dein Account wurde erstellt. Bestätige die Email die wir an<span
-              className="code text-primary-500">{userMetadata.email}</span> gesendet haben</h2>
+            <h2 className={"mb-3"}>Dein Account wurde erstellt. Bestätige die Email die wir dir gesendet haben</h2>
           </Card>
         </section>
       </>
@@ -145,7 +144,7 @@ const SignupPage = () => {
           <h1>
             Account für Teilnahme erstellen
           </h1>
-          <MultiStepForm className="space-y-4 md:space-y-6" finishText="Account erstellen" onSubmit={onSubmit}
+          <MultiStepForm className="space-y-4 md:space-y-6" finishText="Account erstellen" onSubmit={onSubmit} disableSubmit={loading}
                          formMethods={formMethods}>
             <Step>
               <div>
