@@ -45,7 +45,7 @@ const Footer = () => {
         <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
           © 2024{' '}
           <a href="https://jugendtreffen.at/" className="hover:underline">
-            Jugendtreffen Pöllau
+            jugendtreffen.at
           </a>
         </span>
       </div>

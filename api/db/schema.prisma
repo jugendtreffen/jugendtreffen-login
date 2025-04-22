@@ -1,6 +1,6 @@
 generator client {
-  provider        = "prisma-client-js"
-  binaryTargets   = ["native"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
 }
 
 datasource db {
@@ -15,13 +15,15 @@ model PersonalData {
   familyName            String
   birthdate             DateTime?
   gender                String?
+  phoneNumber           String?
+  phoneCaretakerContact String?
+  foundUsBy             String?
+  isParent              Boolean?
   roleId                Int
   country               String?
   city                  String?
   postalCode            String?
   address               String?
-  phoneNumber           String?
-  phoneCaretakerContact String?
   userId                String?    @unique @db.Uuid
   role                  SystemRole @relation(fields: [roleId], references: [id], onDelete: SetDefault, onUpdate: Cascade)
 
@@ -37,7 +39,6 @@ model Participation {
   endDate             DateTime
   foodChoice          String
   helpAfterwards      Boolean?
-  foundUsBy           String?
   acceptPhotos        Boolean
   acceptCoC           Boolean
   eventId             Int?
@@ -67,8 +68,8 @@ model Event {
   id             Int             @id @default(autoincrement())
   name           String          @unique
   desc           String
-  startDate       DateTime
-  endDate         DateTime
+  startDate      DateTime
+  endDate        DateTime
   participations Participation[]
 
   @@map("events")

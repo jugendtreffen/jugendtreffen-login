@@ -293,6 +293,8 @@ const EventPage = () => {
                 Ich habe den{" "}
                 <a
                   href="https://jugendtreffen.at/wp-content/uploads/2024/03/Verhaltenskodex-fu%CC%88r-Teilnehmende-2024.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="link"
                 >
                   Verhaltenscodex
@@ -315,11 +317,10 @@ const EventPage = () => {
               <Label
                 name="helpAfterwards"
               >
-                Ich kann beim Abbau der Zelte Mithelfen.
+                Ich kann beim Abbau Mithelfen.
               </Label>
               <p className="ms-2 text-xs font-normal text-gray-500 dark:text-gray-300">
-                Wir würden uns sehr freuen, wenn du noch ein paar Stunden bleibst und uns beim Abbau hilfst. Und: Es
-                gibt Gratis Mittagessen!
+                Wir würden uns sehr freuen, wenn du noch ein paar Stunden bleibst und uns beim Abbau hilfst.
               </p>
             </div>
           </div>

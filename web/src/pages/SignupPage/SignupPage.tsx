@@ -1,4 +1,3 @@
-
 import {
   DateField,
   FieldError,
@@ -16,14 +15,13 @@ import { useAuth } from "src/auth";
 import Card from "src/components/Card/Card";
 import AlertCenter from "src/components/Alert/AlertCenter";
 import { useAlert } from "src/components/Alert/AlertContext";
-import React from "react";
+import React, { useState } from "react";
 import MultiStepForm from "src/components/MultiStepForm/MultiStepForm";
 import Step from "src/components/MultiStepForm/Step";
 import {
- CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables
+  CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables
 } from "types/graphql";
-import { toast, Toaster } from "@redwoodjs/web/toast";
-import { CheckIcon } from "src/components/Icons/Icons";
+import { CheckIcon, PhoneIcon } from "src/components/Icons/Icons";
 import LoadingSpinner from "src/components/Loading/LoadingSpinner";
 
 const CREATE_PERSONALDATA = gql`
@@ -62,8 +60,9 @@ interface FormValues {
 }
 
 const SignupPage = () => {
-  const { client, isAuthenticated, userMetadata, reauthenticate } = useAuth();
-  const { addAlert, removeAllAlerts } = useAlert();
+  const { client, isAuthenticated, userMetadata, reauthenticate } = useAuth()
+  const { addAlert, removeAllAlerts } = useAlert()
+  const [signupCompleted, setSignupCompleted] = useState(false)
   const formMethods = useForm({
     mode: "onBlur",
     resolver: null
@@ -72,7 +71,7 @@ const SignupPage = () => {
     loading
   }] = useMutation<CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables>(CREATE_PERSONALDATA, {
     onCompleted: () => {
-      toast.success("Dein Account wurde erstellt");
+      setSignupCompleted(true)
       formMethods.reset();
     }
   });
@@ -107,14 +106,29 @@ const SignupPage = () => {
   if (isAuthenticated) {
     return (
       <>
-        <Metadata title="Signup success" description="Signup page" />
+        <Metadata title="Anmeldung"/>
 
         <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
-          <Toaster></Toaster>
           <Card className="flex flex-col gap-1" button={{ message: "Zu den Events", to: routes.home() }}>
             <span className={"text-green-500"}><CheckIcon /></span>
             <h2 className={"mb-3"}>Du bist als <span
               className="code text-primary-500">{userMetadata.email}</span> angemeldet!</h2>
+          </Card>
+        </section>
+      </>
+    )
+  }
+
+  if(signupCompleted) {
+    return (
+      <>
+        <Metadata title="Anmeldung"/>
+
+        <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
+          <Card className="flex flex-col gap-1">
+            <span className={"text-green-500"}><CheckIcon /></span>
+            <h2 className={"mb-3"}>Dein Account wurde erstellt. Bestätige die Email die wir an<span
+              className="code text-primary-500">{userMetadata.email}</span> gesendet haben</h2>
           </Card>
         </section>
       </>
@@ -123,16 +137,16 @@ const SignupPage = () => {
 
   return (
     <>
-      <Metadata title="Signup" description="Signup page" />
+      <Metadata title="Anmeldung" description="Erstelle einen Account um am Jugendtreffen teilzunehmen." />
 
       <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
-        <Toaster></Toaster>
         <AlertCenter></AlertCenter>
         <Card>
           <h1>
-            Werde ein Teil von uns!
+            Account für Teilnahme erstellen
           </h1>
-          <MultiStepForm className="space-y-4 md:space-y-6" finishText="Account erstellen" onSubmit={onSubmit} formMethods={formMethods}>
+          <MultiStepForm className="space-y-4 md:space-y-6" finishText="Account erstellen" onSubmit={onSubmit}
+                         formMethods={formMethods}>
             <Step>
               <div>
                 <Label
@@ -165,9 +179,11 @@ const SignupPage = () => {
                   className="input"
                   errorClassName="input error"
                   validation={{
-                    required: true
+                    required: { value: true, message: "Bitte gib ein Passwort an" },
+                    minLength: { value: 6, message: "Passwort muss mindestens 6 Zeichen beinhalten" }
                   }}
                 />
+                <FieldError name="password" className="error ms-2" />
               </div>
               <div>
                 <Label
@@ -183,7 +199,7 @@ const SignupPage = () => {
                   className="input"
                   errorClassName="input error"
                   validation={{
-                    required: {value: true, message: "Bitte Betätige das Passwort" },
+                    required: { value: true, message: "Bitte Betätige das Passwort" },
                     validate: {
                       passwordConfirmation: (value) => {
                         return validatePassword(value);
@@ -214,6 +230,18 @@ const SignupPage = () => {
                            validation={{ required: true }}
                            errorClassName="error"
                 />
+              </div>
+              <div>
+                <Label name={"phoneNumber"} errorClassName={"error"}>
+                  Handynummer
+                </Label>
+                <InputField
+                  name={"phoneNumber"}
+                  validation={{ required: true }}
+                  placeholder="+43 1234 12345678 "
+                  errorClassName={"error"}
+                >
+                </InputField>
               </div>
               <div>
                 <Label name={"gender"} errorClassName={"error"}>
@@ -280,7 +308,7 @@ const SignupPage = () => {
 
                   <InputField
                     name="address"
-                    validation={{ required: true}}
+                    validation={{ required: true }}
                     errorClassName="error"
                     placeholder="Straße, Hausnummer"
                   />

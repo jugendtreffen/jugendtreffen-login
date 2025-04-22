@@ -51,8 +51,7 @@ export const schema = gql`
   }
 
   type Mutation {
-    createPersonalData(input: CreatePersonalDataInput!): PersonalData!
-      @requireAuth
+    createPersonalData(input: CreatePersonalDataInput!): PersonalData! @skipAuth
     updatePersonalData(
       id: BigInt!
       input: UpdatePersonalDataInput!

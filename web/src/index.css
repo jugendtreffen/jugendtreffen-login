@@ -25,6 +25,10 @@ h3 {
   @apply text-lg font-bold leading-tight tracking-tight text-white
 }
 
+p {
+  @apply text-neutral-200
+}
+
 ul {
   list-style-type: none;
   margin: 1rem 0;
@@ -89,6 +93,9 @@ select {
 a.primary,
 button.primary {
   @apply text-white bg-accent-dark hover:bg-accent font-medium rounded-lg text-sm px-5 py-2 text-center
+}
+button.primary:disabled {
+  @apply bg-neutral-500
 }
 a.secondary,
 button.secondary {
