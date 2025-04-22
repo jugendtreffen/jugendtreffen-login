@@ -16,14 +16,14 @@ interface CardProps {
 
 const Card = (props: CardProps) => {
   return (
-    <div className={`max-w-md p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ${props.className}`}>
+    <div className={`max-w-md p-6 border rounded-lg shadow bg-gray-800 border-gray-700 ${props.className}`}>
       {props.title && (
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
           {props.title}
         </h5>
       )}
       {props.description && (
-        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+        <p className="mb-3 font-normal text-gray-400">
           {props.description}
         </p>
       )}

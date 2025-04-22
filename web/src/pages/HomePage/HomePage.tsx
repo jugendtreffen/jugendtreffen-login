@@ -42,7 +42,7 @@ const HomePage = () => {
         <Metadata title="Dashboard" description="Home Page" />
         <EventsCell />
       </>
-    );
+    )
   }
 
   return (
@@ -107,9 +107,7 @@ const HomePage = () => {
             </Card>
           </a>
         </div>
-
       </section>
-
     </>
   );
 };
