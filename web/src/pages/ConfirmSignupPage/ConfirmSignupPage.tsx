@@ -30,8 +30,7 @@ const ConfirmSignupPage = (props) => {
         setErrorMessage(error.message)
       } else {
         setConfirmationStatus("success")
-        client.auth.reauthenticate()
-        navigate(redirectTo || routes.home())
+        // navigate(redirectTo || routes.home())
       }
     } catch (error) {
       setConfirmationStatus("error")
@@ -98,7 +97,7 @@ const ConfirmSignupPage = (props) => {
           </>}
           {confirmationStatus === "success" &&
             <>
-              <CheckIcon/>
+              <span className={"text-green-500"}><CheckIcon /></span>
               <p>Deine Email wurde erfolgreich bestätigt!</p>
             </>
             }
