@@ -31,7 +31,7 @@ const Navigation = () => {
           {isAuthenticated ? (
             <SignoutButton />
           ) : !isMobile() && (
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 me-2">
               <button className="secondary" onClick={() => navigate(routes.signup())}>
                 Account erstellen
               </button>

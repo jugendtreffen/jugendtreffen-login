@@ -32,12 +32,10 @@ const LoginPage = () => {
       <>
         <Metadata title="Anmelden" description="Login page" />
 
-        <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
-          <Card className="flex flex-col gap-1">
-            <h2>You are already logged in as <span className="code">{userMetadata.email}</span></h2>
-            <Link className="primary" to={routes.home()}>Home</Link>
-          </Card>
-        </section>
+        <Card className="flex flex-col gap-1">
+          <h2>You are already logged in as <span className="code">{userMetadata.email}</span></h2>
+          <Link className="primary" to={routes.home()}>Home</Link>
+        </Card>
       </>
     );
   }
@@ -46,7 +44,6 @@ const LoginPage = () => {
     <>
       <Metadata title="Anmelden" description="Login page" />
 
-      <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
       <AlertCenter></AlertCenter>
       <Card>
         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -110,7 +107,6 @@ const LoginPage = () => {
           </p>
         </Form>
       </Card>
-      </section>
     </>
   );
 };
