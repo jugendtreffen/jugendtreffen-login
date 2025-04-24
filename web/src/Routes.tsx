@@ -8,7 +8,7 @@ const Routes = () => {
   return (
     <Router useAuth={useAuth}>
       <Set wrap={GlobalLayout}>
-        <Route path="/" page={HomePage} name="home" prerender />
+        <Route path="/" page={HomePage} name="home" />
         <Set wrap={AuthLayout}>
           <Route path="/login" page={LoginPage} name="login" />
           <Route path="/signup" page={SignupPage} name="signup" />
