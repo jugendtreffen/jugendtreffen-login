@@ -2,18 +2,11 @@ export const schema = gql`
   type ParticipationRole {
     id: Int!
     desc: String!
-    Participation: [Participation]!
+    references: [Participation]!
   }
 
   type Query {
     participationRoles: [ParticipationRole!]! @requireAuth
-  }
-
-  input CreateParticipationRoleInput {
-    desc: String!
-  }
-
-  input UpdateParticipationRoleInput {
-    desc: String
+    participationRole(id: Int!): ParticipationRole @requireAuth
   }
 `

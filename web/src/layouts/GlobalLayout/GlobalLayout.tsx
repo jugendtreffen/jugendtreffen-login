@@ -9,7 +9,7 @@ type GlobalLayoutProps = {
 const GlobalLayout = ({ children }: GlobalLayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col justify-between bg-gray-900">
-      <header className="sticky top-0 z-50">
+      <header className="fixed top-0 z-50 w-screen">
         <Navigation />
       </header>
       <main className="relative overflow-hidden">

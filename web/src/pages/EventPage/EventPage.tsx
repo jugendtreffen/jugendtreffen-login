@@ -1,4 +1,4 @@
-import { Metadata, type TypedDocumentNode, useMutation } from "@redwoodjs/web";
+import { Metadata, useMutation } from "@redwoodjs/web";
 import { routes, useParams } from "@redwoodjs/router";
 import {
   CheckboxField,
@@ -12,14 +12,13 @@ import {
   SubmitHandler
 } from "@redwoodjs/forms";
 import { toast, Toaster} from '@redwoodjs/web/toast'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   CreateParticipationMutation,
   CreateParticipationMutationVariables,
-  type EventsQuery,
-  type EventsQueryVariables
 } from "types/graphql";
 import Card from "src/components/Card/Card";
+import EventCell from "src/components/EventCell/EventCell"
 
 const CREATE_PARTICIPATION = gql`
   mutation CreateParticipationMutation($input: CreateParticipationInput!) {
@@ -35,18 +34,6 @@ const CREATE_PARTICIPATION = gql`
       acceptPhotos,
       acceptCoC,
       eventId,
-    }
-  }
-`
-
-const FIND_EVENT: TypedDocumentNode<EventsQuery, EventsQueryVariables> = gql`
-  query FindEvent($id: Int!) {
-    event(id: $id) {
-      id,
-      name,
-      desc,
-      startDate,
-      endDate,
     }
   }
 `
@@ -71,14 +58,13 @@ const EventPage = () => {
   const [create, {
     loading,
     error
-  }] = useMutation<CreateParticipationMutation, CreateParticipationMutationVariables>(CREATE_PARTICIPATION, {onCompleted: () => {toast.success('Deine Teilnahme wurde gespeichert'); setCompleted(true)}});
+  }] = useMutation<CreateParticipationMutation, CreateParticipationMutationVariables>(CREATE_PARTICIPATION, {onCompleted: () => {toast.success('Deine Teilnahme wurde gespeichert'); setCompleted(true);}});
 
-  const minDate = new Date("2025-07-20")
-  const maxDate = new Date("2025-07-25")
+  const startDate = new Date("2025-07-20")
+  const endDate = new Date("2025-07-25")
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     data.eventId = 0
-    data.foundUsBy = "" // noch Feld erstellen
     data.participationRoleId = parseInt(String(data.participationRoleId), 10)
     data.accommodation = String(data.accommodation) == "true"
     console.log(data)
@@ -87,7 +73,7 @@ const EventPage = () => {
   };
 
   const validateStartDate = (value, context) => {
-    if (context.startDate < minDate || context.startDate > maxDate) {
+    if (context.startDate < startDate || context.startDate > endDate) {
       return "Jugendtreffen findet zwischen 20.Juli 2025 und 25.Juli 2025 statt"
     }
     return true;
@@ -97,23 +83,29 @@ const EventPage = () => {
     if (context.endDate < context.startDate) {
       return "Du kannst nicht vor deiner Ankunft abreisen"
     }
-    if (context.endDate > maxDate) {
+    if (context.endDate > endDate) {
       return "Das Jugendtreffen endet am 25.Juli 2025"
     }
     return true
   };
+
+  useEffect(() => {
+
+  }, []);
 
   if(completed) {
     return (
       <>
         <Metadata title="Teilnahme erfolgreich" description="Event page" />
 
+        <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
         <Card
           title="Alles erledigt!"
           description="Du bist für event.name angemeldet!"
           button={{message: 'zu meinen Events', to: routes.home()}}
         >
         </Card>
+        </section>
       </>
     )
   }
@@ -122,9 +114,10 @@ const EventPage = () => {
     <>
       <Metadata title="Teilnahme event.name" description="Event page" />
 
+      <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
       <Toaster ></Toaster>
       <div className="py-6">
-        <h1 className="mb-4 w-full text-center">{id}</h1>
+        <EventCell id={parseInt(id, 10)}/>
         <div className="flex flex-row justify-end gap-2 text-gray-300">
           <span className="text-blue-500 font-bold">*</span>
           <span>Pflichtfelder</span>
@@ -160,6 +153,7 @@ const EventPage = () => {
                   message: "Wähle wie du deine Zeit am Jugendtreffen verbringen wirst"
                 }
               }}
+
               errorClassName="error"
             >
               <option value="" disabled selected={true}>
@@ -177,7 +171,7 @@ const EventPage = () => {
           <div>
             <div className="label">Ich brauche...<span className="font-bold text-blue-500">*</span></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <div className="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+              <div className="flex items-center ps-4 rounded border dark:border-gray-700">
                 <RadioField
                   id="yes-acc"
                   name="accommodation"
@@ -188,12 +182,12 @@ const EventPage = () => {
                 <Label
                   name="accommodation"
                   htmlFor="yes-acc"
-                  className="w-full py-3 text-sm"
+                  className="w-full py-3 text-sm mb-0"
                 >
                   eine Unterkunft
                 </Label>
               </div>
-              <div className="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+              <div className="flex items-center ps-4 rounded border border-gray-700">
                 <RadioField
                   id="no-acc"
                   name="accommodation"
@@ -204,7 +198,7 @@ const EventPage = () => {
                 <Label
                   name="accommodation"
                   htmlFor="no-acc"
-                  className="w-full py-3 text-sm"
+                  className="w-full py-3 text-sm mb-0"
                 >
                   keine Unterkunft
                 </Label>
@@ -221,7 +215,7 @@ const EventPage = () => {
             <div className="relative">
               <DateField
                 name="startDate"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="border text-sm rounded-lg block w-full ps-5 p-2.5  bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                 errorClassName="error"
                 validation={{
                   required: { value: true, message: "Wann kommst du?" },
@@ -230,11 +224,11 @@ const EventPage = () => {
               />
               <FieldError name="startDate" className="error ms-2" />
             </div>
-            <span className="mx-4 text-gray-500">to</span>
+            <span className="mx-4 text-gray-500">bis</span>
             <div className="relative">
               <DateField
                 name="endDate"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="border text-sm rounded-lg block w-full ps-5 p-2.5  bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                 errorClassName="error"
                 validation={{
                   required: { value: true, message: "Wann fährtst du heim?" },
@@ -248,7 +242,7 @@ const EventPage = () => {
           <div>
             <div className="label">Ich esse...<span className="font-bold text-blue-500">*</span></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <div className="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+              <div className="flex items-center ps-4 border rounded border-gray-700">
                 <RadioField
                   id="alles"
                   name="foodChoice"
@@ -259,12 +253,12 @@ const EventPage = () => {
                 <Label
                   name="foodChoice"
                   htmlFor="alles"
-                  className="w-full py-3 text-sm"
+                  className="w-full py-3 text-sm mb-0"
                 >
                   eigentlich alles
                 </Label>
               </div>
-              <div className="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+              <div className="flex items-center ps-4 border rounded border-gray-700">
                 <RadioField
                   id="veggi"
                   name="foodChoice"
@@ -275,7 +269,7 @@ const EventPage = () => {
                 <Label
                   htmlFor="veggi"
                   name="foodChoice"
-                  className="w-full py-3 text-sm"
+                  className="w-full py-3 text-sm mb-0"
                 >
                   nur vegetarisch
                 </Label>
@@ -289,7 +283,8 @@ const EventPage = () => {
               <CheckboxField
                 name="acceptCoC"
                 errorClassName="error"
-                validation={{ required: { value: true, message: "Akzeptiere den Verhaltenscodex um teilzunehmen!" } }}
+                validation={{ required: { value: true, message: "Akzeptiere den Verhaltenscodex um teilzunehmen!" },
+                valueAsBoolean: true}}
               />
               <Label
                 name="acceptCoC"
@@ -298,6 +293,8 @@ const EventPage = () => {
                 Ich habe den{" "}
                 <a
                   href="https://jugendtreffen.at/wp-content/uploads/2024/03/Verhaltenskodex-fu%CC%88r-Teilnehmende-2024.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="link"
                 >
                   Verhaltenscodex
@@ -313,17 +310,17 @@ const EventPage = () => {
             <div className="flex items-center h-5">
               <CheckboxField
                 name="helpAfterwards"
+                validation={{valueAsBoolean: true}}
               />
             </div>
             <div>
               <Label
                 name="helpAfterwards"
               >
-                Ich kann beim Abbau der Zelte Mithelfen.
+                Ich kann beim Abbau Mithelfen.
               </Label>
               <p className="ms-2 text-xs font-normal text-gray-500 dark:text-gray-300">
-                Wir würden uns sehr freuen, wenn du noch ein paar Stunden bleibst und uns beim Abbau hilfst. Und: Es
-                gibt Gratis Mittagessen!
+                Wir würden uns sehr freuen, wenn du noch ein paar Stunden bleibst und uns beim Abbau hilfst.
               </p>
             </div>
           </div>
@@ -332,6 +329,7 @@ const EventPage = () => {
             <div className="flex items-center h-5">
               <CheckboxField
                 name="acceptPhotos"
+                validation={{valueAsBoolean: true}}
               />
             </div>
             <div>
@@ -354,11 +352,12 @@ const EventPage = () => {
             className="primary w-fit"
             disabled={loading}
           >
-            An "event.name" Teilnehmen
+            Teilnehmen
           </Submit>
           <FormError  error={error} wrapperClassName="form-error"/>
         </Form>
       </div>
+      </section>
     </>
   );
 };

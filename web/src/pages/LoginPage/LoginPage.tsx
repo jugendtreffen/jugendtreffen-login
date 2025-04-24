@@ -31,6 +31,7 @@ const LoginPage = () => {
     return (
       <>
         <Metadata title="Anmelden" description="Login page" />
+
         <Card className="flex flex-col gap-1">
           <h2>You are already logged in as <span className="code">{userMetadata.email}</span></h2>
           <Link className="primary" to={routes.home()}>Home</Link>
@@ -99,7 +100,7 @@ const LoginPage = () => {
             Du hast noch keinen Account?{" "}
             <Link
               to={routes.signup()}
-              className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+              className="font-medium text-primary-600 hover:underline"
             >
               Erstelle hier einen
             </Link>

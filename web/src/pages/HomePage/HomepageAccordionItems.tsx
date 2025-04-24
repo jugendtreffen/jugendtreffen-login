@@ -19,7 +19,7 @@ export const HomePageAccordionItems = [
     )
   },
   {
-    title: "Program",
+    title: "Programm",
     content: (
       <>
         <p className="mb-2 text-red-500">

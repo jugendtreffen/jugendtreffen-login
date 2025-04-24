@@ -7,11 +7,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'primary-10': '#B8E2DE',
-        'primary-50': '#29B3B3',
-        'primary-90': '#00515A',
-        'accent': '#FF5A3D',
-        'secondary': '#162D4E',
+        'primary-100': '#E0F2F1',
+        'primary-300': '#A7E3DE',
+        'primary-500': '#5DBDB8',
+        'primary-700': '#3C928E',
+        'primary-800': '#34495E',
+        'primary-900': '#22313F',
+        'accent': '#FF7043',
+        'accent-dark': '#c35b3a',
+        'secondary': '#0d3066',
       },
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],
