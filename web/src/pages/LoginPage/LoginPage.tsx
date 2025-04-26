@@ -29,6 +29,9 @@ const LoginPage = (props) => {
   };
 
   if (isAuthenticated) {
+    if (next) {
+      navigate(next);
+    }
     return (
       <>
         <Metadata title="Anmelden" description="Login page" />

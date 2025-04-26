@@ -59,7 +59,7 @@ interface FormValues {
 }
 
 const SignupPage = () => {
-  const { client, isAuthenticated, userMetadata, reauthenticate } = useAuth();
+  const { client, isAuthenticated, userMetadata } = useAuth();
   const { addAlert, removeAllAlerts } = useAlert();
   const [signupCompleted, setSignupCompleted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -90,23 +90,24 @@ const SignupPage = () => {
     }
   };
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (input) => {
     removeAllAlerts();
-    data.roleId = 3;
+    input.roleId = 3;
     try {
       const response = await client.auth.signUp({
-        email: data.email,
-        password: data.password
+        email: input.email,
+        password: input.password
       });
       response?.error?.message
         ? addAlert(response.error.message, "error")
-        : data.userId = response.data.user.id;
+        : input.userId = response.data.user.id;
     } catch (error) {
       addAlert(error.message, "error");
     }
-    const { email, password, password_ctl, ...personalData } = data;
-    create({ variables: { input: personalData } })
-      .then(() => reauthenticate())
+    const { email, password, password_ctl, ...personalData } = input;
+    await create({ variables: { input: personalData } }).catch(error => {
+      addAlert(error.message, "error");
+    });
   }
 
   const handleResend = async () => {
@@ -122,7 +123,7 @@ const SignupPage = () => {
     setTimeout(() => {
       setResendDisabled(false);
       setErrorMessage("");
-    }, 1000);
+    }, 60000);
 
     if (error) {
       setErrorMessage("Bestätigungsmail konnte nicht gesendet werden. Versuche es in 2 Minuten nochmal!");

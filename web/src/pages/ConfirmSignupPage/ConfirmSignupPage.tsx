@@ -52,7 +52,7 @@ const ConfirmSignupPage = (props) => {
     setTimeout(() => {
       setResendDisabled(false);
       setConfirmationStatus("pending");
-    }, 1000);
+    }, 60000);
 
     if (error) {
       setConfirmationStatus("error");

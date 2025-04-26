@@ -20,19 +20,14 @@ export default async () => {
 
     const participationRoles = [
       {id: 0, desc: "Teilnehmer"},
-      {id: 1, desc: "Ordensmann/Priester"},
+      { id: 1, desc: "Priester" },
       {id: 2, desc: "Mitarbeiter"},
       {id: 3, desc: "Begleitperson"},
       {id: 4, desc: "Vortragender"},
+      { id: 5, desc: "Ordensmann/Ordensfrau" }
     ]
 
     const personalDatas = [
-      {
-        id: 0,
-        name: 'admin',
-        familyName: 'user',
-        systemRole: 0,
-      },
       {
         id: 1,
         name: 'test',
