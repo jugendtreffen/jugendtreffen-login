@@ -18,11 +18,10 @@ import { useAlert } from "src/components/Alert/AlertContext";
 import React, { useState } from "react";
 import MultiStepForm from "src/components/MultiStepForm/MultiStepForm";
 import Step from "src/components/MultiStepForm/Step";
-import {
-  CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables
-} from "types/graphql";
+import { CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables } from "types/graphql";
 import { CheckIcon } from "src/components/Icons/Icons";
 import LoadingSpinner from "src/components/Loading/LoadingSpinner";
+import Alert from "src/components/Alert/Alert";
 
 const CREATE_PERSONALDATA = gql`
   mutation CreatePersonlaDataMutation($input: CreatePersonalDataInput!) {
@@ -63,6 +62,8 @@ const SignupPage = () => {
   const { client, isAuthenticated, userMetadata, reauthenticate } = useAuth();
   const { addAlert, removeAllAlerts } = useAlert();
   const [signupCompleted, setSignupCompleted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [resendDisabled, setResendDisabled] = useState(false);
   const formMethods = useForm({
     mode: "onBlur",
     resolver: null
@@ -80,6 +81,13 @@ const SignupPage = () => {
     let password = formMethods.getValues()["password"];
     if (confirmationPassword !== password) {
       return "Die Passwörter stimmen nicht überein.";
+    }
+  };
+  const validateBirthDate = (value) => {
+    console.log(typeof value, value);
+    let max_bd = new Date(new Date().getFullYear() - 13, 7, 31);
+    if (value >= max_bd) {
+      return "Teilnehmende müssen mindestens 14 Jahre alt sein oder in diesem Schuljahr (2024/25) die 8. Schulstufe besucht haben. Stichtag ist der 31.08.2011. Eine Teilnahme ist bis zum 30. Lebensjahr möglich.";
     }
   };
 
@@ -101,6 +109,26 @@ const SignupPage = () => {
     create({ variables: { input: personalData } })
       .then(() => reauthenticate())
       .catch((err) => console.log(err));
+  }
+
+  const handleResend = async () => {
+    if (!client) {
+      setErrorMessage("Es ist ein Fehler aufgetreten");
+      return;
+    }
+
+    const { error } = await client.auth.signInWithOtp({
+      email: formMethods.getValues().email
+    });
+    setResendDisabled(true);
+    setTimeout(() => {
+      setResendDisabled(false);
+      setErrorMessage("");
+    }, 1000);
+
+    if (error) {
+      setErrorMessage("Bestätigungsmail konnte nicht gesendet werden. Versuche es in 2 Minuten nochmal!");
+    }
   };
 
   if (isAuthenticated) {
@@ -125,6 +153,10 @@ const SignupPage = () => {
         <Card className="flex flex-col gap-1" button={{ message: "weiter zur Anmeldung", to: routes.login() }}>
           <span className={"text-green-500"}><CheckIcon /></span>
           <h2 className={"mb-3"}>Dein Account wurde erstellt. Bestätige die Email die wir dir gesendet haben</h2>
+          <p className="secondary mb-3">Bitte schau nach ob die Mail eventuell im Spam Orner gelandet ist</p>
+          <button className="secondary mb-2" onClick={handleResend} disabled={resendDisabled}>Email erneut senden
+          </button>
+          {errorMessage !== "" && <Alert id="0" type="error" message={errorMessage} dismissible={false}></Alert>}
         </Card>
       </>
     );
@@ -134,7 +166,6 @@ const SignupPage = () => {
     <>
       <Metadata title="Anmeldung" description="Erstelle einen Account um am Jugendtreffen teilzunehmen." />
 
-      <AlertCenter></AlertCenter>
       <Card>
         <h1>
           Account für Teilnahme erstellen
@@ -222,9 +253,13 @@ const SignupPage = () => {
             <div>
               <Label name={"birthdate"} errorClassName={"error"}>Geburtsdatum</Label>
               <DateField name={"birthdate"}
-                         validation={{ required: true }}
+                         validation={{
+                           required: { value: true, message: "Bitte gebe dein Geburtsdatum an" },
+                           validate: validateBirthDate
+                         }}
                          errorClassName="error"
               />
+              <FieldError name={"birthdate"} className={"error"} />
             </div>
             <div>
               <Label name={"phoneNumber"} errorClassName={"error"}>
@@ -321,6 +356,7 @@ const SignupPage = () => {
           </Link>
         </p>
       </Card>
+      <AlertCenter className="mt-2"></AlertCenter>
     </>
   );
 };

@@ -4,6 +4,7 @@ export const schema = gql`
     travelMethod: String
     participationRoleId: Int
     accommodation: Boolean
+    accommodationLocation: String
     startDate: DateTime!
     endDate: DateTime!
     foodChoice: String!
@@ -25,6 +26,7 @@ export const schema = gql`
     travelMethod: String
     participationRoleId: Int
     accommodation: Boolean
+    accommodationLocation: String
     startDate: DateTime!
     endDate: DateTime!
     foodChoice: String!
@@ -39,6 +41,7 @@ export const schema = gql`
     travelMethod: String
     participationRoleId: Int
     accommodation: Boolean
+    accommodationLocation: String
     startDate: DateTime
     endDate: DateTime
     foodChoice: String

@@ -49,17 +49,17 @@ li {
 textarea,
 input {
   @apply border rounded-lg block w-full p-2.5 bg-gray-700
-  border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500
+  border-gray-600 placeholder-gray-400 text-white focus:ring-primary-500 focus:border-primary-500
 }
 
 input[type="checkbox"] {
   appearance: none;
   cursor: pointer;
   line-height: 1em;
-  @apply h-4 w-4 p-0 text-center text-blue-600 rounded-sm focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border border-gray-600
+  @apply h-4 w-4 p-0 text-center text-primary-500 rounded-sm focus:ring-primary-500 ring-offset-gray-800 focus:ring-2 bg-gray-700 border border-gray-600
 }
 input[type="checkbox"]:checked {
-  @apply bg-blue-600 border-blue-600
+  @apply bg-primary-500 border-primary-500
 }
 input[type="checkbox"]:checked::before {
   content: '\2713';
@@ -69,14 +69,18 @@ input[type="checkbox"]:checked::before {
 }
 input[type="radio"] {
   appearance: none;
-  @apply h-4 w-4 p-0 rounded-full text-blue-600 focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border border-gray-600
+  @apply h-4 w-4 p-0 rounded-full text-primary-500 focus:ring-primary-500 ring-offset-gray-800 focus:ring-2 bg-gray-700 border border-gray-600
 }
 input[type="radio"]:checked {
-  @apply bg-blue-600 border-blue-600 ring-offset-white flex items-center justify-center
+  @apply bg-primary-500 border-primary-500 ring-offset-white flex items-center justify-center
 }
 input[type="radio"]:checked::before {
   content: "";
   @apply w-[7px] h-[7px] rounded-full bg-white
+}
+
+input[type="checkbox"]:disabled {
+  @apply bg-neutral-500 cursor-not-allowed
 }
 
 form {
@@ -88,7 +92,7 @@ label {
 }
 
 select {
-  @apply border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500
+  @apply border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-primary-500 focus:border-primary-500
 }
 
 .code {
@@ -140,6 +144,10 @@ p.secondary {
 
 .label {
   @apply block mb-2 ms-2 text-sm font-medium text-white
+}
+
+.link {
+  @apply text-primary-300 hover:underline
 }
 @tailwind utilities;
 .w-screen-minus-scrollbar {

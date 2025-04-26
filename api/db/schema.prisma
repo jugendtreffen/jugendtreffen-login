@@ -31,19 +31,20 @@ model PersonalData {
 }
 
 model Participation {
-  id                  BigInt             @id @default(autoincrement())
-  travelMethod        String?
-  participationRoleId Int?
-  accommodation       Boolean?
-  startDate           DateTime
-  endDate             DateTime
-  foodChoice          String
-  helpAfterwards      Boolean?
-  acceptPhotos        Boolean
-  acceptCoC           Boolean
-  eventId             Int?
-  event               Event?             @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  participationRole   ParticipationRole? @relation(fields: [participationRoleId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  id                   BigInt             @id @default(autoincrement())
+  travelMethod         String?
+  participationRoleId  Int?
+  accommodation        Boolean?
+  accomodationLocation String?
+  startDate            DateTime
+  endDate              DateTime
+  foodChoice           String
+  helpAfterwards       Boolean?
+  acceptPhotos         Boolean
+  acceptCoC            Boolean
+  eventId              Int?
+  event                Event?             @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  participationRole    ParticipationRole? @relation(fields: [participationRoleId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 
   @@map("participations")
 }

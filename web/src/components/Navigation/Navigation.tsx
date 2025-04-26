@@ -14,7 +14,7 @@ const Navigation = () => {
   }
 
   function isMobile() {
-    return window?.innerWidth < 768 || false;
+    return window?.innerWidth < 768;
   }
 
   return (
@@ -67,7 +67,7 @@ const Navigation = () => {
             {/*  </Link>*/}
             {/*</li>*/}
           </ul>
-          {isMobile() && (<div className="flex space-x-2 justify-center">
+          {isMobile() && !isAuthenticated && (<div className="flex space-x-2 justify-center">
             <button className="secondary" onClick={() => navigate(routes.signup())}>
               Account erstellen
             </button>
