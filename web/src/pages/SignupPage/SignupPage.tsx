@@ -59,10 +59,9 @@ interface FormValues {
 }
 
 const SignupPage = () => {
-  const { client, isAuthenticated, userMetadata } = useAuth();
+  const { client, isAuthenticated, userMetadata, reauthenticate } = useAuth();
   const { addAlert, removeAllAlerts } = useAlert();
   const [signupCompleted, setSignupCompleted] = useState(false);
-  const [isMinor, setMinor] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [resendDisabled, setResendDisabled] = useState(false);
   const formMethods = useForm({
@@ -85,38 +84,30 @@ const SignupPage = () => {
     }
   };
   const validateBirthDate = (value) => {
-    const max_bd = new Date(new Date().getFullYear() - 13, 7, 31);
-    const minor_bd = new Date(new Date().getFullYear() - 18, 7, 31);
-
-    if (value >= minor_bd) {
-      setMinor(true);
-    } else {
-      setMinor(false);
-    }
+    let max_bd = new Date(new Date().getFullYear() - 13, 7, 31);
     if (value >= max_bd) {
       return "Teilnehmende müssen mindestens 14 Jahre alt sein oder in diesem Schuljahr (2024/25) die 8. Schulstufe besucht haben. Stichtag ist der 31.08.2011. Eine Teilnahme ist bis zum 30. Lebensjahr möglich.";
     }
   };
 
-  const onSubmit: SubmitHandler<FormValues> = async (input) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     removeAllAlerts();
-    input.roleId = 3;
+    data.roleId = 3;
     try {
       const response = await client.auth.signUp({
-        email: input.email,
-        password: input.password
+        email: data.email,
+        password: data.password
       });
       response?.error?.message
         ? addAlert(response.error.message, "error")
-        : input.userId = response.data.user.id;
+        : data.userId = response.data.user.id;
     } catch (error) {
       addAlert(error.message, "error");
     }
-    const { email, password, password_ctl, ...personalData } = input;
-    await create({ variables: { input: personalData } }).catch(error => {
-      addAlert(error.message, "error");
-    });
-  };
+    const { email, password, password_ctl, ...personalData } = data;
+    create({ variables: { input: personalData } })
+      .then(() => reauthenticate())
+  }
 
   const handleResend = async () => {
     if (!client) {
@@ -131,7 +122,7 @@ const SignupPage = () => {
     setTimeout(() => {
       setResendDisabled(false);
       setErrorMessage("");
-    }, 60000);
+    }, 1000);
 
     if (error) {
       setErrorMessage("Bestätigungsmail konnte nicht gesendet werden. Versuche es in 2 Minuten nochmal!");
@@ -280,19 +271,6 @@ const SignupPage = () => {
               <InputField
                 name={"phoneNumber"}
                 validation={{ required: true }}
-                placeholder="+43 1234 12345678 "
-                errorClassName={"error"}
-              >
-              </InputField>
-            </div>
-            <div>
-              <Label name={"phoneCaretakerContact"} errorClassName={"error"}>
-                Handynummer deines Erziehungsberechtigten
-                <p className="secondary">für unter 18 verpflichtend</p>
-              </Label>
-              <InputField
-                name={"phoneCaretakerContact"}
-                validation={{ required: isMinor }}
                 placeholder="+43 1234 12345678 "
                 errorClassName={"error"}
               >
