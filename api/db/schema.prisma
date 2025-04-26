@@ -42,7 +42,7 @@ model Participation {
   helpAfterwards       Boolean?
   acceptPhotos         Boolean
   acceptCoC            Boolean
-  eventId              Int
+  eventId              Int?
   userId               String    @unique @db.Uuid
   event                Event             @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   participationRole    ParticipationRole? @relation(fields: [participationRoleId], references: [id], onDelete: SetNull, onUpdate: Cascade)
