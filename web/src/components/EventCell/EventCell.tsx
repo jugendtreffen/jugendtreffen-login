@@ -1,6 +1,7 @@
 import type { FindEventQuery, FindEventQueryVariables } from "types/graphql";
 
 import { CellFailureProps, CellSuccessProps, TypedDocumentNode, useQuery } from "@redwoodjs/web";
+import LoadingSpinner from "src/components/Loading/LoadingSpinner";
 
 export const QUERY: TypedDocumentNode<
   FindEventQuery,
@@ -17,7 +18,7 @@ export const QUERY: TypedDocumentNode<
   }
 `
 
-export const Loading = () => <div className={"text-white"}>Loading...</div>
+export const Loading = () => <LoadingSpinner />;
 
 export const Empty = () => <div>Event</div>
 

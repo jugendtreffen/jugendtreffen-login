@@ -1,5 +1,5 @@
 import { Metadata, useMutation } from "@redwoodjs/web";
-import { routes, useParams } from "@redwoodjs/router";
+import { navigate, routes, useParams } from "@redwoodjs/router";
 import {
   CheckboxField,
   DateField,
@@ -102,18 +102,9 @@ const EventPage = () => {
     return ((accomodationCheck.role == 1 || accomodationCheck.role == 4 || accomodationCheck.role == 5) && accomodationCheck.accommodation);
   };
 
-  if (!isAuthenticated) return (
-    <>
-      <Metadata title="Teilnahme Jugendtreffen" description="Teilnahme Jugendtreffen" />
-      <section className="flex flex-col items-center p-6 mx-auto lg:py-0 h-full">
-        <Toaster></Toaster>
-        <div className="py-6">
-          <EventCell id={parseInt(id, 10)} />
-          <p>Melde dich an um am Jugendtreffen Teilzunehmen!</p>
-        </div>
-      </section>
-    </>
-  );
+  if (!isAuthenticated) {
+    navigate(routes.login({ next: routes.events({ id: id }) }));
+  }
 
   if (completed) {
     return (
@@ -138,9 +129,11 @@ const EventPage = () => {
 
       <Toaster></Toaster>
       <EventCell id={parseInt(id, 10)} />
-      <div className="flex flex-row justify-end gap-2 text-gray-300">
+      <div className="mx-auto mt-6">
+        <div className="flex flex-row justify-end gap-1 text-gray-300">
         <span className="text-primary-500 font-bold">*</span>
         <span>Pflichtfelder</span>
+          <p className="secondary text-end ms-6">Schritt: 4/4</p>
       </div>
       <Form onSubmit={onSubmit} config={{ mode: "onBlur" }} error={error} formMethods={formMethods}
             className="flex flex-col gap-5 max-w-xl">
@@ -447,6 +440,7 @@ const EventPage = () => {
         </Submit>
         <FormError error={error} wrapperClassName="form-error" />
       </Form>
+      </div>
     </>
   );
 };

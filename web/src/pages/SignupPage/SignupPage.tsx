@@ -84,7 +84,6 @@ const SignupPage = () => {
     }
   };
   const validateBirthDate = (value) => {
-    console.log(typeof value, value);
     let max_bd = new Date(new Date().getFullYear() - 13, 7, 31);
     if (value >= max_bd) {
       return "Teilnehmende müssen mindestens 14 Jahre alt sein oder in diesem Schuljahr (2024/25) die 8. Schulstufe besucht haben. Stichtag ist der 31.08.2011. Eine Teilnahme ist bis zum 30. Lebensjahr möglich.";
@@ -108,7 +107,6 @@ const SignupPage = () => {
     const { email, password, password_ctl, ...personalData } = data;
     create({ variables: { input: personalData } })
       .then(() => reauthenticate())
-      .catch((err) => console.log(err));
   }
 
   const handleResend = async () => {
@@ -150,8 +148,12 @@ const SignupPage = () => {
       <>
         <Metadata title="Anmeldung" />
 
-        <Card className="flex flex-col gap-1" button={{ message: "weiter zur Anmeldung", to: routes.login() }}>
-          <span className={"text-green-500"}><CheckIcon /></span>
+        <Card className="flex flex-col gap-1"
+              button={{ message: "weiter zur Anmeldung", to: routes.login({ next: routes.events({ id: "0" }) }) }}>
+          <div className="flex flex-row gap-2">
+            <span className="text-green-500"><CheckIcon /></span>
+            <p className="secondary text-end w-full">Schritt: 3/4</p>
+          </div>
           <h2 className={"mb-3"}>Dein Account wurde erstellt. Bestätige die Email die wir dir gesendet haben</h2>
           <p className="secondary mb-3">Bitte schau nach ob die Mail eventuell im Spam Orner gelandet ist</p>
           <button className="secondary mb-2" onClick={handleResend} disabled={resendDisabled}>Email erneut senden
@@ -238,6 +240,7 @@ const SignupPage = () => {
           </Step>
 
           <Step>
+            <p className="secondary text-end">Schritt: 1/4</p>
             <InputField
               name="name"
               placeholder="Vorname"
@@ -292,6 +295,7 @@ const SignupPage = () => {
           </Step>
 
           <Step>
+            <p className="secondary text-end">Schritt: 2/4</p>
             {loading ? (
               <LoadingSpinner />
             ) : (
