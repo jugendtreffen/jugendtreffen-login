@@ -1,10 +1,6 @@
-import type {
-  QueryResolvers,
-  MutationResolvers,
-  ParticipationRelationResolvers,
-} from 'types/graphql'
+import type { MutationResolvers, ParticipationRelationResolvers, QueryResolvers } from "types/graphql";
 
-import { db } from 'src/lib/db'
+import { db } from "src/lib/db";
 
 export const participations: QueryResolvers['participations'] = () => {
   return db.participation.findMany()
@@ -24,11 +20,11 @@ export const createParticipation: MutationResolvers['createParticipation'] = ({
     data: {
       travelMethod: input.travelMethod,
       accommodation: input.accommodation,
+      accomodationLocation: input.accommodationLocation,
       startDate: input.startDate,
       endDate: input.endDate,
       foodChoice: input.foodChoice,
       helpAfterwards: input.helpAfterwards,
-      foundUsBy: input.foundUsBy,
       acceptCoC: input.acceptCoC,
       acceptPhotos: input.acceptPhotos,
       participationRole: {

@@ -1,10 +1,10 @@
 import { Metadata } from "@redwoodjs/web";
 import { useAuth } from "src/auth";
-import { navigate, routes } from "@redwoodjs/router";
+import { Link, navigate, routes } from "@redwoodjs/router";
 import React, { useEffect, useState } from "react";
 import Card from "src/components/Card/Card";
 import LoadingSpinner from "src/components/Loading/LoadingSpinner";
-import { CheckIcon } from "src/components/Icons/Icons";
+import { ArrowRightIcon, CheckIcon } from "src/components/Icons/Icons";
 import Alert from "src/components/Alert/Alert";
 
 const ConfirmSignupPage = (props) => {
@@ -30,7 +30,9 @@ const ConfirmSignupPage = (props) => {
         setErrorMessage(error.message);
       } else {
         setConfirmationStatus("success");
-        setTimeout(() => navigate(redirectTo || routes.home(), { replace: true }), 1000);
+        if (redirectTo) {
+          setTimeout(() => navigate(redirectTo, { replace: true }), 1000);
+        }
       }
     } catch (error) {
       setConfirmationStatus("error");
@@ -48,8 +50,9 @@ const ConfirmSignupPage = (props) => {
     });
     setResendDisabled(true);
     setTimeout(() => {
-      setResendDisabled(true);
-    }, 12000);
+      setResendDisabled(false);
+      setConfirmationStatus("pending");
+    }, 1000);
 
     if (error) {
       setConfirmationStatus("error");
@@ -57,7 +60,7 @@ const ConfirmSignupPage = (props) => {
     } else {
       setConfirmationStatus("pending");
     }
-  };
+  }
 
 
   useEffect(() => {
@@ -97,6 +100,10 @@ const ConfirmSignupPage = (props) => {
           <>
             <span className={"text-green-500"}><CheckIcon /></span>
             <p>Deine Email wurde erfolgreich bestätigt!</p>
+            <Link to={routes.events({ id: "0" })} className="primary inline-flex items-center mt-2">
+              Anmeldung fertigstellen
+              <ArrowRightIcon />
+            </Link>
           </>
         }
         {confirmationStatus === "error" && (

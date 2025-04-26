@@ -1,10 +1,6 @@
-import type { FindEventQuery, FindEventQueryVariables } from 'types/graphql'
+import type { FindEventQuery, FindEventQueryVariables } from "types/graphql";
 
-import type {
-  CellSuccessProps,
-  CellFailureProps,
-  TypedDocumentNode,
-} from '@redwoodjs/web'
+import { CellFailureProps, CellSuccessProps, TypedDocumentNode, useQuery } from "@redwoodjs/web";
 
 export const QUERY: TypedDocumentNode<
   FindEventQuery,
@@ -43,3 +39,18 @@ export const Success = ({
     </div>
   )
 }
+
+export const getEventStartDate = () => {
+  const { data, error } = useQuery(QUERY);
+  return error ? undefined : new Date(data.event?.startDate);
+};
+
+export const getEventEndDate = () => {
+  const { data, error } = useQuery(QUERY);
+  return error ? undefined : new Date(data.event?.endDate);
+};
+
+export const getEventName = () => {
+  const { data, error } = useQuery(QUERY);
+  return error ? undefined : new Date(data.event?.name);
+};

@@ -44,7 +44,6 @@ const LoginPage = () => {
     <>
       <Metadata title="Anmelden" description="Login page" />
 
-      <AlertCenter></AlertCenter>
       <Card>
         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
           Bei Jugendtreffen Anmelden
@@ -61,7 +60,6 @@ const LoginPage = () => {
               type="email"
               name="email"
               errorClassName="input error"
-              className="input"
               placeholder="your@mail.com"
               validation={{
                 required: true
@@ -78,7 +76,6 @@ const LoginPage = () => {
             <PasswordField
               name="password"
               placeholder="••••••••"
-              className="input"
               errorClassName="input error"
               validation={{
                 required: true
@@ -107,6 +104,7 @@ const LoginPage = () => {
           </p>
         </Form>
       </Card>
+      <AlertCenter className="mt-2"></AlertCenter>
     </>
   );
 };
