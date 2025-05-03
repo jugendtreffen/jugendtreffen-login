@@ -15,9 +15,18 @@ export const schema = gql`
     role: SystemRole!
   }
 
+  type UserData {
+    userId: String!,
+    name: String,
+    familyName: String,
+    role: SystemRole!,
+    isParent: Boolean
+  }
+
   type Query {
     personalDatas: [PersonalData!]! @requireAuth
     personalData(id: BigInt!): PersonalData @requireAuth
+    getPersonalDataByUserId(userId: String!): UserData! @requireAuth
   }
 
   input CreatePersonalDataInput {
