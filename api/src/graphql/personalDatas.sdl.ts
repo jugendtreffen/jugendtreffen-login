@@ -26,7 +26,7 @@ export const schema = gql`
   type Query {
     personalDatas: [PersonalData!]! @requireAuth
     personalData(id: BigInt!): PersonalData @requireAuth
-    getPersonalDataByUserId(userId: String!): UserData! @requireAuth
+    personalDataByUserId(userId: String!): UserData @requireAuth
   }
 
   input CreatePersonalDataInput {
