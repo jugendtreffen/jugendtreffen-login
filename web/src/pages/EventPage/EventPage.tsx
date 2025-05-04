@@ -130,7 +130,7 @@ const EventPage = () => {
 
       <Toaster></Toaster>
       <EventCell id={parseInt(id, 10)} />
-      <div className="mx-auto mt-6">
+      <div className="mx-auto my-6">
         <div className="flex flex-row justify-end gap-1 text-gray-300">
           <span className="text-primary-500 font-bold">*</span>
           <span>Pflichtfelder</span>
