@@ -100,7 +100,7 @@ const ConfirmSignupPage = (props) => {
           <>
             <span className={"text-green-500"}><CheckIcon /></span>
             <p>Deine Email wurde erfolgreich bestätigt!</p>
-            <Link to={routes.events({ id: "0" })} className="primary inline-flex items-center mt-2">
+            <Link to={routes.events({ id: "1" })} className="primary inline-flex items-center mt-2">
               Anmeldung fertigstellen
               <ArrowRightIcon />
             </Link>
