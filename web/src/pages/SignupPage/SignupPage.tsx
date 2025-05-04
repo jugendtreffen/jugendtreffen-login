@@ -62,6 +62,7 @@ const SignupPage = () => {
   const { client, isAuthenticated, userMetadata } = useAuth();
   const { addAlert, removeAllAlerts } = useAlert();
   const [signupCompleted, setSignupCompleted] = useState(false);
+  const [isMinor, setMinor] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [resendDisabled, setResendDisabled] = useState(false);
   const formMethods = useForm({
@@ -84,7 +85,14 @@ const SignupPage = () => {
     }
   };
   const validateBirthDate = (value) => {
-    let max_bd = new Date(new Date().getFullYear() - 13, 7, 31);
+    const max_bd = new Date(new Date().getFullYear() - 13, 7, 31);
+    const minor_bd = new Date(new Date().getFullYear() - 18, 7, 31);
+
+    if (value >= minor_bd) {
+      setMinor(true);
+    } else {
+      setMinor(false);
+    }
     if (value >= max_bd) {
       return "Teilnehmende müssen mindestens 14 Jahre alt sein oder in diesem Schuljahr (2024/25) die 8. Schulstufe besucht haben. Stichtag ist der 31.08.2011. Eine Teilnahme ist bis zum 30. Lebensjahr möglich.";
     }
@@ -108,7 +116,7 @@ const SignupPage = () => {
     await create({ variables: { input: personalData } }).catch(error => {
       addAlert(error.message, "error");
     });
-  }
+  };
 
   const handleResend = async () => {
     if (!client) {
@@ -272,6 +280,19 @@ const SignupPage = () => {
               <InputField
                 name={"phoneNumber"}
                 validation={{ required: true }}
+                placeholder="+43 1234 12345678 "
+                errorClassName={"error"}
+              >
+              </InputField>
+            </div>
+            <div>
+              <Label name={"phoneCaretakerContact"} errorClassName={"error"}>
+                Handynummer deines Erziehungsberechtigten
+                <p className="secondary">für unter 18 verpflichtend</p>
+              </Label>
+              <InputField
+                name={"phoneCaretakerContact"}
+                validation={{ required: isMinor }}
                 placeholder="+43 1234 12345678 "
                 errorClassName={"error"}
               >
