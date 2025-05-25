@@ -12,10 +12,19 @@ export const participation: QueryResolvers['participation'] = ({ id }) => {
   })
 }
 
+export const getParticipationByUserId: QueryResolvers["participationsByUserId"] = async ({ userId }) => {
+  const participations = await db.participation.findMany({
+    where: { userId },
+    include: { event: true, participationRole: true }
+  });
+
+  return participations;
+};
+
+
 export const createParticipation: MutationResolvers['createParticipation'] = ({
   input,
 }) => {
-  // Todo: validation
   return db.participation.create({
     data: {
       travelMethod: input.travelMethod,

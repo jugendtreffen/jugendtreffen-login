@@ -73,17 +73,7 @@ const ConfirmSignupPage = (props) => {
   }, [token_hash, next]);
 
   if (isAuthenticated) {
-    return (
-      <>
-        <Metadata title="Signup success" description="Signup page" />
-
-        <Card className="flex flex-col gap-1" button={{ message: "Zu den Events", to: routes.home() }}>
-          <span className={"text-green-500"}><CheckIcon /></span>
-          <h2 className={"mb-3"}>Du bist als <span
-            className="code text-primary-500">{userMetadata.email}</span> angemeldet!</h2>
-        </Card>
-      </>
-    );
+    navigate(next || routes.home());
   }
 
   return (

@@ -1,6 +1,6 @@
 export const schema = gql`
   type PersonalData {
-    id: BigInt!
+    id: BigInt
     name: String!
     familyName: String!
     birthdate: DateTime
@@ -13,20 +13,13 @@ export const schema = gql`
     phoneCaretakerContact: String
     userId: String
     role: SystemRole!
-  }
-
-  type UserData {
-    userId: String!,
-    name: String,
-    familyName: String,
-    role: SystemRole!,
-    isParent: Boolean
+    isParent: Boolean!
   }
 
   type Query {
     personalDatas: [PersonalData!]! @requireAuth
     personalData(id: BigInt!): PersonalData @requireAuth
-    personalDataByUserId(userId: String!): UserData @requireAuth
+    personalDataByUserId(userId: String!): PersonalData @requireAuth
   }
 
   input CreatePersonalDataInput {
@@ -41,6 +34,7 @@ export const schema = gql`
     address: String
     phoneNumber: String
     phoneCaretakerContact: String
+    isParent: Boolean
     userId: String
   }
 

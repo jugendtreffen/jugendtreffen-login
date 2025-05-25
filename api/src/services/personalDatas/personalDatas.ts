@@ -16,9 +16,9 @@ export const personalDataByUserId: QueryResolvers["personalDataByUserId"] = ({ u
   return db.personalData.findUnique({
     where: { userId },
     select: {
-      userId: true,
       name: true,
       familyName: true,
+      isParent: true,
       role: true
     }
   });
