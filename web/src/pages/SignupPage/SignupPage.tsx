@@ -59,9 +59,10 @@ interface FormValues {
 }
 
 const SignupPage = () => {
-  const { client, isAuthenticated, userMetadata, reauthenticate } = useAuth();
+  const { client, isAuthenticated, userMetadata } = useAuth();
   const { addAlert, removeAllAlerts } = useAlert();
   const [signupCompleted, setSignupCompleted] = useState(false);
+  const [isMinor, setMinor] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [resendDisabled, setResendDisabled] = useState(false);
   const formMethods = useForm({
@@ -84,32 +85,38 @@ const SignupPage = () => {
     }
   };
   const validateBirthDate = (value) => {
-    console.log(typeof value, value);
-    let max_bd = new Date(new Date().getFullYear() - 13, 7, 31);
+    const max_bd = new Date(new Date().getFullYear() - 13, 7, 31);
+    const minor_bd = new Date(new Date().getFullYear() - 18, 7, 31);
+
+    if (value >= minor_bd) {
+      setMinor(true);
+    } else {
+      setMinor(false);
+    }
     if (value >= max_bd) {
       return "Teilnehmende müssen mindestens 14 Jahre alt sein oder in diesem Schuljahr (2024/25) die 8. Schulstufe besucht haben. Stichtag ist der 31.08.2011. Eine Teilnahme ist bis zum 30. Lebensjahr möglich.";
     }
   };
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (input) => {
     removeAllAlerts();
-    data.roleId = 3;
+    input.roleId = 3;
     try {
       const response = await client.auth.signUp({
-        email: data.email,
-        password: data.password
+        email: input.email,
+        password: input.password
       });
       response?.error?.message
         ? addAlert(response.error.message, "error")
-        : data.userId = response.data.user.id;
+        : input.userId = response.data.user.id;
     } catch (error) {
       addAlert(error.message, "error");
     }
-    const { email, password, password_ctl, ...personalData } = data;
-    create({ variables: { input: personalData } })
-      .then(() => reauthenticate())
-      .catch((err) => console.log(err));
-  }
+    const { email, password, password_ctl, ...personalData } = input;
+    await create({ variables: { input: personalData } }).catch(error => {
+      addAlert(error.message, "error");
+    });
+  };
 
   const handleResend = async () => {
     if (!client) {
@@ -124,7 +131,7 @@ const SignupPage = () => {
     setTimeout(() => {
       setResendDisabled(false);
       setErrorMessage("");
-    }, 1000);
+    }, 60000);
 
     if (error) {
       setErrorMessage("Bestätigungsmail konnte nicht gesendet werden. Versuche es in 2 Minuten nochmal!");
@@ -150,8 +157,12 @@ const SignupPage = () => {
       <>
         <Metadata title="Anmeldung" />
 
-        <Card className="flex flex-col gap-1" button={{ message: "weiter zur Anmeldung", to: routes.login() }}>
-          <span className={"text-green-500"}><CheckIcon /></span>
+        <Card className="flex flex-col gap-1"
+              button={{ message: "weiter zur Anmeldung", to: routes.login({ next: routes.events({ id: "0" }) }) }}>
+          <div className="flex flex-row gap-2">
+            <span className="text-green-500"><CheckIcon /></span>
+            <p className="secondary text-end w-full">Schritt: 3/4</p>
+          </div>
           <h2 className={"mb-3"}>Dein Account wurde erstellt. Bestätige die Email die wir dir gesendet haben</h2>
           <p className="secondary mb-3">Bitte schau nach ob die Mail eventuell im Spam Orner gelandet ist</p>
           <button className="secondary mb-2" onClick={handleResend} disabled={resendDisabled}>Email erneut senden
@@ -238,6 +249,7 @@ const SignupPage = () => {
           </Step>
 
           <Step>
+            <p className="secondary text-end">Schritt: 1/4</p>
             <InputField
               name="name"
               placeholder="Vorname"
@@ -274,6 +286,19 @@ const SignupPage = () => {
               </InputField>
             </div>
             <div>
+              <Label name={"phoneCaretakerContact"} errorClassName={"error"}>
+                Handynummer deines Erziehungsberechtigten
+                <p className="secondary">für unter 18 verpflichtend</p>
+              </Label>
+              <InputField
+                name={"phoneCaretakerContact"}
+                validation={{ required: isMinor }}
+                placeholder="+43 1234 12345678 "
+                errorClassName={"error"}
+              >
+              </InputField>
+            </div>
+            <div>
               <Label name={"gender"} errorClassName={"error"}>
                 Geschlecht
               </Label>
@@ -292,6 +317,7 @@ const SignupPage = () => {
           </Step>
 
           <Step>
+            <p className="secondary text-end">Schritt: 2/4</p>
             {loading ? (
               <LoadingSpinner />
             ) : (

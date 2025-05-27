@@ -24,7 +24,7 @@ model PersonalData {
   city                  String?
   postalCode            String?
   address               String?
-  userId                String?    @unique @db.Uuid
+  userId                String    @unique @db.Uuid
   role                  SystemRole @relation(fields: [roleId], references: [id], onDelete: SetDefault, onUpdate: Cascade)
 
   @@map("personalDatas")
@@ -42,8 +42,9 @@ model Participation {
   helpAfterwards       Boolean?
   acceptPhotos         Boolean
   acceptCoC            Boolean
-  eventId              Int?
-  event                Event?             @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  eventId              Int
+  userId               String    @unique @db.Uuid
+  event                Event             @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   participationRole    ParticipationRole? @relation(fields: [participationRoleId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 
   @@map("participations")

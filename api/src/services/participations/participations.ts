@@ -32,7 +32,8 @@ export const createParticipation: MutationResolvers['createParticipation'] = ({
       },
       event: {
         connect: {id: input.eventId}
-      }
+      },
+      userId: input.userId
     },
   })
 }

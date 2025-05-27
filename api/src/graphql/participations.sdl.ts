@@ -13,7 +13,8 @@ export const schema = gql`
     acceptPhotos: Boolean!
     acceptCoC: Boolean!
     eventId: Int
-    event: Event
+    event: Event!
+    userId: String!
     participationRole: ParticipationRole
   }
 
@@ -34,7 +35,8 @@ export const schema = gql`
     foundUsBy: String
     acceptPhotos: Boolean!
     acceptCoC: Boolean!
-    eventId: Int
+    eventId: Int!
+    userId: String!
   }
 
   input UpdateParticipationInput {
@@ -49,7 +51,8 @@ export const schema = gql`
     foundUsBy: String
     acceptPhotos: Boolean
     acceptCoC: Boolean
-    eventId: Int
+    eventId: Int!
+    userId: String!
   }
 
   type Mutation {

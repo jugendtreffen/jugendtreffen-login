@@ -7,7 +7,8 @@ import { useAlert } from "src/components/Alert/AlertContext";
 import AlertCenter from "src/components/Alert/AlertCenter";
 import Card from "src/components/Card/Card";
 
-const LoginPage = () => {
+const LoginPage = (props) => {
+  const { next } = props;
   const { logIn, isAuthenticated, userMetadata, loading } = useAuth();
   const { addAlert, removeAllAlerts } = useAlert();
 
@@ -21,13 +22,16 @@ const LoginPage = () => {
       });
       response?.error?.message
         ? addAlert(response.error.message, "error")
-        : navigate(routes.home());
+        : navigate(next || routes.home());
     } catch (error) {
       addAlert(error.message, "error");
     }
   };
 
   if (isAuthenticated) {
+    if (next) {
+      navigate(next);
+    }
     return (
       <>
         <Metadata title="Anmelden" description="Login page" />

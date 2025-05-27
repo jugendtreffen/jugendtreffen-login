@@ -8,5 +8,6 @@ export const schema = gql`
   type Query {
     systemRoles: [SystemRole!]! @requireAuth
     systemRole(id: Int!): SystemRole! @requireAuth
+    getSystemRoleByUserId(userId: String!): SystemRole! @requireAuth
   }
 `
