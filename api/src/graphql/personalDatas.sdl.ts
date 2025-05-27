@@ -19,7 +19,7 @@ export const schema = gql`
   type Query {
     personalDatas: [PersonalData!]! @requireAuth
     personalData(id: BigInt!): PersonalData @requireAuth
-    personalDataByUserId(userId: String!): PersonalData @requireAuth
+    personalDataByUserId(userId: String): PersonalData @requireAuth
   }
 
   input CreatePersonalDataInput {

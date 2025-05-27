@@ -1,8 +1,4 @@
-import type {
-  MutationResolvers,
-  PersonalDataRelationResolvers,
-  QueryResolvers
-} from "types/graphql";
+import type { MutationResolvers, PersonalDataRelationResolvers, QueryResolvers } from "types/graphql";
 
 import { db } from "src/lib/db";
 
@@ -16,9 +12,8 @@ export const personalData: QueryResolvers['personalData'] = ({ id }) => {
   })
 }
 
-export const personalDataByUserId: QueryResolvers["personalDataByUserId"] = ({
-                                                                               userId
-                                                                             }) => {
+export const personalDataByUserId: QueryResolvers["personalDataByUserId"] = ({ userId }) => {
+  if (userId == undefined) return null;
   return db.personalData.findUnique({
     where: { userId },
     select: {
