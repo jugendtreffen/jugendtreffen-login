@@ -12,18 +12,18 @@ import { db } from "api/src/lib/db";
 export default async () => {
   try {
     const systemRoles = [
-      {id: 0, desc: "admin"},
-      {id: 1, desc: "anmeldung"},
-      {id: 2, desc: "quartier"},
-      {id: 3, desc: "teilnehmer"},
+      { id: 0, desc: "admin" },
+      { id: 1, desc: "anmeldung" },
+      { id: 2, desc: "quartier" },
+      { id: 3, desc: "teilnehmer" }
     ]
 
     const participationRoles = [
-      {id: 0, desc: "Teilnehmer"},
+      { id: 0, desc: "Teilnehmer" },
       { id: 1, desc: "Priester" },
-      {id: 2, desc: "Mitarbeiter"},
-      {id: 3, desc: "Begleitperson"},
-      {id: 4, desc: "Vortragender"},
+      { id: 2, desc: "Mitarbeiter" },
+      { id: 3, desc: "Begleitperson" },
+      { id: 4, desc: "Vortragender" },
       { id: 5, desc: "Ordensmann/Ordensfrau" }
     ]
 
@@ -42,10 +42,11 @@ export default async () => {
       {
         id: 0,
         name: 'Jugendtreffen 2025',
-        description: 'Hier kann eine Beschreibung über das jeweilige Event stehen',
+        description:
+          "Hier kann eine Beschreibung über das jeweilige Event stehen"
         // startDate: new Date(2021, 0, 1),
         // endDate: new Date(2021, 0, 1),
-      }
+      },
     ]
     console.info('seeding systemRoles')
     for (const item of systemRoles) {
@@ -86,7 +87,7 @@ export default async () => {
     }
     console.info('-> done')
     console.info('seeding events')
-    for(const item of events) {
+    for (const item of events) {
       await db.Event.upsert({
         where: { id: item.id },
         update: {
@@ -103,8 +104,8 @@ export default async () => {
           // Uncomment the following lines if startDate and endDate are needed
           // startDate: item.startDate,
           // endDate: item.endDate,
-        }
-      });
+        },
+      })
     }
   } catch (error) {
     console.error(error)

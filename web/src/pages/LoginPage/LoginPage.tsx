@@ -1,10 +1,16 @@
-import { Form, InputField, Label, PasswordField, Submit } from "@redwoodjs/forms";
+import {
+  Form,
+  InputField,
+  Label,
+  PasswordField,
+  Submit
+} from "@redwoodjs/forms";
 import { Link, navigate, routes } from "@redwoodjs/router";
 import { Metadata } from "@redwoodjs/web";
 
 import { useAuth } from "src/auth";
-import { useAlert } from "src/components/Alert/AlertContext";
 import AlertCenter from "src/components/Alert/AlertCenter";
+import { useAlert } from "src/components/Alert/AlertContext";
 import Card from "src/components/Card/Card";
 
 const LoginPage = (props) => {
@@ -19,14 +25,14 @@ const LoginPage = (props) => {
         email: data.email,
         password: data.password,
         authMethod: "password"
-      });
+      })
       response?.error?.message
         ? addAlert(response.error.message, "error")
-        : navigate(next || routes.home());
+        : navigate(next || routes.home())
     } catch (error) {
       addAlert(error.message, "error");
     }
-  };
+  }
 
   if (isAuthenticated) {
     if (next) {
@@ -37,11 +43,16 @@ const LoginPage = (props) => {
         <Metadata title="Anmelden" description="Login page" />
 
         <Card className="flex flex-col gap-1">
-          <h2>You are already logged in as <span className="code">{userMetadata.email}</span></h2>
-          <Link className="primary" to={routes.home()}>Home</Link>
+          <h2>
+            You are already logged in as{" "}
+            <span className="code">{userMetadata.email}</span>
+          </h2>
+          <Link className="primary" to={routes.home()}>
+            Home
+          </Link>
         </Card>
       </>
-    );
+    )
   }
 
   return (
@@ -54,10 +65,7 @@ const LoginPage = (props) => {
         </h1>
         <Form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
           <div>
-            <Label
-              name="email"
-              className="label"
-            >
+            <Label name="email" className="label">
               Email
             </Label>
             <InputField
@@ -71,10 +79,7 @@ const LoginPage = (props) => {
             />
           </div>
           <div>
-            <Label
-              name="password"
-              className="label"
-            >
+            <Label name="password" className="label">
               Passwort
             </Label>
             <PasswordField
@@ -110,7 +115,7 @@ const LoginPage = (props) => {
       </Card>
       <AlertCenter className="mt-2"></AlertCenter>
     </>
-  );
-};
+  )
+}
 
 export default LoginPage;

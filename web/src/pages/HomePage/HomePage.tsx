@@ -15,7 +15,7 @@ const HomePage = () => {
 
         <LoadingSpinner />
       </>
-    );
+    )
   }
 
   if (isAuthenticated) {
@@ -23,6 +23,6 @@ const HomePage = () => {
   }
 
   return <DefaultView />;
-};
+}
 
 export default HomePage;

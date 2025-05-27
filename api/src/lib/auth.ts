@@ -1,4 +1,5 @@
 import { AuthenticationError, ForbiddenError } from "@redwoodjs/graphql-server";
+
 import { personalDataByUserId } from "src/services/personalDatas/personalDatas";
 
 /**

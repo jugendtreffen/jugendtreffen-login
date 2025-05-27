@@ -1,6 +1,6 @@
-import Navigation from "src/components/Navigation/Navigation";
-import Footer from "src/components/Navigation/Footer";
 import { AlertProvider } from "src/components/Alert/AlertContext";
+import Footer from "src/components/Navigation/Footer";
+import Navigation from "src/components/Navigation/Navigation";
 
 type GlobalLayoutProps = {
   children?: React.ReactNode
@@ -13,15 +13,13 @@ const GlobalLayout = ({ children }: GlobalLayoutProps) => {
         <Navigation />
       </header>
       <main className="relative overflow-hidden">
-        <AlertProvider>
-          {children}
-        </AlertProvider>
+        <AlertProvider>{children}</AlertProvider>
       </main>
       <footer>
         <Footer />
       </footer>
     </div>
-  );
-};
+  )
+}
 
 export default GlobalLayout;

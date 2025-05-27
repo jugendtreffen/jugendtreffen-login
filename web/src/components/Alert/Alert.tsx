@@ -1,10 +1,11 @@
 import { ReactNode } from "react";
-import { CloseIcon, InfoIcon } from "src/components/Icons/Icons";
+
 import { useAlert } from "src/components/Alert/AlertContext";
+import { CloseIcon, InfoIcon } from "src/components/Icons/Icons";
 
 export interface AlertProps {
   id: string
-  type?: "info" | "error" | "success",
+  type?: "info" | "error" | "success";
   message: ReactNode
   dismissible?: boolean
 }
@@ -36,22 +37,21 @@ const Alert = (props: AlertProps) => {
     >
       <InfoIcon />
       <span className="sr-only">{props.type}</span>
-      <div className="ms-3 text-sm font-medium">
-        {props.message}
-      </div>
-      {props.dismissible || props.dismissible == null && (
-        <button
-          type="button"
-          className={`ms-2 -mx-1.5 -my-1.5 ${textColor} rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5  inline-flex items-center justify-center h-8 w-8 bg-gray-800  hover:bg-gray-700`}
-          onClick={() => removeAlert(props.id)}
-          aria-label="Close"
-        >
-          <span className="sr-only">Close</span>
-          <CloseIcon />
-        </button>
-      )}
+      <div className="ms-3 text-sm font-medium">{props.message}</div>
+      {props.dismissible ||
+        (props.dismissible == null && (
+          <button
+            type="button"
+            className={`ms-2 -mx-1.5 -my-1.5 ${textColor} rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5  inline-flex items-center justify-center h-8 w-8 bg-gray-800  hover:bg-gray-700`}
+            onClick={() => removeAlert(props.id)}
+            aria-label="Close"
+          >
+            <span className="sr-only">Close</span>
+            <CloseIcon />
+          </button>
+        ))}
     </div>
-  );
-};
+  )
+}
 
 export default Alert;

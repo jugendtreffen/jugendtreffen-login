@@ -1,6 +1,8 @@
-import { Children, ReactElement, useState } from "react"
-import { Form, Submit, } from "@redwoodjs/forms";
+import { Children, ReactElement, useState } from "react";
+
 import type { UseFormProps } from "react-hook-form";
+
+import { Form, Submit } from "@redwoodjs/forms";
 
 interface MultiStepFormProps<TFieldValues> {
   children: ReactElement[] | string[]
@@ -36,13 +38,39 @@ const MultiStepForm = ({ children, ...props }: MultiStepFormProps<any>) => {
 
   return (
     <>
-      <Form onSubmit={props.onSubmit} className={props.className} config={props.config} formMethods={props.formMethods}>
+      <Form
+        onSubmit={props.onSubmit}
+        className={props.className}
+        config={props.config}
+        formMethods={props.formMethods}
+      >
         {currentChild}
-        <div className={`flex gap-4 w-full ${currentStep === 0 ? "justify-end" : "justify-between"}`}>
+        <div
+          className={`flex gap-4 w-full ${currentStep === 0 ? "justify-end" : "justify-between"}`}
+        >
           {currentStep > 0 && (
-            <button className="secondary" type={"button"} onClick={handlePrevStep}>Zurück</button>)}
-          {!isLastStep() && (<button type={"button"} className="primary" onClick={handleNextStep}>Weiter</button>)}
-          {isLastStep() && (<Submit className="primary" disabled={props.disableSubmit === true}>{props.finishText} </Submit>)}
+            <button
+              className="secondary"
+              type={"button"}
+              onClick={handlePrevStep}
+            >
+              Zurück
+            </button>
+          )}
+          {!isLastStep() && (
+            <button
+              type={"button"}
+              className="primary"
+              onClick={handleNextStep}
+            >
+              Weiter
+            </button>
+          )}
+          {isLastStep() && (
+            <Submit className="primary" disabled={props.disableSubmit === true}>
+              {props.finishText}{" "}
+            </Submit>
+          )}
         </div>
       </Form>
     </>

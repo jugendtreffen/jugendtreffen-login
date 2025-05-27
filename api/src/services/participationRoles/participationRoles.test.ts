@@ -1,7 +1,4 @@
-import {
-  participationRoles,
-  participationRole,
-} from './participationRoles'
+import { participationRoles, participationRole } from "./participationRoles";
 import type { StandardScenario } from './participationRoles.scenarios'
 
 // Generated boilerplate tests do not account for all circumstances

@@ -1,8 +1,9 @@
+import { useState } from "react";
+
 import { Link, navigate, routes } from "@redwoodjs/router";
 
 import { useAuth } from "src/auth";
 import SignoutButton from "src/components/Auth/SignoutButton";
-import { useState } from "react";
 import { BurgerMenueIcon, CloseIcon } from "src/components/Icons/Icons";
 
 const Navigation = () => {
@@ -30,15 +31,23 @@ const Navigation = () => {
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           {isAuthenticated ? (
             <SignoutButton />
-          ) : !isMobile() && (
-            <div className="flex space-x-2 me-2">
-              <button className="secondary" onClick={() => navigate(routes.signup())}>
-                Account erstellen
-              </button>
-              <button className="primary" onClick={() => navigate(routes.login())}>
-                Anmelden
-              </button>
-            </div>
+          ) : (
+            !isMobile() && (
+              <div className="flex space-x-2 me-2">
+                <button
+                  className="secondary"
+                  onClick={() => navigate(routes.signup())}
+                >
+                  Account erstellen
+                </button>
+                <button
+                  className="primary"
+                  onClick={() => navigate(routes.login())}
+                >
+                  Anmelden
+                </button>
+              </div>
+            )
           )}
           <button
             onClick={handleNavToggle}
@@ -67,18 +76,26 @@ const Navigation = () => {
             {/*  </Link>*/}
             {/*</li>*/}
           </ul>
-          {isMobile() && !isAuthenticated && (<div className="flex space-x-2 justify-center">
-            <button className="secondary" onClick={() => navigate(routes.signup())}>
-              Account erstellen
-            </button>
-            <button className="primary" onClick={() => navigate(routes.login())}>
-              Anmelden
-            </button>
-          </div>)}
+          {isMobile() && !isAuthenticated && (
+            <div className="flex space-x-2 justify-center">
+              <button
+                className="secondary"
+                onClick={() => navigate(routes.signup())}
+              >
+                Account erstellen
+              </button>
+              <button
+                className="primary"
+                onClick={() => navigate(routes.login())}
+              >
+                Anmelden
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}
 
 export default Navigation;

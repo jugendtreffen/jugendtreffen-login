@@ -1,5 +1,10 @@
-import { Metadata, useMutation } from "@redwoodjs/web";
-import { navigate, routes, useParams } from "@redwoodjs/router";
+import React, { useState } from "react";
+
+import {
+  CreateParticipationMutation,
+  CreateParticipationMutationVariables
+} from "types/graphql";
+
 import {
   CheckboxField,
   DateField,
@@ -12,32 +17,33 @@ import {
   Submit,
   SubmitHandler,
   useForm
-} from "@redwoodjs/forms";
+} from "@redwoodjs/forms"
+import { navigate, routes, useParams } from "@redwoodjs/router";
+import { Metadata, useMutation } from "@redwoodjs/web";
 import { toast, Toaster } from "@redwoodjs/web/toast";
-import React, { useState } from "react";
-import { CreateParticipationMutation, CreateParticipationMutationVariables } from "types/graphql";
+
+import { useAuth } from "src/auth";
 import Card from "src/components/Card/Card";
 import EventCell from "src/components/EventCell/EventCell";
-import { useAuth } from "src/auth";
 import { InfoIcon } from "src/components/Icons/Icons";
 
 const CREATE_PARTICIPATION = gql`
   mutation CreateParticipationMutation($input: CreateParticipationInput!) {
     createParticipation(input: $input) {
-      travelMethod,
-      participationRoleId,
-      accommodation,
-      startDate,
-      endDate,
-      foodChoice,
-      helpAfterwards,
-      foundUsBy,
-      acceptPhotos,
-      acceptCoC,
-      eventId,
+      travelMethod
+      participationRoleId
+      accommodation
+      startDate
+      endDate
+      foodChoice
+      helpAfterwards
+      foundUsBy
+      acceptPhotos
+      acceptCoC
+      eventId
     }
   }
-`;
+`
 
 interface FormValues {
   eventId: number;
@@ -57,19 +63,22 @@ interface FormValues {
 const EventPage = () => {
   const { id } = useParams();
   const [completed, setCompleted] = useState(false);
-  const [accomodationCheck, setAccomodationCheck] = useState({ role: undefined, accommodation: undefined });
+  const [accomodationCheck, setAccomodationCheck] = useState({
+    role: undefined,
+    accommodation: undefined
+  });
   const [hasOpenedLink, setHasOpenedLink] = useState(false);
   const { isAuthenticated, userMetadata } = useAuth();
   const formMethods = useForm();
-  const [create, {
-    loading,
-    error
-  }] = useMutation<CreateParticipationMutation, CreateParticipationMutationVariables>(CREATE_PARTICIPATION, {
+  const [create, { loading, error }] = useMutation<
+    CreateParticipationMutation,
+    CreateParticipationMutationVariables
+  >(CREATE_PARTICIPATION, {
     onCompleted: () => {
       toast.success("Deine Teilnahme wurde gespeichert");
       setCompleted(true);
-    }
-  });
+    },
+  })
 
   const startDate = new Date("2025-07-15");
   const endDate = new Date("2025-07-20");
@@ -81,14 +90,14 @@ const EventPage = () => {
     data.userId = userMetadata.sub;
     // @ts-ignore
     await create({ variables: { input: data } });
-  };
+  }
 
   const validateStartDate = (value, context) => {
     if (context.startDate < startDate || context.startDate > endDate) {
       return "Jugendtreffen findet zwischen 15.Juli 2025 und 20.Juli 2025 statt";
     }
     return true;
-  };
+  }
 
   const validateEndDate = (value, context) => {
     if (context.endDate < context.startDate) {
@@ -98,11 +107,16 @@ const EventPage = () => {
       return "Das Jugendtreffen endet am 20.Juli 2025";
     }
     return true;
-  };
+  }
 
   const shouldDisplayAccomodationLocation = () => {
-    return ((accomodationCheck.role == 1 || accomodationCheck.role == 4 || accomodationCheck.role == 5) && accomodationCheck.accommodation);
-  };
+    return (
+      (accomodationCheck.role == 1 ||
+        accomodationCheck.role == 4 ||
+        accomodationCheck.role == 5) &&
+      accomodationCheck.accommodation
+    );
+  }
 
   if (!isAuthenticated) {
     navigate(routes.login({ next: routes.events({ id: id }) }));
@@ -118,15 +132,17 @@ const EventPage = () => {
           title="Alles erledigt!"
           description="Du bist für das Jugendtreffen angemeldet!"
           button={{ message: "zu meinen Events", to: routes.home() }}
-        >
-        </Card>
+        ></Card>
       </>
-    );
+    )
   }
 
   return (
     <>
-      <Metadata title="Teilnahme Jugendtreffen" description="Teilnahme Jugendtreffen" />
+      <Metadata
+        title="Teilnahme Jugendtreffen"
+        description="Teilnahme Jugendtreffen"
+      />
 
       <Toaster></Toaster>
       <EventCell id={parseInt(id, 10)} />
@@ -136,15 +152,25 @@ const EventPage = () => {
           <span>Pflichtfelder</span>
           <p className="secondary text-end ms-6">Schritt: 4/4</p>
         </div>
-        <Form onSubmit={onSubmit} config={{ mode: "onBlur" }} error={error} formMethods={formMethods}
-              className="flex flex-col gap-5 max-w-xl">
+        <Form
+          onSubmit={onSubmit}
+          config={{ mode: "onBlur" }}
+          error={error}
+          formMethods={formMethods}
+          className="flex flex-col gap-5 max-w-xl"
+        >
           <div>
             <Label name="travelMethod" errorClassName="error">
               Anreise<span className="font-bold text-primary-500">*</span>
             </Label>
             <SelectField
               name="travelMethod"
-              validation={{ required: { value: true, message: "Irgendwie musst du nach Kremsmünster finden..." } }}
+              validation={{
+                required: {
+                  value: true,
+                  message: "Irgendwie musst du nach Kremsmünster finden..."
+                }
+              }}
               errorClassName="error"
             >
               <option value="" disabled selected={true}>
@@ -158,18 +184,23 @@ const EventPage = () => {
 
           <div>
             <Label name="participationRoleId" errorClassName="error">
-              Ich nehme Teil als<span className="font-bold text-primary-500">*</span>
+              Ich nehme Teil als
+              <span className="font-bold text-primary-500">*</span>
             </Label>
             <SelectField
               name="participationRoleId"
               validation={{
                 required: {
                   value: true,
-                  message: "Wähle wie du deine Zeit am Jugendtreffen verbringen wirst"
-                }
+                  message:
+                    "Wähle wie du deine Zeit am Jugendtreffen verbringen wirst"
+                },
               }}
               onChange={(value) => {
-                setAccomodationCheck({ role: value.target.value, accommodation: accomodationCheck.accommodation });
+                setAccomodationCheck({
+                  role: value.target.value,
+                  accommodation: accomodationCheck.accommodation
+                });
               }}
               errorClassName="error"
             >
@@ -187,16 +218,29 @@ const EventPage = () => {
           </div>
 
           <div>
-            <div className="label">Ich brauche...<span className="font-bold text-primary-500">*</span></div>
+            <div className="label">
+              Ich brauche...
+              <span className="font-bold text-primary-500">*</span>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <div className="flex items-center ps-4 rounded border dark:border-gray-700">
                 <RadioField
                   id="yes-acc"
                   name="accommodation"
                   errorClassName="error"
-                  validation={{ required: { value: true, message: "Wähle aus wo du übernachten wirst" } }}
+                  validation={{
+                    required: {
+                      value: true,
+                      message: "Wähle aus wo du übernachten wirst"
+                    }
+                  }}
                   value="true"
-                  onChange={() => setAccomodationCheck({ role: accomodationCheck.role, accommodation: true })}
+                  onChange={() =>
+                    setAccomodationCheck({
+                      role: accomodationCheck.role,
+                      accommodation: true
+                    })
+                  }
                 />
                 <Label
                   name="accommodation"
@@ -211,9 +255,19 @@ const EventPage = () => {
                   id="no-acc"
                   name="accommodation"
                   errorClassName="error"
-                  validation={{ required: { value: true, message: "Wähle aus wo du übernachten wirst" } }}
+                  validation={{
+                    required: {
+                      value: true,
+                      message: "Wähle aus wo du übernachten wirst"
+                    }
+                  }}
                   value="false"
-                  onChange={() => setAccomodationCheck({ role: accomodationCheck.role, accommodation: false })}
+                  onChange={() =>
+                    setAccomodationCheck({
+                      role: accomodationCheck.role,
+                      accommodation: false
+                    })
+                  }
                 />
                 <Label
                   name="accommodation"
@@ -234,7 +288,12 @@ const EventPage = () => {
                       id="subiaco"
                       name="accommodationLocation"
                       errorClassName="error"
-                      validation={{ required: { value: true, message: "Wähle aus wo du übernachten wirst" } }}
+                      validation={{
+                        required: {
+                          value: true,
+                          message: "Wähle aus wo du übernachten wirst"
+                        }
+                      }}
                       value="subiaco"
                     />
                     <Label
@@ -243,10 +302,11 @@ const EventPage = () => {
                       className="w-full py-3 text-sm mb-0"
                     >
                       Haus Subiaco
-                      <p className="secondary font-light">Unterbringung im Haus Subiaco
+                      <p className="secondary font-light">
+                        Unterbringung im Haus Subiaco
                         <br />
-                        Einzelzimmer, Bad am Gang
-                        30€ / Nacht</p>
+                        Einzelzimmer, Bad am Gang 30€ / Nacht
+                      </p>
                     </Label>
                   </div>
                   <div className="flex items-center ps-4 rounded border border-gray-700">
@@ -254,7 +314,12 @@ const EventPage = () => {
                       id="privatquartier"
                       name="accommodationLocation"
                       errorClassName="error"
-                      validation={{ required: { value: true, message: "Wähle aus wo du übernachten wirst" } }}
+                      validation={{
+                        required: {
+                          value: true,
+                          message: "Wähle aus wo du übernachten wirst"
+                        }
+                      }}
                       value="privatquartier"
                     />
                     <Label
@@ -263,7 +328,8 @@ const EventPage = () => {
                       className="w-full py-3 text-sm mb-0"
                     >
                       Privatquartier
-                      <p className="secondary font-light">Unterbringung bei Familie in Umgebung von Kremsmünster
+                      <p className="secondary font-light">
+                        Unterbringung bei Familie in Umgebung von Kremsmünster
                         Kann bis zu 20 km entfernt sein (Auto benötigt).
                         <br />
                         Vergabe näherer Quartiere nach Bedarf. kostenfrei
@@ -271,13 +337,17 @@ const EventPage = () => {
                     </Label>
                   </div>
                 </div>
-              </>)}
+              </>
+            )}
 
             <FieldError name="accommodation" className="error ms-2" />
           </div>
 
           <div>
-            <div className="label">Ich bin anwesend von...<span className="font-bold text-primary-500">*</span></div>
+            <div className="label">
+              Ich bin anwesend von...
+              <span className="font-bold text-primary-500">*</span>
+            </div>
 
             <div
               id="date-range-picker"
@@ -311,12 +381,16 @@ const EventPage = () => {
                 <FieldError name="endDate" className="error ms-2" />
               </div>
             </div>
-            <p className={"secondary mt-2"}>Jugendtreffen findet
-              von {startDate.toLocaleDateString()} bis {endDate.toLocaleDateString()} statt</p>
+            <p className={"secondary mt-2"}>
+              Jugendtreffen findet von {startDate.toLocaleDateString()} bis{" "}
+              {endDate.toLocaleDateString()} statt
+            </p>
           </div>
 
           <div>
-            <div className="label">Ich esse...<span className="font-bold text-primary-500">*</span></div>
+            <div className="label">
+              Ich esse...<span className="font-bold text-primary-500">*</span>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <div className="flex items-center ps-4 border rounded border-gray-700">
                 <RadioField
@@ -324,7 +398,12 @@ const EventPage = () => {
                   name="foodChoice"
                   value="alles"
                   errorClassName="error"
-                  validation={{ required: { value: true, message: "Wähle aus was du essen magst" } }}
+                  validation={{
+                    required: {
+                      value: true,
+                      message: "Wähle aus was du essen magst"
+                    }
+                  }}
                 />
                 <Label
                   name="foodChoice"
@@ -340,7 +419,12 @@ const EventPage = () => {
                   name="foodChoice"
                   value="vegetarisch"
                   errorClassName="error"
-                  validation={{ required: { value: true, message: "Wähle aus was du essen magst" } }}
+                  validation={{
+                    required: {
+                      value: true,
+                      message: "Wähle aus was du essen magst"
+                    }
+                  }}
                 />
                 <Label
                   htmlFor="veggi"
@@ -360,26 +444,28 @@ const EventPage = () => {
                 name="acceptCoC"
                 errorClassName="error"
                 validation={{
-                  required: { value: true, message: "Akzeptiere den Verhaltenscodex um teilzunehmen!" },
+                  required: {
+                    value: true,
+                    message: "Akzeptiere den Verhaltenscodex um teilzunehmen!"
+                  },
                   valueAsBoolean: true
                 }}
                 disabled={!hasOpenedLink}
               />
-              <Label
-                name="acceptCoC"
-                className="ms-2"
-              >
+              <Label name="acceptCoC" className="ms-2">
                 Ich habe den{" "}
-                <a onClick={() => setHasOpenedLink(true)}
-                   href="https://jugendtreffen.at/wp-content/uploads/2024/03/Verhaltenskodex-fu%CC%88r-Teilnehmende-2024.pdf"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   className="link text-accent inline-flex"
+                <a
+                  onClick={() => setHasOpenedLink(true)}
+                  href="https://jugendtreffen.at/wp-content/uploads/2024/03/Verhaltenskodex-fu%CC%88r-Teilnehmende-2024.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link text-accent inline-flex"
                 >
                   Verhaltenscodex
                   <InfoIcon />
                 </a>{" "}
-                gelesen und akzeptiere diesen.<span className="font-bold text-primary-500">*</span>
+                gelesen und akzeptiere diesen.
+                <span className="font-bold text-primary-500">*</span>
               </Label>
             </div>
             <FieldError name="acceptCoC" className="ms-6 error"></FieldError>
@@ -416,33 +502,29 @@ const EventPage = () => {
               />
             </div>
             <div>
-              <Label
-                name="acceptPhotos"
-              >
-                Ich stimme zu, fotografiert oder gefilmt werden zu dürfen.<span
-                className="font-bold text-primary-500">*</span>
+              <Label name="acceptPhotos">
+                Ich stimme zu, fotografiert oder gefilmt werden zu dürfen.
+                <span className="font-bold text-primary-500">*</span>
               </Label>
               <p className="ms-2 text-xs font-normal text-gray-500 dark:text-gray-300">
-                Während des gesamten Treffens werden Foto- und Videoaufnahmen gemacht. Ich bin außerdem damit
-                einverstanden, dass Bilder von mir in den Kommunikationsmitteln des Jugendtreffens (v.a. für die
-                Homepage)
-                und in den Kommunikationsmitteln von ausgewählten Kooperationspartnern im Zusammenhang mit dem
-                Jugendtreffen und nach Rücksprache mit dem Jugendtreffen verwendet werden dürfen
+                Während des gesamten Treffens werden Foto- und Videoaufnahmen
+                gemacht. Ich bin außerdem damit einverstanden, dass Bilder von
+                mir in den Kommunikationsmitteln des Jugendtreffens (v.a. für
+                die Homepage) und in den Kommunikationsmitteln von ausgewählten
+                Kooperationspartnern im Zusammenhang mit dem Jugendtreffen und
+                nach Rücksprache mit dem Jugendtreffen verwendet werden dürfen
               </p>
             </div>
           </div>
 
-          <Submit
-            className="primary w-fit"
-            disabled={loading}
-          >
+          <Submit className="primary w-fit" disabled={loading}>
             Teilnehmen
           </Submit>
           <FormError error={error} wrapperClassName="form-error" />
         </Form>
       </div>
     </>
-  );
-};
+  )
+}
 
 export default EventPage;

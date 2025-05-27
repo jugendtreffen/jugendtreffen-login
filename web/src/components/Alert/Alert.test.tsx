@@ -8,7 +8,7 @@ import Alert from './Alert'
 describe('Alert', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<Alert id={"000"} message={"message"} />)
+      render(<Alert id={"000"} message={"message"} />);
     }).not.toThrow()
   })
 })
