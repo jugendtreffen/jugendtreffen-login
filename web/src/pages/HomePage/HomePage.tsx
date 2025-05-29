@@ -12,8 +12,10 @@ const HomePage = () => {
     return (
       <>
         <Metadata title="Home" description="Home page" />
+        <div className="flex flex-col items-center justify-center mt-20 w-full">
+          <LoadingSpinner />
+        </div>
 
-        <LoadingSpinner />
       </>
     )
   }

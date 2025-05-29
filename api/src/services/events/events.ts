@@ -18,13 +18,12 @@ export const event: QueryResolvers['event'] = async ({ id }) => {
   throw new UserInputError("kein Event gefunden", { id });
 }
 
-export const currentEvent: QueryResolvers["findCurrentEvent"] = async () => {
-  console.log(new Date(new Date().getFullYear(), 0, 1));
+export const currentEvent: QueryResolvers["currentEvent"] = async () => {
   return db.event.findFirst({
-    where: {
-      gte: new Date(new Date().getFullYear(), 0, 1)
+    orderBy: {
+      startDate: "desc"
     }
-  });
+  })
 };
 
 export const Event: EventRelationResolvers = {

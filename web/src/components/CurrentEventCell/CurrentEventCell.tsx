@@ -1,6 +1,6 @@
 import type { FindCurrentEventQuery, FindCurrentEventQueryVariables } from "types/graphql";
 
-import { Link, routes } from "@redwoodjs/router";
+import { routes } from "@redwoodjs/router";
 import type { CellFailureProps, CellSuccessProps, TypedDocumentNode } from "@redwoodjs/web";
 
 import Card from "src/components/Card/Card";
@@ -10,8 +10,8 @@ export const QUERY: TypedDocumentNode<
   FindCurrentEventQuery,
   FindCurrentEventQueryVariables
 > = gql`
-  query FindCurrentEventQuery() {
-    currentEvent: currentEvent() {
+  query FindCurrentEventQuery {
+    currentEvent {
       id,
       name,
       desc,
@@ -22,12 +22,12 @@ export const QUERY: TypedDocumentNode<
 `;
 
 export const Loading = () => (
-  <Card>
+  <Card className="w-full md:w-96">
     <LoadingSpinner />
   </Card>
 );
 
-export const Empty = () => <Card title={"Kein aktuelles Event"}></Card>;
+export const Empty = () => <Card className="w-full md:w-96" title={"Kein aktuelles Event"} description={""}></Card>;
 
 export const Failure = ({
                           error
@@ -35,15 +35,16 @@ export const Failure = ({
   <div style={{ color: "red" }}>Error: {error?.message}</div>
 );
 
-export const Success = ({
-                          currentEvent
-                        }: CellSuccessProps<FindCurrentEventQuery, FindCurrentEventQueryVariables>) => {
+export const Success = ({ currentEvent }: CellSuccessProps<FindCurrentEventQuery, FindCurrentEventQueryVariables>) => {
   return (
-    <Card title={currentEvent.name} description={currentEvent.desc}>
-      <Link
-        to={routes.events({ id: currentEvent.id })}
-        className="primary"
-      ></Link>
-    </Card>
+    <Card
+      title={currentEvent.name}
+      description={currentEvent.desc}
+      className={"w-full md:w-96"}
+      button={{
+        message: "Anmeldung",
+        to: routes.events({ id: String(currentEvent.id) })
+      }}
+    />
   );
 };

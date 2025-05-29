@@ -11,6 +11,6 @@ export const schema = gql`
   type Query {
     events: [Event!]! @skipAuth
     event(id: Int!): Event @skipAuth
-    findCurrentEvent: Event @skipAuth
+    currentEvent: Event @requireAuth
   }
 `
