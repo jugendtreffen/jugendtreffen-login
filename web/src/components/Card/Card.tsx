@@ -22,7 +22,7 @@ const Card = (props: CardProps) => {
       className={`max-w-md p-6 border rounded-lg shadow bg-gray-800 border-gray-700 ${props.className}`}
     >
       {props.title && (
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
+        <h5 className="mb-2 text-2xl font-bold tracking-tight">
           {props.title}
         </h5>
       )}

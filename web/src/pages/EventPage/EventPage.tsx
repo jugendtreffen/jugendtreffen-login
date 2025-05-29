@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 
-import {
-  CreateParticipationMutation,
-  CreateParticipationMutationVariables
-} from "types/graphql";
+import { CreateParticipationMutation, CreateParticipationMutationVariables } from "types/graphql";
 
 import {
   CheckboxField,
@@ -17,7 +14,7 @@ import {
   Submit,
   SubmitHandler,
   useForm
-} from "@redwoodjs/forms"
+} from "@redwoodjs/forms";
 import { navigate, routes, useParams } from "@redwoodjs/router";
 import { Metadata, useMutation } from "@redwoodjs/web";
 import { toast, Toaster } from "@redwoodjs/web/toast";
@@ -223,7 +220,7 @@ const EventPage = () => {
               <span className="font-bold text-primary-500">*</span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <div className="flex items-center ps-4 rounded border dark:border-gray-700">
+              <div className="flex items-center ps-4 rounded border border-gray-700">
                 <RadioField
                   id="yes-acc"
                   name="accommodation"
@@ -283,7 +280,7 @@ const EventPage = () => {
               <>
                 <div className="label mt-2">Im...</div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  <div className="flex items-center ps-4 rounded border dark:border-gray-700">
+                  <div className="flex items-center ps-4 rounded border border-gray-700">
                     <RadioField
                       id="subiaco"
                       name="accommodationLocation"

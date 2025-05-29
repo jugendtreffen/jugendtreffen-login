@@ -8,7 +8,7 @@ export const HomePageAccordionItems = [
           Text can have{" "}
           <a
             href="#"
-            className="text-blue-600 dark:text-blue-500 hover:underline"
+            className="text-blue-500 hover:underline"
           >
             test link
           </a>{" "}

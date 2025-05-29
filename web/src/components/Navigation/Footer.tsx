@@ -14,11 +14,11 @@ const Footer = () => {
               className="h-8"
               alt="Jugendtreffen"
             />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
               jugendtreffen.at
             </span>
           </a>
-          <ul className="flex flex-wrap items-center text-sm font-medium text-gray-500 dark:text-gray-400 flex-between">
+          <ul className="flex flex-wrap items-center text-sm font-medium text-gray-400 flex-between">
             <li>
               <a
                 href="https://jugendtreffen.at/ueber-das-jugendtreffen/"
@@ -59,8 +59,8 @@ const Footer = () => {
             info@jugendtreffen.at
           </a>
         </span>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+        <hr className="my-6 sm:mx-auto border-gray-700 lg:my-8" />
+        <span className="block text-sm sm:text-center text-gray-400">
           © 2024{' '}
           <a href="https://jugendtreffen.at/" className="hover:underline">
             jugendtreffen.at

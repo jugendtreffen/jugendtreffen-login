@@ -32,7 +32,7 @@ export const Empty = () => <Card className="w-full md:w-96" title={"Kein aktuell
 export const Failure = ({
                           error
                         }: CellFailureProps<FindCurrentEventQueryVariables>) => (
-  <div style={{ color: "red" }}>Error: {error?.message}</div>
+  <Card className={"w-full md:w-96 text-red-500"} title={"Hat nicht geklappt."} description={error?.message}></Card>
 );
 
 export const Success = ({ currentEvent }: CellSuccessProps<FindCurrentEventQuery, FindCurrentEventQueryVariables>) => {

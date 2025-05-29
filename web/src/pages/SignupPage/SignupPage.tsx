@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 
-import {
-  CreatePersonlaDataMutation,
-  CreatePersonlaDataMutationVariables
-} from "types/graphql";
+import { CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables } from "types/graphql";
 
 import {
   DateField,
@@ -14,7 +11,7 @@ import {
   SelectField,
   SubmitHandler,
   useForm
-} from "@redwoodjs/forms"
+} from "@redwoodjs/forms";
 import { Link, routes } from "@redwoodjs/router";
 import { Metadata, useMutation } from "@redwoodjs/web";
 
@@ -421,7 +418,7 @@ const SignupPage = () => {
             )}
           </Step>
         </MultiStepForm>
-        <p className="mt-5 text-sm font-light text-gray-500 dark:text-gray-400">
+        <p className="mt-5 text-sm font-light text-gray-400">
           Du hast bereits einen Account?{" "}
           <Link to={routes.login()} className="font-medium hover:underline ">
             Melde dich hier an

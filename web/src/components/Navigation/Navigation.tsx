@@ -32,7 +32,6 @@ const Navigation = () => {
           {isAuthenticated ? (
             <SignoutButton />
           ) : (
-            !isMobile() && (
               <div className="flex space-x-2 me-2">
                 <button
                   className="secondary"
@@ -44,10 +43,9 @@ const Navigation = () => {
                   className="primary"
                   onClick={() => navigate(routes.login())}
                 >
-                  Anmelden
+                  Login
                 </button>
               </div>
-            )
           )}
           <button
             onClick={handleNavToggle}
@@ -76,22 +74,6 @@ const Navigation = () => {
             {/*  </Link>*/}
             {/*</li>*/}
           </ul>
-          {isMobile() && !isAuthenticated && (
-            <div className="flex space-x-2 justify-center">
-              <button
-                className="secondary"
-                onClick={() => navigate(routes.signup())}
-              >
-                Account erstellen
-              </button>
-              <button
-                className="primary"
-                onClick={() => navigate(routes.login())}
-              >
-                Anmelden
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </nav>

@@ -1,10 +1,4 @@
-import {
-  Form,
-  InputField,
-  Label,
-  PasswordField,
-  Submit
-} from "@redwoodjs/forms";
+import { Form, InputField, Label, PasswordField, Submit } from "@redwoodjs/forms";
 import { Link, navigate, routes } from "@redwoodjs/router";
 import { Metadata } from "@redwoodjs/web";
 
@@ -60,7 +54,7 @@ const LoginPage = (props) => {
       <Metadata title="Anmelden" description="Login page" />
 
       <Card>
-        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white">
           Bei Jugendtreffen Anmelden
         </h1>
         <Form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
@@ -100,9 +94,9 @@ const LoginPage = (props) => {
           {/*  </Link>*/}
           {/*</div>*/}
           <Submit className="primary w-full" disabled={loading}>
-            Anmelden
+            Login
           </Submit>
-          <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+          <p className="text-sm font-light text-gray-400">
             Du hast noch keinen Account?{" "}
             <Link
               to={routes.signup()}
