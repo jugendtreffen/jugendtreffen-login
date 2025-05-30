@@ -7,15 +7,15 @@ import SignoutButton from "src/components/Auth/SignoutButton";
 import { BurgerMenueIcon, CloseIcon } from "src/components/Icons/Icons";
 
 const Navigation = () => {
-  const { isAuthenticated } = useAuth();
-  const [open, setOpen] = useState(false);
+  const { isAuthenticated } = useAuth()
+  const [open, setOpen] = useState(false)
 
   function handleNavToggle() {
-    open ? setOpen(false) : setOpen(true);
+    open ? setOpen(false) : setOpen(true)
   }
 
   function isMobile() {
-    return window?.innerWidth < 768;
+    return window?.innerWidth < 768
   }
 
   return (
@@ -32,20 +32,20 @@ const Navigation = () => {
           {isAuthenticated ? (
             <SignoutButton />
           ) : (
-              <div className="flex space-x-2 me-2">
-                <button
-                  className="secondary"
-                  onClick={() => navigate(routes.signup())}
-                >
-                  Account erstellen
-                </button>
-                <button
-                  className="primary"
-                  onClick={() => navigate(routes.login())}
-                >
-                  Login
-                </button>
-              </div>
+            <div className="flex space-x-2 me-2">
+              <button
+                className="secondary"
+                onClick={() => navigate(routes.signup())}
+              >
+                Account erstellen
+              </button>
+              <button
+                className="primary"
+                onClick={() => navigate(routes.login())}
+              >
+                Login
+              </button>
+            </div>
           )}
           <button
             onClick={handleNavToggle}
@@ -59,12 +59,11 @@ const Navigation = () => {
         </div>
         <div
           className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${
-            open ? "" : "hidden"
+            open ? '' : 'hidden'
           }`}
           id="navbar-cta"
         >
-          <ul
-            className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-zinc-200 rounded-lg bg-b md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
+          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-zinc-200 rounded-lg bg-b md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
             {/*<li>*/}
             {/*  <Link*/}
             {/*    className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0"*/}
@@ -80,4 +79,4 @@ const Navigation = () => {
   )
 }
 
-export default Navigation;
+export default Navigation

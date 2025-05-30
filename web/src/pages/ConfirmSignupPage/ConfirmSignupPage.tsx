@@ -10,75 +10,75 @@ import { ArrowRightIcon, CheckIcon } from "src/components/Icons/Icons";
 import LoadingSpinner from "src/components/Loading/LoadingSpinner";
 
 const ConfirmSignupPage = (props) => {
-  const { token_hash, email, next } = props;
-  const { client, isAuthenticated, userMetadata } = useAuth();
-  const [confirmationStatus, setConfirmationStatus] = useState("pending");
+  const { token_hash, email, next } = props
+  const { client, isAuthenticated, userMetadata } = useAuth()
+  const [confirmationStatus, setConfirmationStatus] = useState('pending')
   const [errorMessage, setErrorMessage] = useState(
-    "Es ist ein Fehler aufgetreten"
-  );
-  const [resendDisabled, setResendDisabled] = useState(false);
+    'Es ist ein Fehler aufgetreten'
+  )
+  const [resendDisabled, setResendDisabled] = useState(false)
 
   const confirmEmail = async (token, redirectTo) => {
     try {
       if (!client) {
-        setConfirmationStatus("error");
-        return;
+        setConfirmationStatus('error')
+        return
       }
       const { error } = await client.auth.verifyOtp({
         token_hash: token,
-        type: "email"
+        type: 'email',
       })
 
       if (error) {
-        setConfirmationStatus("error");
-        setErrorMessage(error.message);
+        setConfirmationStatus('error')
+        setErrorMessage(error.message)
       } else {
-        setConfirmationStatus("success");
+        setConfirmationStatus('success')
         if (redirectTo) {
-          setTimeout(() => navigate(redirectTo, { replace: true }), 1000);
+          setTimeout(() => navigate(redirectTo, { replace: true }), 1000)
         }
       }
     } catch (error) {
-      setConfirmationStatus("error");
+      setConfirmationStatus('error')
     }
   }
 
   const handleResend = async () => {
     if (!client) {
-      setConfirmationStatus("error");
-      return;
+      setConfirmationStatus('error')
+      return
     }
 
     const { error } = await client.auth.signInWithOtp({
-      email: email
+      email: email,
     })
-    setResendDisabled(true);
+    setResendDisabled(true)
     setTimeout(() => {
-      setResendDisabled(false);
-      setConfirmationStatus("pending");
+      setResendDisabled(false)
+      setConfirmationStatus('pending')
     }, 60000)
 
     if (error) {
-      setConfirmationStatus("error");
+      setConfirmationStatus('error')
       setErrorMessage(
-        "Bestätigungsmail konnte nicht gesendet werden. Versuche es in 2 Minuten nochmal!"
-      );
+        'Bestätigungsmail konnte nicht gesendet werden. Versuche es in 2 Minuten nochmal!'
+      )
     } else {
-      setConfirmationStatus("pending");
+      setConfirmationStatus('pending')
     }
   }
 
   useEffect(() => {
     if (token_hash) {
-      confirmEmail(token_hash, next);
+      confirmEmail(token_hash, next)
     } else {
-      setConfirmationStatus("error");
-      setErrorMessage("Bestätigungslink nicht gültig");
+      setConfirmationStatus('error')
+      setErrorMessage('Bestätigungslink nicht gültig')
     }
   }, [token_hash, next])
 
   if (isAuthenticated) {
-    navigate(next || routes.home());
+    navigate(next || routes.home())
   }
 
   return (
@@ -87,20 +87,20 @@ const ConfirmSignupPage = (props) => {
 
       <Card>
         <h1 className="mb-2">Email Bestätigung</h1>
-        {confirmationStatus === "pending" && (
+        {confirmationStatus === 'pending' && (
           <>
             <LoadingSpinner></LoadingSpinner>
             <p>Klicke auf den Link in deiner Email</p>
           </>
         )}
-        {confirmationStatus === "success" && (
+        {confirmationStatus === 'success' && (
           <>
-            <span className={"text-green-500"}>
+            <span className={'text-green-500'}>
               <CheckIcon />
             </span>
             <p>Deine Email wurde erfolgreich bestätigt!</p>
             <Link
-              to={routes.events({ id: "1" })}
+              to={routes.events({ id: '1' })}
               className="primary inline-flex items-center mt-2"
             >
               Anmeldung fertigstellen
@@ -108,7 +108,7 @@ const ConfirmSignupPage = (props) => {
             </Link>
           </>
         )}
-        {confirmationStatus === "error" && (
+        {confirmationStatus === 'error' && (
           <>
             <Alert
               id="0"
@@ -130,4 +130,4 @@ const ConfirmSignupPage = (props) => {
   )
 }
 
-export default ConfirmSignupPage;
+export default ConfirmSignupPage

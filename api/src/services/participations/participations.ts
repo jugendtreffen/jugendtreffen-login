@@ -2,11 +2,13 @@ import type { MutationResolvers, ParticipationRelationResolvers, QueryResolvers 
 
 import { db } from "src/lib/db";
 
-export const participations: QueryResolvers["participations"] = async ({ userId }) => {
+export const participations: QueryResolvers['participations'] = async ({
+  userId,
+}) => {
   return await db.participation.findMany({
-    include: { event: true, participationRole: true }
-    , where: { userId }
-  });
+    include: { event: true, participationRole: true },
+    where: { userId },
+  })
 }
 
 export const participation: QueryResolvers['participation'] = ({ id }) => {
@@ -30,12 +32,12 @@ export const createParticipation: MutationResolvers['createParticipation'] = ({
       acceptCoC: input.acceptCoC,
       acceptPhotos: input.acceptPhotos,
       participationRole: {
-        connect: { id: input.participationRoleId }
+        connect: { id: input.participationRoleId },
       },
       event: {
-        connect: { id: input.eventId }
+        connect: { id: input.eventId },
       },
-      userId: input.userId
+      userId: input.userId,
     },
   })
 }

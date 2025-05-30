@@ -9,24 +9,24 @@ import { standard } from "./CurrentEventCell.mock";
 //        https://redwoodjs.com/docs/testing#testing-cells
 // https://redwoodjs.com/docs/testing#jest-expect-type-considerations
 
-describe("CurrentEventCell", () => {
-  it("renders Loading successfully", () => {
+describe('CurrentEventCell', () => {
+  it('renders Loading successfully', () => {
     expect(() => {
-      render(<Loading />);
-    }).not.toThrow();
-  });
+      render(<Loading />)
+    }).not.toThrow()
+  })
 
-  it("renders Empty successfully", async () => {
+  it('renders Empty successfully', async () => {
     expect(() => {
-      render(<Empty />);
-    }).not.toThrow();
-  });
+      render(<Empty />)
+    }).not.toThrow()
+  })
 
-  it("renders Failure successfully", async () => {
+  it('renders Failure successfully', async () => {
     expect(() => {
-      render(<Failure id={42} error={new Error("Oh no")} />);
-    }).not.toThrow();
-  });
+      render(<Failure id={42} error={new Error('Oh no')} />)
+    }).not.toThrow()
+  })
 
   // When you're ready to test the actual output of your component render
   // you could test that, for example, certain text is present:
@@ -34,9 +34,9 @@ describe("CurrentEventCell", () => {
   // 1. import { screen } from '@redwoodjs/testing/web'
   // 2. Add test: expect(screen.getByText('Hello, world')).toBeInTheDocument()
 
-  it("renders Success successfully", async () => {
+  it('renders Success successfully', async () => {
     expect(() => {
-      render(<Success id={42} currentEvent={standard().currentEvent} />);
-    }).not.toThrow();
-  });
-});
+      render(<Success id={42} currentEvent={standard().currentEvent} />)
+    }).not.toThrow()
+  })
+})

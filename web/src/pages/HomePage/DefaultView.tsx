@@ -9,14 +9,14 @@ import Card from "src/components/Card/Card";
 import { ArrowRightIcon } from "src/components/Icons/Icons";
 
 const DefaultView = () => {
-  const images = ["/A9A06698.webp", "/A9A07019.webp", "/DSC08102.webp"];
-  const [index, setIndex] = useState(0);
+  const images = ['/A9A06698.webp', '/A9A07019.webp', '/DSC08102.webp']
+  const [index, setIndex] = useState(0)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setIndex((prevIndex) => (prevIndex + 1) % images.length)
     }, 3000)
-    return () => clearInterval(interval);
+    return () => clearInterval(interval)
   }, [])
 
   return (
@@ -27,10 +27,9 @@ const DefaultView = () => {
         id="hero section"
         className="w-screen-minus-scrollbar bg-secondary"
       >
-        <div
-          className="absolute w-screen h-screen inset-0 flex flex-col gap-2 items-center justify-center text-center bg-black bg-opacity-60 z-10">
-          <h1 className={"md:text-7xl"}>Jugendtreffen</h1>
-          <h2 className={"md:text-2xl"}>
+        <div className="absolute w-screen h-screen inset-0 flex flex-col gap-2 items-center justify-center text-center bg-black bg-opacity-60 z-10">
+          <h1 className={'md:text-7xl'}>Jugendtreffen</h1>
+          <h2 className={'md:text-2xl'}>
             15. bis 20. Juli 2025 in Kremsmünster
           </h2>
           <button
@@ -44,9 +43,9 @@ const DefaultView = () => {
         <motion.div
           className="flex transition-all duration-500"
           animate={{ x: `-${index * (100 / images.length)}%` }}
-          transition={{ ease: "linear", duration: 0.8 }}
+          transition={{ ease: 'linear', duration: 0.8 }}
           style={{
-            width: `calc(${images.length * 100}vw - ${images.length * 16}px)`
+            width: `calc(${images.length * 100}vw - ${images.length * 16}px)`,
           }}
         >
           {images.map((src, i) => (
@@ -134,4 +133,4 @@ const DefaultView = () => {
   )
 }
 
-export default DefaultView;
+export default DefaultView

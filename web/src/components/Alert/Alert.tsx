@@ -1,73 +1,75 @@
 import React, { ReactNode } from "react";
+
 import { AlertTriangle, CheckCircle, Info, X, XCircle } from "lucide-react";
+
 import { useAlert } from "src/components/Alert/AlertContext";
 
 export interface AlertProps {
   id: string
-  type?: "info" | "error" | "success" | "warning";
+  type?: 'info' | 'error' | 'success' | 'warning'
   message: ReactNode
   dismissible?: boolean
 }
 
 export const generateAlertId = () => {
-  return Math.random().toString(36).substring(2, 15);
+  return Math.random().toString(36).substring(2, 15)
 }
 
 const Alert = (props: AlertProps) => {
-  const { removeAlert } = useAlert();
+  const { removeAlert } = useAlert()
 
   const getAlertConfig = () => {
     switch (props.type) {
-      case "info":
+      case 'info':
         return {
           icon: Info,
-          bgGradient: "from-blue-500/10 to-cyan-600/10",
-          borderColor: "border-blue-500/30",
-          textColor: "text-blue-400",
-          iconBg: "bg-blue-500/20",
-          closeBtnHover: "hover:bg-blue-500/20"
-        };
-      case "error":
+          bgGradient: 'from-blue-500/10 to-cyan-600/10',
+          borderColor: 'border-blue-500/30',
+          textColor: 'text-blue-400',
+          iconBg: 'bg-blue-500/20',
+          closeBtnHover: 'hover:bg-blue-500/20',
+        }
+      case 'error':
         return {
           icon: XCircle,
-          bgGradient: "from-red-500/10 to-rose-600/10",
-          borderColor: "border-red-500/30",
-          textColor: "text-red-400",
-          iconBg: "bg-red-500/20",
-          closeBtnHover: "hover:bg-red-500/20"
-        };
-      case "success":
+          bgGradient: 'from-red-500/10 to-rose-600/10',
+          borderColor: 'border-red-500/30',
+          textColor: 'text-red-400',
+          iconBg: 'bg-red-500/20',
+          closeBtnHover: 'hover:bg-red-500/20',
+        }
+      case 'success':
         return {
           icon: CheckCircle,
-          bgGradient: "from-green-500/10 to-emerald-600/10",
-          borderColor: "border-green-500/30",
-          textColor: "text-green-400",
-          iconBg: "bg-green-500/20",
-          closeBtnHover: "hover:bg-green-500/20"
-        };
-      case "warning":
+          bgGradient: 'from-green-500/10 to-emerald-600/10',
+          borderColor: 'border-green-500/30',
+          textColor: 'text-green-400',
+          iconBg: 'bg-green-500/20',
+          closeBtnHover: 'hover:bg-green-500/20',
+        }
+      case 'warning':
         return {
           icon: AlertTriangle,
-          bgGradient: "from-yellow-500/10 to-orange-600/10",
-          borderColor: "border-yellow-500/30",
-          textColor: "text-yellow-400",
-          iconBg: "bg-yellow-500/20",
-          closeBtnHover: "hover:bg-yellow-500/20"
-        };
+          bgGradient: 'from-yellow-500/10 to-orange-600/10',
+          borderColor: 'border-yellow-500/30',
+          textColor: 'text-yellow-400',
+          iconBg: 'bg-yellow-500/20',
+          closeBtnHover: 'hover:bg-yellow-500/20',
+        }
       default:
         return {
           icon: Info,
-          bgGradient: "from-gray-500/10 to-gray-600/10",
-          borderColor: "border-gray-500/30",
-          textColor: "text-gray-400",
-          iconBg: "bg-gray-500/20",
-          closeBtnHover: "hover:bg-gray-500/20"
-        };
+          bgGradient: 'from-gray-500/10 to-gray-600/10',
+          borderColor: 'border-gray-500/30',
+          textColor: 'text-gray-400',
+          iconBg: 'bg-gray-500/20',
+          closeBtnHover: 'hover:bg-gray-500/20',
+        }
     }
-  };
+  }
 
-  const config = getAlertConfig();
-  const IconComponent = config.icon;
+  const config = getAlertConfig()
+  const IconComponent = config.icon
 
   return (
     <div
@@ -83,7 +85,9 @@ const Alert = (props: AlertProps) => {
       id={props.id}
     >
       {/* Subtle top border accent */}
-      <div className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r ${config.bgGradient} opacity-50`}></div>
+      <div
+        className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r ${config.bgGradient} opacity-50`}
+      ></div>
 
       {/* Icon */}
       <div className={`flex-shrink-0 ${config.iconBg} rounded-lg p-2 mt-0.5`}>
@@ -99,7 +103,7 @@ const Alert = (props: AlertProps) => {
       </div>
 
       {/* Close Button */}
-      {(props.dismissible !== false) && (
+      {props.dismissible !== false && (
         <button
           type="button"
           className={`
@@ -119,7 +123,7 @@ const Alert = (props: AlertProps) => {
         </button>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Alert;
+export default Alert

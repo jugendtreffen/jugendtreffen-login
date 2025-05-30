@@ -40,9 +40,9 @@ export const getCurrentUser = async (
   }
 
   // const { roles } = parseJWT({ decoded })
-  const personalData = await personalDataByUserId({ userId: decoded.sub });
-  console.log("personalData:", personalData);
-  return { ...decoded, personalData };
+  const personalData = await personalDataByUserId({ userId: decoded.sub })
+  console.log('personalData:', personalData)
+  return { ...decoded, personalData }
 }
 
 /**

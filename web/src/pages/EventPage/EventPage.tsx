@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { useApolloClient } from "@apollo/client";
 import { CreateParticipationMutation, CreateParticipationMutationVariables } from "types/graphql";
 
 import {
@@ -20,7 +21,6 @@ import { Metadata, useMutation } from "@redwoodjs/web";
 import { toast, Toaster } from "@redwoodjs/web/toast";
 
 import { useAuth } from "src/auth";
-import { useApolloClient } from "@apollo/client";
 import Card from "src/components/Card/Card";
 import EventCell from "src/components/EventCell/EventCell";
 import { InfoIcon } from "src/components/Icons/Icons";
@@ -41,73 +41,73 @@ const CREATE_PARTICIPATION = gql`
       eventId
     }
   }
-`;
+`
 
 interface FormValues {
-  eventId: number;
-  travelMethod: string;
-  participationRoleId: number;
-  accommodation: boolean;
-  accommodationLocation: string;
-  startDate: Date;
-  endDate: Date;
-  foodChoice: string;
-  acceptCoC: boolean;
-  helpAfterwards: boolean;
-  acceptPhotos: boolean;
-  userId: string;
+  eventId: number
+  travelMethod: string
+  participationRoleId: number
+  accommodation: boolean
+  accommodationLocation: string
+  startDate: Date
+  endDate: Date
+  foodChoice: string
+  acceptCoC: boolean
+  helpAfterwards: boolean
+  acceptPhotos: boolean
+  userId: string
 }
 
 const EventPage = () => {
-  const { id } = useParams();
-  const { isAuthenticated, userMetadata } = useAuth();
-  const formMethods = useForm();
-  const client = useApolloClient();
+  const { id } = useParams()
+  const { isAuthenticated, userMetadata } = useAuth()
+  const formMethods = useForm()
+  const client = useApolloClient()
 
-  const [completed, setCompleted] = useState(false);
+  const [completed, setCompleted] = useState(false)
   const [accomodationCheck, setAccomodationCheck] = useState({
     role: undefined,
-    accommodation: undefined
-  });
-  const [hasOpenedLink, setHasOpenedLink] = useState(false);
+    accommodation: undefined,
+  })
+  const [hasOpenedLink, setHasOpenedLink] = useState(false)
   const [create, { loading, error }] = useMutation<
     CreateParticipationMutation,
     CreateParticipationMutationVariables
   >(CREATE_PARTICIPATION, {
     onCompleted: () => {
-      toast.success("Deine Teilnahme wurde gespeichert");
-      setCompleted(true);
-    }
-  });
+      toast.success('Deine Teilnahme wurde gespeichert')
+      setCompleted(true)
+    },
+  })
 
-  const startDate = new Date("2025-07-15");
-  const endDate = new Date("2025-07-20");
+  const startDate = new Date('2025-07-15')
+  const endDate = new Date('2025-07-20')
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    data.eventId = parseInt(id, 10);
-    data.participationRoleId = parseInt(String(data.participationRoleId), 10);
-    data.accommodation = String(data.accommodation) == "true";
-    data.userId = userMetadata.sub;
+    data.eventId = parseInt(id, 10)
+    data.participationRoleId = parseInt(String(data.participationRoleId), 10)
+    data.accommodation = String(data.accommodation) == 'true'
+    data.userId = userMetadata.sub
     // @ts-ignore
-    await create({ variables: { input: data } });
-  };
+    await create({ variables: { input: data } })
+  }
 
   const validateStartDate = (value, context) => {
     if (context.startDate < startDate || context.startDate > endDate) {
-      return "Jugendtreffen findet zwischen 15.Juli 2025 und 20.Juli 2025 statt";
+      return 'Jugendtreffen findet zwischen 15.Juli 2025 und 20.Juli 2025 statt'
     }
-    return true;
-  };
+    return true
+  }
 
   const validateEndDate = (value, context) => {
     if (context.endDate < context.startDate) {
-      return "Du kannst nicht vor deiner Ankunft abreisen";
+      return 'Du kannst nicht vor deiner Ankunft abreisen'
     }
     if (context.endDate > endDate) {
-      return "Das Jugendtreffen endet am 20.Juli 2025";
+      return 'Das Jugendtreffen endet am 20.Juli 2025'
     }
-    return true;
-  };
+    return true
+  }
 
   const shouldDisplayAccomodationLocation = () => {
     return (
@@ -115,17 +115,17 @@ const EventPage = () => {
         accomodationCheck.role == 4 ||
         accomodationCheck.role == 5) &&
       accomodationCheck.accommodation
-    );
-  };
+    )
+  }
 
   if (!isAuthenticated) {
-    navigate(routes.login({ next: routes.events({ id: id }) }));
+    navigate(routes.login({ next: routes.events({ id: id }) }))
   }
 
   if (completed) {
     client.refetchQueries({
-      include: ["ParticipationsByUserIdQuery"] // deine Query Namen
-    });
+      include: ['ParticipationsByUserIdQuery'], // deine Query Namen
+    })
     return (
       <>
         <Metadata title="Teilnahme erfolgreich" description="Event page" />
@@ -134,10 +134,10 @@ const EventPage = () => {
         <Card
           title="Alles erledigt!"
           description="Du bist für das Jugendtreffen angemeldet!"
-          button={{ message: "zu meinen Events", to: routes.home() }}
+          button={{ message: 'zu meinen Events', to: routes.home() }}
         ></Card>
       </>
-    );
+    )
   }
 
   return (
@@ -157,7 +157,7 @@ const EventPage = () => {
         </div>
         <Form
           onSubmit={onSubmit}
-          config={{ mode: "onBlur" }}
+          config={{ mode: 'onBlur' }}
           error={error}
           formMethods={formMethods}
           className="flex flex-col gap-5 max-w-xl"
@@ -171,8 +171,8 @@ const EventPage = () => {
               validation={{
                 required: {
                   value: true,
-                  message: "Irgendwie musst du nach Kremsmünster finden..."
-                }
+                  message: 'Irgendwie musst du nach Kremsmünster finden...',
+                },
               }}
               errorClassName="error"
             >
@@ -196,14 +196,14 @@ const EventPage = () => {
                 required: {
                   value: true,
                   message:
-                    "Wähle wie du deine Zeit am Jugendtreffen verbringen wirst"
-                }
+                    'Wähle wie du deine Zeit am Jugendtreffen verbringen wirst',
+                },
               }}
               onChange={(value) => {
                 setAccomodationCheck({
                   role: value.target.value,
-                  accommodation: accomodationCheck.accommodation
-                });
+                  accommodation: accomodationCheck.accommodation,
+                })
               }}
               errorClassName="error"
             >
@@ -234,14 +234,14 @@ const EventPage = () => {
                   validation={{
                     required: {
                       value: true,
-                      message: "Wähle aus wo du übernachten wirst"
-                    }
+                      message: 'Wähle aus wo du übernachten wirst',
+                    },
                   }}
                   value="true"
                   onChange={() =>
                     setAccomodationCheck({
                       role: accomodationCheck.role,
-                      accommodation: true
+                      accommodation: true,
                     })
                   }
                 />
@@ -261,14 +261,14 @@ const EventPage = () => {
                   validation={{
                     required: {
                       value: true,
-                      message: "Wähle aus wo du übernachten wirst"
-                    }
+                      message: 'Wähle aus wo du übernachten wirst',
+                    },
                   }}
                   value="false"
                   onChange={() =>
                     setAccomodationCheck({
                       role: accomodationCheck.role,
-                      accommodation: false
+                      accommodation: false,
                     })
                   }
                 />
@@ -294,8 +294,8 @@ const EventPage = () => {
                       validation={{
                         required: {
                           value: true,
-                          message: "Wähle aus wo du übernachten wirst"
-                        }
+                          message: 'Wähle aus wo du übernachten wirst',
+                        },
                       }}
                       value="subiaco"
                     />
@@ -320,8 +320,8 @@ const EventPage = () => {
                       validation={{
                         required: {
                           value: true,
-                          message: "Wähle aus wo du übernachten wirst"
-                        }
+                          message: 'Wähle aus wo du übernachten wirst',
+                        },
                       }}
                       value="privatquartier"
                     />
@@ -362,8 +362,8 @@ const EventPage = () => {
                   className="border text-sm rounded-lg block w-full ps-5 p-2.5  bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                   errorClassName="error"
                   validation={{
-                    required: { value: true, message: "Wann kommst du?" },
-                    validate: validateStartDate
+                    required: { value: true, message: 'Wann kommst du?' },
+                    validate: validateStartDate,
                   }}
                   defaultValue={startDate.toISOString().slice(0, 10)}
                 />
@@ -376,16 +376,16 @@ const EventPage = () => {
                   className="border text-sm rounded-lg block w-full ps-5 p-2.5  bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                   errorClassName="error"
                   validation={{
-                    required: { value: true, message: "Wann fährtst du heim?" },
-                    validate: validateEndDate
+                    required: { value: true, message: 'Wann fährtst du heim?' },
+                    validate: validateEndDate,
                   }}
                   defaultValue={endDate.toISOString().slice(0, 10)}
                 />
                 <FieldError name="endDate" className="error ms-2" />
               </div>
             </div>
-            <p className={"secondary mt-2"}>
-              Jugendtreffen findet von {startDate.toLocaleDateString()} bis{" "}
+            <p className={'secondary mt-2'}>
+              Jugendtreffen findet von {startDate.toLocaleDateString()} bis{' '}
               {endDate.toLocaleDateString()} statt
             </p>
           </div>
@@ -404,8 +404,8 @@ const EventPage = () => {
                   validation={{
                     required: {
                       value: true,
-                      message: "Wähle aus was du essen magst"
-                    }
+                      message: 'Wähle aus was du essen magst',
+                    },
                   }}
                 />
                 <Label
@@ -425,8 +425,8 @@ const EventPage = () => {
                   validation={{
                     required: {
                       value: true,
-                      message: "Wähle aus was du essen magst"
-                    }
+                      message: 'Wähle aus was du essen magst',
+                    },
                   }}
                 />
                 <Label
@@ -449,14 +449,14 @@ const EventPage = () => {
                 validation={{
                   required: {
                     value: true,
-                    message: "Akzeptiere den Verhaltenscodex um teilzunehmen!"
+                    message: 'Akzeptiere den Verhaltenscodex um teilzunehmen!',
                   },
-                  valueAsBoolean: true
+                  valueAsBoolean: true,
                 }}
                 disabled={!hasOpenedLink}
               />
               <Label name="acceptCoC" className="ms-2">
-                Ich habe den{" "}
+                Ich habe den{' '}
                 <a
                   onClick={() => setHasOpenedLink(true)}
                   href="https://jugendtreffen.at/wp-content/uploads/2024/03/Verhaltenskodex-fu%CC%88r-Teilnehmende-2024.pdf"
@@ -466,7 +466,7 @@ const EventPage = () => {
                 >
                   Verhaltenscodex
                   <InfoIcon />
-                </a>{" "}
+                </a>{' '}
                 gelesen und akzeptiere diesen.
                 <span className="font-bold text-primary-500">*</span>
               </Label>
@@ -499,7 +499,7 @@ const EventPage = () => {
                 name="acceptPhotos"
                 validation={{
                   required: true,
-                  valueAsBoolean: true
+                  valueAsBoolean: true,
                 }}
                 errorClassName="error"
               />
@@ -527,7 +527,7 @@ const EventPage = () => {
         </Form>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default EventPage;
+export default EventPage

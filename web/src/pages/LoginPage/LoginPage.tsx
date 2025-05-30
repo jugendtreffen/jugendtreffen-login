@@ -8,29 +8,29 @@ import { useAlert } from "src/components/Alert/AlertContext";
 import Card from "src/components/Card/Card";
 
 const LoginPage = (props) => {
-  const { next } = props;
-  const { logIn, isAuthenticated, userMetadata, loading } = useAuth();
-  const { addAlert, removeAllAlerts } = useAlert();
+  const { next } = props
+  const { logIn, isAuthenticated, userMetadata, loading } = useAuth()
+  const { addAlert, removeAllAlerts } = useAlert()
 
   const onSubmit = async (data) => {
-    removeAllAlerts();
+    removeAllAlerts()
     try {
       const response = await logIn({
         email: data.email,
         password: data.password,
-        authMethod: "password"
+        authMethod: 'password',
       })
       response?.error?.message
-        ? addAlert(response.error.message, "error")
+        ? addAlert(response.error.message, 'error')
         : navigate(next || routes.home())
     } catch (error) {
-      addAlert(error.message, "error");
+      addAlert(error.message, 'error')
     }
   }
 
   if (isAuthenticated) {
     if (next) {
-      navigate(next);
+      navigate(next)
     }
     return (
       <>
@@ -38,7 +38,7 @@ const LoginPage = (props) => {
 
         <Card className="flex flex-col gap-1">
           <h2>
-            You are already logged in as{" "}
+            You are already logged in as{' '}
             <span className="code">{userMetadata.email}</span>
           </h2>
           <Link className="primary" to={routes.home()}>
@@ -68,7 +68,7 @@ const LoginPage = (props) => {
               errorClassName="input error"
               placeholder="your@mail.com"
               validation={{
-                required: true
+                required: true,
               }}
             />
           </div>
@@ -81,7 +81,7 @@ const LoginPage = (props) => {
               placeholder="••••••••"
               errorClassName="input error"
               validation={{
-                required: true
+                required: true,
               }}
             />
           </div>
@@ -97,7 +97,7 @@ const LoginPage = (props) => {
             Login
           </Submit>
           <p className="text-sm font-light text-gray-400">
-            Du hast noch keinen Account?{" "}
+            Du hast noch keinen Account?{' '}
             <Link
               to={routes.signup()}
               className="font-medium text-primary-600 hover:underline"
@@ -112,4 +112,4 @@ const LoginPage = (props) => {
   )
 }
 
-export default LoginPage;
+export default LoginPage

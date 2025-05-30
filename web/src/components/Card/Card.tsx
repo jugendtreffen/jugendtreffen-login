@@ -5,15 +5,15 @@ import { Link } from "@redwoodjs/router";
 import { ArrowRightIcon } from "src/components/Icons/Icons";
 
 interface CardProps {
-  title?: string;
-  description?: string;
+  title?: string
+  description?: string
   button?: {
     message: string
     to: string
   }
-  imgSrc?: string;
-  children?: ReactNode;
-  className?: string;
+  imgSrc?: string
+  children?: ReactNode
+  className?: string
 }
 
 const Card = (props: CardProps) => {

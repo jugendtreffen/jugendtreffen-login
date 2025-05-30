@@ -5,10 +5,10 @@ import Skeleton from "./Skeleton";
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components
 
-describe("Skeleton", () => {
+describe('Skeleton', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<Skeleton />);
+      render(<Skeleton />)
     }).not.toThrow()
   })
 })

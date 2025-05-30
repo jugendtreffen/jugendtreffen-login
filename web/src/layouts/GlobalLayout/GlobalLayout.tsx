@@ -22,4 +22,4 @@ const GlobalLayout = ({ children }: GlobalLayoutProps) => {
   )
 }
 
-export default GlobalLayout;
+export default GlobalLayout

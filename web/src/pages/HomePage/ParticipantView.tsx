@@ -1,11 +1,11 @@
 import { Metadata } from "@redwoodjs/web";
 
+import { useAuth } from "src/auth";
 import CurrentEventCell from "src/components/CurrentEventCell";
 import ParticipationsCell from "src/components/ParticipationsCell";
-import { useAuth } from "src/auth";
 
 const ParticipantView = () => {
-  const { currentUser } = useAuth();
+  const { currentUser } = useAuth()
   return (
     <>
       <Metadata title="Dashboard" description="Home Page" />
@@ -20,4 +20,4 @@ const ParticipantView = () => {
   )
 }
 
-export default ParticipantView;
+export default ParticipantView

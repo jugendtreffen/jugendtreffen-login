@@ -54,7 +54,7 @@ const Footer = () => {
           </ul>
         </div>
         <span className="block text-sm text-gray-400">
-          Bei Problemen melde dich bei{" "}
+          Bei Problemen melde dich bei{' '}
           <a href="mailto:info@jugendtreffen.at" className="font-bold">
             info@jugendtreffen.at
           </a>
@@ -71,4 +71,4 @@ const Footer = () => {
   )
 }
 
-export default Footer;
+export default Footer

@@ -16,7 +16,7 @@ const SignoutButton = () => {
     >
       Abmelden
     </button>
-  );
+  )
 }
 
 export default SignoutButton

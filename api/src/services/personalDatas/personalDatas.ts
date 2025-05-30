@@ -12,15 +12,17 @@ export const personalData: QueryResolvers['personalData'] = ({ id }) => {
   })
 }
 
-export const personalDataByUserId: QueryResolvers["personalDataByUserId"] = ({ userId }) => {
-  if (userId == undefined) return null;
+export const personalDataByUserId: QueryResolvers['personalDataByUserId'] = ({
+  userId,
+}) => {
+  if (userId == undefined) return null
   return db.personalData.findUnique({
     where: { userId },
     select: {
       name: true,
       familyName: true,
       isParent: true,
-      role: true
+      role: true,
     },
   })
 }

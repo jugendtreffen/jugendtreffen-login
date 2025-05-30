@@ -1,11 +1,7 @@
 import type { EventsQuery, EventsQueryVariables } from "types/graphql";
 
 import { routes } from "@redwoodjs/router";
-import type {
-  CellSuccessProps,
-  CellFailureProps,
-  TypedDocumentNode
-} from "@redwoodjs/web"
+import type { CellFailureProps, CellSuccessProps, TypedDocumentNode } from "@redwoodjs/web";
 
 import Alert, { generateAlertId } from "src/components/Alert/Alert";
 import Card from "src/components/Card/Card";
@@ -21,7 +17,7 @@ export const QUERY: TypedDocumentNode<EventsQuery, EventsQueryVariables> = gql`
   }
 `
 
-export const Loading = () => <LoadingSpinner />;
+export const Loading = () => <LoadingSpinner />
 
 export const Empty = () => (
   <Alert
@@ -29,7 +25,7 @@ export const Empty = () => (
     message="No Events found!"
     dismissible={false}
   ></Alert>
-);
+)
 
 export const Failure = ({ error }: CellFailureProps) => (
   <Alert
@@ -49,11 +45,11 @@ export const Success = ({ events }: CellSuccessProps<EventsQuery>) => {
             title={item.name}
             description={item.desc}
             button={{
-              message: "Teilnehmen",
-              to: routes.events({ id: item.id.toString() })
+              message: 'Teilnehmen',
+              to: routes.events({ id: item.id.toString() }),
             }}
           />
-        );
+        )
       })}
     </div>
   )

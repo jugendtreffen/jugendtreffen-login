@@ -6,7 +6,7 @@ import DefaultView from "src/pages/HomePage/DefaultView";
 import ParticipantView from "src/pages/HomePage/ParticipantView";
 
 const HomePage = () => {
-  const { loading, isAuthenticated } = useAuth();
+  const { loading, isAuthenticated } = useAuth()
 
   if (loading) {
     return (
@@ -15,16 +15,15 @@ const HomePage = () => {
         <div className="flex flex-col items-center justify-center mt-20 w-full">
           <LoadingSpinner />
         </div>
-
       </>
     )
   }
 
   if (isAuthenticated) {
-    return <ParticipantView />;
+    return <ParticipantView />
   }
 
-  return <DefaultView />;
+  return <DefaultView />
 }
 
-export default HomePage;
+export default HomePage

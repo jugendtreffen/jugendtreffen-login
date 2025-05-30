@@ -44,102 +44,102 @@ const CREATE_PERSONALDATA = gql`
 `
 
 interface FormValues {
-  email: string;
-  password: string;
-  password_ctl: string;
-  name: string;
-  familyName: string;
-  birthdate: string;
-  gender: string;
-  phoneNumber: string;
-  country: string;
-  city: string;
-  postalCode: string;
-  address: string;
-  roleId: number;
-  userId: string;
+  email: string
+  password: string
+  password_ctl: string
+  name: string
+  familyName: string
+  birthdate: string
+  gender: string
+  phoneNumber: string
+  country: string
+  city: string
+  postalCode: string
+  address: string
+  roleId: number
+  userId: string
 }
 
 const SignupPage = () => {
-  const { client, isAuthenticated, userMetadata } = useAuth();
-  const { addAlert, removeAllAlerts } = useAlert();
-  const [signupCompleted, setSignupCompleted] = useState(false);
-  const [isMinor, setMinor] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [resendDisabled, setResendDisabled] = useState(false);
+  const { client, isAuthenticated, userMetadata } = useAuth()
+  const { addAlert, removeAllAlerts } = useAlert()
+  const [signupCompleted, setSignupCompleted] = useState(false)
+  const [isMinor, setMinor] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [resendDisabled, setResendDisabled] = useState(false)
   const formMethods = useForm({
-    mode: "onBlur",
-    resolver: null
+    mode: 'onBlur',
+    resolver: null,
   })
   const [create, { loading }] = useMutation<
     CreatePersonlaDataMutation,
     CreatePersonlaDataMutationVariables
   >(CREATE_PERSONALDATA, {
     onCompleted: () => {
-      setSignupCompleted(true);
-      formMethods.reset();
+      setSignupCompleted(true)
+      formMethods.reset()
     },
   })
 
   const validatePassword = (confirmationPassword) => {
-    const password = formMethods.getValues()["password"];
+    const password = formMethods.getValues()['password']
     if (confirmationPassword !== password) {
-      return "Die Passwörter stimmen nicht überein.";
+      return 'Die Passwörter stimmen nicht überein.'
     }
   }
   const validateBirthDate = (value) => {
-    const max_bd = new Date(new Date().getFullYear() - 13, 7, 31);
-    const minor_bd = new Date(new Date().getFullYear() - 18, 7, 31);
+    const max_bd = new Date(new Date().getFullYear() - 13, 7, 31)
+    const minor_bd = new Date(new Date().getFullYear() - 18, 7, 31)
 
     if (value >= minor_bd) {
-      setMinor(true);
+      setMinor(true)
     } else {
-      setMinor(false);
+      setMinor(false)
     }
     if (value >= max_bd) {
-      return "Teilnehmende müssen mindestens 14 Jahre alt sein oder in diesem Schuljahr (2024/25) die 8. Schulstufe besucht haben. Stichtag ist der 31.08.2011. Eine Teilnahme ist bis zum 30. Lebensjahr möglich.";
+      return 'Teilnehmende müssen mindestens 14 Jahre alt sein oder in diesem Schuljahr (2024/25) die 8. Schulstufe besucht haben. Stichtag ist der 31.08.2011. Eine Teilnahme ist bis zum 30. Lebensjahr möglich.'
     }
   }
 
   const onSubmit: SubmitHandler<FormValues> = async (input) => {
-    removeAllAlerts();
-    input.roleId = 3;
+    removeAllAlerts()
+    input.roleId = 3
     try {
       const response = await client.auth.signUp({
         email: input.email,
-        password: input.password
+        password: input.password,
       })
       response?.error?.message
-        ? addAlert(response.error.message, "error")
+        ? addAlert(response.error.message, 'error')
         : (input.userId = response.data.user.id)
     } catch (error) {
-      addAlert(error.message, "error");
+      addAlert(error.message, 'error')
     }
-    const { email, password, password_ctl, ...personalData } = input;
+    const { email, password, password_ctl, ...personalData } = input
     await create({ variables: { input: personalData } }).catch((error) => {
-      addAlert(error.message, "error");
-    });
+      addAlert(error.message, 'error')
+    })
   }
 
   const handleResend = async () => {
     if (!client) {
-      setErrorMessage("Es ist ein Fehler aufgetreten");
-      return;
+      setErrorMessage('Es ist ein Fehler aufgetreten')
+      return
     }
 
     const { error } = await client.auth.signInWithOtp({
-      email: formMethods.getValues().email
+      email: formMethods.getValues().email,
     })
-    setResendDisabled(true);
+    setResendDisabled(true)
     setTimeout(() => {
-      setResendDisabled(false);
-      setErrorMessage("");
+      setResendDisabled(false)
+      setErrorMessage('')
     }, 60000)
 
     if (error) {
       setErrorMessage(
-        "Bestätigungsmail konnte nicht gesendet werden. Versuche es in 2 Minuten nochmal!"
-      );
+        'Bestätigungsmail konnte nicht gesendet werden. Versuche es in 2 Minuten nochmal!'
+      )
     }
   }
 
@@ -150,11 +150,11 @@ const SignupPage = () => {
 
         <Card
           className="flex flex-col gap-1"
-          button={{ message: "Zu den Events", to: routes.home() }}
+          button={{ message: 'Zu den Events', to: routes.home() }}
         >
-          <h2 className={"mb-3"}>
-            Du bist als{" "}
-            <span className="code text-primary-500">{userMetadata.email}</span>{" "}
+          <h2 className={'mb-3'}>
+            Du bist als{' '}
+            <span className="code text-primary-500">{userMetadata.email}</span>{' '}
             eingeloggt!
           </h2>
         </Card>
@@ -170,8 +170,8 @@ const SignupPage = () => {
         <Card
           className="flex flex-col gap-1"
           button={{
-            message: "weiter zur Anmeldung",
-            to: routes.login({ next: routes.events({ id: "0" }) })
+            message: 'weiter zur Anmeldung',
+            to: routes.login({ next: routes.events({ id: '0' }) }),
           }}
         >
           <div className="flex flex-row gap-2">
@@ -180,7 +180,7 @@ const SignupPage = () => {
             </span>
             <p className="secondary text-end w-full">Schritt: 3/4</p>
           </div>
-          <h2 className={"mb-3"}>
+          <h2 className={'mb-3'}>
             Dein Account wurde erstellt. Bestätige die Email die wir dir
             gesendet haben
           </h2>
@@ -194,7 +194,7 @@ const SignupPage = () => {
           >
             Email erneut senden
           </button>
-          {errorMessage !== "" && (
+          {errorMessage !== '' && (
             <Alert
               id="0"
               type="error"
@@ -235,7 +235,7 @@ const SignupPage = () => {
                 className="input"
                 placeholder="your@mail.com"
                 validation={{
-                  required: true
+                  required: true,
                 }}
               />
             </div>
@@ -251,12 +251,12 @@ const SignupPage = () => {
                 validation={{
                   required: {
                     value: true,
-                    message: "Bitte gib ein Passwort an"
+                    message: 'Bitte gib ein Passwort an',
                   },
                   minLength: {
                     value: 6,
-                    message: "Passwort muss mindestens 6 Zeichen beinhalten"
-                  }
+                    message: 'Passwort muss mindestens 6 Zeichen beinhalten',
+                  },
                 }}
               />
               <FieldError name="password" className="error ms-2" />
@@ -274,11 +274,11 @@ const SignupPage = () => {
                 validation={{
                   required: {
                     value: true,
-                    message: "Bitte Betätige das Passwort"
+                    message: 'Bitte Betätige das Passwort',
                   },
                   validate: {
                     passwordConfirmation: (value) => {
-                      return validatePassword(value);
+                      return validatePassword(value)
                     },
                   },
                 }}
@@ -302,53 +302,53 @@ const SignupPage = () => {
               errorClassName="error"
             />
             <div>
-              <Label name={"birthdate"} errorClassName={"error"}>
+              <Label name={'birthdate'} errorClassName={'error'}>
                 Geburtsdatum
               </Label>
               <DateField
-                name={"birthdate"}
+                name={'birthdate'}
                 validation={{
                   required: {
                     value: true,
-                    message: "Bitte gebe dein Geburtsdatum an"
+                    message: 'Bitte gebe dein Geburtsdatum an',
                   },
-                  validate: validateBirthDate
+                  validate: validateBirthDate,
                 }}
                 errorClassName="error"
               />
-              <FieldError name={"birthdate"} className={"error"} />
+              <FieldError name={'birthdate'} className={'error'} />
             </div>
             <div>
-              <Label name={"phoneNumber"} errorClassName={"error"}>
+              <Label name={'phoneNumber'} errorClassName={'error'}>
                 Handynummer
               </Label>
               <InputField
-                name={"phoneNumber"}
+                name={'phoneNumber'}
                 validation={{ required: true }}
                 placeholder="+43 1234 12345678 "
-                errorClassName={"error"}
+                errorClassName={'error'}
               ></InputField>
             </div>
             <div>
-              <Label name={"phoneCaretakerContact"} errorClassName={"error"}>
+              <Label name={'phoneCaretakerContact'} errorClassName={'error'}>
                 Handynummer deines Erziehungsberechtigten
                 <p className="secondary">für unter 18 verpflichtend</p>
               </Label>
               <InputField
-                name={"phoneCaretakerContact"}
+                name={'phoneCaretakerContact'}
                 validation={{ required: isMinor }}
                 placeholder="+43 1234 12345678 "
-                errorClassName={"error"}
+                errorClassName={'error'}
               ></InputField>
             </div>
             <div>
-              <Label name={"gender"} errorClassName={"error"}>
+              <Label name={'gender'} errorClassName={'error'}>
                 Geschlecht
               </Label>
               <SelectField
-                name={"gender"}
+                name={'gender'}
                 validation={{ required: true }}
-                errorClassName={"error"}
+                errorClassName={'error'}
               >
                 <option value="" disabled selected={true}>
                   Bitte wählen Sie
@@ -416,7 +416,7 @@ const SignupPage = () => {
           </Step>
         </MultiStepForm>
         <p className="mt-5 text-sm font-light text-gray-400">
-          Du hast bereits einen Account?{" "}
+          Du hast bereits einen Account?{' '}
           <Link to={routes.login()} className="font-medium hover:underline ">
             Melde dich hier an
           </Link>
@@ -427,4 +427,4 @@ const SignupPage = () => {
   )
 }
 
-export default SignupPage;
+export default SignupPage

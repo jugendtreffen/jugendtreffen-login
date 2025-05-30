@@ -15,16 +15,16 @@ export const event: QueryResolvers['event'] = async ({ id }) => {
   if (event != null) {
     return event
   }
-  throw new UserInputError("kein Event gefunden", { id });
+  throw new UserInputError('kein Event gefunden', { id })
 }
 
-export const currentEvent: QueryResolvers["currentEvent"] = async () => {
+export const currentEvent: QueryResolvers['currentEvent'] = async () => {
   return db.event.findFirst({
     orderBy: {
-      startDate: "desc"
-    }
+      startDate: 'desc',
+    },
   })
-};
+}
 
 export const Event: EventRelationResolvers = {
   Participation: (_obj, { root }) => {

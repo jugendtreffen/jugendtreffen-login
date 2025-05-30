@@ -46,12 +46,12 @@ const MultiStepForm = ({ children, ...props }: MultiStepFormProps<any>) => {
       >
         {currentChild}
         <div
-          className={`flex gap-4 w-full ${currentStep === 0 ? "justify-end" : "justify-between"}`}
+          className={`flex gap-4 w-full ${currentStep === 0 ? 'justify-end' : 'justify-between'}`}
         >
           {currentStep > 0 && (
             <button
               className="secondary"
-              type={"button"}
+              type={'button'}
               onClick={handlePrevStep}
             >
               Zurück
@@ -59,7 +59,7 @@ const MultiStepForm = ({ children, ...props }: MultiStepFormProps<any>) => {
           )}
           {!isLastStep() && (
             <button
-              type={"button"}
+              type={'button'}
               className="primary"
               onClick={handleNextStep}
             >
@@ -68,7 +68,7 @@ const MultiStepForm = ({ children, ...props }: MultiStepFormProps<any>) => {
           )}
           {isLastStep() && (
             <Submit className="primary" disabled={props.disableSubmit === true}>
-              {props.finishText}{" "}
+              {props.finishText}{' '}
             </Submit>
           )}
         </div>

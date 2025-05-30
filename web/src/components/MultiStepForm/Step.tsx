@@ -1,5 +1,5 @@
 const Step = ({ children }) => {
-  return <>{children}</>;
-};
+  return <>{children}</>
+}
 
-export default Step;
+export default Step
