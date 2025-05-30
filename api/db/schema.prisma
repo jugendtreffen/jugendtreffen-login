@@ -43,11 +43,12 @@ model Participation {
   acceptPhotos         Boolean
   acceptCoC            Boolean
   eventId              Int
-  userId               String    @unique @db.Uuid
+  userId               String    @db.Uuid
   event                Event             @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   participationRole    ParticipationRole? @relation(fields: [participationRoleId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 
   @@map("participations")
+  @@index([userId])
 }
 
 model SystemRole {

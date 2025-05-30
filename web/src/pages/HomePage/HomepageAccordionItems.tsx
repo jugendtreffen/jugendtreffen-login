@@ -1,85 +1,65 @@
 export const HomePageAccordionItems = [
   {
-    title: "Ort",
+    title: 'Ort',
     content: (
       <>
-        <p className="mb-2 text-red-500">
-          {"\<Beschreibung\>"}
-        </p>
+        <p className="mb-2 text-red-500">{'\<Beschreibung\>'}</p>
         <p className="secondary">
-          Text can have{" "}
-          <a href="#"
-             className="text-blue-600 dark:text-blue-500 hover:underline"
-          >
+          Text can have{' '}
+          <a href="#" className="text-blue-500 hover:underline">
             test link
-          </a>{" "}
+          </a>{' '}
           ...
         </p>
       </>
-    )
+    ),
   },
   {
-    title: "Programm",
+    title: 'Programm',
     content: (
       <>
-        <p className="mb-2 text-red-500">
-          {"\<Beschreibung\>"}
-        </p>
+        <p className="mb-2 text-red-500">{'\<Beschreibung\>'}</p>
       </>
-    )
+    ),
   },
   {
-    title: "Unterkunft",
+    title: 'Unterkunft',
     content: (
       <>
-        <p className="mb-2 text-red-500">
-          {"\<Beschreibung\>"}
-        </p>
+        <p className="mb-2 text-red-500">{'\<Beschreibung\>'}</p>
       </>
-    )
+    ),
   },
   {
-    title: "Verpflegung",
-    content:
-      (
-        <>
-          <p className="mb-2 text-red-500">
-            {"\<Beschreibung\>"}
-          </p>
-        </>
-      )
+    title: 'Verpflegung',
+    content: (
+      <>
+        <p className="mb-2 text-red-500">{'\<Beschreibung\>'}</p>
+      </>
+    ),
   },
   {
-    title: "Altersgrenze",
-    content:
-      (
-        <>
-          <p className="mb-2 text-red-500">
-            {"\<Beschreibung\>"}
-          </p>
-        </>
-      )
+    title: 'Altersgrenze',
+    content: (
+      <>
+        <p className="mb-2 text-red-500">{'\<Beschreibung\>'}</p>
+      </>
+    ),
   },
   {
-    title: "Kosten",
-    content:
-      (
-        <>
-          <p className="mb-2 text-red-500">
-            {"\<Beschreibung\>"}
-          </p>
-        </>
-      )
+    title: 'Kosten',
+    content: (
+      <>
+        <p className="mb-2 text-red-500">{'\<Beschreibung\>'}</p>
+      </>
+    ),
   },
   {
-    title: "Anreise",
-    content:
-      (
-        <>
-          <p className="mb-2 text-red-500">
-            {"\<Beschreibung\>"}
-          </p>
-        </>
-      )
-  }
-];
+    title: 'Anreise',
+    content: (
+      <>
+        <p className="mb-2 text-red-500">{'\<Beschreibung\>'}</p>
+      </>
+    ),
+  },
+]

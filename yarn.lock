@@ -16054,6 +16054,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lucide-react@npm:^0.511.0":
+  version: 0.511.0
+  resolution: "lucide-react@npm:0.511.0"
+  peerDependencies:
+    react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/bf09dd73cf2233abea90506ad31a91739555d761062722acbe045cb73e274f035b196472de0971a8a8f0645b2b54e3f21b8c1980fe87c909ca93171a9c28428a
+  languageName: node
+  linkType: hard
+
 "lz-string@npm:^1.5.0":
   version: 1.5.0
   resolution: "lz-string@npm:1.5.0"
@@ -21700,6 +21709,7 @@ __metadata:
     "@types/react-dom": "npm:^18.2.19"
     autoprefixer: "npm:^10.4.20"
     framer-motion: "npm:^12.5.0"
+    lucide-react: "npm:^0.511.0"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
     tailwindcss: "npm:^3.4.17"

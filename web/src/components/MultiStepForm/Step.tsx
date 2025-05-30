@@ -1,9 +1,5 @@
-const Step = ({children}) => {
-  return (
-    <>
-      {children}
-    </>
-  );
-};
+const Step = ({ children }) => {
+  return <>{children}</>
+}
 
-export default Step;
+export default Step

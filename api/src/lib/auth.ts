@@ -1,5 +1,6 @@
-import { parseJWT } from '@redwoodjs/api'
-import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
+import { AuthenticationError, ForbiddenError } from "@redwoodjs/graphql-server";
+
+import { personalDataByUserId } from "src/services/personalDatas/personalDatas";
 
 /**
  * Represents the user attributes returned by the decoding the
@@ -27,7 +28,7 @@ type RedwoodUser = Record<string, unknown> & { roles?: string[] }
  *
  * @returns RedwoodUser
  */
-export const getCurrentUser = async (
+export const getCurrentUser = (
   decoded,
   /* eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars */
   { token, type },
@@ -38,13 +39,9 @@ export const getCurrentUser = async (
     return null
   }
 
-  const { roles } = parseJWT({ decoded })
-
-  if (roles) {
-    return { ...decoded, roles }
-  }
-
-  return { ...decoded }
+  // const { roles } = parseJWT({ decoded })
+  const personalData = personalDataByUserId({ userId: decoded.sub })
+  return { ...decoded, personalData }
 }
 
 /**
@@ -65,10 +62,9 @@ type AllowedRoles = string | string[] | undefined
 /**
  * Checks if the currentUser is authenticated (and assigned one of the given roles)
  *
- * @param roles: {@link AllowedRoles} - Checks if the currentUser is assigned one of these roles
- *
  * @returns {boolean} - Returns true if the currentUser is logged in and assigned one of the given roles,
  * or when no roles are provided to check against. Otherwise returns false.
+ * @param roles roles
  */
 export const hasRole = (roles: AllowedRoles): boolean => {
   if (!isAuthenticated()) {
