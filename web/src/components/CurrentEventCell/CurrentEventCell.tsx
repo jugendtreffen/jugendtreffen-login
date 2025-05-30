@@ -4,7 +4,7 @@ import { routes } from "@redwoodjs/router";
 import type { CellFailureProps, CellSuccessProps, TypedDocumentNode } from "@redwoodjs/web";
 
 import Card from "src/components/Card/Card";
-import LoadingSpinner from "src/components/Loading/LoadingSpinner";
+import Skeleton from "src/components/Skeleton/Skeleton";
 
 export const QUERY: TypedDocumentNode<
   FindCurrentEventQuery,
@@ -22,9 +22,7 @@ export const QUERY: TypedDocumentNode<
 `;
 
 export const Loading = () => (
-  <Card className="w-full md:w-96">
-    <LoadingSpinner />
-  </Card>
+  <Skeleton type="card" className={"w-full md:w-96 h-64"} />
 );
 
 export const Empty = () => <Card className="w-full md:w-96" title={"Kein aktuelles Event"} description={""}></Card>;
@@ -40,7 +38,7 @@ export const Success = ({ currentEvent }: CellSuccessProps<FindCurrentEventQuery
     <Card
       title={currentEvent.name}
       description={currentEvent.desc}
-      className={"w-full md:w-96"}
+      className={"w-full md:w-96 mb-4"}
       button={{
         message: "Anmeldung",
         to: routes.events({ id: String(currentEvent.id) })

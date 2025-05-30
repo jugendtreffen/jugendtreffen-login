@@ -152,13 +152,10 @@ const SignupPage = () => {
           className="flex flex-col gap-1"
           button={{ message: "Zu den Events", to: routes.home() }}
         >
-          <span className={"text-green-500"}>
-            <CheckIcon />
-          </span>
           <h2 className={"mb-3"}>
             Du bist als{" "}
             <span className="code text-primary-500">{userMetadata.email}</span>{" "}
-            angemeldet!
+            eingeloggt!
           </h2>
         </Card>
       </>

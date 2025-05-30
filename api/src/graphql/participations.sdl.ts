@@ -19,9 +19,8 @@ export const schema = gql`
   }
 
   type Query {
-    participations: [Participation!]! @requireAuth
+    participations(userId: String): [Participation!] @requireAuth
     participation(id: BigInt!): Participation @requireAuth
-    participationsByUserId(userId: String!): [Participation!]! @skipAuth
   }
 
   input CreateParticipationInput {

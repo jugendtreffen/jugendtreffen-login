@@ -1,13 +1,12 @@
-import type {
-  MutationResolvers,
-  ParticipationRelationResolvers,
-  QueryResolvers
-} from "types/graphql";
+import type { MutationResolvers, ParticipationRelationResolvers, QueryResolvers } from "types/graphql";
 
 import { db } from "src/lib/db";
 
-export const participations: QueryResolvers['participations'] = () => {
-  return db.participation.findMany()
+export const participations: QueryResolvers["participations"] = async ({ userId }) => {
+  return await db.participation.findMany({
+    include: { event: true, participationRole: true }
+    , where: { userId }
+  });
 }
 
 export const participation: QueryResolvers['participation'] = ({ id }) => {
@@ -15,16 +14,6 @@ export const participation: QueryResolvers['participation'] = ({ id }) => {
     where: { id },
   })
 }
-
-export const getParticipationByUserId: QueryResolvers["participationsByUserId"] =
-  async ({ userId }) => {
-    const participations = await db.participation.findMany({
-      where: { userId },
-      include: { event: true, participationRole: true }
-    });
-
-    return participations;
-  }
 
 export const createParticipation: MutationResolvers['createParticipation'] = ({
   input,

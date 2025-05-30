@@ -20,6 +20,7 @@ import { Metadata, useMutation } from "@redwoodjs/web";
 import { toast, Toaster } from "@redwoodjs/web/toast";
 
 import { useAuth } from "src/auth";
+import { useApolloClient } from "@apollo/client";
 import Card from "src/components/Card/Card";
 import EventCell from "src/components/EventCell/EventCell";
 import { InfoIcon } from "src/components/Icons/Icons";
@@ -40,7 +41,7 @@ const CREATE_PARTICIPATION = gql`
       eventId
     }
   }
-`
+`;
 
 interface FormValues {
   eventId: number;
@@ -59,14 +60,16 @@ interface FormValues {
 
 const EventPage = () => {
   const { id } = useParams();
+  const { isAuthenticated, userMetadata } = useAuth();
+  const formMethods = useForm();
+  const client = useApolloClient();
+
   const [completed, setCompleted] = useState(false);
   const [accomodationCheck, setAccomodationCheck] = useState({
     role: undefined,
     accommodation: undefined
   });
   const [hasOpenedLink, setHasOpenedLink] = useState(false);
-  const { isAuthenticated, userMetadata } = useAuth();
-  const formMethods = useForm();
   const [create, { loading, error }] = useMutation<
     CreateParticipationMutation,
     CreateParticipationMutationVariables
@@ -74,8 +77,8 @@ const EventPage = () => {
     onCompleted: () => {
       toast.success("Deine Teilnahme wurde gespeichert");
       setCompleted(true);
-    },
-  })
+    }
+  });
 
   const startDate = new Date("2025-07-15");
   const endDate = new Date("2025-07-20");
@@ -87,14 +90,14 @@ const EventPage = () => {
     data.userId = userMetadata.sub;
     // @ts-ignore
     await create({ variables: { input: data } });
-  }
+  };
 
   const validateStartDate = (value, context) => {
     if (context.startDate < startDate || context.startDate > endDate) {
       return "Jugendtreffen findet zwischen 15.Juli 2025 und 20.Juli 2025 statt";
     }
     return true;
-  }
+  };
 
   const validateEndDate = (value, context) => {
     if (context.endDate < context.startDate) {
@@ -104,7 +107,7 @@ const EventPage = () => {
       return "Das Jugendtreffen endet am 20.Juli 2025";
     }
     return true;
-  }
+  };
 
   const shouldDisplayAccomodationLocation = () => {
     return (
@@ -113,13 +116,16 @@ const EventPage = () => {
         accomodationCheck.role == 5) &&
       accomodationCheck.accommodation
     );
-  }
+  };
 
   if (!isAuthenticated) {
     navigate(routes.login({ next: routes.events({ id: id }) }));
   }
 
   if (completed) {
+    client.refetchQueries({
+      include: ["ParticipationsByUserIdQuery"] // deine Query Namen
+    });
     return (
       <>
         <Metadata title="Teilnahme erfolgreich" description="Event page" />
@@ -131,7 +137,7 @@ const EventPage = () => {
           button={{ message: "zu meinen Events", to: routes.home() }}
         ></Card>
       </>
-    )
+    );
   }
 
   return (
@@ -191,7 +197,7 @@ const EventPage = () => {
                   value: true,
                   message:
                     "Wähle wie du deine Zeit am Jugendtreffen verbringen wirst"
-                },
+                }
               }}
               onChange={(value) => {
                 setAccomodationCheck({
@@ -521,7 +527,7 @@ const EventPage = () => {
         </Form>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default EventPage;
