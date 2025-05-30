@@ -19,7 +19,7 @@ interface CardProps {
 const Card = (props: CardProps) => {
   return (
     <div
-      className={`max-w-md p-6 border rounded-xl bg-gray-900/80 backdrop-blur-xl border-gray-700/50 shadow-2xl ${props.className}`}
+      className={`max-w-md p-6 border rounded-xl bg-gray-900/80 border-gray-700/50 shadow-2xl ${props.className}`}
     >
       {props.title && (
         <h2 className="mb-2 text-2xl font-bold tracking-tight">
