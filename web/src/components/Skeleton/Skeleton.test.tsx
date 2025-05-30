@@ -1,14 +1,14 @@
 import { render } from "@redwoodjs/testing/web";
 
-import Alert from "./Alert";
+import Skeleton from "./Skeleton";
 
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components
 
-describe('Alert', () => {
+describe('Skeleton', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<Alert id={'000'} message={'message'} />)
+      render(<Skeleton />)
     }).not.toThrow()
   })
 })

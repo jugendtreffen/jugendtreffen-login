@@ -3,45 +3,50 @@ import { Link, navigate, routes } from "@redwoodjs/router";
 import { Metadata } from "@redwoodjs/web";
 
 import { useAuth } from "src/auth";
-import { useAlert } from "src/components/Alert/AlertContext";
 import AlertCenter from "src/components/Alert/AlertCenter";
+import { useAlert } from "src/components/Alert/AlertContext";
 import Card from "src/components/Card/Card";
 
 const LoginPage = (props) => {
-  const { next } = props;
-  const { logIn, isAuthenticated, userMetadata, loading } = useAuth();
-  const { addAlert, removeAllAlerts } = useAlert();
+  const { next } = props
+  const { logIn, isAuthenticated, userMetadata, loading } = useAuth()
+  const { addAlert, removeAllAlerts } = useAlert()
 
   const onSubmit = async (data) => {
-    removeAllAlerts();
+    removeAllAlerts()
     try {
       const response = await logIn({
         email: data.email,
         password: data.password,
-        authMethod: "password"
-      });
+        authMethod: 'password',
+      })
       response?.error?.message
-        ? addAlert(response.error.message, "error")
-        : navigate(next || routes.home());
+        ? addAlert(response.error.message, 'error')
+        : navigate(next || routes.home())
     } catch (error) {
-      addAlert(error.message, "error");
+      addAlert(error.message, 'error')
     }
-  };
+  }
 
   if (isAuthenticated) {
     if (next) {
-      navigate(next);
+      navigate(next)
     }
     return (
       <>
         <Metadata title="Anmelden" description="Login page" />
 
         <Card className="flex flex-col gap-1">
-          <h2>You are already logged in as <span className="code">{userMetadata.email}</span></h2>
-          <Link className="primary" to={routes.home()}>Home</Link>
+          <h2>
+            You are already logged in as{' '}
+            <span className="code">{userMetadata.email}</span>
+          </h2>
+          <Link className="primary" to={routes.home()}>
+            Home
+          </Link>
         </Card>
       </>
-    );
+    )
   }
 
   return (
@@ -49,15 +54,12 @@ const LoginPage = (props) => {
       <Metadata title="Anmelden" description="Login page" />
 
       <Card>
-        <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white">
           Bei Jugendtreffen Anmelden
         </h1>
         <Form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
           <div>
-            <Label
-              name="email"
-              className="label"
-            >
+            <Label name="email" className="label">
               Email
             </Label>
             <InputField
@@ -66,15 +68,12 @@ const LoginPage = (props) => {
               errorClassName="input error"
               placeholder="your@mail.com"
               validation={{
-                required: true
+                required: true,
               }}
             />
           </div>
           <div>
-            <Label
-              name="password"
-              className="label"
-            >
+            <Label name="password" className="label">
               Passwort
             </Label>
             <PasswordField
@@ -82,7 +81,7 @@ const LoginPage = (props) => {
               placeholder="••••••••"
               errorClassName="input error"
               validation={{
-                required: true
+                required: true,
               }}
             />
           </div>
@@ -95,10 +94,10 @@ const LoginPage = (props) => {
           {/*  </Link>*/}
           {/*</div>*/}
           <Submit className="primary w-full" disabled={loading}>
-            Anmelden
+            Login
           </Submit>
-          <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-            Du hast noch keinen Account?{" "}
+          <p className="text-sm font-light text-gray-400">
+            Du hast noch keinen Account?{' '}
             <Link
               to={routes.signup()}
               className="font-medium text-primary-600 hover:underline"
@@ -110,7 +109,7 @@ const LoginPage = (props) => {
       </Card>
       <AlertCenter className="mt-2"></AlertCenter>
     </>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

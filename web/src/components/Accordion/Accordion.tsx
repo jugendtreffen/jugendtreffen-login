@@ -1,4 +1,5 @@
 import React, { ReactNode, useState } from "react";
+
 import { CollapseIcon } from "src/components/Icons/Icons";
 
 interface AccordionItemProps {
