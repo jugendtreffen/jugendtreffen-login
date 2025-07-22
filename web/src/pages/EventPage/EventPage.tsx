@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-import { useApolloClient } from "@apollo/client";
-import { CreateParticipationMutation, CreateParticipationMutationVariables } from "types/graphql";
+import { useApolloClient } from '@apollo/client'
+import {
+  CreateParticipationMutation,
+  CreateParticipationMutationVariables,
+} from 'types/graphql'
 
 import {
   CheckboxField,
@@ -14,16 +17,16 @@ import {
   SelectField,
   Submit,
   SubmitHandler,
-  useForm
-} from "@redwoodjs/forms";
-import { navigate, routes, useParams } from "@redwoodjs/router";
-import { Metadata, useMutation } from "@redwoodjs/web";
-import { toast, Toaster } from "@redwoodjs/web/toast";
+  useForm,
+} from '@redwoodjs/forms'
+import { navigate, routes, useParams } from '@redwoodjs/router'
+import { Metadata, useMutation } from '@redwoodjs/web'
+import { toast, Toaster } from '@redwoodjs/web/toast'
 
-import { useAuth } from "src/auth";
-import Card from "src/components/Card/Card";
-import EventCell from "src/components/EventCell/EventCell";
-import { InfoIcon } from "src/components/Icons/Icons";
+import { useAuth } from 'src/auth'
+import Card from 'src/components/Card/Card'
+import EventCell from 'src/components/EventCell/EventCell'
+import { InfoIcon } from 'src/components/Icons/Icons'
 
 const CREATE_PARTICIPATION = gql`
   mutation CreateParticipationMutation($input: CreateParticipationInput!) {
@@ -60,7 +63,7 @@ interface FormValues {
 
 const EventPage = () => {
   const { id } = useParams()
-  const { isAuthenticated, userMetadata } = useAuth()
+  const { isAuthenticated, currentUser } = useAuth()
   const formMethods = useForm()
   const client = useApolloClient()
 
@@ -87,7 +90,7 @@ const EventPage = () => {
     data.eventId = parseInt(id, 10)
     data.participationRoleId = parseInt(String(data.participationRoleId), 10)
     data.accommodation = String(data.accommodation) == 'true'
-    data.userId = userMetadata.sub
+    data.userId = currentUser.sub
     // @ts-ignore
     await create({ variables: { input: data } })
   }

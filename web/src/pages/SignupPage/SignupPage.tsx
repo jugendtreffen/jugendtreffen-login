@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-import { CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables } from "types/graphql";
+import {
+  CreatePersonlaDataMutation,
+  CreatePersonlaDataMutationVariables,
+} from 'types/graphql'
 
 import {
   DateField,
@@ -10,20 +13,20 @@ import {
   PasswordField,
   SelectField,
   SubmitHandler,
-  useForm
-} from "@redwoodjs/forms";
-import { Link, routes } from "@redwoodjs/router";
-import { Metadata, useMutation } from "@redwoodjs/web";
+  useForm,
+} from '@redwoodjs/forms'
+import { Link, routes } from '@redwoodjs/router'
+import { Metadata, useMutation } from '@redwoodjs/web'
 
-import { useAuth } from "src/auth";
-import Alert from "src/components/Alert/Alert";
-import AlertCenter from "src/components/Alert/AlertCenter";
-import { useAlert } from "src/components/Alert/AlertContext";
-import Card from "src/components/Card/Card";
-import { CheckIcon } from "src/components/Icons/Icons";
-import LoadingSpinner from "src/components/Loading/LoadingSpinner";
-import MultiStepForm from "src/components/MultiStepForm/MultiStepForm";
-import Step from "src/components/MultiStepForm/Step";
+import { useAuth } from 'src/auth'
+import Alert from 'src/components/Alert/Alert'
+import AlertCenter from 'src/components/Alert/AlertCenter'
+import { useAlert } from 'src/components/Alert/AlertContext'
+import Card from 'src/components/Card/Card'
+import { CheckIcon } from 'src/components/Icons/Icons'
+import LoadingSpinner from 'src/components/Loading/LoadingSpinner'
+import MultiStepForm from 'src/components/MultiStepForm/MultiStepForm'
+import Step from 'src/components/MultiStepForm/Step'
 
 const CREATE_PERSONALDATA = gql`
   mutation CreatePersonlaDataMutation($input: CreatePersonalDataInput!) {
@@ -171,7 +174,7 @@ const SignupPage = () => {
           className="flex flex-col gap-1"
           button={{
             message: 'weiter zur Anmeldung',
-            to: routes.login({ next: routes.events({ id: '0' }) }),
+            to: routes.login({ next: routes.events({ id: '1' }) }),
           }}
         >
           <div className="flex flex-row gap-2">

@@ -5,8 +5,8 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  url       = env("SUPABASE_TRANSACTION_POOLER_URL")
+  directUrl = env("SUPABASE_SESSION_POOLER_URL")
 }
 
 model PersonalData {
@@ -24,7 +24,7 @@ model PersonalData {
   city                  String?
   postalCode            String?
   address               String?
-  userId                String    @unique @db.Uuid
+  userId                String     @unique @db.Uuid
   role                  SystemRole @relation(fields: [roleId], references: [id], onDelete: SetDefault, onUpdate: Cascade)
 
   @@map("personalDatas")
@@ -43,12 +43,12 @@ model Participation {
   acceptPhotos         Boolean
   acceptCoC            Boolean
   eventId              Int
-  userId               String    @db.Uuid
-  event                Event             @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  userId               String             @db.Uuid
+  event                Event              @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   participationRole    ParticipationRole? @relation(fields: [participationRoleId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 
-  @@map("participations")
   @@index([userId])
+  @@map("participations")
 }
 
 model SystemRole {

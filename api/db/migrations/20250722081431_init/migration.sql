@@ -1,30 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Participation` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `ParticipationRole` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `SystemRole` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropForeignKey
-ALTER TABLE "Participation" DROP CONSTRAINT "Participation_participationRoleId_fkey";
-
--- DropForeignKey
-ALTER TABLE "User" DROP CONSTRAINT "User_roleId_fkey";
-
--- DropTable
-DROP TABLE "Participation";
-
--- DropTable
-DROP TABLE "ParticipationRole";
-
--- DropTable
-DROP TABLE "SystemRole";
-
--- DropTable
-DROP TABLE "User";
-
 -- CreateTable
 CREATE TABLE "personalDatas" (
     "id" BIGSERIAL NOT NULL,
@@ -32,14 +5,16 @@ CREATE TABLE "personalDatas" (
     "familyName" TEXT NOT NULL,
     "birthdate" TIMESTAMP(3),
     "gender" TEXT,
+    "phoneNumber"           TEXT,
+    "phoneCaretakerContact" TEXT,
+    "foundUsBy"             TEXT,
+    "isParent"              BOOLEAN,
     "roleId" INTEGER NOT NULL,
     "country" TEXT,
     "city" TEXT,
     "postalCode" TEXT,
     "address" TEXT,
-    "phoneNumber" TEXT,
-    "phoneCaretakerContact" TEXT,
-    "userId" UUID,
+    "userId"                UUID NOT NULL,
 
     CONSTRAINT "personalDatas_pkey" PRIMARY KEY ("id")
 );
@@ -50,13 +25,15 @@ CREATE TABLE "participations" (
     "travelMethod" TEXT,
     "participationRoleId" INTEGER,
     "accommodation" BOOLEAN,
+    "accomodationLocation" TEXT,
     "startDate" TIMESTAMP(3) NOT NULL,
     "endDate" TIMESTAMP(3) NOT NULL,
+    "foodChoice"           TEXT    NOT NULL,
     "helpAfterwards" BOOLEAN,
-    "foundUsBy" TEXT,
     "acceptPhotos" BOOLEAN NOT NULL,
     "acceptCoC" BOOLEAN NOT NULL,
-    "eventId" INTEGER,
+    "eventId"              INTEGER NOT NULL,
+    "userId"               UUID    NOT NULL,
 
     CONSTRAINT "participations_pkey" PRIMARY KEY ("id")
 );
@@ -82,12 +59,17 @@ CREATE TABLE "events" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "desc" TEXT NOT NULL,
+    "startDate" TIMESTAMP(3) NOT NULL,
+    "endDate"   TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "events_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "personalDatas_userId_key" ON "personalDatas"("userId");
+
+-- CreateIndex
+CREATE INDEX "participations_userId_idx" ON "participations" ("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "systemRoles_desc_key" ON "systemRoles"("desc");
@@ -106,13 +88,3 @@ ALTER TABLE "participations" ADD CONSTRAINT "participations_eventId_fkey" FOREIG
 
 -- AddForeignKey
 ALTER TABLE "participations" ADD CONSTRAINT "participations_participationRoleId_fkey" FOREIGN KEY ("participationRoleId") REFERENCES "participationRoles"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey connecting auth.users with personalData (check umgeht die Shaddow Db)
-DO $$
-BEGIN
-  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'auth' AND table_name = 'users') THEN
-  ALTER TABLE public."personalDatas"
-  ADD CONSTRAINT "personalDatas_users_fkey" FOREIGN KEY ("userId")
-    REFERENCES auth.users(id);
-END IF;
-END $$;
