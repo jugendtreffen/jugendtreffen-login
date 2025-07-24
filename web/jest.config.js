@@ -3,7 +3,7 @@
 const config = {
   rootDir: '../',
   preset: '@redwoodjs/testing/config/jest/web',
-  setupFilesAfterEnv: ['./src/test/supabaseMock.ts'],
+  setupFilesAfterEnv: ['<rootDir>/web/src/test/supabaseMock.ts'],
 }
 
 module.exports = config

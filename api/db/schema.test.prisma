@@ -1,0 +1,77 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./test.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model PersonalData {
+  id                    BigInt     @id @default(autoincrement())
+  name                  String
+  familyName            String
+  birthdate             DateTime?
+  gender                String?
+  phoneNumber           String?
+  phoneCaretakerContact String?
+  foundUsBy             String?
+  isParent              Boolean?
+  roleId                Int
+  country               String?
+  city                  String?
+  postalCode            String?
+  address               String?
+  userId                String     @unique @db.Uuid
+  role                  SystemRole @relation(fields: [roleId], references: [id], onDelete: SetDefault, onUpdate: Cascade)
+
+  @@map("personalDatas")
+}
+
+model Participation {
+  id                   BigInt             @id @default(autoincrement())
+  travelMethod         String?
+  participationRoleId  Int?
+  accommodation        Boolean?
+  accomodationLocation String?
+  startDate            DateTime
+  endDate              DateTime
+  foodChoice           String
+  helpAfterwards       Boolean?
+  acceptPhotos         Boolean
+  acceptCoC            Boolean
+  eventId              Int
+  userId               String             @db.Uuid
+  event                Event              @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  participationRole    ParticipationRole? @relation(fields: [participationRoleId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  @@index([userId])
+  @@map("participations")
+}
+
+model SystemRole {
+  id         Int            @id @default(autoincrement())
+  desc       String         @unique
+  references PersonalData[]
+
+  @@map("systemRoles")
+}
+
+model ParticipationRole {
+  id         Int             @id @default(autoincrement())
+  desc       String          @unique
+  references Participation[]
+
+  @@map("participationRoles")
+}
+
+model Event {
+  id             Int             @id @default(autoincrement())
+  name           String          @unique
+  desc           String
+  startDate      DateTime
+  endDate        DateTime
+  participations Participation[]
+
+  @@map("events")
+}
