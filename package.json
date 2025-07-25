@@ -20,11 +20,11 @@
     "test": "redwood test --watchAll"
   },
   "devDependencies": {
-    "@redwoodjs/auth-supabase-setup": "8.6.3",
-    "@redwoodjs/cli-storybook-vite": "8.6.3",
-    "@redwoodjs/core": "8.6.3",
-    "@redwoodjs/project-config": "8.6.3",
-    "@redwoodjs/testing": "^8.8.0",
+    "@redwoodjs/auth-supabase-setup": "8.8.0",
+    "@redwoodjs/cli-storybook-vite": "8.8.0",
+    "@redwoodjs/core": "8.8.0",
+    "@redwoodjs/project-config": "8.8.0",
+    "@redwoodjs/testing": "8.8.0",
     "@testing-library/react": "^16.3.0",
     "@types/jest": "^30.0.0",
     "babel-jest": "^30.0.5",
