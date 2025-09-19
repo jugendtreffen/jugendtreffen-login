@@ -36,9 +36,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/client@npm:3.11.1":
-  version: 3.11.1
-  resolution: "@apollo/client@npm:3.11.1"
+"@apollo/client@npm:3.13.9":
+  version: 3.13.9
+  resolution: "@apollo/client@npm:3.13.9"
   dependencies:
     "@graphql-typed-document-node/core": "npm:^3.1.1"
     "@wry/caches": "npm:^1.0.0"
@@ -49,16 +49,15 @@ __metadata:
     optimism: "npm:^0.18.0"
     prop-types: "npm:^15.7.2"
     rehackt: "npm:^0.1.0"
-    response-iterator: "npm:^0.2.6"
     symbol-observable: "npm:^4.0.0"
     ts-invariant: "npm:^0.10.3"
     tslib: "npm:^2.3.0"
     zen-observable-ts: "npm:^1.2.5"
   peerDependencies:
     graphql: ^15.0.0 || ^16.0.0
-    graphql-ws: ^5.5.5
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc <19.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc <19.0.0
+    graphql-ws: ^5.5.5 || ^6.0.3
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc
     subscriptions-transport-ws: ^0.9.0 || ^0.11.0
   peerDependenciesMeta:
     graphql-ws:
@@ -69,7 +68,7 @@ __metadata:
       optional: true
     subscriptions-transport-ws:
       optional: true
-  checksum: 10c0/d3a1f30d44d5a84e01538772396e93db4921fcdf99919785688464d487ea00dabfb6ae63ca7e2ebd373eed5d24c134dec6eb4f4d13920044b2ea1f105fa044c4
+  checksum: 10c0/aca33aa1d9971ae0814bd73912c993da83f69d53d9a5e7971e2b8364557821f0447276f507945b80365b1c4a6a541cd3602fa1343dc0d13769bc5a7d81a26461
   languageName: node
   linkType: hard
 
@@ -5479,17 +5478,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redwoodjs/api-server@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/api-server@npm:8.8.0"
+"@redwoodjs/api-server@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/api-server@npm:8.8.1"
   dependencies:
     "@fastify/multipart": "npm:8.3.1"
     "@fastify/url-data": "npm:5.4.0"
-    "@redwoodjs/context": "npm:8.8.0"
-    "@redwoodjs/fastify-web": "npm:8.8.0"
-    "@redwoodjs/internal": "npm:8.8.0"
-    "@redwoodjs/project-config": "npm:8.8.0"
-    "@redwoodjs/web-server": "npm:8.8.0"
+    "@redwoodjs/context": "npm:8.8.1"
+    "@redwoodjs/fastify-web": "npm:8.8.1"
+    "@redwoodjs/internal": "npm:8.8.1"
+    "@redwoodjs/project-config": "npm:8.8.1"
+    "@redwoodjs/web-server": "npm:8.8.1"
     chalk: "npm:4.1.2"
     chokidar: "npm:3.6.0"
     dotenv-defaults: "npm:5.0.2"
@@ -5504,7 +5503,7 @@ __metadata:
     split2: "npm:4.2.0"
     yargs: "npm:17.7.2"
   peerDependencies:
-    "@redwoodjs/graphql-server": 8.8.0
+    "@redwoodjs/graphql-server": 8.8.1
   peerDependenciesMeta:
     "@redwoodjs/graphql-server":
       optional: true
@@ -5512,13 +5511,13 @@ __metadata:
     rw-api-server-watch: ./dist/watch.js
     rw-log-formatter: ./dist/logFormatter/bin.js
     rw-server: ./dist/bin.js
-  checksum: 10c0/096b0488edc8e857fc8083c72369df755f252781aed67cbe6f13491dbf249fd96c10f240361acd0b2e8692fdc02dd48eac97095a4e37a885dffa86aeb7c56b3f
+  checksum: 10c0/5be914d4c5e0fc1452bcd3b9faa11289714b323ef6a7d3749ad40e5e6b98d664692611eaebbcf3ad892e4ddc121d706175269950f0e2919cb7c921fb638c461a
   languageName: node
   linkType: hard
 
-"@redwoodjs/api@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/api@npm:8.8.0"
+"@redwoodjs/api@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/api@npm:8.8.1"
   dependencies:
     "@prisma/client": "npm:5.20.0"
     "@whatwg-node/fetch": "npm:0.9.21"
@@ -5541,54 +5540,54 @@ __metadata:
     rw: ./dist/bins/redwood.js
     rwfw: ./dist/bins/rwfw.js
     tsc: ./dist/bins/tsc.js
-  checksum: 10c0/92b24f74c2339ac625dcf3a469a4d2f1e58e79413e8a8e8b5e95a51b824cc0d0932a1a79f441a14866bc89c9ff10bfafa8477037e418cee67befe528d3cc91e0
+  checksum: 10c0/95617f1baa2a1d161174e6375c836bd55f2ab18c83b2c55744cf5d951a0b288faab6ca79a9228cf31b650d17926c72af9689601b4e50c6ae7aa6b2012030e34f
   languageName: node
   linkType: hard
 
-"@redwoodjs/auth-supabase-api@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/auth-supabase-api@npm:8.8.0"
+"@redwoodjs/auth-supabase-api@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/auth-supabase-api@npm:8.8.1"
   dependencies:
-    "@redwoodjs/api": "npm:8.8.0"
+    "@redwoodjs/api": "npm:8.8.1"
     "@supabase/ssr": "npm:0.5.1"
     jsonwebtoken: "npm:9.0.2"
-  checksum: 10c0/6a8ac671ece5396f63f26e52c801feacd4ecbe0d410dc9d5acf2f5888b423a30457c80a0fc129c6f446977d6814e8a01fd50dbad6b7715a693ffe08054e77fb2
+  checksum: 10c0/d4e6aedbf28d0a1708eae3f04e5150fb52d9b867934fdd546d641b5a444b42d6bb8a37b8d498832dc3c1f77c5ce8d693ec776cfd8998e12e1f8996551ec21523
   languageName: node
   linkType: hard
 
-"@redwoodjs/auth-supabase-setup@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/auth-supabase-setup@npm:8.8.0"
+"@redwoodjs/auth-supabase-setup@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/auth-supabase-setup@npm:8.8.1"
   dependencies:
-    "@redwoodjs/cli-helpers": "npm:8.8.0"
-  checksum: 10c0/94df0357580ad8bc4802d9bf2690c8727c917566139b3dcdb84550c897ab7a5fca331452a79ad897add39499cf08ba28ee647510ab838e583b3e713b063e04ed
+    "@redwoodjs/cli-helpers": "npm:8.8.1"
+  checksum: 10c0/976996f5679c766b5b46681230026828de307f93f88e05e81de8c97d6de1da2e6211608319fce8ab5beec9556b2030a847c2b504f3228e08067e4c0e9856fcf4
   languageName: node
   linkType: hard
 
-"@redwoodjs/auth-supabase-web@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/auth-supabase-web@npm:8.8.0"
+"@redwoodjs/auth-supabase-web@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/auth-supabase-web@npm:8.8.1"
   dependencies:
-    "@redwoodjs/auth": "npm:8.8.0"
+    "@redwoodjs/auth": "npm:8.8.1"
   peerDependencies:
     "@supabase/supabase-js": 2.45.4
-  checksum: 10c0/6e72b872fed25b01654a4e204c706e45806403f92445bf73c065b36325104fe2190c8ed1f3f90232f309469763023abf60827dbdfbd08eaa637618bd473b4867
+  checksum: 10c0/8faa337f6702e3e51571b5e9b6032dd3a9f7e9d4a4d2d048520ecd5cd6f98ca03ee5c73c8a47dd20fc6163cbf9216b2e492ceb77973598673e969c00f69e43e4
   languageName: node
   linkType: hard
 
-"@redwoodjs/auth@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/auth@npm:8.8.0"
+"@redwoodjs/auth@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/auth@npm:8.8.1"
   dependencies:
     core-js: "npm:3.38.1"
     react: "npm:18.3.1"
-  checksum: 10c0/7f6306c70b9399f9f6d82004e3ac8e8c70fa99d534134959fd4f135d4558bd7ba150c3b3abe76496d2e2e75a4e699a0cfc7acc0d237384e7712ff8efa328afee
+  checksum: 10c0/6f1a5611b4ae7c2182decac41eb8403545d21de7d530fcfba6f2be4b508ed81a5412d9599fd67355bcbf8ad3af1354e83311279d8106bd29fd7f2bec3e3ee764
   languageName: node
   linkType: hard
 
-"@redwoodjs/babel-config@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/babel-config@npm:8.8.0"
+"@redwoodjs/babel-config@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/babel-config@npm:8.8.1"
   dependencies:
     "@babel/core": "npm:^7.26.10"
     "@babel/parser": "npm:7.26.10"
@@ -5603,7 +5602,7 @@ __metadata:
     "@babel/register": "npm:7.25.9"
     "@babel/runtime-corejs3": "npm:7.26.10"
     "@babel/traverse": "npm:7.26.10"
-    "@redwoodjs/project-config": "npm:8.8.0"
+    "@redwoodjs/project-config": "npm:8.8.1"
     babel-plugin-auto-import: "npm:1.1.0"
     babel-plugin-graphql-tag: "npm:3.3.0"
     babel-plugin-module-resolver: "npm:5.0.2"
@@ -5611,18 +5610,18 @@ __metadata:
     fast-glob: "npm:3.3.2"
     graphql: "npm:16.9.0"
     typescript: "npm:5.6.2"
-  checksum: 10c0/899abfe7e04707803e1944349f9d4b1ff397da09c9804a2c7740f62879765119e1f5c5a74ed1882f8e212a54d94c2b8fe37656493ebb881f79bd5ae97ea84bd3
+  checksum: 10c0/bfa82bf233dc472ab215977689413927bc5a13da59aa79b515f96fe25c7df66518952523c651b5b20cd78d59e7788d6ca31b8abf6ed3323143236af851b9c2f3
   languageName: node
   linkType: hard
 
-"@redwoodjs/cli-helpers@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/cli-helpers@npm:8.8.0"
+"@redwoodjs/cli-helpers@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/cli-helpers@npm:8.8.1"
   dependencies:
     "@babel/core": "npm:^7.26.10"
     "@opentelemetry/api": "npm:1.8.0"
-    "@redwoodjs/project-config": "npm:8.8.0"
-    "@redwoodjs/telemetry": "npm:8.8.0"
+    "@redwoodjs/project-config": "npm:8.8.1"
+    "@redwoodjs/telemetry": "npm:8.8.1"
     chalk: "npm:4.1.2"
     dotenv: "npm:16.4.7"
     dotenv-defaults: "npm:5.0.2"
@@ -5636,32 +5635,32 @@ __metadata:
     smol-toml: "npm:1.3.1"
     terminal-link: "npm:2.1.1"
     yargs-parser: "npm:21.1.1"
-  checksum: 10c0/13d47d69ac5b0ed53484827b1093a028704fc06efe550586dc44b77a6313f1ea3c89de5dba8242acac03d59de47c5ba3d3346e81cbc25a2d591896595cb3c114
+  checksum: 10c0/c29255691f9999c3358ce9f8f2f33c9c40ab944392735c997978c61a08a5f7b39da69c384f25f19f9f3538c6450407744672472a6834d9d647bd5bf07f65247c
   languageName: node
   linkType: hard
 
-"@redwoodjs/cli-storybook-vite@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/cli-storybook-vite@npm:8.8.0"
+"@redwoodjs/cli-storybook-vite@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/cli-storybook-vite@npm:8.8.1"
   dependencies:
-    "@redwoodjs/cli-helpers": "npm:8.8.0"
-    "@redwoodjs/project-config": "npm:8.8.0"
-    "@redwoodjs/telemetry": "npm:8.8.0"
+    "@redwoodjs/cli-helpers": "npm:8.8.1"
+    "@redwoodjs/project-config": "npm:8.8.1"
+    "@redwoodjs/telemetry": "npm:8.8.1"
     chalk: "npm:4.1.2"
     execa: "npm:5.1.1"
     semver: "npm:7.6.3"
     storybook: "npm:7.6.20"
-    storybook-framework-redwoodjs-vite: "npm:8.8.0"
+    storybook-framework-redwoodjs-vite: "npm:8.8.1"
     terminal-link: "npm:2.1.1"
     vitest: "npm:2.1.9"
     yargs: "npm:17.7.2"
-  checksum: 10c0/bb7337a89df96f96867297b0630fd0e5df7ee5dc900af184ef9d913a38d5a96b773c7395066c6fcb11e342d49835964d01fb41b8b6a47b7d038a303705e4fb7b
+  checksum: 10c0/cac95fdb30a2a6ab407f5931742a9c3851fbc05018cdcd48ddb9e34eb74a877fa8cdba13a5c9d89b672c4075dbb936a9b46ec313e45a854242a3e680223ca06f
   languageName: node
   linkType: hard
 
-"@redwoodjs/cli@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/cli@npm:8.8.0"
+"@redwoodjs/cli@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/cli@npm:8.8.1"
   dependencies:
     "@babel/runtime-corejs3": "npm:7.26.10"
     "@listr2/prompt-adapter-enquirer": "npm:2.0.12"
@@ -5672,15 +5671,15 @@ __metadata:
     "@opentelemetry/sdk-trace-node": "npm:1.22.0"
     "@opentelemetry/semantic-conventions": "npm:1.22.0"
     "@prisma/internals": "npm:5.20.0"
-    "@redwoodjs/api-server": "npm:8.8.0"
-    "@redwoodjs/cli-helpers": "npm:8.8.0"
-    "@redwoodjs/fastify-web": "npm:8.8.0"
-    "@redwoodjs/internal": "npm:8.8.0"
-    "@redwoodjs/prerender": "npm:8.8.0"
-    "@redwoodjs/project-config": "npm:8.8.0"
-    "@redwoodjs/structure": "npm:8.8.0"
-    "@redwoodjs/telemetry": "npm:8.8.0"
-    "@redwoodjs/web-server": "npm:8.8.0"
+    "@redwoodjs/api-server": "npm:8.8.1"
+    "@redwoodjs/cli-helpers": "npm:8.8.1"
+    "@redwoodjs/fastify-web": "npm:8.8.1"
+    "@redwoodjs/internal": "npm:8.8.1"
+    "@redwoodjs/prerender": "npm:8.8.1"
+    "@redwoodjs/project-config": "npm:8.8.1"
+    "@redwoodjs/structure": "npm:8.8.1"
+    "@redwoodjs/telemetry": "npm:8.8.1"
+    "@redwoodjs/web-server": "npm:8.8.1"
     archiver: "npm:7.0.1"
     boxen: "npm:5.1.2"
     camelcase: "npm:6.3.0"
@@ -5723,41 +5722,41 @@ __metadata:
     redwood: ./dist/index.js
     rw: ./dist/index.js
     rwfw: ./dist/rwfw.js
-  checksum: 10c0/a374c83b1eb86b59f2e89bf04f77d78730e2948b0b114eeb485e616fb57805d493af4ef8011c9196547bf01bab636ba8a56e999e45ba3ded5d64730882e22611
+  checksum: 10c0/b1afb521cdecb6e57df9e1d8fe34dfc10b8176f4b8d3258eb12c3e53fb699a956bda18fef110102fdf4506e67604af94081ffef8002b1ba32451c1eb29316b4f
   languageName: node
   linkType: hard
 
-"@redwoodjs/context@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/context@npm:8.8.0"
-  checksum: 10c0/b4f59dcc5ec2929038bca53ace445f007b0c0ec9ecab01df0bd9aaea85c61e9a5b21a971d09722b1a308f57a34784e86b27b0bad11639c2ec5fe05f6fa65ed42
+"@redwoodjs/context@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/context@npm:8.8.1"
+  checksum: 10c0/58d0b4799975cba50dfcf786b24d341cfde55e3cb7f7abf87fc773e24f305571796d8b6700186810f28fce73ea97ee70f1639cecaa4cb4762af95e02b6c853af
   languageName: node
   linkType: hard
 
-"@redwoodjs/cookie-jar@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/cookie-jar@npm:8.8.0"
+"@redwoodjs/cookie-jar@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/cookie-jar@npm:8.8.1"
   dependencies:
     cookie: "npm:0.7.2"
     esbuild: "npm:0.24.2"
     fast-glob: "npm:3.3.2"
     fs-extra: "npm:11.2.0"
-  checksum: 10c0/698b2b7a32953044c9c23679159ff307c12b18c5f013a4f1c309130713e4e48d7810ef2ae0aae8fcfe59e99d1513ad248e6eb2ce6b373287cfe49bb374417bf5
+  checksum: 10c0/1e5af164ab6c901d69fd797cf369c3f87de6bb67564bb40f27f34bdd147b6ff92f599011779b7e8c1c07039e6334b05621ed6371a7056f2e982cd22a72994d1c
   languageName: node
   linkType: hard
 
-"@redwoodjs/core@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/core@npm:8.8.0"
+"@redwoodjs/core@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/core@npm:8.8.1"
   dependencies:
     "@babel/cli": "npm:7.26.4"
-    "@redwoodjs/api-server": "npm:8.8.0"
-    "@redwoodjs/cli": "npm:8.8.0"
-    "@redwoodjs/eslint-config": "npm:8.8.0"
-    "@redwoodjs/internal": "npm:8.8.0"
-    "@redwoodjs/project-config": "npm:8.8.0"
-    "@redwoodjs/testing": "npm:8.8.0"
-    "@redwoodjs/web-server": "npm:8.8.0"
+    "@redwoodjs/api-server": "npm:8.8.1"
+    "@redwoodjs/cli": "npm:8.8.1"
+    "@redwoodjs/eslint-config": "npm:8.8.1"
+    "@redwoodjs/internal": "npm:8.8.1"
+    "@redwoodjs/project-config": "npm:8.8.1"
+    "@redwoodjs/testing": "npm:8.8.1"
+    "@redwoodjs/web-server": "npm:8.8.1"
     graphql-tag: "npm:2.12.6"
     lodash: "npm:4.17.21"
     nodemon: "npm:3.1.9"
@@ -5782,20 +5781,20 @@ __metadata:
     rw-serve-fe: ./dist/bins/rw-serve-fe.js
     rw-web-server: ./dist/bins/rw-web-server.js
     rwfw: ./dist/bins/rwfw.js
-  checksum: 10c0/d1a0af91d5560421a05832ce678203b58205a8b9f1f3e15ca23e7530b851fbf4f0be3d44ba99d4b2c28559c3e95b2b68e561ad7f717e0864723f9e86070c1e28
+  checksum: 10c0/b4302ab69b61a1dfa8f8a0ae339005bbaeed7449f8302d19811bf20f8ce68156d1939701f0112cab649921e9905272734a8e1aaaf6d25cf1f8a6d60996cc2562
   languageName: node
   linkType: hard
 
-"@redwoodjs/eslint-config@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/eslint-config@npm:8.8.0"
+"@redwoodjs/eslint-config@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/eslint-config@npm:8.8.1"
   dependencies:
     "@babel/core": "npm:^7.26.10"
     "@babel/eslint-parser": "npm:7.25.7"
     "@babel/eslint-plugin": "npm:7.25.7"
-    "@redwoodjs/eslint-plugin": "npm:8.8.0"
-    "@redwoodjs/internal": "npm:8.8.0"
-    "@redwoodjs/project-config": "npm:8.8.0"
+    "@redwoodjs/eslint-plugin": "npm:8.8.1"
+    "@redwoodjs/internal": "npm:8.8.1"
+    "@redwoodjs/project-config": "npm:8.8.1"
     "@typescript-eslint/eslint-plugin": "npm:8.19.1"
     "@typescript-eslint/parser": "npm:8.19.1"
     eslint: "npm:8.57.1"
@@ -5809,49 +5808,49 @@ __metadata:
     eslint-plugin-react: "npm:7.36.1"
     eslint-plugin-react-hooks: "npm:4.6.0"
     prettier: "npm:3.4.2"
-  checksum: 10c0/414cded69ac4751b9ed1682b9f98b01240e215511cfa434821a4ce44209909dcd9bce24c818b9bf6e2971d5f04f30f991486bb8ceac6306be76025a1055fc0ec
+  checksum: 10c0/03cddbaec0b03934130a77a9d26b541771ec8adc84465033bd9af0d1f534ac2c2bce7164123451c50563e11e497ea6b472e0956c5915f205bdf96192c1e6dec4
   languageName: node
   linkType: hard
 
-"@redwoodjs/eslint-plugin@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/eslint-plugin@npm:8.8.0"
+"@redwoodjs/eslint-plugin@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/eslint-plugin@npm:8.8.1"
   dependencies:
     "@typescript-eslint/utils": "npm:8.19.1"
     eslint: "npm:8.57.1"
-  checksum: 10c0/4a6ca14c36525c378ae6420645fa47d64bc1ac542f5a36aa4d245e9f5e78ca72e04b14e258716f0932ebf34acea7285ae67e2dac8f466111d7340c227627586c
+  checksum: 10c0/b2fd982b53f50515d7aee783826f1fac7dcd07df405369ce51d96e6e100a6959d510ec9fbd0b0a7d9ecb2c0fd952f3ed46ecd9db581dc2400100db5b4b868e24
   languageName: node
   linkType: hard
 
-"@redwoodjs/fastify-web@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/fastify-web@npm:8.8.0"
+"@redwoodjs/fastify-web@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/fastify-web@npm:8.8.1"
   dependencies:
     "@fastify/http-proxy": "npm:9.5.0"
     "@fastify/static": "npm:6.12.0"
     "@fastify/url-data": "npm:5.4.0"
-    "@redwoodjs/project-config": "npm:8.8.0"
+    "@redwoodjs/project-config": "npm:8.8.1"
     fast-glob: "npm:3.3.2"
-  checksum: 10c0/da1caa56310e4c7740dac5281d9dbf11a6061d9cfa08f0f21030aa46230012c4ab4d8c102d8f483346ea7157d6cb851e1ea141a635f9a055435a7e1bafafde22
+  checksum: 10c0/0a728a54d306f585590598f77be3106f373eb48cc2afbaaa552b81db6e2ac18abbb9b595b7d59e2436f18a8a809ccd3ea233ca5b28983aa3b2fa2b52ac5c6355
   languageName: node
   linkType: hard
 
-"@redwoodjs/forms@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/forms@npm:8.8.0"
+"@redwoodjs/forms@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/forms@npm:8.8.1"
   dependencies:
     graphql: "npm:16.9.0"
     pascalcase: "npm:1.0.0"
     react-hook-form: "npm:7.54.2"
   peerDependencies:
     react: 18.3.1
-  checksum: 10c0/f56bab1e5abacd58c212738c5eed5ba5c84dc5212d5499801866d3c52e2ded3929f9bd08db7631ec0b33311fe93599e9984d2eb6bf3e739bd17337df387abc7f
+  checksum: 10c0/7d1533b316cfdb0f733b31319df2f5d2dd74dbfe4ca44442ade20dc11029a4618030585aaef4423be64a98df4760bcfd8cad68e35cb72546b0e24b66e11d9fa3
   languageName: node
   linkType: hard
 
-"@redwoodjs/graphql-server@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/graphql-server@npm:8.8.0"
+"@redwoodjs/graphql-server@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/graphql-server@npm:8.8.1"
   dependencies:
     "@babel/runtime-corejs3": "npm:7.26.10"
     "@envelop/core": "npm:5.0.2"
@@ -5865,8 +5864,8 @@ __metadata:
     "@graphql-tools/utils": "npm:10.5.4"
     "@graphql-yoga/plugin-persisted-operations": "npm:3.7.0"
     "@opentelemetry/api": "npm:1.8.0"
-    "@redwoodjs/api": "npm:8.8.0"
-    "@redwoodjs/context": "npm:8.8.0"
+    "@redwoodjs/api": "npm:8.8.1"
+    "@redwoodjs/context": "npm:8.8.1"
     core-js: "npm:3.38.1"
     graphql: "npm:16.9.0"
     graphql-scalars: "npm:1.23.0"
@@ -5874,13 +5873,13 @@ __metadata:
     graphql-yoga: "npm:5.7.0"
     lodash: "npm:4.17.21"
     uuid: "npm:10.0.0"
-  checksum: 10c0/07e91df41dd1e435ab292a7d6d035933407db89fefb9371064797237058a04ccbafb751cc51c25fb6a8c249c484ce02564924fd753bb711c54207c717c6ded08
+  checksum: 10c0/8878a8d9bfeee7a8d56a81317823921ba899743abe80e7b77a3b7bc5d90af0c20b44f774034d01bd20adfeb3a92b500b3661249e5aaca66d8ec2d29f2915512b
   languageName: node
   linkType: hard
 
-"@redwoodjs/internal@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/internal@npm:8.8.0"
+"@redwoodjs/internal@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/internal@npm:8.8.1"
   dependencies:
     "@babel/core": "npm:^7.26.10"
     "@babel/parser": "npm:7.26.10"
@@ -5900,10 +5899,10 @@ __metadata:
     "@graphql-codegen/typescript-react-apollo": "npm:3.3.7"
     "@graphql-codegen/typescript-resolvers": "npm:3.2.1"
     "@graphql-tools/documents": "npm:1.0.1"
-    "@redwoodjs/babel-config": "npm:8.8.0"
-    "@redwoodjs/graphql-server": "npm:8.8.0"
-    "@redwoodjs/project-config": "npm:8.8.0"
-    "@redwoodjs/router": "npm:8.8.0"
+    "@redwoodjs/babel-config": "npm:8.8.1"
+    "@redwoodjs/graphql-server": "npm:8.8.1"
+    "@redwoodjs/project-config": "npm:8.8.1"
+    "@redwoodjs/router": "npm:8.8.1"
     "@sdl-codegen/node": "npm:2.0.1"
     chalk: "npm:4.1.2"
     core-js: "npm:3.38.1"
@@ -5924,19 +5923,19 @@ __metadata:
   bin:
     rw-gen: ./dist/generate/generate.js
     rw-gen-watch: ./dist/generate/watch.js
-  checksum: 10c0/cd2e72a5b8d3bf5a13f30f1f59f7a72c144aa862b8bfbabd60866d5c92fc7f2568c75a7ef44a36974ea476318a661b3ca7cc16168322b4b2bf84c1d6da65fbfb
+  checksum: 10c0/795bef91d7120a02461c10f261e1db5cbb2f531ca62fbb64c01a59f78d3b0a37908e3836ff98174bc68612310ba6ef8069a728f452697a735eaf43688140381a
   languageName: node
   linkType: hard
 
-"@redwoodjs/prerender@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/prerender@npm:8.8.0"
+"@redwoodjs/prerender@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/prerender@npm:8.8.1"
   dependencies:
-    "@redwoodjs/babel-config": "npm:8.8.0"
-    "@redwoodjs/project-config": "npm:8.8.0"
-    "@redwoodjs/router": "npm:8.8.0"
-    "@redwoodjs/structure": "npm:8.8.0"
-    "@redwoodjs/web": "npm:8.8.0"
+    "@redwoodjs/babel-config": "npm:8.8.1"
+    "@redwoodjs/project-config": "npm:8.8.1"
+    "@redwoodjs/router": "npm:8.8.1"
+    "@redwoodjs/structure": "npm:8.8.1"
+    "@redwoodjs/web": "npm:8.8.1"
     "@whatwg-node/fetch": "npm:0.9.21"
     babel-plugin-ignore-html-and-css-imports: "npm:0.1.0"
     cheerio: "npm:1.0.0"
@@ -5945,59 +5944,59 @@ __metadata:
   peerDependencies:
     react: 18.3.1
     react-dom: 18.3.1
-  checksum: 10c0/1d7f43268b83ea9ac157ed00c130cd101605dae0e237c89180a037dd088a51321de0ff5e355e40408f2d0ab44cb024dad3a0bc04f11e608e771d6a05b5935f89
+  checksum: 10c0/35a7d7fd3a4e437cd140445f75d13fca7d39981a952e03336feabeabe38de6c7356c189cb190e96baad211bd40f27bb496b919e309e707bcf54a24a26ef63555
   languageName: node
   linkType: hard
 
-"@redwoodjs/project-config@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/project-config@npm:8.8.0"
+"@redwoodjs/project-config@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/project-config@npm:8.8.1"
   dependencies:
     deepmerge: "npm:4.3.1"
     fast-glob: "npm:3.3.2"
     smol-toml: "npm:1.3.1"
     string-env-interpolation: "npm:1.0.1"
-  checksum: 10c0/6df99a33fcff92a44358ac7b589c0124771144ad8e20c1512e910e3bd3d316e9428f3820cefef539b02588d1fec34b8e05e4d4fc8a3f66b4a48a04103fead39a
+  checksum: 10c0/f2fcf846cf2fc98cc3b84d34acb377e1e28aeaf33fd0c19c74871542c329b5f3e3cbd1d0cf2f8e4c872738445328fa78fa8d18b7d6105f6edba3342b194925d4
   languageName: node
   linkType: hard
 
-"@redwoodjs/router@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/router@npm:8.8.0"
+"@redwoodjs/router@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/router@npm:8.8.1"
   dependencies:
     "@babel/runtime-corejs3": "npm:7.26.10"
-    "@redwoodjs/auth": "npm:8.8.0"
-    "@redwoodjs/server-store": "npm:8.8.0"
+    "@redwoodjs/auth": "npm:8.8.1"
+    "@redwoodjs/server-store": "npm:8.8.1"
     core-js: "npm:3.38.1"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
   peerDependencies:
     react: 18.3.1
     react-dom: 18.3.1
-  checksum: 10c0/79794e5714b7901f99e1c5564117b238cdccf2eded1771d2f28181bfac6a5a4a6fd227d974701704256b1712530ab139a60114beda2c54f802313e016c94be5f
+  checksum: 10c0/ef6fc264eabe68b90cc71d2f59d5bce22504adc0db57b8f73328276c9783ccb674e4beab06b69487ade3dfc909f5ad7de65f53f7ba0b1eddd84603051bf0be30
   languageName: node
   linkType: hard
 
-"@redwoodjs/server-store@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/server-store@npm:8.8.0"
+"@redwoodjs/server-store@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/server-store@npm:8.8.1"
   dependencies:
-    "@redwoodjs/auth": "npm:8.8.0"
-    "@redwoodjs/cookie-jar": "npm:8.8.0"
+    "@redwoodjs/auth": "npm:8.8.1"
+    "@redwoodjs/cookie-jar": "npm:8.8.1"
     esbuild: "npm:0.24.2"
     fast-glob: "npm:3.3.2"
     fs-extra: "npm:11.2.0"
-  checksum: 10c0/5897a0807bddb22fb60cf8297fcd7399965e850130cb985565f11b670b5d1bc45f93765f6bfc8342ee2c619c88f6edde0a212550c03dfb9b83d1a012ed0f075e
+  checksum: 10c0/26363824f785f8844c3cb4f68f84d00bf7fdb28056d105a7a997b38ed2759b414d3ac8e436188b6f1821b4a7df8df3ae0620e05c255fa57cdb30e19a1d5cf7d4
   languageName: node
   linkType: hard
 
-"@redwoodjs/structure@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/structure@npm:8.8.0"
+"@redwoodjs/structure@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/structure@npm:8.8.1"
   dependencies:
     "@babel/runtime-corejs3": "npm:7.26.10"
     "@prisma/internals": "npm:5.20.0"
-    "@redwoodjs/project-config": "npm:8.8.0"
+    "@redwoodjs/project-config": "npm:8.8.1"
     "@types/line-column": "npm:1.0.2"
     camelcase: "npm:6.3.0"
     core-js: "npm:3.38.1"
@@ -6019,37 +6018,37 @@ __metadata:
     vscode-languageserver-textdocument: "npm:1.0.12"
     vscode-languageserver-types: "npm:3.17.5"
     yargs-parser: "npm:21.1.1"
-  checksum: 10c0/1fa0543bebdcbe6473f0b4e0f910aacf4ce4e891470ff996c2ca57755cfbe9c950b67f6baa5c5ec5d3e5e5e45229b4038178f3fdd1e3b22c03813ed53e38f4d3
+  checksum: 10c0/7f4cf9a563442443634dce31b442513e159b9665f71ec11b3f5ec2087d7bb5e6f3518b9e66d82bbc33c5e292b556225a4d501b435ed84e7033ea057f5a9773e8
   languageName: node
   linkType: hard
 
-"@redwoodjs/telemetry@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/telemetry@npm:8.8.0"
+"@redwoodjs/telemetry@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/telemetry@npm:8.8.1"
   dependencies:
-    "@redwoodjs/project-config": "npm:8.8.0"
-    "@redwoodjs/structure": "npm:8.8.0"
+    "@redwoodjs/project-config": "npm:8.8.1"
+    "@redwoodjs/structure": "npm:8.8.1"
     "@whatwg-node/fetch": "npm:0.9.21"
     ci-info: "npm:4.0.0"
     envinfo: "npm:7.14.0"
     systeminformation: "npm:5.23.8"
     uuid: "npm:10.0.0"
     yargs: "npm:17.7.2"
-  checksum: 10c0/418eedc1e2b15d1a6ff552c5067ccb7bf1e066596fe6c7cd3ac6f774143931d957c9352a09a23cb737310b86e565aa7519c2ee1d07c3a299499983a664f19051
+  checksum: 10c0/46c26c778f99d3e59d340a45586c7d78695c5e6141b7eaf8167b38d73e7adaaf4f633c958de73b7435c7efb141b3be46f1cd220c1fea1ab53a2b4248bcd164f8
   languageName: node
   linkType: hard
 
-"@redwoodjs/testing@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/testing@npm:8.8.0"
+"@redwoodjs/testing@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/testing@npm:8.8.1"
   dependencies:
-    "@redwoodjs/auth": "npm:8.8.0"
-    "@redwoodjs/babel-config": "npm:8.8.0"
-    "@redwoodjs/context": "npm:8.8.0"
-    "@redwoodjs/graphql-server": "npm:8.8.0"
-    "@redwoodjs/project-config": "npm:8.8.0"
-    "@redwoodjs/router": "npm:8.8.0"
-    "@redwoodjs/web": "npm:8.8.0"
+    "@redwoodjs/auth": "npm:8.8.1"
+    "@redwoodjs/babel-config": "npm:8.8.1"
+    "@redwoodjs/context": "npm:8.8.1"
+    "@redwoodjs/graphql-server": "npm:8.8.1"
+    "@redwoodjs/project-config": "npm:8.8.1"
+    "@redwoodjs/router": "npm:8.8.1"
+    "@redwoodjs/web": "npm:8.8.1"
     "@testing-library/jest-dom": "npm:6.5.0"
     "@testing-library/react": "npm:14.3.1"
     "@testing-library/user-event": "npm:14.5.2"
@@ -6065,24 +6064,24 @@ __metadata:
     msw: "npm:1.3.4"
     ts-toolbelt: "npm:9.6.0"
     whatwg-fetch: "npm:3.6.20"
-  checksum: 10c0/7c34761befbdafcba33a38fa12589a34a05c6188a9a9ae72392c48a077c46212060fe4277cd4f0ccbbf845c5831c43fb730fd2c0c906d00eff1138a1092e0f53
+  checksum: 10c0/c9566daef3156849e042c68bbd6302da01a6ae3fd5368daf44438fcfcd4da6b423b9087996e60aa7c0e3bc2caa0e459f3aa648630d0c054efa55b73b5956deb0
   languageName: node
   linkType: hard
 
-"@redwoodjs/vite@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/vite@npm:8.8.0"
+"@redwoodjs/vite@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/vite@npm:8.8.1"
   dependencies:
     "@babel/generator": "npm:7.26.10"
     "@babel/parser": "npm:7.26.10"
     "@babel/traverse": "npm:7.26.10"
-    "@redwoodjs/auth": "npm:8.8.0"
-    "@redwoodjs/babel-config": "npm:8.8.0"
-    "@redwoodjs/cookie-jar": "npm:8.8.0"
-    "@redwoodjs/internal": "npm:8.8.0"
-    "@redwoodjs/project-config": "npm:8.8.0"
-    "@redwoodjs/server-store": "npm:8.8.0"
-    "@redwoodjs/web": "npm:8.8.0"
+    "@redwoodjs/auth": "npm:8.8.1"
+    "@redwoodjs/babel-config": "npm:8.8.1"
+    "@redwoodjs/cookie-jar": "npm:8.8.1"
+    "@redwoodjs/internal": "npm:8.8.1"
+    "@redwoodjs/project-config": "npm:8.8.1"
+    "@redwoodjs/server-store": "npm:8.8.1"
+    "@redwoodjs/web": "npm:8.8.1"
     "@swc/core": "npm:1.7.28"
     "@vitejs/plugin-react": "npm:4.3.4"
     "@whatwg-node/fetch": "npm:0.9.21"
@@ -6113,16 +6112,16 @@ __metadata:
     rw-vite-build: ./bins/rw-vite-build.mjs
     rw-vite-dev: ./bins/rw-vite-dev.mjs
     vite: ./bins/vite.mjs
-  checksum: 10c0/61fe8895676b062493d9e033405393d74301a464ee89cc05d5b755260e6b65805dfa6ab8cc7fe38b20621162ec3d2dca752ebc52d857f4637f889ed5961b2a3a
+  checksum: 10c0/67cd4b25539a8c8307e766aa742a1b9837e7b64ac69ba69434265febb82d42d7b1ae10d1ad20f0a003836e7a7c4ed0908c68f286071432ce2569bb040d13cbab
   languageName: node
   linkType: hard
 
-"@redwoodjs/web-server@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/web-server@npm:8.8.0"
+"@redwoodjs/web-server@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/web-server@npm:8.8.1"
   dependencies:
-    "@redwoodjs/fastify-web": "npm:8.8.0"
-    "@redwoodjs/project-config": "npm:8.8.0"
+    "@redwoodjs/fastify-web": "npm:8.8.1"
+    "@redwoodjs/project-config": "npm:8.8.1"
     chalk: "npm:4.1.2"
     dotenv-defaults: "npm:5.0.2"
     fastify: "npm:4.28.1"
@@ -6130,18 +6129,18 @@ __metadata:
     yargs: "npm:17.7.2"
   bin:
     rw-web-server: ./dist/bin.js
-  checksum: 10c0/f82464502c5017534b87dad07104ded5a8e740093bc843553f9b40f4eecb6fdafe726093f3ddbecac164a7636ca2037fb7e5372f6ee924b0817fad5d755a4524
+  checksum: 10c0/7a2e28367af6b80f3945d232929449a42eae34a72f25184b7175bff906464a0847ce583dad8fe1b95e1652e1709cea8fe040c23681ca699b8e32cd4b1074474f
   languageName: node
   linkType: hard
 
-"@redwoodjs/web@npm:8.8.0":
-  version: 8.8.0
-  resolution: "@redwoodjs/web@npm:8.8.0"
+"@redwoodjs/web@npm:8.8.1":
+  version: 8.8.1
+  resolution: "@redwoodjs/web@npm:8.8.1"
   dependencies:
-    "@apollo/client": "npm:3.11.1"
+    "@apollo/client": "npm:3.13.9"
     "@babel/runtime-corejs3": "npm:7.26.10"
-    "@redwoodjs/auth": "npm:8.8.0"
-    "@redwoodjs/server-store": "npm:8.8.0"
+    "@redwoodjs/auth": "npm:8.8.1"
+    "@redwoodjs/server-store": "npm:8.8.1"
     "@whatwg-node/fetch": "npm:0.9.21"
     apollo-upload-client: "npm:18.0.1"
     cookie: "npm:0.7.2"
@@ -6164,7 +6163,7 @@ __metadata:
     rwfw: ./dist/cjs/bins/rwfw.js
     storybook: ./dist/cjs/bins/storybook.js
     tsc: ./dist/cjs/bins/tsc.js
-  checksum: 10c0/5dee83d9a33236d0b67813291c3a3533e2e9fa44cbdbc76d90682fc03503c73c8a1c04834926b060c02f4ff584ddadc5b8caf922bd4cbb1c501db6105e32fcfc
+  checksum: 10c0/37bb32395930df4ca4e8e67d0ac23c7adeada1930fb9aa1c858fc5c64ce5a66c2af4193612123222de1d8797ab140ee384b2159b1ac0d992a3edc938e936dc85
   languageName: node
   linkType: hard
 
@@ -8863,9 +8862,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "api@workspace:api"
   dependencies:
-    "@redwoodjs/api": "npm:8.8.0"
-    "@redwoodjs/auth-supabase-api": "npm:8.8.0"
-    "@redwoodjs/graphql-server": "npm:8.8.0"
+    "@redwoodjs/api": "npm:8.8.1"
+    "@redwoodjs/auth-supabase-api": "npm:8.8.1"
+    "@redwoodjs/graphql-server": "npm:8.8.1"
   languageName: unknown
   linkType: soft
 
@@ -19327,13 +19326,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"response-iterator@npm:^0.2.6":
-  version: 0.2.6
-  resolution: "response-iterator@npm:0.2.6"
-  checksum: 10c0/60e6b552cd610643269d5d916d270cc8a4bea978cbe4779d6ef8083ac6b89006795508034e4c4ebe204eded75ac32bf243589ba82c1184591dde0674f6db785e
-  languageName: node
-  linkType: hard
-
 "responselike@npm:^1.0.2":
   version: 1.0.2
   resolution: "responselike@npm:1.0.2"
@@ -19533,11 +19525,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@redwoodjs/auth-supabase-setup": "npm:8.8.0"
-    "@redwoodjs/cli-storybook-vite": "npm:8.8.0"
-    "@redwoodjs/core": "npm:8.8.0"
-    "@redwoodjs/project-config": "npm:8.8.0"
-    "@redwoodjs/testing": "npm:8.8.0"
+    "@redwoodjs/auth-supabase-setup": "npm:8.8.1"
+    "@redwoodjs/cli-storybook-vite": "npm:8.8.1"
+    "@redwoodjs/core": "npm:8.8.1"
+    "@redwoodjs/project-config": "npm:8.8.1"
+    "@redwoodjs/testing": "npm:8.8.1"
     "@testing-library/react": "npm:^16.3.0"
     "@types/jest": "npm:^30.0.0"
     "@vercel/analytics": "npm:^1.5.0"
@@ -20246,12 +20238,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"storybook-framework-redwoodjs-vite@npm:8.8.0":
-  version: 8.8.0
-  resolution: "storybook-framework-redwoodjs-vite@npm:8.8.0"
+"storybook-framework-redwoodjs-vite@npm:8.8.1":
+  version: 8.8.1
+  resolution: "storybook-framework-redwoodjs-vite@npm:8.8.1"
   dependencies:
     "@joshwooding/vite-plugin-react-docgen-typescript": "npm:0.4.2"
-    "@redwoodjs/testing": "npm:8.8.0"
+    "@redwoodjs/testing": "npm:8.8.1"
     "@rollup/pluginutils": "npm:5.1.4"
     "@storybook/addon-essentials": "npm:7.6.20"
     "@storybook/builder-vite": "npm:7.6.20"
@@ -20261,12 +20253,12 @@ __metadata:
     unplugin-auto-import: "npm:0.18.3"
     vite-plugin-node-polyfills: "npm:0.23.0"
   peerDependencies:
-    "@redwoodjs/project-config": 8.8.0
-    "@redwoodjs/router": 8.8.0
+    "@redwoodjs/project-config": 8.8.1
+    "@redwoodjs/router": 8.8.1
     react: 18.3.1
     react-dom: 18.3.1
     storybook: 7.6.20
-  checksum: 10c0/ae925dbf702dd8a320bedd41e06980fd7a1e1f9304378cbaa594e45334ce0c7696184c8d11a8d3e0ed45dcb74cb3c13cf744c950e9ca65dbbc93f119409a7469
+  checksum: 10c0/7a47014cb209f5d40eec83635728be3259a468c59428f25155f48b4b82a029474eb8d54b89b4c5f0973fe71172a8782a824ab490741113815a30d41aa26b8f4d
   languageName: node
   linkType: hard
 
@@ -22162,11 +22154,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:web"
   dependencies:
-    "@redwoodjs/auth-supabase-web": "npm:8.8.0"
-    "@redwoodjs/forms": "npm:8.8.0"
-    "@redwoodjs/router": "npm:8.8.0"
-    "@redwoodjs/vite": "npm:8.8.0"
-    "@redwoodjs/web": "npm:8.8.0"
+    "@redwoodjs/auth-supabase-web": "npm:8.8.1"
+    "@redwoodjs/forms": "npm:8.8.1"
+    "@redwoodjs/router": "npm:8.8.1"
+    "@redwoodjs/vite": "npm:8.8.1"
+    "@redwoodjs/web": "npm:8.8.1"
     "@supabase/supabase-js": "npm:^2"
     "@types/react": "npm:^18.2.55"
     "@types/react-dom": "npm:^18.2.19"
