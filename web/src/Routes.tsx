@@ -3,7 +3,6 @@ import { Route, Router, Set } from '@redwoodjs/router'
 import { useAuth } from 'src/auth'
 import GlobalLayout from 'src/layouts/GlobalLayout/GlobalLayout'
 import NavbarLayout from 'src/layouts/NavbarLayout/NavbarLayout'
-import SidebarLayout from 'src/layouts/SidebarLayout/SidebarLayout'
 
 const Routes = () => {
   return (
@@ -14,11 +13,6 @@ const Routes = () => {
           <Route path="/login" page={LoginPage} name="login" />
           <Route path="/signup" page={SignupPage} name="signup" />
           <Route path="/confirm" page={ConfirmSignupPage} name="confirmSignup" />
-        </Set>
-        <Set wrap={SidebarLayout}>
-          <Route path="/profile" page={ProfilePage} name="profile" />
-          <Route path="/checkin" page={CheckinPage} name="checkin" />
-          <Route path="/quartier" page={QuartierPage} name="quartier" />
         </Set>
       </Set>
       <Route notfound page={NotFoundPage} prerender />

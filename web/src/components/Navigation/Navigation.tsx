@@ -1,10 +1,7 @@
-import { useState } from "react";
-
-import { Link, navigate, routes } from "@redwoodjs/router";
-
-import { useAuth } from "src/auth";
-import SignoutButton from "src/components/Auth/SignoutButton";
-import { BurgerMenueIcon, CloseIcon } from "src/components/Icons/Icons";
+import { useState } from 'react'
+import { Link, navigate, routes } from '@redwoodjs/router'
+import { useAuth } from 'src/auth'
+import { Menu, X } from 'lucide-react'
 
 const Navigation = () => {
   const { isAuthenticated } = useAuth()
@@ -30,7 +27,13 @@ const Navigation = () => {
         </Link>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           {isAuthenticated ? (
-            <SignoutButton />
+            <button
+              className="primary me-2"
+              onClick={() => onClick()}
+              disabled={loading}
+            >
+              Abmelden
+            </button>
           ) : (
             <div className="flex space-x-2 me-2">
               <button
@@ -54,7 +57,7 @@ const Navigation = () => {
             aria-expanded="false"
           >
             <span className="sr-only">Open main menu</span>
-            {open ? <CloseIcon /> : <BurgerMenueIcon />}
+            {open ? <X /> : <Menu />}
           </button>
         </div>
         <div

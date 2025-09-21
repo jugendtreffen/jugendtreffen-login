@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion'
 
-import { navigate, routes } from "@redwoodjs/router";
-import { Metadata } from "@redwoodjs/web";
+import { navigate, routes } from '@redwoodjs/router'
+import { Metadata } from '@redwoodjs/web'
 
-import Card from "src/components/Card/Card";
-import { ArrowRightIcon } from "src/components/Icons/Icons";
+import Card from 'src/components/Card/Card'
 
 const DefaultView = () => {
   const images = ['/A9A06698.webp', '/A9A07019.webp', '/DSC08102.webp']
@@ -37,7 +36,6 @@ const DefaultView = () => {
             onClick={() => navigate(routes.signup())}
           >
             <h2>Teilnehmen</h2>
-            <ArrowRightIcon />
           </button>
         </div>
         <motion.div

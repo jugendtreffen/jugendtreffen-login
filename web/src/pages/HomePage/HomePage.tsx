@@ -5,6 +5,7 @@ import LoadingSpinner from 'src/components/Loading/LoadingSpinner'
 import DefaultView from 'src/pages/HomePage/DefaultView'
 import ParticipantView from 'src/pages/HomePage/ParticipantView'
 import SidebarLayout from 'src/layouts/SidebarLayout/SidebarLayout'
+import NavbarLayout from 'src/layouts/NavbarLayout/NavbarLayout'
 
 const HomePage = () => {
   const { loading, isAuthenticated } = useAuth()
@@ -28,7 +29,11 @@ const HomePage = () => {
     )
   }
 
-  return <DefaultView />
+  return (
+    <NavbarLayout>
+      <DefaultView />
+    </NavbarLayout>
+  )
 }
 
 export default HomePage

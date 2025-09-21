@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react'
 
-import { Link } from "@redwoodjs/router";
+import { Link } from '@redwoodjs/router'
 
-import { ArrowRightIcon } from "src/components/Icons/Icons";
+import { ArrowRightFromLine } from 'lucide-react'
 
 interface CardProps {
   title?: string
@@ -33,7 +33,7 @@ const Card = (props: CardProps) => {
       {props.button && (
         <Link to={props.button.to} className="primary inline-flex items-center">
           {props.button.message}
-          <ArrowRightIcon />
+          <ArrowRightFromLine className="h-5 w-5" />
         </Link>
       )}
     </div>

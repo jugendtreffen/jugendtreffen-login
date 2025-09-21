@@ -1,10 +1,15 @@
-import type { FindCurrentEventQuery, FindCurrentEventQueryVariables } from "types/graphql";
+import type {
+  FindCurrentEventQuery,
+  FindCurrentEventQueryVariables,
+} from 'types/graphql'
+import type {
+  CellFailureProps,
+  CellSuccessProps,
+  TypedDocumentNode,
+} from '@redwoodjs/web'
 
-import { routes } from "@redwoodjs/router";
-import type { CellFailureProps, CellSuccessProps, TypedDocumentNode } from "@redwoodjs/web";
-
-import Card from "src/components/Card/Card";
-import Skeleton from "src/components/Skeleton/Skeleton";
+import Card from 'src/components/Card/Card'
+import Skeleton from 'src/components/Skeleton/Skeleton'
 
 export const QUERY: TypedDocumentNode<
   FindCurrentEventQuery,
@@ -53,7 +58,7 @@ export const Success = ({
       className={'w-full md:w-96 mb-4'}
       button={{
         message: 'Anmeldung',
-        to: routes.events({ id: String(currentEvent.id) }),
+        to: '#',
       }}
     />
   )

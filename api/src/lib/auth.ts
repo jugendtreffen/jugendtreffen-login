@@ -39,7 +39,8 @@ export const getCurrentUser = (
   }
 
   const { roles } = parseJWT({ decoded })
-  return { ...decoded, roles: roles }
+  console.log(roles)
+  return { ...decoded }
 }
 
 /**
