@@ -1,6 +1,5 @@
-import { AuthenticationError, ForbiddenError } from "@redwoodjs/graphql-server";
-
-import { personalDataByUserId } from "src/services/personalDatas/personalDatas";
+import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
+import { parseJWT } from '@redwoodjs/api'
 
 /**
  * Represents the user attributes returned by the decoding the
@@ -39,9 +38,8 @@ export const getCurrentUser = (
     return null
   }
 
-  // const { roles } = parseJWT({ decoded })
-  const personalData = personalDataByUserId({ userId: decoded.sub })
-  return { ...decoded, personalData }
+  const { roles } = parseJWT({ decoded })
+  return { ...decoded, roles: roles }
 }
 
 /**

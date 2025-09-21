@@ -13,33 +13,29 @@ model PersonalData {
   id                    String    @id @db.Uuid
   name                  String
   familyName            String
-  birthdate             DateTime?
-  gender                String?
-  phoneNumber           String?
+  birthdate             DateTime
+  gender                String
+  phoneNumber           String
   phoneCaretakerContact String?
   foundUsBy             String?
-  isParent              Boolean?
-  country               String?
-  city                  String?
-  postalCode            String?
-  address               String?
-  userId                String    @unique @db.Uuid
+  isParent              Boolean   @default(false)
+  country               String
+  city                  String
+  postalCode            String
+  address               String
   role                  String
   createdAt             DateTime  @default(now())
 
-  @@index([userId])
   @@map("personalDatas")
 }
 
 model Participation {
   id                   BigInt   @id @default(autoincrement()) @db.BigInt
   travelMethod         String?
-  accommodation        Boolean?
-  accomodationLocation String?
+  accommodation        String
   startDate            DateTime
   endDate              DateTime
   foodChoice           String
-  helpAfterwards       Boolean?
   acceptPhotos         Boolean
   acceptCoC            Boolean
   eventId              BigInt   @db.BigInt
@@ -54,7 +50,7 @@ model Participation {
 model Event {
   id             BigInt          @id @default(autoincrement()) @db.BigInt
   name           String          @unique
-  desc           String
+  desc           String?
   startDate      DateTime
   endDate        DateTime
   participations Participation[]

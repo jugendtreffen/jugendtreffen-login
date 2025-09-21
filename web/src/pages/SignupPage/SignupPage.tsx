@@ -31,36 +31,30 @@ import Step from 'src/components/MultiStepForm/Step'
 const CREATE_PERSONALDATA = gql`
   mutation CreatePersonlaDataMutation($input: CreatePersonalDataInput!) {
     createPersonalData(input: $input) {
-      name
-      familyName
-      birthdate
-      gender
-      country
-      city
-      postalCode
-      address
-      phoneNumber
-      phoneCaretakerContact
-      userId
+      id
+      role
     }
   }
 `
 
 interface FormValues {
+  id: string
   email: string
   password: string
   password_ctl: string
   name: string
   familyName: string
-  birthdate: string
+  birthdate: Date
   gender: string
   phoneNumber: string
+  phoneCaretakerContact: string
+  foundUsBy: string
+  isParent: boolean
   country: string
   city: string
   postalCode: string
   address: string
-  roleId: number
-  userId: string
+  role: string
 }
 
 const SignupPage = () => {
@@ -90,6 +84,7 @@ const SignupPage = () => {
       return 'Die Passwörter stimmen nicht überein.'
     }
   }
+
   const validateBirthDate = (value) => {
     const max_bd = new Date(new Date().getFullYear() - 13, 7, 31)
     const minor_bd = new Date(new Date().getFullYear() - 18, 7, 31)
@@ -103,6 +98,8 @@ const SignupPage = () => {
       return 'Teilnehmende müssen mindestens 14 Jahre alt sein oder in diesem Schuljahr (2024/25) die 8. Schulstufe besucht haben. Stichtag ist der 31.08.2011. Eine Teilnahme ist bis zum 30. Lebensjahr möglich.'
     }
   }
+
+  const validateEmail = (value) => {}
 
   const onSubmit: SubmitHandler<FormValues> = async (input) => {
     removeAllAlerts()
@@ -239,6 +236,9 @@ const SignupPage = () => {
                 placeholder="your@mail.com"
                 validation={{
                   required: true,
+                  validate: {
+                    emailConvermation: validateEmail,
+                  },
                 }}
               />
             </div>
@@ -280,9 +280,7 @@ const SignupPage = () => {
                     message: 'Bitte Betätige das Passwort',
                   },
                   validate: {
-                    passwordConfirmation: (value) => {
-                      return validatePassword(value)
-                    },
+                    passwordConfirmation: validatePassword,
                   },
                 }}
               />

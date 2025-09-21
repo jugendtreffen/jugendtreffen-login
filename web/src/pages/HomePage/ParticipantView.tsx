@@ -1,8 +1,8 @@
-import { Metadata } from "@redwoodjs/web";
+import { Metadata } from '@redwoodjs/web'
 
-import { useAuth } from "src/auth";
-import CurrentEventCell from "src/components/CurrentEventCell";
-import ParticipationsCell from "src/components/ParticipationsCell";
+import { useAuth } from 'src/auth'
+import CurrentEventCell from 'src/components/CurrentEventCell'
+import ParticipationsCell from 'src/components/ParticipationsCell'
 
 const ParticipantView = () => {
   const { currentUser } = useAuth()

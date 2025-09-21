@@ -1,11 +1,11 @@
 import type { PersonalData } from '@prisma/client'
 
 import {
-  personalDatas,
-  personalData,
   createPersonalData,
-  updatePersonalData,
   deletePersonalData,
+  personalData,
+  personalDatas,
+  updatePersonalData,
 } from './personalDatas'
 import type { StandardScenario } from './personalDatas.scenarios'
 
@@ -31,18 +31,22 @@ describe('personalDatas', () => {
     }
   )
 
-  scenario('creates a personalData', async (scenario: StandardScenario) => {
+  scenario('creates a personalData', async () => {
     const result = await createPersonalData({
       input: {
+        id: 'String',
         name: 'String',
         familyName: 'String',
-        roleId: scenario.personalData.two.roleId,
+        userId: 'String4370654',
+        role: 'String',
       },
     })
 
+    expect(result.id).toEqual('String')
     expect(result.name).toEqual('String')
     expect(result.familyName).toEqual('String')
-    expect(result.roleId).toEqual(scenario.personalData.two.roleId)
+    expect(result.userId).toEqual('String4370654')
+    expect(result.role).toEqual('String')
   })
 
   scenario('updates a personalData', async (scenario: StandardScenario) => {
@@ -51,10 +55,10 @@ describe('personalDatas', () => {
     })) as PersonalData
     const result = await updatePersonalData({
       id: original.id,
-      input: { name: 'String2' },
+      input: { id: 'String2' },
     })
 
-    expect(result.name).toEqual('String2')
+    expect(result.id).toEqual('String2')
   })
 
   scenario('deletes a personalData', async (scenario: StandardScenario) => {

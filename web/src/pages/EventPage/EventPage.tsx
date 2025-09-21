@@ -32,7 +32,7 @@ const CREATE_PARTICIPATION = gql`
   mutation CreateParticipationMutation($input: CreateParticipationInput!) {
     createParticipation(input: $input) {
       travelMethod
-      participationRoleId
+      participationRole
       accommodation
       startDate
       endDate
@@ -49,7 +49,7 @@ const CREATE_PARTICIPATION = gql`
 interface FormValues {
   eventId: number
   travelMethod: string
-  participationRoleId: number
+  participationRole: string
   accommodation: boolean
   accommodationLocation: string
   startDate: Date
@@ -88,7 +88,6 @@ const EventPage = () => {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     data.eventId = parseInt(id, 10)
-    data.participationRoleId = parseInt(String(data.participationRoleId), 10)
     data.accommodation = String(data.accommodation) == 'true'
     data.userId = currentUser.sub
     // @ts-ignore

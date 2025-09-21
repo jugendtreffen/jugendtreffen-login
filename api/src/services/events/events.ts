@@ -1,8 +1,8 @@
-import type { EventRelationResolvers, QueryResolvers } from "types/graphql";
+import type { EventRelationResolvers, QueryResolvers } from 'types/graphql'
 
-import { UserInputError } from "@redwoodjs/graphql-server";
+import { RedwoodGraphQLError, UserInputError } from '@redwoodjs/graphql-server'
 
-import { db } from "src/lib/db";
+import { db } from 'src/lib/db'
 
 export const events: QueryResolvers['events'] = () => {
   return db.event.findMany()
@@ -19,11 +19,20 @@ export const event: QueryResolvers['event'] = async ({ id }) => {
 }
 
 export const currentEvent: QueryResolvers['currentEvent'] = async () => {
-  return db.event.findFirst({
-    orderBy: {
-      startDate: 'desc',
-    },
-  })
+  return db.event
+    .findFirst({
+      where: {
+        startDate: {
+          lt: new Date(),
+        },
+      },
+      orderBy: {
+        startDate: 'desc',
+      },
+    })
+    .catch(() => {
+      throw new RedwoodGraphQLError('Kein anstehendes Event gefunden')
+    })
 }
 
 export const Event: EventRelationResolvers = {

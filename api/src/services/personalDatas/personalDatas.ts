@@ -1,35 +1,29 @@
-import type { MutationResolvers, PersonalDataRelationResolvers, QueryResolvers } from "types/graphql";
+import type { MutationResolvers, QueryResolvers } from 'types/graphql'
 
-import { db } from "src/lib/db";
-
-export const personalDatas: QueryResolvers['personalDatas'] = () => {
-  return db.personalData.findMany()
-}
+import { db } from 'src/lib/db'
+import { ForbiddenError } from '@redwoodjs/graphql-server'
 
 export const personalData: QueryResolvers['personalData'] = ({ id }) => {
+  const { id: userId } = context.currentUser
+
+  if (userId !== id) {
+    throw new ForbiddenError("You don't have access to this resource")
+  }
+
   return db.personalData.findUnique({
     where: { id },
-  })
-}
-
-export const personalDataByUserId: QueryResolvers['personalDataByUserId'] = ({
-  userId,
-}) => {
-  if (userId == undefined) return null
-  return db.personalData.findUnique({
-    where: { userId },
-    select: {
-      name: true,
-      familyName: true,
-      isParent: true,
-      role: true,
-    },
   })
 }
 
 export const createPersonalData: MutationResolvers['createPersonalData'] = ({
   input,
 }) => {
+  if (validateAgeUnder(input.birthdate, 18) && !input.phoneCaretakerContact) {
+    throw new ForbiddenError(
+      'Users under 18 must have the phonenumber of a parent registered.'
+    )
+  }
+
   return db.personalData.create({
     data: input,
   })
@@ -53,8 +47,15 @@ export const deletePersonalData: MutationResolvers['deletePersonalData'] = ({
   })
 }
 
-export const PersonalData: PersonalDataRelationResolvers = {
-  role: (_obj, { root }) => {
-    return db.personalData.findUnique({ where: { id: root?.id } }).role()
-  },
+function validateAgeUnder(birthdate: Date, ageLimit: number) {
+  const today = new Date()
+  const age = today.getFullYear() - birthdate.getFullYear()
+  const monthDifference = today.getMonth() - birthdate.getMonth()
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < birthdate.getDate())
+  ) {
+    return age - 1 < ageLimit
+  }
+  return age < ageLimit
 }
