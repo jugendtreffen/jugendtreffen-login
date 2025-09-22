@@ -52,6 +52,10 @@ input {
   border-gray-600 placeholder-gray-400 text-white focus:ring-primary-500 focus:border-primary-500
 }
 
+input:disabled {
+  @apply text-gray-400 cursor-not-allowed
+}
+
 input[type="checkbox"] {
   appearance: none;
   cursor: pointer;

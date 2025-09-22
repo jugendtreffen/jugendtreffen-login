@@ -2,17 +2,33 @@ import type { MutationResolvers, QueryResolvers } from 'types/graphql'
 
 import { db } from 'src/lib/db'
 import { ForbiddenError } from '@redwoodjs/graphql-server'
+import { RedwoodError } from '@redwoodjs/api'
 
-export const personalData: QueryResolvers['personalData'] = ({ id }) => {
-  const { id: userId } = context.currentUser
+export const personalData: QueryResolvers['personalData'] = async ({ id }) => {
+  const { sub } = context.currentUser
 
-  if (userId !== id) {
-    throw new ForbiddenError("You don't have access to this resource")
+  if (!id) {
+    // @ts-ignore
+    return db.personalData.findUnique({
+      where: { id: sub },
+    })
   }
+  if (id === sub) {
+    return db.personalData.findUnique({
+      where: { id },
+    })
+  }
+  throw new ForbiddenError("You don't have access to this data.")
+}
 
-  return db.personalData.findUnique({
-    where: { id },
+export const role: QueryResolvers['role'] = async () => {
+  const currentUser = context.currentUser
+  const result = await db.personalData.findUnique({
+    where: { id: currentUser.sub },
+    select: { role },
   })
+  if (!result) throw new RedwoodError('Something went wrong')
+  return result.role
 }
 
 export const createPersonalData: MutationResolvers['createPersonalData'] = ({

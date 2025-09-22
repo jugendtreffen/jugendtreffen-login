@@ -1,14 +1,14 @@
-import { motion } from "framer-motion";
-import { CalendarPlus, Home, LayoutDashboard, LogOut, Menu, User } from "lucide-react";
-import React, { createContext, useContext, useState } from "react";
-import Footer from "src/components/Navigation/Footer";
-import { useAuth } from "src/auth";
-import { navigate, routes } from "@redwoodjs/router";
-import { useAlert } from "src/components/Alert/AlertContext";
+import { motion } from 'framer-motion'
+import { CalendarPlus, Home, LayoutDashboard, LogOut, PanelLeftClose, PanelLeftOpen, User, } from 'lucide-react'
+import React, { createContext, useContext, useState } from 'react'
+import Footer from 'src/components/Navigation/Footer'
+import { useAuth } from 'src/auth'
+import { navigate, routes } from '@redwoodjs/router'
+import { useAlert } from 'src/components/Alert/AlertContext'
 
 interface SidebarContextType {
-  selectedItem: string
-  setSelectedItem: (item: string) => void
+  sidebarItem: 'Dashboard' | 'Profil' | 'Anmeldung' | 'Quartier' | 'Checkin'
+  setSidebarItem: (item: string) => void
 }
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined)
 
@@ -38,7 +38,9 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
   const { addAlert } = useAlert()
 
   return (
-    <SidebarContext.Provider value={{ selectedItem, setSelectedItem }}>
+    <SidebarContext.Provider
+      value={{ sidebarItem: selectedItem, setSidebarItem: setSelectedItem }}
+    >
       <div className="flex h-screen w-screen">
         <motion.aside
           animate={{ width: isOpen ? 240 : 72 }}
@@ -57,7 +59,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
               onClick={() => setIsOpen(!isOpen)}
               className={`ml-auto ${!isOpen ? 'mx-auto' : ''}`}
             >
-              <Menu className="h-6 w-6" />
+              {isOpen ? <PanelLeftClose /> : <PanelLeftOpen />}
             </button>
           </div>
 

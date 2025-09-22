@@ -1,5 +1,4 @@
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
-import { parseJWT } from '@redwoodjs/api'
 
 /**
  * Represents the user attributes returned by the decoding the
@@ -27,7 +26,7 @@ type RedwoodUser = Record<string, unknown> & { roles?: string[] }
  *
  * @returns RedwoodUser
  */
-export const getCurrentUser = (
+export const getCurrentUser = async (
   decoded,
   /* eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars */
   { token, type },
@@ -38,8 +37,6 @@ export const getCurrentUser = (
     return null
   }
 
-  const { roles } = parseJWT({ decoded })
-  console.log(roles)
   return { ...decoded }
 }
 

@@ -40,7 +40,6 @@ export const schema = gql`
   }
 
   input UpdatePersonalDataInput {
-    id: String!
     name: String
     familyName: String
     birthdate: DateTime
