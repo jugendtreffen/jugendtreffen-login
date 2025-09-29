@@ -1,10 +1,20 @@
 import { motion } from 'framer-motion'
-import { CalendarPlus, Home, LayoutDashboard, LogOut, PanelLeftClose, PanelLeftOpen, User, } from 'lucide-react'
+import {
+  CalendarPlus,
+  Home,
+  LaptopMinimalCheck,
+  LayoutDashboard,
+  LogOut,
+  PanelLeftClose,
+  PanelLeftOpen,
+  User,
+} from 'lucide-react'
 import React, { createContext, useContext, useState } from 'react'
 import Footer from 'src/components/Navigation/Footer'
 import { useAuth } from 'src/auth'
 import { navigate, routes } from '@redwoodjs/router'
 import { useAlert } from 'src/components/Alert/AlertContext'
+import { useRole } from 'src/roles'
 
 interface SidebarContextType {
   sidebarItem: 'Dashboard' | 'Profil' | 'Anmeldung' | 'Quartier' | 'Checkin'
@@ -19,13 +29,22 @@ export const useSidebar = () => {
   return context
 }
 
-//Todo: Replace with dynamic items and icons
-const sidebarItems = [
-  { name: 'Dashboard', icon: LayoutDashboard },
-  { name: 'Profil', icon: User },
-  { name: 'Anmeldung', icon: CalendarPlus },
-  { name: 'Quartier', icon: Home },
-]
+function getSidebarItemsByRole(role: string) {
+  let items = [
+    { name: 'Dashboard', icon: LayoutDashboard },
+    { name: 'Profil', icon: User },
+    { name: 'Anmeldung', icon: CalendarPlus },
+  ]
+  switch (role) {
+    case 'checkin':
+      items.push({ name: 'Checkin', icon: LaptopMinimalCheck })
+      break
+    case 'quartier':
+      items.push({ name: 'Quartier', icon: Home })
+      break
+  }
+  return items
+}
 
 type SidebarLayoutProps = {
   children?: React.ReactNode
@@ -36,6 +55,9 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
   const [selectedItem, setSelectedItem] = useState('Dashboard')
   const { logOut, loading } = useAuth()
   const { addAlert } = useAlert()
+  const { role } = useRole()
+
+  const sidebarItems = getSidebarItemsByRole(role)
 
   return (
     <SidebarContext.Provider
