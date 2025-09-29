@@ -1,8 +1,8 @@
 import { Route, Router, Set } from '@redwoodjs/router'
 
 import { useAuth } from 'src/auth'
-import GlobalLayout from 'src/layouts/GlobalLayout/GlobalLayout'
-import NavbarLayout from 'src/layouts/NavbarLayout/NavbarLayout'
+import GlobalLayout from 'src/layouts/GlobalLayout'
+import NavbarLayout from 'src/layouts/NavbarLayout'
 
 const Routes = () => {
   return (

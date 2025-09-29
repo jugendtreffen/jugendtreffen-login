@@ -3,7 +3,7 @@ import { Metadata } from '@redwoodjs/web'
 import { useAuth } from 'src/auth'
 import LoadingSpinner from 'src/components/Loading/LoadingSpinner'
 import DefaultView from 'src/pages/HomePage/DefaultView'
-import ParticipantView from 'src/pages/HomePage/ParticipantView'
+import MainConetntView from 'src/pages/HomePage/MainContentView'
 import SidebarLayout from 'src/layouts/SidebarLayout/SidebarLayout'
 import NavbarLayout from 'src/layouts/NavbarLayout/NavbarLayout'
 
@@ -24,7 +24,7 @@ const HomePage = () => {
   if (isAuthenticated) {
     return (
       <SidebarLayout>
-        <ParticipantView />
+        <MainConetntView />
       </SidebarLayout>
     )
   }

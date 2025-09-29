@@ -44,7 +44,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
       <div className="flex h-screen w-screen">
         <motion.aside
           animate={{ width: isOpen ? 240 : 72 }}
-          className="flex flex-col border-r border-gray-600 shadow-md transition-all overflow-hidden"
+          className="sticky top-0 h-screen flex flex-col border-r border-gray-600 shadow-md transition-all overflow-hidden"
         >
           <div className="flex items-center justify-between p-4">
             {isOpen && (
@@ -99,8 +99,8 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
           </div>
         </motion.aside>
 
-        <div className="h-full w-full flex flex-col">
-          <main className="flex-1 overflow-auto p-6">{children}</main>
+        <div className="h-full w-full flex flex-col overflow-auto">
+          <main className="flex-1 overflow-visible p-6">{children}</main>
           <Footer />
         </div>
       </div>

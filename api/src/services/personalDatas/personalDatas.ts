@@ -31,19 +31,25 @@ export const role: QueryResolvers['role'] = async () => {
   return result.role
 }
 
-export const createPersonalData: MutationResolvers['createPersonalData'] = ({
-  input,
-}) => {
-  if (validateAgeUnder(input.birthdate, 18) && !input.phoneCaretakerContact) {
-    throw new ForbiddenError(
-      'Users under 18 must have the phonenumber of a parent registered.'
-    )
-  }
+export const createPersonalData: MutationResolvers['createPersonalData'] =
+  async ({ input }) => {
+    // await validateWith(() => {
+    //   if (validateAgeUnder(input.birthdate, 18) && !input.phoneCaretakerContact) {
+    //     return new ForbiddenError(
+    //       'Teilnehmer unter 18 müssen die Telefonnummer eines erziehungsberechtigten angeben.'
+    //     )
+    //   }
+    //   if (validateAgeUnder(input.birthdate, 14)) {
+    //     return new ForbiddenError(
+    //       'Du musst mindestens 14 Jahre Alt sein!'
+    //     )
+    //   }
+    // })
 
-  return db.personalData.create({
-    data: input,
-  })
-}
+    return db.personalData.create({
+      data: input,
+    })
+  }
 
 export const updatePersonalData: MutationResolvers['updatePersonalData'] = ({
   id,

@@ -1,12 +1,12 @@
 import { Metadata } from '@redwoodjs/web'
 
 import { useAuth } from 'src/auth'
-import CurrentEventCell from 'src/components/CurrentEventCell'
 import ParticipationsCell from 'src/components/ParticipationsCell'
 import PersonalDataCell from 'src/components/PersonalDataCell'
 import { useSidebar } from 'src/layouts/SidebarLayout/SidebarLayout'
+import EventParticipationForm from 'src/components/EventParticipationForm/EventParticipationForm'
 
-const ParticipantView = () => {
+const MainContentView = () => {
   const { currentUser } = useAuth()
   const { sidebarItem } = useSidebar()
 
@@ -15,8 +15,7 @@ const ParticipantView = () => {
       <>
         <Metadata title="Dashboard" />
 
-        <section className="flex flex-col md:flex-row p-6 mx-auto lg:py-0 h-full mt-20 gap-2">
-          <CurrentEventCell></CurrentEventCell>
+        <section className="flex flex-col md:flex-row gap-2">
           <div className="md:ml-3">
             <ParticipationsCell userId={currentUser.sub}></ParticipationsCell>
           </div>
@@ -30,7 +29,11 @@ const ParticipantView = () => {
       <>
         <Metadata title="Profil" />
 
-        <PersonalDataCell />
+        <section className="flex flex-col md:flex-row gap-2">
+          <div className="md:ml-3">
+            <PersonalDataCell />
+          </div>
+        </section>
       </>
     )
   }
@@ -39,6 +42,12 @@ const ParticipantView = () => {
     return (
       <>
         <Metadata title="Anmeldung" />
+
+        <section className="flex flex-col md:flex-row gap-2">
+          <div className="md:ml-3">
+            <EventParticipationForm></EventParticipationForm>
+          </div>
+        </section>
       </>
     )
   }
@@ -53,4 +62,4 @@ const ParticipantView = () => {
   return null
 }
 
-export default ParticipantView
+export default MainContentView
