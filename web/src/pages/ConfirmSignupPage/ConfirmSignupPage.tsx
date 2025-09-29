@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 
-import { Link, navigate, routes } from "@redwoodjs/router";
-import { Metadata } from "@redwoodjs/web";
+import { Link, navigate, routes } from '@redwoodjs/router'
+import { Metadata } from '@redwoodjs/web'
 
-import { useAuth } from "src/auth";
-import Alert from "src/components/Alert/Alert";
-import Card from "src/components/Card/Card";
-import { ArrowRightIcon, CheckIcon } from "src/components/Icons/Icons";
-import LoadingSpinner from "src/components/Loading/LoadingSpinner";
+import { useAuth } from 'src/auth'
+import Alert from 'src/components/Alert/Alert'
+import Card from 'src/components/Card/Card'
+import LoadingSpinner from 'src/components/Loading/LoadingSpinner'
+import { ArrowRight, Info } from 'lucide-react'
 
 const ConfirmSignupPage = (props) => {
   const { token_hash, email, next } = props
-  const { client, isAuthenticated, userMetadata } = useAuth()
+  const { client, isAuthenticated } = useAuth()
   const [confirmationStatus, setConfirmationStatus] = useState('pending')
   const [errorMessage, setErrorMessage] = useState(
     'Es ist ein Fehler aufgetreten'
@@ -96,15 +96,15 @@ const ConfirmSignupPage = (props) => {
         {confirmationStatus === 'success' && (
           <>
             <span className={'text-green-500'}>
-              <CheckIcon />
+              <Info />
             </span>
             <p>Deine Email wurde erfolgreich bestätigt!</p>
             <Link
-              to={routes.events({ id: '1' })}
+              to={routes.home()}
               className="primary inline-flex items-center mt-2"
             >
               Anmeldung fertigstellen
-              <ArrowRightIcon />
+              <ArrowRight />
             </Link>
           </>
         )}
