@@ -4,15 +4,11 @@ import { useAuth } from 'src/auth'
 import { Menu, X } from 'lucide-react'
 
 const Navigation = () => {
-  const { isAuthenticated } = useAuth()
+  const { loading, isAuthenticated, logOut } = useAuth()
   const [open, setOpen] = useState(false)
 
   function handleNavToggle() {
     open ? setOpen(false) : setOpen(true)
-  }
-
-  function isMobile() {
-    return window?.innerWidth < 768
   }
 
   return (
@@ -29,7 +25,7 @@ const Navigation = () => {
           {isAuthenticated ? (
             <button
               className="primary me-2"
-              onClick={() => onClick()}
+              onClick={() => logOut()}
               disabled={loading}
             >
               Abmelden
