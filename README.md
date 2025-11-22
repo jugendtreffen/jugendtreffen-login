@@ -54,9 +54,12 @@ yarn rw prisma migrate dev
 > ```
 > yarn rw  prisma db execute --file=./api/db/pre_migration.sql
 > ```
-> Then execute your migration:
+> Then execute your migration or push your schema to the db:
 > ```
 > yarn rw prisma migrate dev
+> ```
+>  ```
+> yarn rw prisma push db
 > ```
 >
 > After that add the fkey to the db with:

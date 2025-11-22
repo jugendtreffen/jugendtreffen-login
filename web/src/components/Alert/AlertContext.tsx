@@ -1,48 +1,51 @@
 import { createContext, useContext, useState } from "react";
+
 import { AlertProps, generateAlertId } from "src/components/Alert/Alert";
 
 type Alert = {
-  id: string;
-} & AlertProps;
+  id: string
+} & AlertProps
 
 type AlertContextType = {
-  alerts: Alert[];
-  addAlert: (message: string, type?: Alert["type"]) => string;
-  removeAlert: (id: string) => void;
-  removeAllAlerts: () => void;
-};
+  alerts: Alert[]
+  addAlert: (message: string, type?: Alert['type']) => string
+  removeAlert: (id: string) => void
+  removeAllAlerts: () => void
+}
 
-const AlertContext = createContext<AlertContextType | null>(null);
+const AlertContext = createContext<AlertContextType | null>(null)
 
 export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
-  const [alerts, setAlerts] = useState<Alert[]>([]);
+  const [alerts, setAlerts] = useState<Alert[]>([])
 
-  const addAlert = (message: string, type?: Alert["type"]) => {
-    console.log('addAlert',message, type)
+  const addAlert = (message: string, type?: Alert['type']) => {
+    console.log('addAlert', message, type)
     const id = generateAlertId()
-    setAlerts( [...alerts, { id, message, type }]);
-    return id;
+    setAlerts([...alerts, { id, message, type }])
+    return id
   }
 
   const removeAlert = (id: string) => {
-    setAlerts(alerts.filter((alert: { id: string; }) => alert.id !== id));
+    setAlerts(alerts.filter((alert: { id: string }) => alert.id !== id))
   }
 
   const removeAllAlerts = () => {
-    setAlerts([]);
+    setAlerts([])
   }
 
   return (
-    <AlertContext.Provider value={{ alerts, addAlert, removeAlert, removeAllAlerts }}>
+    <AlertContext.Provider
+      value={{ alerts, addAlert, removeAlert, removeAllAlerts }}
+    >
       {children}
     </AlertContext.Provider>
-  );
-};
+  )
+}
 
 export const useAlert = () => {
-  const context = useContext(AlertContext);
+  const context = useContext(AlertContext)
   if (!context) {
-    throw new Error("useAlert must be used within an AlertProvider");
+    throw new Error('useAlert must be used within an AlertProvider')
   }
-  return context;
-};
+  return context
+}

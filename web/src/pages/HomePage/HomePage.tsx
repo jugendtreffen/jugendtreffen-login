@@ -1,28 +1,39 @@
-import { Metadata } from "@redwoodjs/web";
+import { Metadata } from '@redwoodjs/web'
 
-import { useAuth } from "src/auth";
-import LoadingSpinner from "src/components/Loading/LoadingSpinner";
-import DefaultView from "src/pages/HomePage/DefaultView";
-import ParticipantView from "src/pages/HomePage/ParticipantView";
+import { useAuth } from 'src/auth'
+import LoadingSpinner from 'src/components/Loading/LoadingSpinner'
+import DefaultView from 'src/pages/HomePage/DefaultView'
+import MainConetntView from 'src/pages/HomePage/MainContentView'
+import SidebarLayout from 'src/layouts/SidebarLayout/SidebarLayout'
+import NavbarLayout from 'src/layouts/NavbarLayout/NavbarLayout'
 
 const HomePage = () => {
-  const { loading, isAuthenticated } = useAuth();
+  const { loading, isAuthenticated } = useAuth()
 
   if (loading) {
     return (
       <>
         <Metadata title="Home" description="Home page" />
-
-        <LoadingSpinner />
+        <div className="flex flex-col items-center justify-center mt-20 w-full">
+          <LoadingSpinner />
+        </div>
       </>
-    );
+    )
   }
 
   if (isAuthenticated) {
-    return <ParticipantView />;
+    return (
+      <SidebarLayout>
+        <MainConetntView />
+      </SidebarLayout>
+    )
   }
 
-  return <DefaultView />;
-};
+  return (
+    <NavbarLayout>
+      <DefaultView />
+    </NavbarLayout>
+  )
+}
 
-export default HomePage;
+export default HomePage

@@ -1,4 +1,3 @@
-import { parseJWT } from '@redwoodjs/api'
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 
 /**
@@ -38,12 +37,6 @@ export const getCurrentUser = async (
     return null
   }
 
-  const { roles } = parseJWT({ decoded })
-
-  if (roles) {
-    return { ...decoded, roles }
-  }
-
   return { ...decoded }
 }
 
@@ -65,10 +58,9 @@ type AllowedRoles = string | string[] | undefined
 /**
  * Checks if the currentUser is authenticated (and assigned one of the given roles)
  *
- * @param roles: {@link AllowedRoles} - Checks if the currentUser is assigned one of these roles
- *
  * @returns {boolean} - Returns true if the currentUser is logged in and assigned one of the given roles,
  * or when no roles are provided to check against. Otherwise returns false.
+ * @param roles roles
  */
 export const hasRole = (roles: AllowedRoles): boolean => {
   if (!isAuthenticated()) {
