@@ -1,16 +1,15 @@
 export const schema = gql`
   type Event {
-    id: Int!
+    id: BigInt!
     name: String!
     desc: String
     startDate: DateTime
     endDate: DateTime
-    Participation: [Participation]!
   }
 
   type Query {
-    events: [Event!]! @skipAuth
-    event(id: Int!): Event @skipAuth
-    currentEvent: Event @requireAuth
+    events: [Event!] @skipAuth
+    event(id: BigInt!): Event! @skipAuth
+    currentEvent: Event! @skipAuth
   }
 `

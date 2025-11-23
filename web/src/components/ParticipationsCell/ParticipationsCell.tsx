@@ -1,19 +1,26 @@
-import { ArrowRightIcon, Check } from "lucide-react";
-import type { ParticipationsQuery, ParticipationsQueryVariables } from "types/graphql";
+import { ArrowRightIcon, Check } from 'lucide-react'
+import type {
+  ParticipationsQuery,
+  ParticipationsQueryVariables,
+} from 'types/graphql'
 
-import type { CellFailureProps, CellSuccessProps, TypedDocumentNode } from "@redwoodjs/web";
+import type {
+  CellFailureProps,
+  CellSuccessProps,
+  TypedDocumentNode,
+} from '@redwoodjs/web'
 
-import Alert from "src/components/Alert/Alert";
-import Card from "src/components/Card/Card";
-import Skeleton from "src/components/Skeleton/Skeleton";
-import { formatDate } from "src/utils";
+import Alert from 'src/components/Alert/Alert'
+import Card from 'src/components/Card/Card'
+import Skeleton from 'src/components/Skeleton/Skeleton'
+import { formatDate } from 'src/utils'
 
 export const QUERY: TypedDocumentNode<
   ParticipationsQuery,
   ParticipationsQueryVariables
 > = gql`
   query ParticipationsByUserIdQuery($userId: String!) {
-    participations(userId: $userId) {
+    participationsByUser(userId: $userId) {
       id
       accommodation
       startDate

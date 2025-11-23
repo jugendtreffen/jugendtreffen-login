@@ -1,15 +1,16 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react'
 
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from '@vercel/analytics/react'
 
-import { FatalErrorBoundary, RedwoodProvider } from "@redwoodjs/web";
-import { RedwoodApolloProvider } from "@redwoodjs/web/apollo";
+import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
+import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
-import FatalErrorPage from "src/pages/FatalErrorPage";
+import FatalErrorPage from 'src/pages/FatalErrorPage'
 
-import { AuthProvider, useAuth } from "./auth";
+import { AuthProvider, useAuth } from 'src/auth'
 
-import "./index.css";
+import './index.css'
+import { RoleProvider } from 'src/roles'
 
 interface AppProps {
   children?: ReactNode
@@ -20,7 +21,7 @@ const App = ({ children }: AppProps) => (
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
       <AuthProvider>
         <RedwoodApolloProvider useAuth={useAuth}>
-          {children}
+          <RoleProvider>{children}</RoleProvider>
         </RedwoodApolloProvider>
       </AuthProvider>
     </RedwoodProvider>

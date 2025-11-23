@@ -1,8 +1,8 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode } from 'react'
 
-import { AlertTriangle, CheckCircle, Info, X, XCircle } from "lucide-react";
+import { AlertTriangle, CheckCircle, Info, X, XCircle } from 'lucide-react'
 
-import { useAlert } from "src/components/Alert/AlertContext";
+import { useAlert } from 'src/components/Alert/AlertContext'
 
 export interface AlertProps {
   id: string
@@ -70,6 +70,10 @@ const Alert = (props: AlertProps) => {
 
   const config = getAlertConfig()
   const IconComponent = config.icon
+
+  if (!props.id) {
+    throw new Error('id is required')
+  }
 
   return (
     <div

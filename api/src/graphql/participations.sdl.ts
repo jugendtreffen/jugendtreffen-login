@@ -2,36 +2,32 @@ export const schema = gql`
   type Participation {
     id: BigInt!
     travelMethod: String
-    participationRoleId: Int
-    accommodation: Boolean
-    accommodationLocation: String
+    participationRole: String!
+    accommodation: String!
     startDate: DateTime!
     endDate: DateTime!
     foodChoice: String!
-    helpAfterwards: Boolean
     foundUsBy: String
     acceptPhotos: Boolean!
     acceptCoC: Boolean!
-    eventId: Int
     event: Event!
     userId: String!
-    participationRole: ParticipationRole
   }
 
   type Query {
-    participations(userId: String): [Participation!] @requireAuth
-    participation(id: BigInt!): Participation @requireAuth
+    participationsByUser(userId: String!): [Participation!] @requireAuth
+    participationsByEvent(eventId: BigInt!): [Participation!] @requireAuth
+    participation(id: BigInt): Participation @requireAuth
   }
 
   input CreateParticipationInput {
     travelMethod: String
-    participationRoleId: Int
-    accommodation: Boolean
-    accommodationLocation: String
+    participationRole: String!
+    needsAccommodation: Boolean!
+    accommodationPreference: String!
     startDate: DateTime!
     endDate: DateTime!
     foodChoice: String!
-    helpAfterwards: Boolean
     foundUsBy: String
     acceptPhotos: Boolean!
     acceptCoC: Boolean!
@@ -41,13 +37,12 @@ export const schema = gql`
 
   input UpdateParticipationInput {
     travelMethod: String
-    participationRoleId: Int
-    accommodation: Boolean
-    accommodationLocation: String
+    participationRole: String
+    needsAccommodation: Boolean
+    accommodationPreference: String
     startDate: DateTime
     endDate: DateTime
     foodChoice: String
-    helpAfterwards: Boolean
     foundUsBy: String
     acceptPhotos: Boolean
     acceptCoC: Boolean

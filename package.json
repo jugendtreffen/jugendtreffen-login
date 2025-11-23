@@ -8,20 +8,28 @@
   },
   "scripts": {
     "dev": "redwood dev",
-    "build": "redwood build",
+    "build:dev": "redwood build",
+    "build:prod": "dotenv -f .env.production run redwood build",
     "start": "redwood serve",
-    "migrate": "redwood prisma migrate dev",
-    "format-db": "redwood prisma format",
+    "migrate:dev": "redwood prisma migrate dev",
+    "migrate:prod": "dotenv -f .env.production run redwood prisma migrate deploy",
+    "format-db": "redwood prisma format && redwood prisma validate --schema api/db/schema.prisma",
     "push-db": "redwood prisma db push",
     "seed": "redwood prisma db seed",
     "generate types": "redwood generate types",
     "test": "redwood test --watchAll"
   },
   "devDependencies": {
-    "@redwoodjs/auth-supabase-setup": "8.6.1",
-    "@redwoodjs/cli-storybook-vite": "8.6.1",
-    "@redwoodjs/core": "8.6.1",
-    "@redwoodjs/project-config": "8.6.1"
+    "@redwoodjs/auth-supabase-setup": "8.8.1",
+    "@redwoodjs/cli-storybook-vite": "8.8.1",
+    "@redwoodjs/core": "8.8.1",
+    "@redwoodjs/project-config": "8.8.1",
+    "@redwoodjs/testing": "8.8.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/jest": "^30.0.0",
+    "babel-jest": "^30.0.5",
+    "jest-watch-typeahead": "^3.0.1",
+    "ts-jest": "^29.4.0"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",

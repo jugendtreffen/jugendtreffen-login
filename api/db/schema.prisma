@@ -5,75 +5,69 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  url       = env("SUPABASE_TRANSACTION_POOLER_URL")
+  directUrl = env("SUPABASE_SESSION_POOLER_URL")
 }
 
 model PersonalData {
-  id                    BigInt     @id @default(autoincrement())
+  id                    String    @id @db.Uuid
   name                  String
   familyName            String
-  birthdate             DateTime?
-  gender                String?
-  phoneNumber           String?
+  birthdate             DateTime
+  gender                String
+  phoneNumber           String
   phoneCaretakerContact String?
   foundUsBy             String?
-  isParent              Boolean?
-  roleId                Int
-  country               String?
-  city                  String?
-  postalCode            String?
-  address               String?
-  userId                String    @unique @db.Uuid
-  role                  SystemRole @relation(fields: [roleId], references: [id], onDelete: SetDefault, onUpdate: Cascade)
+  isParent              Boolean   @default(false)
+  country               String
+  city                  String
+  postalCode            String
+  address               String
+  role                  String
+  createdAt             DateTime  @default(now())
 
   @@map("personalDatas")
 }
 
 model Participation {
-  id                   BigInt             @id @default(autoincrement())
+  id                   BigInt   @id @default(autoincrement()) @db.BigInt
   travelMethod         String?
-  participationRoleId  Int?
-  accommodation        Boolean?
-  accomodationLocation String?
+  accommodation        String
   startDate            DateTime
   endDate              DateTime
   foodChoice           String
-  helpAfterwards       Boolean?
   acceptPhotos         Boolean
   acceptCoC            Boolean
-  eventId              Int
-  userId               String    @db.Uuid
-  event                Event             @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  participationRole    ParticipationRole? @relation(fields: [participationRoleId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  eventId              BigInt   @db.BigInt
+  userId               String   @db.Uuid
+  event                Event    @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  participationRole    String?
 
-  @@map("participations")
   @@index([userId])
-}
-
-model SystemRole {
-  id         Int            @id @default(autoincrement())
-  desc       String         @unique
-  references PersonalData[]
-
-  @@map("systemRoles")
-}
-
-model ParticipationRole {
-  id         Int             @id @default(autoincrement())
-  desc       String          @unique
-  references Participation[]
-
-  @@map("participationRoles")
+  @@map("participations")
 }
 
 model Event {
-  id             Int             @id @default(autoincrement())
+  id             BigInt          @id @default(autoincrement()) @db.BigInt
   name           String          @unique
-  desc           String
+  desc           String?
   startDate      DateTime
   endDate        DateTime
   participations Participation[]
+  presences      Presence[]
+  createdAt      DateTime        @default(now())
 
   @@map("events")
+}
+
+model Presence {
+  id      BigInt   @id @default(autoincrement()) @db.BigInt
+  date    DateTime
+  status  String
+  userId  String   @db.Uuid
+  eventId BigInt   @db.BigInt
+  event   Event    @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  @@index([userId])
+  @@map("presences")
 }

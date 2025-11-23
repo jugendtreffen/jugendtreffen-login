@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-import { CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables } from "types/graphql";
+import { CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables, } from 'types/graphql'
 
 import {
   DateField,
@@ -10,54 +10,48 @@ import {
   PasswordField,
   SelectField,
   SubmitHandler,
-  useForm
-} from "@redwoodjs/forms";
-import { Link, routes } from "@redwoodjs/router";
-import { Metadata, useMutation } from "@redwoodjs/web";
+  useForm,
+} from '@redwoodjs/forms'
+import { Link, routes } from '@redwoodjs/router'
+import { Metadata, useMutation } from '@redwoodjs/web'
 
-import { useAuth } from "src/auth";
-import Alert from "src/components/Alert/Alert";
-import AlertCenter from "src/components/Alert/AlertCenter";
-import { useAlert } from "src/components/Alert/AlertContext";
-import Card from "src/components/Card/Card";
-import { CheckIcon } from "src/components/Icons/Icons";
-import LoadingSpinner from "src/components/Loading/LoadingSpinner";
-import MultiStepForm from "src/components/MultiStepForm/MultiStepForm";
-import Step from "src/components/MultiStepForm/Step";
+import { useAuth } from 'src/auth'
+import Alert from 'src/components/Alert/Alert'
+import AlertCenter from 'src/components/Alert/AlertCenter'
+import { useAlert } from 'src/components/Alert/AlertContext'
+import Card from 'src/components/Card/Card'
+import LoadingSpinner from 'src/components/Loading/LoadingSpinner'
+import MultiStepForm from 'src/components/MultiStepForm/MultiStepForm'
+import Step from 'src/components/MultiStepForm/Step'
+import { Info } from 'lucide-react'
 
 const CREATE_PERSONALDATA = gql`
   mutation CreatePersonlaDataMutation($input: CreatePersonalDataInput!) {
     createPersonalData(input: $input) {
-      name
-      familyName
-      birthdate
-      gender
-      country
-      city
-      postalCode
-      address
-      phoneNumber
-      phoneCaretakerContact
-      userId
+      id
+      role
     }
   }
 `
 
 interface FormValues {
+  id: string
   email: string
   password: string
   password_ctl: string
   name: string
   familyName: string
-  birthdate: string
+  birthdate: Date
   gender: string
   phoneNumber: string
+  phoneCaretakerContact: string
+  foundUsBy: string
+  isParent: boolean
   country: string
   city: string
   postalCode: string
   address: string
-  roleId: number
-  userId: string
+  role: string
 }
 
 const SignupPage = () => {
@@ -87,6 +81,7 @@ const SignupPage = () => {
       return 'Die Passwörter stimmen nicht überein.'
     }
   }
+
   const validateBirthDate = (value) => {
     const max_bd = new Date(new Date().getFullYear() - 13, 7, 31)
     const minor_bd = new Date(new Date().getFullYear() - 18, 7, 31)
@@ -101,9 +96,11 @@ const SignupPage = () => {
     }
   }
 
+  const validateEmail = (value) => {}
+
   const onSubmit: SubmitHandler<FormValues> = async (input) => {
     removeAllAlerts()
-    input.roleId = 3
+    input.role = 'user'
     try {
       const response = await client.auth.signUp({
         email: input.email,
@@ -111,7 +108,7 @@ const SignupPage = () => {
       })
       response?.error?.message
         ? addAlert(response.error.message, 'error')
-        : (input.userId = response.data.user.id)
+        : (input.id = response.data.user.id)
     } catch (error) {
       addAlert(error.message, 'error')
     }
@@ -171,12 +168,12 @@ const SignupPage = () => {
           className="flex flex-col gap-1"
           button={{
             message: 'weiter zur Anmeldung',
-            to: routes.login({ next: routes.events({ id: '0' }) }),
+            to: routes.login({ next: routes.home() }),
           }}
         >
           <div className="flex flex-row gap-2">
             <span className="text-green-500">
-              <CheckIcon />
+              <Info />
             </span>
             <p className="secondary text-end w-full">Schritt: 3/4</p>
           </div>
@@ -236,6 +233,9 @@ const SignupPage = () => {
                 placeholder="your@mail.com"
                 validation={{
                   required: true,
+                  // validate: {
+                  //   email: validateEmail,
+                  // },
                 }}
               />
             </div>
@@ -277,9 +277,7 @@ const SignupPage = () => {
                     message: 'Bitte Betätige das Passwort',
                   },
                   validate: {
-                    passwordConfirmation: (value) => {
-                      return validatePassword(value)
-                    },
+                    passwordConfirmation: validatePassword,
                   },
                 }}
               />

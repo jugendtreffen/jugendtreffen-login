@@ -1,41 +1,42 @@
 export const schema = gql`
   type PersonalData {
-    id: BigInt
+    id: String!
     name: String!
     familyName: String!
-    birthdate: DateTime
-    gender: String
-    country: String
-    city: String
-    postalCode: String
-    address: String
-    phoneNumber: String
+    birthdate: DateTime!
+    gender: String!
+    phoneNumber: String!
     phoneCaretakerContact: String
-    userId: String
-    role: SystemRole!
+    foundUsBy: String
     isParent: Boolean!
+    country: String!
+    city: String!
+    postalCode: String!
+    address: String!
+    role: String!
+    createdAt: DateTime!
   }
 
   type Query {
-    personalDatas: [PersonalData!]! @requireAuth
-    personalData(id: BigInt!): PersonalData @requireAuth
-    personalDataByUserId(userId: String): PersonalData @requireAuth
+    personalData(id: String): PersonalData @requireAuth
+    role: String! @requireAuth
   }
 
   input CreatePersonalDataInput {
+    id: String!
     name: String!
     familyName: String!
-    birthdate: DateTime
-    gender: String
-    roleId: Int!
-    country: String
-    city: String
-    postalCode: String
-    address: String
-    phoneNumber: String
+    birthdate: DateTime!
+    gender: String!
+    phoneNumber: String!
     phoneCaretakerContact: String
+    foundUsBy: String
     isParent: Boolean
-    userId: String
+    country: String!
+    city: String!
+    postalCode: String!
+    address: String!
+    role: String!
   }
 
   input UpdatePersonalDataInput {
@@ -43,22 +44,23 @@ export const schema = gql`
     familyName: String
     birthdate: DateTime
     gender: String
-    roleId: Int
+    phoneNumber: String
+    phoneCaretakerContact: String
+    foundUsBy: String
+    isParent: Boolean
     country: String
     city: String
     postalCode: String
     address: String
-    phoneNumber: String
-    phoneCaretakerContact: String
-    userId: String
+    role: String
   }
 
   type Mutation {
     createPersonalData(input: CreatePersonalDataInput!): PersonalData! @skipAuth
     updatePersonalData(
-      id: BigInt!
+      id: String!
       input: UpdatePersonalDataInput!
     ): PersonalData! @requireAuth
-    deletePersonalData(id: BigInt!): PersonalData! @requireAuth
+    deletePersonalData(id: String!): PersonalData! @requireAuth
   }
 `

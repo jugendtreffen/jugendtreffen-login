@@ -1,21 +1,28 @@
-import type { FindEventQuery, FindEventQueryVariables } from "types/graphql";
+import type { FindEventQuery, FindEventQueryVariables } from 'types/graphql'
 
-import { CellFailureProps, CellSuccessProps, TypedDocumentNode, useQuery } from "@redwoodjs/web";
+import {
+  CellFailureProps,
+  CellSuccessProps,
+  TypedDocumentNode,
+  useQuery,
+} from '@redwoodjs/web'
 
-import LoadingSpinner from "src/components/Loading/LoadingSpinner";
+import LoadingSpinner from 'src/components/Loading/LoadingSpinner'
 
-export const QUERY: TypedDocumentNode<FindEventQuery, FindEventQueryVariables> =
-  gql`
-    query FindEventQuery($id: Int!) {
-      event: event(id: $id) {
-        id
-        name
-        desc
-        startDate
-        endDate
-      }
+export const QUERY: TypedDocumentNode<
+  FindEventQuery,
+  FindEventQueryVariables
+> = gql`
+  query FindEventQuery($id: BigInt!) {
+    event: event(id: $id) {
+      id
+      name
+      desc
+      startDate
+      endDate
     }
-  `
+  }
+`
 
 export const Loading = () => <LoadingSpinner />
 
