@@ -26,7 +26,10 @@
     "@redwoodjs/project-config": "8.9.0",
     "@redwoodjs/testing": "8.9.0",
     "dotenv-cli": "11.0.0",
-    "prettier-plugin-organize-imports": "4.3.0"
+    "prettier-plugin-organize-imports": "4.3.0",
+    "@testing-library/react": "^16.3.0",
+    "ajv": "^8.17.1",
+    "prettier-plugin-tailwindcss": "^0.5.12"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
