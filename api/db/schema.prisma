@@ -9,8 +9,8 @@ datasource db {
   directUrl = env("SUPABASE_SESSION_POOLER_URL")
 }
 
-model PersonalData {
-  id                    String    @id @db.Uuid
+model RegisteredParticipant {
+  id                    String   @id @default(uuid()) @db.Uuid
   name                  String
   familyName            String
   birthdate             DateTime
@@ -18,44 +18,35 @@ model PersonalData {
   phoneNumber           String
   phoneCaretakerContact String?
   foundUsBy             String?
-  isParent              Boolean   @default(false)
+  isParent              Boolean  @default(false)
   country               String
   city                  String
   postalCode            String
   address               String
-  role                  String
-  createdAt             DateTime  @default(now())
+  travelMethod          String?
+  accommodation         String
+  startDate             DateTime
+  endDate               DateTime
+  foodChoice            String
+  acceptPhotos          Boolean
+  acceptCoC             Boolean
+  eventId               BigInt   @db.BigInt
+  event                 Event    @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  participationRole     String?
+  createdAt             DateTime @default(now())
 
-  @@map("personalDatas")
-}
-
-model Participation {
-  id                   BigInt   @id @default(autoincrement()) @db.BigInt
-  travelMethod         String?
-  accommodation        String
-  startDate            DateTime
-  endDate              DateTime
-  foodChoice           String
-  acceptPhotos         Boolean
-  acceptCoC            Boolean
-  eventId              BigInt   @db.BigInt
-  userId               String   @db.Uuid
-  event                Event    @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  participationRole    String?
-
-  @@index([userId])
-  @@map("participations")
+  @@map("registeredParticipants")
 }
 
 model Event {
-  id             BigInt          @id @default(autoincrement()) @db.BigInt
-  name           String          @unique
-  desc           String?
-  startDate      DateTime
-  endDate        DateTime
-  participations Participation[]
-  presences      Presence[]
-  createdAt      DateTime        @default(now())
+  id           BigInt                  @id @default(autoincrement()) @db.BigInt
+  name         String                  @unique
+  desc         String?
+  startDate    DateTime
+  endDate      DateTime
+  participants RegisteredParticipant[]
+  presences    Presence[]
+  createdAt    DateTime                @default(now())
 
   @@map("events")
 }
