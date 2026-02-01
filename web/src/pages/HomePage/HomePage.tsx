@@ -1,7 +1,6 @@
 import { Metadata } from '@redwoodjs/web'
 
 import { useAuth } from 'src/auth'
-import LoadingSpinner from 'src/components/Loading/LoadingSpinner'
 import DefaultView from 'src/pages/HomePage/DefaultView'
 import MainConetntView from 'src/pages/HomePage/MainContentView'
 import SidebarLayout from 'src/layouts/SidebarLayout/SidebarLayout'
