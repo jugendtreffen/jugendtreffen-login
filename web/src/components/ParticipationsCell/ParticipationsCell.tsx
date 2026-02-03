@@ -11,9 +11,9 @@ import type {
 } from '@redwoodjs/web'
 
 import Alert from 'src/components/Alert/Alert'
-import Card from 'src/components/Card/Card'
-import Skeleton from 'src/components/Skeleton/Skeleton'
-import { formatDate } from 'src/utils'
+import { formatDate } from 'src/lib/utils'
+import {Card} from "src/components/ui/card";
+import {Skeleton} from "src/components/ui/skeleton";
 
 export const QUERY: TypedDocumentNode<
   ParticipationsQuery,
@@ -49,13 +49,10 @@ const InfoField = ({ label, value }) => {
 }
 
 export const Loading = () => (
-  <div>
-    <Skeleton type="title" className={'h-12 w-3/4 mb-2 mt-4'} />
-    <div className="flex flex-col h-full gap-4">
-      <Skeleton type="card" />
-      <Skeleton type="card" />
-      <Skeleton type="card" />
-    </div>
+  <div className="flex w-full max-w-xs flex-col gap-2">
+    <Skeleton className="h-4 w-full" />
+    <Skeleton className="h-4 w-full" />
+    <Skeleton className="h-4 w-3/4" />
   </div>
 )
 

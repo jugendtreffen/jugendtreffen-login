@@ -119,7 +119,31 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground scroll-smooth;
+  }
+
+  h1 {;
+    @apply flex text-3xl font-bold;
+  }
+
+  h2 {
+    @apply text-xl h-fit
+  }
+
+  h3 {
+    @apply text-lg h-fit
+  }
+
+  p {
+    @apply leading-tight;
+  }
+
+  h3 {
+    @apply text-lg font-bold leading-tight tracking-tight text-white
+  }
+
+  p {
+    @apply text-neutral-200
   }
 
   :root {
