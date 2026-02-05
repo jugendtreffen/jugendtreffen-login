@@ -68,13 +68,6 @@ const DefaultView = () => {
         </div>
       </section>
 
-      {/*<section id="FAQ" className="flex flex-col px-6 md:px-12 mx-auto lg:py-0 h-full my-12 gap-2">*/}
-      {/*  <h1>Infos & Facts</h1>*/}
-      {/*  <div className="w-full lg:w-2/3 ">*/}
-      {/*    <Accordion items={HomePageAccordionItems} />*/}
-      {/*  </div>*/}
-      {/*</section>*/}
-
       <section
         id="Socials"
         className="flex flex-col p-6 md:px-12 mx-auto lg:py-0 h-full w-full my-12 gap-2"
@@ -104,15 +97,18 @@ const DefaultView = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <Card description="Folge uns auf Instagramm">
-              <div className="flex flex-row gap-2 mb-2 h-8">
+            <Card className="w-fit">
+              <CardHeader>
+                <CardDescription>Folge uns auf Instagramm</CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-row">
                 <img
                   className="h-8 rounded-full"
                   src="/instagramm-white.png"
                   alt="logo"
                 />
-                <h2>jugendtreffen</h2>
-              </div>
+                <h2 className="ml-2">jugendtreffen</h2>
+              </CardContent>
             </Card>
           </a>
           <a
@@ -120,11 +116,18 @@ const DefaultView = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <Card description="Stimm dich mit unserer Playlist ein">
-              <div className="flex flex-row gap-2 mb-2">
-                <img className="h-8" src="/spotify-white.png" alt="logo" />
-                <h2>Jugendtreffen 2024 Worship</h2>
-              </div>
+            <Card className="w-fit">
+              <CardHeader>
+                <CardDescription>Stimm dich mit unserer Playlist ein</CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-row">
+                <img
+                  className="h-8 rounded-full"
+                  src="/spotify-white.png"
+                  alt="logo"
+                />
+                <h2 className="ml-2">Jugendtreffen 2024 Worship</h2>
+              </CardContent>
             </Card>
           </a>
           <a
@@ -132,11 +135,18 @@ const DefaultView = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <Card description="Schau dich auf unserm Youtube-Kanal um">
-              <div className="flex flex-row gap-2 mb-2">
-                <img className="h-7" src="/youtube-white.png" alt="logo" />
-                <h2>@jugendtreffenkremsmuenster</h2>
-              </div>
+            <Card className="w-fit">
+              <CardHeader>
+                <CardDescription>Schau dich auf unserm Youtube-Kanal um</CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-row">
+                <img
+                  className="h-8 rounded-full"
+                  src="/youtube-white.png"
+                  alt="logo"
+                />
+                <h2 className="ml-2">@jugendtreffenkremsmuenster</h2>
+              </CardContent>
             </Card>
           </a>
         </div>
