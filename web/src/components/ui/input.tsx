@@ -2,7 +2,6 @@ import * as React from "react";
 
 import {cn} from "src/lib/utils";
 import {InputField, PasswordField} from "@redwoodjs/forms";
-import {Checkbox} from "@/components/ui/checkbox";
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({name, className, type, ...props}, ref) => {

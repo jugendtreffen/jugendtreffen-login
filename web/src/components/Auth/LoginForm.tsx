@@ -11,11 +11,9 @@ import {
   FieldDescription,
   FieldGroup,
 } from "@/components/ui/field"
-import {Form, InputField, Label, PasswordField, TextField, useForm} from "@redwoodjs/forms";
+import {Form, Label, useForm} from "@redwoodjs/forms";
 import {Link, routes} from "@redwoodjs/router";
 import {Input} from "@/components/ui/input";
-import {Simulate} from "react-dom/test-utils";
-import invalid = Simulate.invalid;
 
 export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
   const formMethods = useForm({
@@ -66,7 +64,7 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
               <Field>
                 <Button type="submit">Login</Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <Link to={routes.signup()}>Sign up</Link>
+                  Du hast keinen Account? <Link to={routes.signup()}>Registrieren</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
