@@ -6,7 +6,7 @@ type GlobalLayoutProps = {
 
 const GlobalLayout = ({ children }: GlobalLayoutProps) => {
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-gray-900">
+    <div className="min-h-screen flex flex-col justify-between bg-background">
       <AlertProvider>{children}</AlertProvider>
     </div>
   )

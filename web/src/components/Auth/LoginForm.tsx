@@ -11,13 +11,18 @@ import {
   FieldDescription,
   FieldGroup,
 } from "@/components/ui/field"
-import {Form, InputField, Label, PasswordField} from "@redwoodjs/forms";
-import {Link} from "@redwoodjs/router";
+import {Form, InputField, Label, PasswordField, TextField, useForm} from "@redwoodjs/forms";
+import {Link, routes} from "@redwoodjs/router";
+import {Input} from "@/components/ui/input";
+import {Simulate} from "react-dom/test-utils";
+import invalid = Simulate.invalid;
 
-export function LoginForm({
-                            className,
-                            ...props
-                          }: React.ComponentProps<"div">) {
+export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
+  const formMethods = useForm({
+    mode: 'onBlur',
+    resolver: null,
+  })
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -28,44 +33,40 @@ export function LoginForm({
           </FieldDescription>
         </CardHeader>
         <CardContent>
-          <Form onSubmit={props.onSubmit}>
+          <Form onSubmit={props.onSubmit} formMethods={formMethods}>
             <FieldGroup>
               <Field>
-                <Label name="email" className="label">
+                <Label name="email">
                   Email
                 </Label>
-                <InputField
+                <Input
                   type="email"
                   name="email"
-                  errorClassName="input error"
                   placeholder="your@mail.com"
-                  validation={{
-                    required: true,
-                  }}
+                  required
                 />
               </Field>
               <Field>
                 <div className="flex items-center">
-                  <Label name="password" className="label">Passwort</Label>
-                  <a
-                    href="#"
+                  <Label name="password">Passwort</Label>
+                  <Link
+                    to="#"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     Forgot your password?
-                  </a>
+                  </Link>
                 </div>
-                <PasswordField
+                <Input
+                  type="password"
                   name="password"
                   placeholder="••••••••"
-                  errorClassName="input error"
-                  validation={{
-                    required: true,
-                  }}/>
+                  required
+                />
               </Field>
               <Field>
                 <Button type="submit">Login</Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <Link to="#">Sign up</Link>
+                  Don&apos;t have an account? <Link to={routes.signup()}>Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
