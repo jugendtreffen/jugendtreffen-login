@@ -31,8 +31,19 @@ export const role: QueryResolvers['role'] = async () => {
   return result.role
 }
 
-export const createPersonalData: MutationResolvers['createPersonalData'] =
+export const findOrCreatePersonalData: MutationResolvers['findOrCreatePersonalData'] =
   async ({ input }) => {
+    const exisiting = await db.personalData.findFirst({
+      where: {
+        name: input.name,
+        familyName: input.familyName,
+        birthdate: new Date(input.birthdate),
+      }
+    })
+    if (exisiting) {
+      return exisiting
+    }
+
     // await validateWith(() => {
     //   if (validateAgeUnder(input.birthdate, 18) && !input.phoneCaretakerContact) {
     //     return new ForbiddenError(
@@ -46,8 +57,8 @@ export const createPersonalData: MutationResolvers['createPersonalData'] =
     //   }
     // })
 
-    return db.personalData.create({
-      data: input,
+    return db.personalData.create( {
+      data: input
     })
   }
 
@@ -69,6 +80,18 @@ export const deletePersonalData: MutationResolvers['deletePersonalData'] = ({
   })
 }
 
+export const personalDataByNameAndBirthdate: MutationResolvers['personalDataByNameAndBirthdate'] = ({
+  name, familyName, birthdate,
+}) => {
+  return db.personalData.findFirst({
+    where: {
+      name: name,
+      familyName: familyName,
+      birthdate: new Date(birthdate)
+    }
+  })
+}
+
 function validateAgeUnder(birthdate: Date, ageLimit: number) {
   const today = new Date()
   const age = today.getFullYear() - birthdate.getFullYear()
@@ -81,3 +104,4 @@ function validateAgeUnder(birthdate: Date, ageLimit: number) {
   }
   return age < ageLimit
 }
+

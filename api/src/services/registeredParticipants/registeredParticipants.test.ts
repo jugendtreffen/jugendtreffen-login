@@ -6,8 +6,8 @@ import {
   createParticipation,
   updateParticipation,
   deleteParticipation,
-} from './participations'
-import type { StandardScenario } from './participations.scenarios'
+} from './registeredParticipants'
+import type { StandardScenario } from './registeredParticipants.scenarios'
 
 // Generated boilerplate tests do not account for all circumstances
 // and can fail without adjustments, e.g. Float.

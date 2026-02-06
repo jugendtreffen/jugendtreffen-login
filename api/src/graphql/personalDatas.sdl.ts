@@ -22,8 +22,7 @@ export const schema = gql`
     role: String! @requireAuth
   }
 
-  input CreatePersonalDataInput {
-    id: String!
+  input FindOrCreatePersonalDataInput {
     name: String!
     familyName: String!
     birthdate: DateTime!
@@ -56,7 +55,7 @@ export const schema = gql`
   }
 
   type Mutation {
-    createPersonalData(input: CreatePersonalDataInput!): PersonalData! @skipAuth
+    findOrCreatePersonalData(input: FindOrCreatePersonalDataInput!): PersonalData! @skipAuth
     updatePersonalData(
       id: String!
       input: UpdatePersonalDataInput!

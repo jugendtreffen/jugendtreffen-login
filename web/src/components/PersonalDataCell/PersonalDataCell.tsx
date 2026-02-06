@@ -46,7 +46,7 @@ export const QUERY: TypedDocumentNode<
   }
 `
 
-const UPDATE_PERSONALDATA = gql`
+/*const UPDATE_PERSONALDATA = gql`
   mutation UpdatePersonalDataMutation($input: UpdatePersonalDataInput!) {
     updatePersonalData(input: $input) {
       id
@@ -64,7 +64,7 @@ const UPDATE_PERSONALDATA = gql`
       role
     }
   }
-`
+`*/
 
 export const Loading = () => (
   <div className="my-4 mx-0 max-w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -93,8 +93,8 @@ export const Success = ({
     resolver: null,
   })
   const [update, { loading, error }] = useMutation<
-    UpdatePersonalDataMutation,
-    UpdatePersonalDataMutationVariables
+    UpdateRegisteredParticipantMutation,
+    UpdateRegisteredParticipantMutationVariables
   >(UPDATE_PERSONALDATA, {
     onCompleted: () => {
       toast.success('Deine Persönlichen Daten wurde gespeichert')

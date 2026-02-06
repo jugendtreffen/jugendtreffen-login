@@ -15,7 +15,7 @@ import { formatDate } from 'src/lib/utils'
 import {Card} from "src/components/ui/card";
 import {Skeleton} from "src/components/ui/skeleton";
 
-export const QUERY: TypedDocumentNode<
+/*export const QUERY: TypedDocumentNode<
   ParticipationsQuery,
   ParticipationsQueryVariables
 > = gql`
@@ -32,7 +32,7 @@ export const QUERY: TypedDocumentNode<
       }
     }
   }
-`
+`*/
 
 const InfoField = ({ label, value }) => {
   return (
