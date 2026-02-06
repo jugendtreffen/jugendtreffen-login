@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { CreatePersonlaDataMutation, CreatePersonlaDataMutationVariables, } from 'types/graphql'
+import { CreateRegisteredParticipantMutation, CreateRegisteredParticipantMutationVariables, } from 'types/graphql'
 
 import {
   DateField,
@@ -25,14 +25,14 @@ import MultiStepForm from 'src/components/MultiStepForm/MultiStepForm'
 import Step from 'src/components/MultiStepForm/Step'
 import { Info } from 'lucide-react'
 
-const CREATE_PERSONALDATA = gql`
-  mutation CreatePersonlaDataMutation($input: CreatePersonalDataInput!) {
-    createPersonalData(input: $input) {
+/*const CREATE_REGISTEREDPARTICIPANT = gql`
+  mutation CreateRegisteredParticipantMutation($input: CreateRegisteredParticipantInput!) {
+    createRegisteredParticipant(input: $input) {
       id
       role
     }
   }
-`
+`*/
 
 interface FormValues {
   id: string
@@ -66,9 +66,9 @@ const SignupPage = () => {
     resolver: null,
   })
   const [create, { loading }] = useMutation<
-    CreatePersonlaDataMutation,
-    CreatePersonlaDataMutationVariables
-  >(CREATE_PERSONALDATA, {
+    CreateRegisteredParticipantMutation,
+    CreateRegisteredParticipantMutationVariables
+  >(CREATE_REGISTEREDPARTICIPANT, {
     onCompleted: () => {
       setSignupCompleted(true)
       formMethods.reset()
@@ -215,7 +215,7 @@ const SignupPage = () => {
         <h1>Account für Teilnahme erstellen</h1>
         <MultiStepForm
           className="space-y-4 md:space-y-6"
-          finishText="Account erstellen"
+          finishText="Account rstellen"
           onSubmit={onSubmit}
           disableSubmit={loading}
           formMethods={formMethods}

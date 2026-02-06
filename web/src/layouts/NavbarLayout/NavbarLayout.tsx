@@ -11,7 +11,7 @@ const NavbarLayout = ({ children }: NavbarLayoutProps) => {
       <header className="fixed top-0 z-50 w-screen">
         <Navigation />
       </header>
-      <main className="relative overflow-hidden h-full flex-1">{children}</main>
+      <main className="pt-16 relative overflow-hidden h-full flex-1">{children}</main>
       <footer>
         <Footer />
       </footer>

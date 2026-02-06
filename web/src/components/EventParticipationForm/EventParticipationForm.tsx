@@ -15,43 +15,64 @@ import {
 import { useApolloClient } from '@apollo/client'
 import { useMutation } from '@redwoodjs/web'
 import {
-  CreateParticipationMutation,
-  CreateParticipationMutationVariables,
+  CreateRegisteredParticipantMutation,
+  CreateRegisteredParticipantMutationVariables,
 } from 'types/graphql'
 import { toast } from '@redwoodjs/web/toast'
 import { Info } from 'lucide-react'
 
 const CREATE_PARTICIPATION = gql`
-  mutation CreateParticipationMutation($input: CreateParticipationInput!) {
-    createParticipation(input: $input) {
+  mutation CreateRegisteredParticipantMutation($input: CreateRegisteredParticipantInput!) {
+    createRegisteredParticipant(input: $input) {
+      name
+      familyName
+      birthdate
+      gender
+      phoneNumber
+      phoneCaretakerContact
+      foundUsBy
+      isParent
+      country
+      city
+      postalCode
+      address
       travelMethod
-      participationRole
       accommodation
       startDate
       endDate
       foodChoice
       helpAfterwards
-      foundUsBy
       acceptPhotos
       acceptCoC
       eventId
+      participationRole
     }
   }
 `
 
 interface FormValues {
-  eventId: number
+  name: string
+  familyName: string
+  birthdate: Date
+  gender: string
+  phoneNumber: string
+  phoneCaretakerContact: string
+  foundUsBy: string
+  isParent: Boolean
+  country: string
+  city: string
+  postalCode: string
+  address: string
   travelMethod: string
-  participationRole: string
-  accommodation: boolean
-  accommodationLocation: string
+  accommodation: string
   startDate: Date
   endDate: Date
   foodChoice: string
-  acceptCoC: boolean
   helpAfterwards: boolean
   acceptPhotos: boolean
-  userId: string
+  acceptCoC: boolean
+  eventId: number
+  participationRole: string
 }
 
 function EventParticipationForm({ id }: { id: string }) {
@@ -65,8 +86,8 @@ function EventParticipationForm({ id }: { id: string }) {
   })
   const [hasOpenedLink, setHasOpenedLink] = useState(false)
   const [create, { loading, error }] = useMutation<
-    CreateParticipationMutation,
-    CreateParticipationMutationVariables
+    CreateRegisteredParticipantMutation,
+    CreateRegisteredParticipantMutationVariables
   >(CREATE_PARTICIPATION, {
     onCompleted: () => {
       toast.success('Deine Teilnahme wurde gespeichert')
@@ -79,7 +100,7 @@ function EventParticipationForm({ id }: { id: string }) {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     data.eventId = parseInt(id, 10)
-    data.accommodation = String(data.accommodation) == 'true' // @ts-ignore
+    data.accommodation = String(data.accommodation)
     await create({ variables: { input: data } })
   }
 

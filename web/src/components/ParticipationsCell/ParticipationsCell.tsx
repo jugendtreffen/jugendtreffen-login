@@ -15,7 +15,7 @@ import Card from 'src/components/Card/Card'
 import Skeleton from 'src/components/Skeleton/Skeleton'
 import { formatDate } from 'src/utils'
 
-export const QUERY: TypedDocumentNode<
+/*export const QUERY: TypedDocumentNode<
   ParticipationsQuery,
   ParticipationsQueryVariables
 > = gql`
@@ -32,7 +32,7 @@ export const QUERY: TypedDocumentNode<
       }
     }
   }
-`
+`*/
 
 const InfoField = ({ label, value }) => {
   return (
