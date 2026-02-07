@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "events" ALTER COLUMN "startDate" SET DATA TYPE DATE,
+ALTER COLUMN "endDate" SET DATA TYPE DATE;
+
+-- AlterTable
+ALTER TABLE "presences" ALTER COLUMN "date" SET DATA TYPE DATE;
+
+-- AlterTable
+ALTER TABLE "registeredParticipants" ALTER COLUMN "birthdate" SET DATA TYPE DATE,
+ALTER COLUMN "startDate" SET DATA TYPE DATE,
+ALTER COLUMN "endDate" SET DATA TYPE DATE;

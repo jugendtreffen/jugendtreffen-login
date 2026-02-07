@@ -13,7 +13,7 @@ model RegisteredParticipant {
   id                    String   @id @default(uuid()) @db.Uuid
   name                  String
   familyName            String
-  birthdate             DateTime
+  birthdate             DateTime @db.Date
   gender                String
   phoneNumber           String
   phoneCaretakerContact String?
@@ -25,8 +25,8 @@ model RegisteredParticipant {
   address               String
   travelMethod          String?
   accommodation         String
-  startDate             DateTime
-  endDate               DateTime
+  startDate             DateTime @db.Date
+  endDate               DateTime @db.Date
   foodChoice            String
   acceptPhotos          Boolean
   acceptCoC             Boolean
@@ -42,8 +42,8 @@ model Event {
   id           BigInt                  @id @default(autoincrement()) @db.BigInt
   name         String                  @unique
   desc         String?
-  startDate    DateTime
-  endDate      DateTime
+  startDate    DateTime                @db.Date
+  endDate      DateTime                @db.Date
   participants RegisteredParticipant[]
   presences    Presence[]
   createdAt    DateTime                @default(now())
@@ -53,7 +53,7 @@ model Event {
 
 model Presence {
   id      BigInt   @id @default(autoincrement()) @db.BigInt
-  date    DateTime
+  date    DateTime @db.Date
   status  String
   userId  String   @db.Uuid
   eventId BigInt   @db.BigInt
