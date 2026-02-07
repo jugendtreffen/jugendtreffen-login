@@ -84,7 +84,7 @@ export const schema = gql`
 
   type Mutation {
     createRegisteredParticipant(input: CreateRegisteredParticipantInput!): RegisteredParticipant!
-      @requireAuth
+      @skipAuth
     updateRegisteredParticipant(
       id: String!
       input: UpdateRegisteredParticipantInput!

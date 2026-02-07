@@ -15,7 +15,7 @@ import Card from 'src/components/Card/Card'
 import Skeleton from 'src/components/Skeleton/Skeleton'
 import { formatDate } from 'src/utils'
 
-/*export const QUERY: TypedDocumentNode<
+export const QUERY: TypedDocumentNode<
   ParticipationsQuery,
   ParticipationsQueryVariables
 > = gql`
@@ -26,13 +26,10 @@ import { formatDate } from 'src/utils'
       startDate
       endDate
       foodChoice
-      event {
-        id
-        name
-      }
+
     }
   }
-`*/
+`
 
 const InfoField = ({ label, value }) => {
   return (
