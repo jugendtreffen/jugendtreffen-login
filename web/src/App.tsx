@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
@@ -26,6 +27,7 @@ const App = ({ children }: AppProps) => (
       </AuthProvider>
     </RedwoodProvider>
     <Analytics />
+    <SpeedInsights />
   </FatalErrorBoundary>
 )
 
