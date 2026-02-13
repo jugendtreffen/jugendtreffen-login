@@ -20,20 +20,19 @@
     "test": "redwood test --watchAll"
   },
   "devDependencies": {
-    "@redwoodjs/auth-supabase-setup": "8.8.1",
-    "@redwoodjs/core": "8.8.1",
-    "@redwoodjs/project-config": "8.8.1",
-    "@redwoodjs/testing": "8.8.1"
+    "@redwoodjs/auth-supabase-setup": "8.9.0",
+    "@redwoodjs/core": "8.9.0",
+    "@redwoodjs/project-config": "8.9.0",
+    "@redwoodjs/testing": "8.9.0"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
     "root": true
   },
   "engines": {
-    "node": "=22.x"
+    "node": ">22.x"
   },
   "prisma": {
     "seed": "yarn rw exec seed"
-  },
-  "packageManager": "yarn@4.4.0"
+  }
 }
