@@ -838,7 +838,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-class-properties@npm:^7.24.7, @babel/plugin-transform-class-properties@npm:^7.25.9, @babel/plugin-transform-class-properties@npm:^7.28.6":
+"@babel/plugin-transform-class-properties@npm:7.28.6, @babel/plugin-transform-class-properties@npm:^7.24.7, @babel/plugin-transform-class-properties@npm:^7.25.9":
   version: 7.28.6
   resolution: "@babel/plugin-transform-class-properties@npm:7.28.6"
   dependencies:
@@ -4715,6 +4715,25 @@ __metadata:
     graphql: "npm:16.9.0"
     typescript: "npm:5.6.2"
   checksum: 10c0/71365dfd3d206bb81a2ef3f980fdb4990d62f384b715a69f1bbcb9b514a5007534e5938d3175d3aea5350dc6730d33b3a8fdd0954d14c24de2fd845ec6eaf4cd
+  languageName: node
+  linkType: hard
+
+"@redwoodjs/cli-data-migrate@npm:8.9.0":
+  version: 8.9.0
+  resolution: "@redwoodjs/cli-data-migrate@npm:8.9.0"
+  dependencies:
+    "@redwoodjs/babel-config": "npm:8.9.0"
+    "@redwoodjs/project-config": "npm:8.9.0"
+    chalk: "npm:4.1.2"
+    dotenv-defaults: "npm:5.0.2"
+    execa: "npm:5.1.1"
+    fs-extra: "npm:11.2.0"
+    listr2: "npm:7.0.2"
+    terminal-link: "npm:2.1.1"
+    yargs: "npm:17.7.2"
+  bin:
+    up: ./dist/bin.js
+  checksum: 10c0/7fa2b928a7243e24304020ccdd4f266bc013b367be2b5c00111f0e99564dabc81145c55c432ab58b54a40948de45f0768b33f13a1909d903b49fc85c721baec1
   languageName: node
   linkType: hard
 
@@ -16437,6 +16456,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@redwoodjs/auth-supabase-setup": "npm:8.9.0"
+    "@redwoodjs/cli-data-migrate": "npm:8.9.0"
     "@redwoodjs/core": "npm:8.9.0"
     "@redwoodjs/project-config": "npm:8.9.0"
     "@redwoodjs/testing": "npm:8.9.0"
@@ -18454,7 +18474,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:web"
   dependencies:
-    "@babel/plugin-transform-class-properties": "npm:^7.28.6"
+    "@babel/plugin-transform-class-properties": "npm:7.28.6"
     "@redwoodjs/auth-supabase-web": "npm:8.9.0"
     "@redwoodjs/forms": "npm:8.9.0"
     "@redwoodjs/router": "npm:8.9.0"
