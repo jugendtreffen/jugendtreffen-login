@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "redwood dev",
     "build:dev": "redwood build",
-    "build:prod": "dotenv -f .env.production run redwood build",
+    "build:prod": "dotenv -f .env.production run rw deploy vercel",
     "start": "redwood serve",
     "migrate:dev": "redwood prisma migrate dev",
     "migrate:prod": "dotenv -f .env.production run redwood prisma migrate deploy",
@@ -20,32 +20,22 @@
     "test": "redwood test --watchAll"
   },
   "devDependencies": {
-    "@redwoodjs/auth-supabase-setup": "8.8.1",
-    "@redwoodjs/cli-storybook-vite": "8.8.1",
-    "@redwoodjs/core": "8.8.1",
-    "@redwoodjs/project-config": "8.8.1",
-    "@redwoodjs/testing": "8.8.1",
-    "@testing-library/react": "^16.3.0",
-    "@types/jest": "^30.0.0",
-    "babel-jest": "^30.0.5",
-    "jest-watch-typeahead": "^3.0.1",
-    "ts-jest": "^29.4.0"
+    "@redwoodjs/auth-supabase-setup": "8.9.0",
+    "@redwoodjs/cli-data-migrate": "8.9.0",
+    "@redwoodjs/core": "8.9.0",
+    "@redwoodjs/project-config": "8.9.0",
+    "@redwoodjs/testing": "8.9.0",
+    "dotenv-cli": "11.0.0",
+    "prettier-plugin-organize-imports": "4.3.0"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
     "root": true
   },
   "engines": {
-    "node": "=22.x"
+    "node": "24.x"
   },
   "prisma": {
     "seed": "yarn rw exec seed"
-  },
-  "packageManager": "yarn@4.4.0",
-  "resolutions": {
-    "@storybook/react-dom-shim@npm:7.6.17": "https://verdaccio.tobbe.dev/@storybook/react-dom-shim/-/react-dom-shim-8.0.8.tgz"
-  },
-  "dependencies": {
-    "@vercel/analytics": "^1.5.0"
   }
 }
