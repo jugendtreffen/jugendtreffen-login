@@ -23,11 +23,11 @@ export const currentEvent: QueryResolvers['currentEvent'] = async () => {
     .findFirst({
       where: {
         startDate: {
-          lt: new Date(),
+          gte: new Date(),
         },
       },
       orderBy: {
-        startDate: 'desc',
+        startDate: 'asc',
       },
     })
     .catch(() => {

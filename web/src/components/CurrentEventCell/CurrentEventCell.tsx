@@ -21,6 +21,15 @@ export const QUERY: TypedDocumentNode<
   }
 `
 
+type Variant = 'card' | 'date'
+
+type SuccessProps = CellSuccessProps<
+  FindCurrentEventQuery,
+  FindCurrentEventQueryVariables
+> & {
+  variant: Variant
+}
+
 export const Loading = () => (
   <Skeleton type="card" className={'w-full md:w-96 h-64'} />
 )
@@ -45,7 +54,13 @@ export const Failure = ({
 
 export const Success = ({
   currentEvent,
-}: CellSuccessProps<FindCurrentEventQuery, FindCurrentEventQueryVariables>) => {
+  variant = 'card',
+}: SuccessProps) => {
+  if (variant === 'date') {
+    return (
+      <h1>{new Date(currentEvent.startDate).toLocaleDateString() + ' - ' + new Date(currentEvent.endDate).toLocaleDateString()}</h1>
+    )
+  }
   return (
     <Card
       title={currentEvent.name}
