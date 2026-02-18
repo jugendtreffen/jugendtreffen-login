@@ -7,6 +7,7 @@ module.exports = {
   semi: false,
   singleQuote: true,
   arrowParens: 'always',
+  plugins: ['prettier-plugin-organize-imports'],
   overrides: [
     {
       files: 'Routes.*',

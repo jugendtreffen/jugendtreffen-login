@@ -23,7 +23,8 @@
     "@redwoodjs/auth-supabase-setup": "8.9.0",
     "@redwoodjs/core": "8.9.0",
     "@redwoodjs/project-config": "8.9.0",
-    "@redwoodjs/testing": "8.9.0"
+    "@redwoodjs/testing": "8.9.0",
+    "prettier-plugin-organize-imports": "^4.3.0"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
@@ -34,5 +35,9 @@
   },
   "prisma": {
     "seed": "yarn rw exec seed"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.6.1",
+    "dotenv": "^17.3.1"
   }
 }
