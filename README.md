@@ -139,7 +139,7 @@ yarn lint:fix
 
 ESLint runs automatically before every commit. If there are any linting errors that cannot be auto-fixed, the commit will be blocked until the issues are resolved. This ensures that only clean, properly formatted code is committed to the repository.
 
-## Deployment & Furhter Infos
+## Deployment & Further Infos
 
 U can use serverless deploy targets like Netlify and Vercel and serverful deploy targets like Render and AWS:
 
