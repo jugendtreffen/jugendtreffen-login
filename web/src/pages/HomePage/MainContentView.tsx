@@ -45,7 +45,7 @@ const MainContentView = () => {
 
         <section className="flex flex-col md:flex-row gap-2">
           <div className="md:ml-3">
-            <EventParticipationForm></EventParticipationForm>
+            <EventRegistrationPage></EventRegistrationPage>
           </div>
         </section>
       </>
