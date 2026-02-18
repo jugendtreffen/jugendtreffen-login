@@ -119,6 +119,26 @@ yarn rw test
 
 To make the integration even more seamless, Redwood augments Jest with database [scenarios](https://redwoodjs.com/docs/testing#scenarios) and [GraphQL mocking](https://redwoodjs.com/docs/testing#mocking-graphql-calls).
 
+## Code Quality & Linting
+
+This project uses ESLint with TypeScript support to maintain code quality and consistency. ESLint automatically runs on staged files before every commit using Husky and lint-staged.
+
+### Running ESLint Manually
+
+Check for linting issues:
+```
+yarn lint
+```
+
+Automatically fix linting issues:
+```
+yarn lint:fix
+```
+
+### Pre-commit Hooks
+
+ESLint runs automatically before every commit. If there are any linting errors that cannot be auto-fixed, the commit will be blocked until the issues are resolved. This ensures that only clean, properly formatted code is committed to the repository.
+
 ## Deployment & Furhter Infos
 
 U can use serverless deploy targets like Netlify and Vercel and serverful deploy targets like Render and AWS:
