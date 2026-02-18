@@ -28,6 +28,8 @@
     "@tailwindcss/vite": "^4.2.0",
     "@types/react": "18.2.55",
     "@types/react-dom": "18.2.19",
-    "tailwindcss": "^4.2.0"
+    "prettier": "^3.8.1",
+    "tailwindcss": "^4.2.0",
+    "typescript": "^5.9.3"
   }
 }
