@@ -121,7 +121,7 @@ To make the integration even more seamless, Redwood augments Jest with database 
 
 ## Code Quality & Linting
 
-This project uses ESLint with TypeScript support to maintain code quality and consistency. ESLint automatically runs on staged files before every commit using Husky and lint-staged.
+This project uses ESLint with TypeScript support to maintain code quality and consistency. ESLint automatically runs before production builds (e.g., during Vercel deployment) to ensure code quality.
 
 ### Running ESLint Manually
 
@@ -135,9 +135,9 @@ Automatically fix linting issues:
 yarn lint:fix
 ```
 
-### Pre-commit Hooks
+### Automatic Linting on Deployment
 
-ESLint runs automatically before every commit. If there are any linting errors that cannot be auto-fixed, the commit will be blocked until the issues are resolved. This ensures that only clean, properly formatted code is committed to the repository.
+ESLint runs automatically before production builds via the `build:prod` script. This ensures that code is linted before deployment to Vercel or other platforms, catching any issues before they reach production.
 
 ## Deployment & Further Infos
 
