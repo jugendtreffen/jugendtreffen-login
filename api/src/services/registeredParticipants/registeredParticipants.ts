@@ -1,4 +1,4 @@
-import type { MutationResolvers, RegisteredParticipantsResolvers, QueryResolvers } from "types/graphql";
+import type { MutationResolvers, RegisteredParticipantResolvers, QueryResolvers } from "types/graphql";
 
 import { db } from "src/lib/db";
 import { logger } from "src/lib/logger";
@@ -6,22 +6,22 @@ import { logger } from "src/lib/logger";
 export const registeredParticipantsByEvent: QueryResolvers['registeredParticipantsByEvent'] = async ({
   eventId,
 }) => {
-  return await db.registeredParticipants.findMany({
+  return await db.registeredParticipant.findMany({
     where: { eventId },
   })
 }
 
 export const registeredParticipant: QueryResolvers['registeredParticipant'] = ({ id }) => {
-  return db.registeredParticipants.findUnique({
+  return db.registeredParticipant.findUnique({
     where: { id },
   })
 }
 
-export const createParticipation: MutationResolvers['createRegisteredParticipant'] = ({
+export const createRegisteredParticipant: MutationResolvers['createRegisteredParticipant'] = async ({
   input,
 }) => {
   logger.error("hier")
-  const result = db.registeredParticipants.create({
+  const result = await db.registeredParticipant.create({
     data: {
       name: input.name,
       familyName: input.familyName,
@@ -43,9 +43,8 @@ export const createParticipation: MutationResolvers['createRegisteredParticipant
       acceptPhotos: input.acceptPhotos,
       acceptCoC: input.acceptCoC,
       participationRole: input.participationRole,
-      eventId: input.eventId,
       event: {
-        connect: { id: input.eventId },
+        connect: { id: Number(input.eventId) },
       }
     }
   })
@@ -57,7 +56,7 @@ export const updateRegisteredParticipant: MutationResolvers['updateRegisteredPar
   id,
   input,
 }) => {
-  return db.participation.update({
+  return db.registeredParticipant.update({
     data: input,
     where: { id },
   })
@@ -66,17 +65,17 @@ export const updateRegisteredParticipant: MutationResolvers['updateRegisteredPar
 export const deleteParticipation: MutationResolvers['deleteParticipation'] = ({
   id,
 }) => {
-  return db.participation.delete({
+  return db.registeredParticipant.delete({
     where: { id },
   })
 }
 
 export const Participation: ParticipationRelationResolvers = {
   event: (_obj, { root }) => {
-    return db.participation.findUnique({ where: { id: root?.id } }).event()
+    return db.registeredParticipant.findUnique({ where: { id: root?.id } }).event()
   },
   participationRole: (_obj, { root }) => {
-    return db.participation
+    return db.registeredParticipant
       .findUnique({ where: { id: root?.id } })
       .participationRole()
   },
