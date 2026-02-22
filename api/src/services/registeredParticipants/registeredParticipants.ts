@@ -1,6 +1,7 @@
 import type { MutationResolvers, RegisteredParticipantsResolvers, QueryResolvers } from "types/graphql";
 
 import { db } from "src/lib/db";
+import { logger } from "src/lib/logger";
 
 export const registeredParticipantsByEvent: QueryResolvers['registeredParticipantsByEvent'] = async ({
   eventId,
@@ -19,7 +20,8 @@ export const registeredParticipant: QueryResolvers['registeredParticipant'] = ({
 export const createParticipation: MutationResolvers['createRegisteredParticipant'] = ({
   input,
 }) => {
-  return db.registeredParticipants.create({
+  logger.error("hier")
+  const result = db.registeredParticipants.create({
     data: {
       name: input.name,
       familyName: input.familyName,
@@ -30,7 +32,7 @@ export const createParticipation: MutationResolvers['createRegisteredParticipant
       foundUsBy: input.foundUsBy,
       isParent: input.isParent,
       country: input.country,
-      city: input.country,
+      city: input.city,
       postalCode: input.postalCode,
       address: input.address,
       travelMethod: input.travelMethod,
@@ -47,6 +49,8 @@ export const createParticipation: MutationResolvers['createRegisteredParticipant
       }
     }
   })
+  console.log("log " + result)
+  return result
 }
 
 export const updateRegisteredParticipant: MutationResolvers['updateRegisteredParticipant'] = ({
