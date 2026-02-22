@@ -29,11 +29,11 @@ const DefaultView = () => {
         <div className="absolute w-screen h-screen inset-0 flex flex-col gap-2 items-center justify-center text-center bg-black bg-opacity-60 z-10">
           <h1 className={'md:text-7xl'}>Jugendtreffen</h1>
           <h2 className={'md:text-2xl'}>
-            15. bis 20. Juli 2025 in Kremsmünster
+            14. bis 19. Juli 2026 in Kremsmünster
           </h2>
           <button
             className="primary inline-flex items-center mt-4"
-            onClick={() => navigate(routes.signup())}
+            onClick={() => navigate(routes.eventRegistration())}
           >
             <h2>Teilnehmen</h2>
           </button>

@@ -34,7 +34,6 @@ const CREATE_REGISTEREDPARTICIPANT = gql`
       startDate
       endDate
       foodChoice
-      helpAfterwards
       acceptPhotos
       acceptCoC
       eventId
@@ -61,7 +60,6 @@ interface FormValues {
   startDate: string
   endDate: string
   foodChoice: string
-  helpAfterwards: boolean
   acceptPhotos: boolean
   acceptCoC: boolean
   eventId: number
@@ -101,9 +99,8 @@ const EventRegistrationPage = () => {
   const onSubmit: SubmitHandler<FormValues> = async (input) => {
     console.log(typeof input.startDate, input.startDate)
     removeAllAlerts();
-    input.eventId = currentEventId
+    input.eventId = Number(currentEventId)
     input.accommodation = String(input.accommodation)
-    input.helpAfterwards = true
     input.birthdate = new Date(input.birthdate).toISOString().slice(0, 10)
     input.startDate = new Date(input.startDate).toISOString().slice(0, 10)
     input.endDate = new Date(input.endDate).toISOString().slice(0, 10)
@@ -127,7 +124,6 @@ const EventRegistrationPage = () => {
           startDate: input.startDate,
           endDate: input.endDate,
           foodChoice: input.foodChoice,
-          helpAfterwards: input.helpAfterwards,
           acceptPhotos: input.acceptPhotos,
           acceptCoC: input.acceptCoC,
           eventId: input.eventId,

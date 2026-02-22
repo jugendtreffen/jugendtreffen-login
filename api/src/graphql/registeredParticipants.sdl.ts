@@ -18,7 +18,6 @@ export const schema = gql`
     startDate:  Date!
     endDate:  Date!
     foodChoice: String!
-    helpAfterwards: Boolean!
     acceptPhotos: Boolean!
     acceptCoC:  Boolean!
     eventId:  Int!
@@ -51,7 +50,6 @@ export const schema = gql`
     startDate:  Date!
     endDate:  Date!
     foodChoice: String!
-    helpAfterwards: Boolean!
     acceptPhotos: Boolean!
     acceptCoC:  Boolean!
     eventId: Int!
@@ -76,7 +74,6 @@ export const schema = gql`
     startDate:  Date
     endDate:  Date
     foodChoice: String
-    helpAfterwards: Boolean!
     acceptPhotos: Boolean!
     acceptCoC:  Boolean!
     participationRole:  String
