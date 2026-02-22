@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react'
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-slate-800">
-      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+    <footer className="w-full bg-muted">
+      <div className="w-full max-w-7xl mx-auto p-4 md:py-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <a
             href="https://jugendtreffen.at/"
@@ -18,7 +18,7 @@ const Footer = () => {
               jugendtreffen.at
             </span>
           </a>
-          <ul className="flex flex-wrap items-center text-sm font-medium text-gray-400 flex-between">
+          <ul className="flex flex-wrap items-center text-sm font-medium text-accent-foreground flex-between">
             <li>
               <a
                 href="https://jugendtreffen.at/ueber-das-jugendtreffen/"
@@ -53,14 +53,14 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <span className="block text-sm text-gray-400">
+        <span className="block text-sm text-muted-foreground">
           Bei Problemen melde dich bei{' '}
           <a href="mailto:info@jugendtreffen.at" className="font-bold">
             info@jugendtreffen.at
           </a>
         </span>
-        <hr className="my-6 sm:mx-auto border-gray-700 lg:my-8" />
-        <span className="block text-sm sm:text-center text-gray-400">
+        <hr className="my-6 sm:mx-auto border-muted-foreground lg:my-8" />
+        <span className="block text-sm sm:text-center text-muted-foreground">
           © 2024{' '}
           <a href="https://jugendtreffen.at/" className="hover:underline">
             jugendtreffen.at

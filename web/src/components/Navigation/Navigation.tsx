@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link, navigate, routes } from '@redwoodjs/router'
 import { useAuth } from 'src/auth'
-import { Menu, X } from 'lucide-react'
+import { ArrowRight, Menu, X } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 const Navigation = () => {
   const { loading, isAuthenticated, logOut } = useAuth()
@@ -32,18 +33,10 @@ const Navigation = () => {
             </button>
           ) : (
             <div className="flex space-x-2 me-2">
-              <button
-                className="secondary"
-                onClick={() => navigate(routes.signup())}
-              >
-                Account erstellen
-              </button>
-              <button
-                className="primary"
-                onClick={() => navigate(routes.login())}
-              >
-                Login
-              </button>
+              <Button onClick={() => navigate(routes.login())}>
+                Mitarbeiter Login
+                <ArrowRight />
+              </Button>
             </div>
           )}
           <button

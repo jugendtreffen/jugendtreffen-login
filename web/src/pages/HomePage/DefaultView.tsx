@@ -1,71 +1,58 @@
-import {ReactNode, useEffect, useState} from 'react'
+import { useEffect, useRef } from 'react'
 
 import { navigate, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "src/components/ui/card";
-import YouTube from "react-youtube";
-
-function CardAction(props: { children: ReactNode }) {
-  return null;
-}
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+} from 'src/components/ui/card'
+import { RollingText } from '@/components/animate-ui/primitives/texts/rolling'
+import { Button } from '@/components/ui/button'
+import { ArrowRight } from 'lucide-react'
 
 const DefaultView = () => {
-  const images = ['/A9A06698.webp', '/A9A07019.webp', '/DSC08102.webp']
-  const [index, setIndex] = useState(0)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex + 1) % images.length)
-    }, 3000)
-    return () => clearInterval(interval)
+    const video = videoRef.current
+    if (!video) return
+
+    const handleCanPlay = () => video.play()
+
+    video.addEventListener('canplay', handleCanPlay, { once: true })
+    return () => video.removeEventListener('canplay', handleCanPlay)
   }, [])
 
   return (
     <>
       <Metadata title="Home" description="Home page" />
 
-      <section
-        id="hero section"
-      >
+      <section id="hero section">
         <div className="absolute w-screen h-screen inset-0 flex flex-col gap-2 items-center justify-center text-center bg-transparent z-10">
-          <h1 className={'md:text-7xl'}>Jugendtreffen</h1>
+          <RollingText
+            className="text-4xl md:text-7xl font-bold text-primary"
+            text="Jugendtreffen"
+          ></RollingText>
           <h2 className={'md:text-2xl'}>
             15. bis 20. Juli 2025 in Kremsmünster
           </h2>
-          <button
-            className="primary inline-flex items-center mt-4"
-            onClick={() => navigate(routes.signup())}
-          >
-            <h2>Teilnehmen</h2>
-          </button>
+          <Button onClick={() => navigate(routes.signup())}>
+            Teilnehmen
+            <ArrowRight />
+          </Button>
         </div>
-        <div className="relative top-0 left-0 w-screen h-screen">
-          <YouTube
-            videoId={"EthdSsl3DT8"}
-            opts={{
-              height: '100%',
-              width: '100%',
-              playerVars: {
-                autoplay: 1,
-                mute: 1,           // Muss muted sein für autoplay
-                loop: 1,
-                playlist: "EthdSsl3DT8", // Für Loop playlist = videoId
-                controls: 0,
-                showinfo: 0,
-                modestbranding: 1,
-                fs: 0,
-                cc_load_policy: 0,
-                iv_load_policy: 3,
-                autohide: 1,
-              },
-            }}
-            onReady={(event: any) => {
-              event.target.mute()
-              event.target.playVideo()
-            }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-[56.25vw] min-h-screen min-w-[177.78vh]"
-          />
-        </div>
+        <video
+          ref={videoRef}
+          src="/aftermovie2025.webm"
+          preload="auto"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="top-0 left-0 w-screen min-h-screen min-w-[177.78vh]"
+        />
       </section>
 
       <section
@@ -118,7 +105,9 @@ const DefaultView = () => {
           >
             <Card className="w-fit">
               <CardHeader>
-                <CardDescription>Stimm dich mit unserer Playlist ein</CardDescription>
+                <CardDescription>
+                  Stimm dich mit unserer Playlist ein
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-row">
                 <img
@@ -137,7 +126,9 @@ const DefaultView = () => {
           >
             <Card className="w-fit">
               <CardHeader>
-                <CardDescription>Schau dich auf unserm Youtube-Kanal um</CardDescription>
+                <CardDescription>
+                  Schau dich auf unserm Youtube-Kanal um
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-row">
                 <img
