@@ -13,6 +13,7 @@
     "SUPABASE_URL",
     "SUPABASE_ANON_KEY"
   ]
+ssr = true
 [api]
   port = 8911
 [browser]
