@@ -3,6 +3,7 @@ import type { EventRelationResolvers, QueryResolvers } from 'types/graphql'
 import { RedwoodGraphQLError, UserInputError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
+import { logger } from 'src/lib/logger'
 
 export const events: QueryResolvers['events'] = () => {
   return db.event.findMany()
@@ -19,13 +20,15 @@ export const event: QueryResolvers['event'] = async ({ id }) => {
 }
 
 export const currentEvent: QueryResolvers['currentEvent'] = async () => {
-  return db.event
+  const now = new Date()
+  logger.info(`Current Event: ${now.toISOString()}`)
+  const event = await db.event
     .findFirst({
-      where: {
-        startDate: {
-          gte: new Date(),
-        },
-      },
+      // where: {
+      //   startDate: {
+      //     gte: new Date(),
+      //   },
+      // },
       orderBy: {
         startDate: 'asc',
       },
@@ -33,10 +36,12 @@ export const currentEvent: QueryResolvers['currentEvent'] = async () => {
     .catch(() => {
       throw new RedwoodGraphQLError('Kein anstehendes Event gefunden')
     })
+  logger.info(`Current Event: ${JSON.stringify(event)}`)
+  return event
 }
 
 export const Event: EventRelationResolvers = {
-  Participation: (_obj, { root }) => {
-    return db.event.findUnique({ where: { id: root?.id } }).Participation()
+  Registration: (_obj, { root }) => {
+    return db.event.findUnique({ where: { id: root?.id } }).Registration()
   },
 }

@@ -1,11 +1,11 @@
 import type { Participation } from '@prisma/client'
 
 import {
-  participations,
-  participation,
   createParticipation,
-  updateParticipation,
   deleteParticipation,
+  participation,
+  participations,
+  updateParticipation,
 } from './registeredParticipants'
 import type { StandardScenario } from './registeredParticipants.scenarios'
 
