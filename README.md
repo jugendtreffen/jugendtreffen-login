@@ -103,6 +103,14 @@ The Storybook server should hot reload and now you'll have four stories to work 
 yarn rw setup ui --help
 ```
 
+To add UI components use the shadcn cli: (The `dlx` after yarn is important here)
+
+```
+yarn dlx shadcn@latest add
+```
+
+Browse the shadcn docs to search for components and their use.
+
 ### UI Templates:
 Most of the Blocks are borrowed from [Flowbite](https://flowbite.com/) check them out bevore designing something on your own only to find out it already exists, but better.
 

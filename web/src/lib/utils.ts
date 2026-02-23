@@ -1,5 +1,10 @@
-import { useState } from 'react'
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+import { useState } from "react";
 
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
 export function calculateDuration(start: Date, end: Date) {
   const diffTime = Math.abs(end.getDate() - start.getDate())
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24))

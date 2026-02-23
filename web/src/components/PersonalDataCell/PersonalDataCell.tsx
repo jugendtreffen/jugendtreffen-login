@@ -19,9 +19,9 @@ import {
   useForm,
 } from '@redwoodjs/forms'
 import React from 'react'
-import Skeleton from 'src/components/Skeleton/Skeleton'
 import { toast } from '@redwoodjs/web/toast'
 import { useAuth } from 'src/auth'
+import {Skeleton} from "src/components/ui/skeleton";
 
 export const QUERY: TypedDocumentNode<
   PersonalDataQuery,
@@ -68,18 +68,11 @@ const UPDATE_PERSONALDATA = gql`
 
 export const Loading = () => (
   <div className="my-4 mx-0 max-w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
-    <Skeleton type="title" className="col-span-2 mb-4" />
-    <Skeleton type="input" />
-    <Skeleton type="input" />
-    <Skeleton type="input" />
-    <Skeleton type="input" />
-    <Skeleton type="input" />
-    <Skeleton type="input" />
-    <Skeleton type="select" />
-    <Skeleton type="input" />
-    <Skeleton type="input" />
-    <Skeleton type="input" />
-    <Skeleton type="checkbox" />
+    <div className="flex w-full max-w-xs flex-col gap-2">
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-3/4" />
+    </div>
   </div>
 )
 

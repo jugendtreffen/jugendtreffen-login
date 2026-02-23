@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Link, navigate, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 
+import { Card } from '@/components/ui/card'
+import { ArrowRight, Info } from 'lucide-react'
 import { useAuth } from 'src/auth'
 import Alert from 'src/components/Alert/Alert'
-import Card from 'src/components/Card/Card'
-import LoadingSpinner from 'src/components/Loading/LoadingSpinner'
-import { ArrowRight, Info } from 'lucide-react'
 
 const ConfirmSignupPage = (props) => {
   const { token_hash, email, next } = props
@@ -89,7 +88,6 @@ const ConfirmSignupPage = (props) => {
         <h1 className="mb-2">Email Bestätigung</h1>
         {confirmationStatus === 'pending' && (
           <>
-            <LoadingSpinner></LoadingSpinner>
             <p>Klicke auf den Link in deiner Email</p>
           </>
         )}
