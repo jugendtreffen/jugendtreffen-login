@@ -4,7 +4,6 @@ import { useAuth } from 'src/auth'
 import ParticipationsCell from 'src/components/ParticipationsCell'
 import PersonalDataCell from 'src/components/PersonalDataCell'
 import { useSidebar } from 'src/layouts/SidebarLayout/SidebarLayout'
-import EventParticipationForm from 'src/components/EventParticipationForm/EventParticipationForm'
 
 const MainContentView = () => {
   const { currentUser } = useAuth()
