@@ -4,6 +4,7 @@ import { RedwoodGraphQLError, UserInputError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
+import '../../lib/bigIntPolyfill'
 
 export const events: QueryResolvers['events'] = () => {
   return db.event.findMany()
@@ -24,11 +25,6 @@ export const currentEvent: QueryResolvers['currentEvent'] = async () => {
   logger.info(`Current Event: ${now.toISOString()}`)
   const event = await db.event
     .findFirst({
-      // where: {
-      //   startDate: {
-      //     gte: new Date(),
-      //   },
-      // },
       orderBy: {
         startDate: 'asc',
       },
@@ -41,7 +37,7 @@ export const currentEvent: QueryResolvers['currentEvent'] = async () => {
 }
 
 export const Event: EventRelationResolvers = {
-  Registration: (_obj, { root }) => {
-    return db.event.findUnique({ where: { id: root?.id } }).Registration()
+  Participants: (_obj, { root }) => {
+    return db.event.findUnique({ where: { id: root?.id } }).participants()
   },
 }

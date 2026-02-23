@@ -1,12 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useAuth } from './auth'
-import { useQuery } from '@redwoodjs/web'
 
-const ROLE_QUERY = gql`
+/*const ROLE_QUERY = gql`
   query RoleQuery {
     role
   }
-`
+`*/
 
 type RoleContextType = {
   role: string | null
@@ -24,10 +23,13 @@ export const RoleProvider = ({ children }) => {
   const { isAuthenticated } = useAuth()
   const [role, setRole] = useState<string | null>(null)
 
-  const { data, loading } = useQuery(ROLE_QUERY, {
-    skip: !isAuthenticated,
-    fetchPolicy: 'cache-and-network',
-  })
+  // const { data, loading } = useQuery(ROLE_QUERY, {
+  //   skip: !isAuthenticated,
+  //   fetchPolicy: 'cache-and-network',
+  // })
+
+  const data = { role: 'checkin' }
+  const loading = false
 
   useEffect(() => {
     if (data?.role) {
