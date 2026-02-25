@@ -55,13 +55,17 @@ export const Failure = ({
 export const Success = ({
   currentEvent,
   variant = 'card',
+  children,
 }: SuccessProps) => {
   if (variant === 'date') {
-    return (
+    return <>
+      {children && children(currentEvent)}
       <h1>{new Date(currentEvent.startDate).toLocaleDateString() + ' - ' + new Date(currentEvent.endDate).toLocaleDateString()}</h1>
-    )
+    </>
   }
   return (
+    <>
+    {children && children(currentEvent)}
     <Card
       title={currentEvent.name}
       description={currentEvent.desc}
@@ -71,5 +75,6 @@ export const Success = ({
         to: routes.events({ id: String(currentEvent.id) }),
       }}
     />
+    </>
   )
 }
