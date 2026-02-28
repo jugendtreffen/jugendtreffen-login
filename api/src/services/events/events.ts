@@ -25,6 +25,11 @@ export const currentEvent: QueryResolvers['currentEvent'] = async () => {
   logger.info(`Current Event: ${now.toISOString()}`)
   const event = await db.event
     .findFirst({
+      where: {
+        startDate: {
+          gte: new Date(),
+        },
+      },
       orderBy: {
         startDate: 'asc',
       },
