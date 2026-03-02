@@ -1,10 +1,18 @@
-import type { FindCurrentEventQuery, FindCurrentEventQueryVariables } from "types/graphql";
+import type {
+  FindCurrentEventQuery,
+  FindCurrentEventQueryVariables,
+} from 'types/graphql'
 
-import { routes } from "@redwoodjs/router";
-import type { CellFailureProps, CellSuccessProps, TypedDocumentNode } from "@redwoodjs/web";
+import { navigate, routes } from '@redwoodjs/router'
+import type {
+  CellFailureProps,
+  CellSuccessProps,
+  TypedDocumentNode,
+} from '@redwoodjs/web'
 
-import Card from "src/components/Card/Card";
-import Skeleton from "src/components/Skeleton/Skeleton";
+import { ArrowRight } from 'lucide-react'
+import { Card, CardContent, CardTitle } from 'src/components/ui/card'
+import { Skeleton } from 'src/components/ui/skeleton'
 
 export const QUERY: TypedDocumentNode<
   FindCurrentEventQuery,
@@ -30,46 +38,43 @@ type SuccessProps = CellSuccessProps<
   variant: Variant
 }
 
-export const Loading = () => (
-  <Skeleton type="card" className={'w-full md:w-96 h-64'} />
-)
+export const Loading = () => <Skeleton className={'w-full md:w-96 h-64'} />
 
 export const Empty = () => (
-  <Card
-    className="w-full md:w-96"
-    title={'Kein aktuelles Event'}
-    description={''}
-  ></Card>
+  <Card className="w-full md:w-96">
+    <CardTitle>Kein aktuelles Event</CardTitle>
+  </Card>
 )
 
 export const Failure = ({
   error,
 }: CellFailureProps<FindCurrentEventQueryVariables>) => (
-  <Card
-    className={'w-full md:w-96 text-red-500'}
-    title={'Hat nicht geklappt.'}
-    description={error?.message}
-  ></Card>
+  <Card className="w-full md:w-96 text-red-500">
+    <CardTitle>Hat nicht geklappt</CardTitle>
+    <CardContent>{error?.message}</CardContent>
+  </Card>
 )
 
-export const Success = ({
-  currentEvent,
-  variant = 'card',
-}: SuccessProps) => {
+export const Success = ({ currentEvent, variant = 'card' }: SuccessProps) => {
   if (variant === 'date') {
     return (
-      <h1>{new Date(currentEvent.startDate).toLocaleDateString() + ' - ' + new Date(currentEvent.endDate).toLocaleDateString()}</h1>
+      <h1>
+        {new Date(currentEvent.startDate).toLocaleDateString() +
+          ' - ' +
+          new Date(currentEvent.endDate).toLocaleDateString()}
+      </h1>
     )
   }
   return (
-    <Card
-      title={currentEvent.name}
-      description={currentEvent.desc}
-      className={'w-full md:w-96 mb-4'}
-      button={{
-        message: 'Anmeldung',
-        to: routes.events({ id: String(currentEvent.id) }),
-      }}
-    />
+    <Card className={'w-full md:w-96 mb-4'}>
+      <CardTitle>{currentEvent.name}</CardTitle>
+      <CardContent>
+        {currentEvent.desc}
+        <button onClick={() => navigate(routes.eventRegistration())}>
+          Anmeldung
+          <ArrowRight />
+        </button>
+      </CardContent>
+    </Card>
   )
 }
