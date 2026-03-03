@@ -1,3 +1,4 @@
+import EventRegistrationForm from '@/components/EventRegistrationForm/EventRegistrationForm'
 import { Card } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -19,7 +20,10 @@ import { useAlert } from 'src/components/Alert/AlertContext'
 import CurrentEventCell from 'src/components/CurrentEventCell'
 import MultiStepForm from 'src/components/MultiStepForm/MultiStepForm'
 import Step from 'src/components/MultiStepForm/Step'
-import { CreateParticipantMutation, CreateParticipantMutationVariables, } from 'types/graphql'
+import {
+  CreateParticipantMutation,
+  CreateParticipantMutationVariables,
+} from 'types/graphql'
 
 const CREATE_REGISTEREDPARTICIPANT = gql`
   mutation CreateRegisteredParticipantMutation(
@@ -693,6 +697,16 @@ const EventRegistrationPage = () => {
           </Step>
         </MultiStepForm>
       </Card>
+
+      <EventRegistrationForm
+        event={{
+          id: 6,
+          name: 'Jugendtreffen 2026',
+          desc: 'description',
+          startDate: new Date('2026-07-15'),
+          endDate: new Date('2026-07-21'),
+        }}
+      ></EventRegistrationForm>
     </>
   )
 }

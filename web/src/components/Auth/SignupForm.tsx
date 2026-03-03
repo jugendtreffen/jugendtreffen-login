@@ -1,6 +1,11 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Field, FieldDescription, FieldGroup, FieldLabel, } from '@/components/ui/field'
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { SignupFormValues } from '@/pages/SignupPage/SignupPage'
 import { Form, Label, SubmitHandler, useForm } from '@redwoodjs/forms'
@@ -34,7 +39,6 @@ export function SignupForm({
               <Input
                 type="email"
                 name="email"
-                className="input"
                 placeholder="your@mail.com"
                 validation={{
                   required: true,

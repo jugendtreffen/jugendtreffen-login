@@ -1,11 +1,11 @@
-import { Link, navigate, routes } from "@redwoodjs/router";
-import { Metadata } from "@redwoodjs/web";
+import { Link, navigate, routes } from '@redwoodjs/router'
+import { Metadata } from '@redwoodjs/web'
 
-import { useAuth } from "src/auth";
-import AlertCenter from "src/components/Alert/AlertCenter";
-import { useAlert } from "src/components/Alert/AlertContext";
-import {LoginForm} from "@/components/Auth/LoginForm";
-import {Card, CardHeader, CardTitle} from "@/components/ui/card";
+import { LoginForm } from '@/components/Auth/LoginForm'
+import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import { useAuth } from 'src/auth'
+import AlertCenter from 'src/components/Alert/AlertCenter'
+import { useAlert } from 'src/components/Alert/AlertContext'
 
 const LoginPage = (props) => {
   const { next } = props
@@ -59,11 +59,10 @@ const LoginPage = (props) => {
       </div>
 
       <div className="flex w-full items-center justify-center p-6 md:p-10">
-        <div className="w-full max-w-sm">
+        <div className="w-full max-w-md">
           <LoginForm onSubmit={onSubmit} />
         </div>
       </div>
-
     </>
   )
 }
