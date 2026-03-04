@@ -7,7 +7,7 @@ export const RegistrationSchema = z
     email: z.email('Bitte gib eine gültige E-Mail-Adresse ein'),
     birthdate: z.coerce.date(),
     gender: z.string().min(1, 'Geschlecht darf nicht leer sein'),
-    phoneNumber: z.string().min(5, 'Telefonnummer ist zu kurz'),
+    phoneNumber: z.string().min(1, 'Telefonnummer darf nicht leer sein'),
     phoneCaretakerContact: z.string().optional().nullable(),
     foundUsBy: z.string().optional().nullable(),
     isParent: z.boolean(),

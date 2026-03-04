@@ -3,6 +3,14 @@ import type {
   FindCurrentEventQueryVariables,
 } from 'types/graphql'
 
+import EventRegistrationForm from '@/components/EventRegistrationForm/EventRegistrationForm'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import type {
   CellFailureProps,
   CellSuccessProps,
@@ -40,5 +48,15 @@ export const Success = ({
   FindCurrentEventQueryVariables,
   FindCurrentEventQueryVariables
 >) => {
-  return <div>{JSON.stringify(currentEvent)}</div>
+  return (
+    <Card className="max-w-xl">
+      <CardHeader>
+        <CardTitle>Anmeldung {currentEvent.name}</CardTitle>
+        <CardDescription>{currentEvent.desc}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <EventRegistrationForm event={currentEvent} />
+      </CardContent>
+    </Card>
+  )
 }
