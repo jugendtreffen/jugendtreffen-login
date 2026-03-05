@@ -20,10 +20,8 @@ import { useAlert } from 'src/components/Alert/AlertContext'
 import CurrentEventCell from 'src/components/CurrentEventCell'
 import MultiStepForm from 'src/components/MultiStepForm/MultiStepForm'
 import Step from 'src/components/MultiStepForm/Step'
-import {
-  CreateParticipantMutation,
-  CreateParticipantMutationVariables,
-} from 'types/graphql'
+import { CreateParticipantMutation, CreateParticipantMutationVariables, } from 'types/graphql'
+import EventRegistrationCell from '../components/EventRegistrationCell/EventRegistrationCell'
 
 const CREATE_REGISTEREDPARTICIPANT = gql`
   mutation CreateRegisteredParticipantMutation(
@@ -707,6 +705,8 @@ const EventRegistrationPage = () => {
           endDate: new Date('2026-07-21'),
         }}
       ></EventRegistrationForm>
+
+      <EventRegistrationCell></EventRegistrationCell>
     </>
   )
 }

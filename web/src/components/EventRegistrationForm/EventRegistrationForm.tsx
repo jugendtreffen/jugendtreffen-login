@@ -1,10 +1,20 @@
-import { RegistrationInput, RegistrationSchema, } from '@/components/EventRegistrationForm/EventRegistrationSchema'
+import {
+  RegistrationInput,
+  RegistrationSchema,
+} from '@/components/EventRegistrationForm/EventRegistrationSchema'
 import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
-import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, } from '@/components/ui/select'
+import { LabeledInput } from '@/components/ui/labeled-input'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Controller, useForm } from '@redwoodjs/forms'
+import { Controller, Form, useForm } from '@redwoodjs/forms'
 import { format } from 'date-fns/format'
 import { Calendar } from '../ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
@@ -28,72 +38,29 @@ const EventRegistrationForm = ({ event }) => {
   }
 
   return (
-    <form formMethods={registrationForm} onSubmit={onSubmit}>
+    <Form formMethods={registrationForm} onSubmit={onSubmit}>
       <div className="grid grid-cols-4 gap-2">
         <div className="col-span-2">
-          <Controller
+          <LabeledInput
             name={'name'}
-            control={registrationForm.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.error}>
-                <FieldLabel htmlFor="registerform-name">Vorname</FieldLabel>
-                <Input
-                  id="registerform-name"
-                  placeholder="Vorname"
-                  aria-invalid={fieldState.invalid}
-                  {...field}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
-            )}
+            label={'Vorname'}
+            formControl={registrationForm.control}
           />
         </div>
 
         <div className="col-span-2">
-          <Controller
+          <LabeledInput
             name={'familyName'}
-            control={registrationForm.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.error}>
-                <FieldLabel htmlFor="registerform-family-name">
-                  Nachname
-                </FieldLabel>
-                <Input
-                  id="registerform-family-name"
-                  placeholder="Nachname"
-                  aria-invalid={fieldState.invalid}
-                  {...field}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
-            )}
+            label={'Nachname'}
+            formControl={registrationForm.control}
           />
         </div>
 
         <div className="col-span-2">
-          <Controller
+          <LabeledInput
             name={'email'}
-            control={registrationForm.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.error}>
-                <FieldLabel htmlFor="registerform-email">
-                  E-Mail-Addresse
-                </FieldLabel>
-                <Input
-                  id="registerform-email"
-                  placeholder="E-Mail"
-                  aria-invalid={fieldState.invalid}
-                  {...field}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
-            )}
+            label={'E-Mail'}
+            formControl={registrationForm.control}
           />
         </div>
 
@@ -142,48 +109,20 @@ const EventRegistrationForm = ({ event }) => {
         </div>
 
         <div className="col-span-2">
-          <Controller
+          <LabeledInput
             name={'phoneNumber'}
-            control={registrationForm.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.error}>
-                <FieldLabel htmlFor="registerform-phone-number">
-                  Telefonnummer
-                </FieldLabel>
-                <Input
-                  id="registerform-phone-number"
-                  placeholder="+43 123 456789"
-                  aria-invalid={fieldState.invalid}
-                  {...field}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
-            )}
+            label={'Telefonnummer'}
+            formControl={registrationForm.control}
+            placeholder={'+43 123 456789'}
           />
         </div>
 
         <div className="col-span-2">
-          <Controller
+          <LabeledInput
             name={'phoneCaretakerContact'}
-            control={registrationForm.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.error}>
-                <FieldLabel htmlFor="registerform-phone-caretaker">
-                  Telefonnummer Erziehungsberechtigte/r
-                </FieldLabel>
-                <Input
-                  id="registerform-phone-caretaker"
-                  placeholder="+43 123 456789"
-                  aria-invalid={fieldState.invalid}
-                  {...field}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
-            )}
+            label={'Telefonnummer Erziehungsberechtigte/r'}
+            formControl={registrationForm.control}
+            placeholder={'+43 123 456789'}
           />
         </div>
 
@@ -242,9 +181,34 @@ const EventRegistrationForm = ({ event }) => {
             )}
           />
         </div>
+
+        <div className="col-span-1">
+          <LabeledInput
+            name={'postalCode'}
+            label={'Postleitzahl'}
+            formControl={registrationForm.control}
+          />
+        </div>
+
+        <div className="col-span-3">
+          <LabeledInput
+            name={'city'}
+            label={'Stadt'}
+            formControl={registrationForm.control}
+          />
+        </div>
+
+        <div className="col-span-4">
+          <LabeledInput
+            name={'address'}
+            label={'Addresse'}
+            formControl={registrationForm.control}
+          />
+        </div>
       </div>
+
       <Button type="submit">Submit</Button>
-    </form>
+    </Form>
   )
 }
 

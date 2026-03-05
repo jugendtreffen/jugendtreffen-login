@@ -21,8 +21,8 @@ export const QUERY: TypedDocumentNode<
   FindCurrentEventQuery,
   FindCurrentEventQueryVariables
 > = gql`
-  query FindEventRegistrationQuery() {
-    currentEvent: currentEvent() {
+  query FindEventRegistrationQuery {
+    currentEvent {
       id
       name
       desc
@@ -43,7 +43,7 @@ export const Failure = ({
 )
 
 export const Success = ({
-  currentEvent: currentEvent,
+  currentEvent,
 }: CellSuccessProps<
   FindCurrentEventQueryVariables,
   FindCurrentEventQueryVariables
