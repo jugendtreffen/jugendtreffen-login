@@ -1,10 +1,24 @@
-import type { FindCurrentEventQuery, FindCurrentEventQueryVariables } from "types/graphql";
+import type {
+  FindCurrentEventQuery,
+  FindCurrentEventQueryVariables,
+} from 'types/graphql'
 
-import { routes } from "@redwoodjs/router";
-import type { CellFailureProps, CellSuccessProps, TypedDocumentNode } from "@redwoodjs/web";
+import type {
+  CellFailureProps,
+  CellSuccessProps,
+  TypedDocumentNode,
+} from '@redwoodjs/web'
 
-import Card from "src/components/Card/Card";
-import Skeleton from "src/components/Skeleton/Skeleton";
+import Alert from '@/components/Alert/Alert'
+import EventRegistrationForm from '@/components/EventRegistrationForm/EventRegistrationForm'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from 'src/components/ui/card'
+import { Skeleton } from 'src/components/ui/skeleton'
 
 export const QUERY: TypedDocumentNode<
   FindCurrentEventQuery,
@@ -21,40 +35,39 @@ export const QUERY: TypedDocumentNode<
   }
 `
 
-export const Loading = () => (
-  <Skeleton type="card" className={'w-full md:w-96 h-64'} />
-)
+type Variant = 'card' | 'date'
+
+type SuccessProps = CellSuccessProps<
+  FindCurrentEventQuery,
+  FindCurrentEventQueryVariables
+>
+
+export const Loading = () => <Skeleton className={'w-full max-w-2xl h-96'} />
 
 export const Empty = () => (
-  <Card
-    className="w-full md:w-96"
-    title={'Kein aktuelles Event'}
-    description={''}
-  ></Card>
+  <Card className="w-full md:w-96">
+    <CardTitle>Kein aktuelles Event</CardTitle>
+  </Card>
 )
 
 export const Failure = ({
   error,
 }: CellFailureProps<FindCurrentEventQueryVariables>) => (
-  <Card
-    className={'w-full md:w-96 text-red-500'}
-    title={'Hat nicht geklappt.'}
-    description={error?.message}
-  ></Card>
+  <Card>
+    <Alert id={error.name} type="error" message={error.message} />
+  </Card>
 )
 
-export const Success = ({
-  currentEvent,
-}: CellSuccessProps<FindCurrentEventQuery, FindCurrentEventQueryVariables>) => {
+export const Success = ({ currentEvent }: SuccessProps) => {
   return (
-    <Card
-      title={currentEvent.name}
-      description={currentEvent.desc}
-      className={'w-full md:w-96 mb-4'}
-      button={{
-        message: 'Anmeldung',
-        to: routes.events({ id: String(currentEvent.id) }),
-      }}
-    />
+    <Card className="max-w-xl">
+      <CardHeader>
+        <CardTitle>Anmeldung {currentEvent.name}</CardTitle>
+        <CardDescription>{currentEvent.desc}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <EventRegistrationForm event={currentEvent} />
+      </CardContent>
+    </Card>
   )
 }

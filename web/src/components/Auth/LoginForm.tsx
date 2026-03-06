@@ -1,42 +1,35 @@
-import {cn} from "@/lib/utils"
-import {Button} from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-} from "@/components/ui/field"
-import {Form, Label, useForm} from "@redwoodjs/forms";
-import {Link, routes} from "@redwoodjs/router";
-import {Input} from "@/components/ui/input";
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Field, FieldDescription, FieldGroup } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { cn } from '@/lib/utils'
+import { Form, Label, useForm } from '@redwoodjs/forms'
+import { Link, routes } from '@redwoodjs/router'
 
-export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
+export function LoginForm({
+  className,
+  ...props
+}: React.ComponentProps<'div'>) {
   const formMethods = useForm({
     mode: 'onBlur',
     resolver: null,
   })
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader>
           <CardTitle>Bei Jugendtreffen Anmelden</CardTitle>
           <FieldDescription>
-            Login ist nur für Mitarbeiter gedacht, stadtdessen <Link to={"#"}>als Teilnehmer Anmelden</Link>
+            Login ist nur für Mitarbeiter gedacht, stadtdessen{' '}
+            <Link to={routes.eventRegistration()}>als Teilnehmer Anmelden</Link>
           </FieldDescription>
         </CardHeader>
         <CardContent>
           <Form onSubmit={props.onSubmit} formMethods={formMethods}>
             <FieldGroup>
               <Field>
-                <Label name="email">
-                  Email
-                </Label>
+                <Label name="email">Email</Label>
                 <Input
                   type="email"
                   name="email"
@@ -64,7 +57,8 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
               <Field>
                 <Button type="submit">Login</Button>
                 <FieldDescription className="text-center">
-                  Du hast keinen Account? <Link to={routes.signup()}>Registrieren</Link>
+                  Du hast keinen Account?{' '}
+                  <Link to={routes.signup()}>Registrieren</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

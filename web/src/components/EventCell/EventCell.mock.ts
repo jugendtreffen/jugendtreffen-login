@@ -2,6 +2,6 @@
 export const standard = (/* vars, { ctx, req } */) => ({
   event: {
     __typename: 'Event' as const,
-    id: 42,
+    id: null,
   },
 })

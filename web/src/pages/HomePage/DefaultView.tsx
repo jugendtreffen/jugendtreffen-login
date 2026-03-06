@@ -1,16 +1,16 @@
 import { useEffect, useRef } from 'react'
 
+import { RollingText } from '@/components/animate-ui/primitives/texts/rolling'
+import { Button } from '@/components/ui/button'
 import { navigate, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
+import { ArrowRight } from 'lucide-react'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
 } from 'src/components/ui/card'
-import { RollingText } from '@/components/animate-ui/primitives/texts/rolling'
-import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
 
 const DefaultView = () => {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -38,7 +38,7 @@ const DefaultView = () => {
           <h2 className={'md:text-2xl'}>
             15. bis 20. Juli 2025 in Kremsmünster
           </h2>
-          <Button onClick={() => navigate(routes.signup())}>
+          <Button onClick={() => navigate(routes.eventRegistration())}>
             Teilnehmen
             <ArrowRight />
           </Button>

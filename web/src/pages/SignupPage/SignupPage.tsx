@@ -1,11 +1,10 @@
-import React from 'react'
-import {navigate, routes} from '@redwoodjs/router'
+import { navigate, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 
+import { SignupForm } from '@/components/Auth/SignupForm'
 import { useAuth } from 'src/auth'
 import AlertCenter from 'src/components/Alert/AlertCenter'
 import { useAlert } from 'src/components/Alert/AlertContext'
-import {SignupForm} from "@/components/Auth/SignupForm";
 
 export interface SignupFormValues {
   email: string
@@ -24,7 +23,7 @@ const SignupPage = () => {
         email: input.email,
         password: input.password,
       })
-      if(response?.error?.message) {
+      if (response?.error?.message) {
         addAlert(response.error.message, 'error')
       }
     } catch (error) {
@@ -44,7 +43,7 @@ const SignupPage = () => {
       />
 
       <div className="flex w-full items-center justify-center p-6 md:p-10">
-        <div className="w-full max-w-sm">
+        <div className="w-full max-w-md">
           <SignupForm onSubmit={onSubmit} />
         </div>
       </div>
