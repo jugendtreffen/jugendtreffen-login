@@ -3,15 +3,20 @@ import type {
   FindCurrentEventQueryVariables,
 } from 'types/graphql'
 
-import { navigate, routes } from '@redwoodjs/router'
 import type {
   CellFailureProps,
   CellSuccessProps,
   TypedDocumentNode,
 } from '@redwoodjs/web'
 
-import { ArrowRight } from 'lucide-react'
-import { Card, CardContent, CardTitle } from 'src/components/ui/card'
+import EventRegistrationForm from '@/components/EventRegistrationForm/EventRegistrationForm'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from 'src/components/ui/card'
 import { Skeleton } from 'src/components/ui/skeleton'
 
 export const QUERY: TypedDocumentNode<
@@ -34,9 +39,7 @@ type Variant = 'card' | 'date'
 type SuccessProps = CellSuccessProps<
   FindCurrentEventQuery,
   FindCurrentEventQueryVariables
-> & {
-  variant: Variant
-}
+>
 
 export const Loading = () => <Skeleton className={'w-full md:w-96 h-64'} />
 
@@ -55,25 +58,15 @@ export const Failure = ({
   </Card>
 )
 
-export const Success = ({ currentEvent, variant = 'card' }: SuccessProps) => {
-  if (variant === 'date') {
-    return (
-      <h1>
-        {new Date(currentEvent.startDate).toLocaleDateString() +
-          ' - ' +
-          new Date(currentEvent.endDate).toLocaleDateString()}
-      </h1>
-    )
-  }
+export const Success = ({ currentEvent }: SuccessProps) => {
   return (
-    <Card className={'w-full md:w-96 mb-4'}>
-      <CardTitle>{currentEvent.name}</CardTitle>
+    <Card className="max-w-xl">
+      <CardHeader>
+        <CardTitle>Anmeldung {currentEvent.name}</CardTitle>
+        <CardDescription>{currentEvent.desc}</CardDescription>
+      </CardHeader>
       <CardContent>
-        {currentEvent.desc}
-        <button onClick={() => navigate(routes.eventRegistration())}>
-          Anmeldung
-          <ArrowRight />
-        </button>
+        <EventRegistrationForm event={currentEvent} />
       </CardContent>
     </Card>
   )

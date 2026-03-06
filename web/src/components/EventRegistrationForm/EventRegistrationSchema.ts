@@ -10,7 +10,7 @@ export const RegistrationSchema = z
     phoneNumber: z.string().min(1, 'Telefonnummer darf nicht leer sein'),
     phoneCaretakerContact: z.string().optional().nullable(),
     foundUsBy: z.string().optional().nullable(),
-    isParent: z.boolean(),
+    isParent: z.boolean().optional().nullable(),
     country: z.string().min(1, 'Land darf nicht leer sein'),
     city: z.string().min(1, 'Stadt darf nicht leer sein'),
     postalCode: z.string().min(1, 'Postleitzahl darf nicht leer sein'),
@@ -22,7 +22,6 @@ export const RegistrationSchema = z
     foodChoice: z.string().min(1, 'Essenswunsch darf nicht leer sein'),
     acceptPhotos: z.boolean(),
     acceptCoC: z.literal(true),
-    eventId: z.string().min(1, 'Event-ID darf nicht leer sein'),
     participationRole: z.string().min(1, 'Teilnahmerolle darf nicht leer sein'),
   })
   .refine((data) => data.startDate <= data.endDate, {

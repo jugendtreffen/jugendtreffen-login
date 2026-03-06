@@ -20,7 +20,7 @@ const LabeledInput = ({
       name={name}
       control={formControl}
       render={({ field, fieldState }) => (
-        <Field data-invalid={fieldState.error}>
+        <Field data-invalid={fieldState.invalid}>
           <FieldLabel htmlFor={name}>{label}</FieldLabel>
           <Input
             id={name}

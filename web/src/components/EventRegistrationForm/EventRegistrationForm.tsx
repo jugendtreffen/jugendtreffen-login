@@ -1,10 +1,15 @@
+import { Checkbox } from '@/components/animate-ui/components/radix/checkbox'
 import {
   RegistrationInput,
   RegistrationSchema,
 } from '@/components/EventRegistrationForm/EventRegistrationSchema'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Datepicker } from '@/components/ui/date-picker'
 import { Field, FieldError, FieldLabel } from '@/components/ui/field'
+import { Label } from '@/components/ui/label'
 import { LabeledInput } from '@/components/ui/labeled-input'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import {
   Select,
   SelectContent,
@@ -16,8 +21,10 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, Form, useForm } from '@redwoodjs/forms'
 import { format } from 'date-fns/format'
+import { ArrowUpRight } from 'lucide-react'
 import { Calendar } from '../ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import { Separator } from '../ui/separator'
 
 const EventRegistrationForm = ({ event }) => {
   const registrationForm = useForm({
@@ -28,14 +35,34 @@ const EventRegistrationForm = ({ event }) => {
       familyName: '',
       email: '',
       birthdate: new Date(),
+      gender: '',
+      phoneNumber: '',
+      phoneCaretakerContact: '',
+      country: '',
+      city: '',
+      postalCode: '',
+      address: '',
+      travelMethod: '',
+      accommodation: '',
+      startDate: event.startDate,
+      endDate: event.endDate,
+      foodChoice: '',
+      acceptPhotos: false,
+      participationRole: '',
     },
   })
   const [open, setOpen] = React.useState(false)
-  const [date, setDate] = React.useState<Date | undefined>(new Date())
+  const [hasOpenedLink, setHasOpenedLink] = React.useState(false)
 
   const onSubmit = (input: RegistrationInput) => {
     console.log('Redwood multistep submitted:', input)
   }
+
+  const isParticipant =
+    registrationForm.watch('participationRole') === 'teilnehmer' ||
+    registrationForm.watch('participationRole') === undefined
+
+  console.log(registrationForm.formState.errors)
 
   return (
     <Form formMethods={registrationForm} onSubmit={onSubmit}>
@@ -47,7 +74,6 @@ const EventRegistrationForm = ({ event }) => {
             formControl={registrationForm.control}
           />
         </div>
-
         <div className="col-span-2">
           <LabeledInput
             name={'familyName'}
@@ -55,7 +81,6 @@ const EventRegistrationForm = ({ event }) => {
             formControl={registrationForm.control}
           />
         </div>
-
         <div className="col-span-2">
           <LabeledInput
             name={'email'}
@@ -63,22 +88,27 @@ const EventRegistrationForm = ({ event }) => {
             formControl={registrationForm.control}
           />
         </div>
-
         <div className="col-span-2">
           <Controller
             name={'birthdate'}
             control={registrationForm.control}
             render={({ field, fieldState }) => (
               <Field className="mx-auto w-44" data-invalid={fieldState.error}>
-                <FieldLabel htmlFor="date">Geburtstag</FieldLabel>
-                <Popover open={open} onOpenChange={setOpen}>
+                <FieldLabel htmlFor={'birthdate'}>Geburtstag</FieldLabel>
+                <Popover
+                  open={open}
+                  onOpenChange={setOpen}
+                  aria-invalid={fieldState.invalid}
+                >
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       id="date"
-                      className="justify-start font-normal"
+                      className="justify-start font-normal bg-transparent"
                     >
-                      {date ? format(date, 'dd.MM.yyyy') : 'Select date'}
+                      {field.value
+                        ? format(field.value as Date, 'dd.MM.yyyy')
+                        : 'Select date'}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent
@@ -87,11 +117,10 @@ const EventRegistrationForm = ({ event }) => {
                   >
                     <Calendar
                       mode="single"
-                      selected={date}
-                      defaultMonth={date}
+                      selected={field.value as Date}
                       captionLayout="dropdown"
                       onSelect={(date) => {
-                        setDate(date)
+                        field.value = date
                         setOpen(false)
                       }}
                       disabled={(date) =>
@@ -107,7 +136,6 @@ const EventRegistrationForm = ({ event }) => {
             )}
           />
         </div>
-
         <div className="col-span-2">
           <LabeledInput
             name={'phoneNumber'}
@@ -116,7 +144,6 @@ const EventRegistrationForm = ({ event }) => {
             placeholder={'+43 123 456789'}
           />
         </div>
-
         <div className="col-span-2">
           <LabeledInput
             name={'phoneCaretakerContact'}
@@ -125,16 +152,20 @@ const EventRegistrationForm = ({ event }) => {
             placeholder={'+43 123 456789'}
           />
         </div>
-
         <div className="col-span-2">
           <Controller
             name={'gender'}
             control={registrationForm.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.error}>
-                <Select>
-                  <SelectTrigger className="w-full max-w-48">
-                    <SelectValue placeholder="Wähle dein Geschlecht" />
+                <FieldLabel htmlFor={'gender'}>Geschlecht</FieldLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  aria-invalid={fieldState.invalid}
+                >
+                  <SelectTrigger className="w-full max-w-96">
+                    <SelectValue placeholder="Bitte wähle" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
@@ -150,16 +181,21 @@ const EventRegistrationForm = ({ event }) => {
             )}
           />
         </div>
-
         <div className="col-span-2">
           <Controller
             name={'country'}
             control={registrationForm.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.error}>
-                <Select>
-                  <SelectTrigger className="w-full max-w-48">
-                    <SelectValue placeholder="Land" />
+                <FieldLabel htmlFor={'country'}>Land</FieldLabel>
+                <Select
+                  name={'country'}
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  aria-invalid={fieldState.invalid}
+                >
+                  <SelectTrigger className="w-full max-w-96">
+                    <SelectValue placeholder="Bitte wähle" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
@@ -181,7 +217,6 @@ const EventRegistrationForm = ({ event }) => {
             )}
           />
         </div>
-
         <div className="col-span-1">
           <LabeledInput
             name={'postalCode'}
@@ -189,7 +224,6 @@ const EventRegistrationForm = ({ event }) => {
             formControl={registrationForm.control}
           />
         </div>
-
         <div className="col-span-3">
           <LabeledInput
             name={'city'}
@@ -197,7 +231,6 @@ const EventRegistrationForm = ({ event }) => {
             formControl={registrationForm.control}
           />
         </div>
-
         <div className="col-span-4">
           <LabeledInput
             name={'address'}
@@ -205,9 +238,236 @@ const EventRegistrationForm = ({ event }) => {
             formControl={registrationForm.control}
           />
         </div>
-      </div>
+        <Separator className="col-span-4 my-4" />
+        <div className="col-span-2">
+          <Controller
+            name={'travelMethod'}
+            control={registrationForm.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.error}>
+                <FieldLabel htmlFor={'travelMethod'}>Anreise</FieldLabel>
+                <Select
+                  name={'travelMethod'}
+                  onValueChange={field.onChange}
+                  value={field.value}
+                >
+                  <SelectTrigger className="w-full max-w-96">
+                    <SelectValue placeholder="Bitte wähle" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="car">mit dem Auto</SelectItem>
+                      <SelectItem value="train">mit dem Zug</SelectItem>
+                      <SelectItem value="other">Anderes</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+        </div>
 
-      <Button type="submit">Submit</Button>
+        {/*TODO: refactor Labels to reusable enum*/}
+        <div className="col-span-2">
+          <Controller
+            name={'participationRole'}
+            control={registrationForm.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.error}>
+                <FieldLabel htmlFor={'participationRole'}>
+                  Ich nehme Teil als...
+                </FieldLabel>
+                <Select
+                  name={'participationRole'}
+                  onValueChange={field.onChange}
+                  value={field.value}
+                >
+                  <SelectTrigger className="w-full max-w-96">
+                    <SelectValue placeholder="Bitte wähle" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="teilnehmer">Teilnehmer</SelectItem>
+                      <SelectItem value="priester">Priester</SelectItem>
+                      <SelectItem value="begleitperson">
+                        Begleitperson
+                      </SelectItem>
+                      <SelectItem value="ordensmann/ordensfrau">
+                        Ordensmann/Ordensfrau
+                      </SelectItem>
+                      <SelectItem value="vortragender">Vortragender</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+        </div>
+
+        <div className="col-span-2">
+          <Controller
+            name={'accommodation'}
+            control={registrationForm.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.error}>
+                <FieldLabel htmlFor={'accommodation'}>Unterkunft</FieldLabel>
+                <RadioGroup
+                  name={'accommodation'}
+                  className="w-full"
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  aria-invalid={fieldState.invalid}
+                >
+                  {isParticipant ? (
+                    <Card className="flex items-center gap-3 p-3">
+                      <RadioGroupItem
+                        value="jugendtreffen"
+                        id="jugendtreffen"
+                      />
+                      <Label htmlFor="jugendtreffen">beim Jugendtreffen</Label>
+                    </Card>
+                  ) : (
+                    <>
+                      <Card className="flex items-center gap-3 p-3">
+                        <RadioGroupItem value="subiaco" id="subiaco" />
+                        <Label htmlFor="subiaco">Haus Subiaco</Label>
+                      </Card>
+                      <Card className="flex items-center gap-3 p-3">
+                        <RadioGroupItem value="family" id="family" />
+                        <Label htmlFor="family">bei einer familie</Label>
+                      </Card>
+                    </>
+                  )}
+                  <Card className="flex items-center gap-3 p-3">
+                    <RadioGroupItem value="private" id="private" />
+                    <Label htmlFor="private">eine Private</Label>
+                  </Card>
+                </RadioGroup>
+              </Field>
+            )}
+          />
+        </div>
+
+        <div className="col-span-4">
+          <Controller
+            name={'startDate'}
+            control={registrationForm.control}
+            render={({ field, fieldState }) => (
+              <Datepicker
+                name={'startDate'}
+                formControl={registrationForm.control}
+                value={field.value as Date}
+                onChange={field.onChange}
+                placeholder={event.startDate}
+              />
+            )}
+          />
+
+          <Controller
+            name={'startDate'}
+            control={registrationForm.control}
+            render={({ field, fieldState }) => (
+              <Datepicker
+                name={'startDate'}
+                formControl={registrationForm.control}
+                value={field.value as Date}
+                onChange={field.onChange}
+                placeholder={event.endDate}
+              />
+            )}
+          />
+        </div>
+
+        <div className="col-span-2">
+          <Controller
+            name={'foodChoice'}
+            control={registrationForm.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.error}>
+                <FieldLabel htmlFor={'foodChoice'}>Ich esse</FieldLabel>
+                <RadioGroup
+                  name={'foodChoice'}
+                  className="w-full"
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  aria-invalid={fieldState.invalid}
+                >
+                  <Card className="flex items-center gap-3 p-3">
+                    <RadioGroupItem value="any" id="any" />
+                    <Label htmlFor="any">eigentlich alles</Label>
+                  </Card>
+                  <Card className="flex items-center gap-3 p-3">
+                    <RadioGroupItem value="vegetarian" id="vegetarian" />
+                    <Label htmlFor="vegetarian">vegetarisch</Label>
+                  </Card>
+                </RadioGroup>
+              </Field>
+            )}
+          />
+        </div>
+
+        <div className="col-span-4 py-4">
+          <Controller
+            name={'acceptCoC'}
+            control={registrationForm.control}
+            render={({ field }) => (
+              <Label
+                htmlFor={'acceptCoC'}
+                className="flex items-center gap-x-3"
+              >
+                <Checkbox
+                  name={'acceptCoC'}
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  disabled={!hasOpenedLink}
+                />
+                Ich habe den{' '}
+                <a
+                  onClick={() => setHasOpenedLink(true)}
+                  href="https://jugendtreffen.at/wp-content/uploads/2024/03/Verhaltenskodex-fu%CC%88r-Teilnehmende-2024.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary underline inline-flex"
+                >
+                  Verhaltenscodex
+                  <ArrowUpRight className="h-4" />
+                </a>{' '}
+                gelesen und akzeptiere diesen.
+              </Label>
+            )}
+          />
+        </div>
+
+        <div className="col-span-4 py-4">
+          <Controller
+            name={'acceptPhotos'}
+            control={registrationForm.control}
+            render={({ field }) => (
+              <Label
+                htmlFor={'acceptPhotos'}
+                className="flex items-center gap-x-3"
+              >
+                <Checkbox
+                  name={'acceptPhotos'}
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+                Ich stimme zu, fotografiert oder gefilmt werden zu dürfen.
+              </Label>
+            )}
+          />
+        </div>
+
+        <Button type="submit" className="col-span-4">
+          Anmelden
+        </Button>
+      </div>
     </Form>
   )
 }
