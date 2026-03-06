@@ -34,6 +34,7 @@ export const schema = gql`
   input CreateParticipantInput {
     name: String!
     familyName: String!
+    email: String!
     birthdate: DateTime!
     gender: String!
     phoneNumber: String!

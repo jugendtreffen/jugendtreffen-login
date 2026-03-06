@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 import { AlertTriangle, CheckCircle, Info, X, XCircle } from 'lucide-react'
 

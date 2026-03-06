@@ -9,6 +9,7 @@ import type {
   TypedDocumentNode,
 } from '@redwoodjs/web'
 
+import Alert from '@/components/Alert/Alert'
 import EventRegistrationForm from '@/components/EventRegistrationForm/EventRegistrationForm'
 import {
   Card,
@@ -41,7 +42,7 @@ type SuccessProps = CellSuccessProps<
   FindCurrentEventQueryVariables
 >
 
-export const Loading = () => <Skeleton className={'w-full md:w-96 h-64'} />
+export const Loading = () => <Skeleton className={'w-full max-w-2xl h-96'} />
 
 export const Empty = () => (
   <Card className="w-full md:w-96">
@@ -52,9 +53,8 @@ export const Empty = () => (
 export const Failure = ({
   error,
 }: CellFailureProps<FindCurrentEventQueryVariables>) => (
-  <Card className="w-full md:w-96 text-red-500">
-    <CardTitle>Hat nicht geklappt</CardTitle>
-    <CardContent>{error?.message}</CardContent>
+  <Card>
+    <Alert id={error.name} type="error" message={error.message} />
   </Card>
 )
 

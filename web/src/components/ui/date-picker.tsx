@@ -1,6 +1,8 @@
 import { PopoverTrigger } from '@/components/ui/popover'
+import { isValid } from 'date-fns'
 import { format } from 'date-fns/format'
 import { CalendarIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { Calendar } from './calendar'
 import {
   InputGroup,
@@ -16,19 +18,37 @@ interface DatepickerProps {
   value: Date
   onChange: any
   placeholder?: Date
+  invalid?: boolean
+  min?: Date
+  max?: Date
 }
 
-const Datepicker = ({ name, formControl, ...props }: DatepickerProps) => {
-  const [open, setOpen] = React.useState(false)
+const Datepicker = ({
+  name,
+  formControl,
+  value,
+  ...props
+}: DatepickerProps) => {
+  const [open, setOpen] = useState(false)
+  const [inputValue, setInputValue] = useState(
+    value instanceof Date && isValid(value) ? format(value, 'dd.MM.yyyy') : ''
+  )
 
-  console.log(props.value)
+  useEffect(() => {
+    if (value instanceof Date && isValid(value)) {
+      setInputValue(format(value, 'dd.MM.yyyy'))
+    }
+    console.log('Value changed:', value, isValid(value), inputValue)
+  }, [value])
 
   return (
-    <InputGroup>
+    <InputGroup aria-invalid={props.invalid}>
       <InputGroupInput
         id={name}
-        value={format(props.value, 'dd.MM.yyyy')}
-        placeholder={format(props.placeholder, 'dd.MM.yyyy')}
+        value={inputValue}
+        placeholder={
+          props.placeholder ? format(props.placeholder, 'dd.MM.yyyy') : ''
+        }
         onChange={props.onChange}
         onKeyDown={(e) => {
           if (e.key === 'ArrowDown') {
@@ -36,6 +56,7 @@ const Datepicker = ({ name, formControl, ...props }: DatepickerProps) => {
             setOpen(true)
           }
         }}
+        aria-invalid={props.invalid}
       />
       <InputGroupAddon align="inline-end">
         <Popover open={open} onOpenChange={setOpen}>
@@ -51,15 +72,24 @@ const Datepicker = ({ name, formControl, ...props }: DatepickerProps) => {
             </InputGroupButton>
           </PopoverTrigger>
           <PopoverContent
-            className="w-auto overflow-hidden p-0"
+            className="w-auto overflow-hidden p-0!"
             align="end"
             alignOffset={-8}
             sideOffset={10}
           >
             <Calendar
               mode="single"
-              selected={props.value as Date}
-              onSelect={props.onChange}
+              selected={value}
+              month={value}
+              onSelect={(event) => {
+                props.onChange(event)
+                setOpen(false)
+              }}
+              disabled={(date) => {
+                const tooLate = props.max !== undefined && date > props.max
+                const tooEarly = props.min !== undefined && date < props.min
+                return tooLate || tooEarly
+              }}
             />
           </PopoverContent>
         </Popover>

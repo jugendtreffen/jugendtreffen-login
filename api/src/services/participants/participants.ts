@@ -19,8 +19,9 @@ export const participant: QueryResolvers['participant'] = ({ id }) => {
 export const createParticipant: MutationResolvers['createParticipant'] = ({
   input,
 }) => {
+  const { email, ...data } = input
   return db.participant.create({
-    data: input,
+    data: data,
   })
 }
 

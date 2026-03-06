@@ -18,13 +18,50 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Spinner } from '@/components/ui/spinner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, Form, useForm } from '@redwoodjs/forms'
+import { useMutation } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 import { format } from 'date-fns/format'
 import { ArrowUpRight } from 'lucide-react'
+import {
+  CreateParticipantMutation,
+  CreateParticipantMutationVariables,
+} from 'types/graphql'
 import { Calendar } from '../ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Separator } from '../ui/separator'
+
+const CREATE_PARTICIPANT = gql`
+  mutation CreateRegisteredParticipantMutation(
+    $input: CreateParticipantInput!
+  ) {
+    createParticipant(input: $input) {
+      name
+      familyName
+      birthdate
+      gender
+      phoneNumber
+      phoneCaretakerContact
+      foundUsBy
+      isParent
+      country
+      city
+      postalCode
+      address
+      travelMethod
+      accommodation
+      startDate
+      endDate
+      foodChoice
+      acceptPhotos
+      acceptCoC
+      eventId
+      participationRole
+    }
+  }
+`
 
 const EventRegistrationForm = ({ event }) => {
   const registrationForm = useForm({
@@ -44,25 +81,43 @@ const EventRegistrationForm = ({ event }) => {
       address: '',
       travelMethod: '',
       accommodation: '',
-      startDate: event.startDate,
-      endDate: event.endDate,
+      startDate: new Date(event.startDate),
+      endDate: new Date(event.endDate),
       foodChoice: '',
       acceptPhotos: false,
       participationRole: '',
     },
   })
+  const [createParticipant, { loading, error }] = useMutation<
+    CreateParticipantMutation,
+    CreateParticipantMutationVariables
+  >(CREATE_PARTICIPANT, {
+    onCompleted: (data) => {
+      toast.success('Deine Teilnahme wurde gespeichert')
+      registrationForm.reset()
+    },
+  })
   const [open, setOpen] = React.useState(false)
   const [hasOpenedLink, setHasOpenedLink] = React.useState(false)
 
-  const onSubmit = (input: RegistrationInput) => {
+  const onSubmit = async (input: RegistrationInput) => {
     console.log('Redwood multistep submitted:', input)
+    const variables = {
+      input: {
+        eventId: event.id,
+        isParent: false, // TODO: what to do with this field
+        ...input,
+      },
+    }
+
+    await createParticipant({
+      variables: variables,
+    }).catch(console.error)
   }
 
   const isParticipant =
     registrationForm.watch('participationRole') === 'teilnehmer' ||
     registrationForm.watch('participationRole') === undefined
-
-  console.log(registrationForm.formState.errors)
 
   return (
     <Form formMethods={registrationForm} onSubmit={onSubmit}>
@@ -95,16 +150,13 @@ const EventRegistrationForm = ({ event }) => {
             render={({ field, fieldState }) => (
               <Field className="mx-auto w-44" data-invalid={fieldState.error}>
                 <FieldLabel htmlFor={'birthdate'}>Geburtstag</FieldLabel>
-                <Popover
-                  open={open}
-                  onOpenChange={setOpen}
-                  aria-invalid={fieldState.invalid}
-                >
+                <Popover open={open} onOpenChange={setOpen}>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       id="date"
                       className="justify-start font-normal bg-transparent"
+                      aria-invalid={fieldState.invalid}
                     >
                       {field.value
                         ? format(field.value as Date, 'dd.MM.yyyy')
@@ -181,7 +233,10 @@ const EventRegistrationForm = ({ event }) => {
             )}
           />
         </div>
-        <div className="col-span-2">
+
+        <Separator className="col-span-4 my-4" />
+
+        <div className="col-span-4">
           <Controller
             name={'country'}
             control={registrationForm.control}
@@ -238,7 +293,9 @@ const EventRegistrationForm = ({ event }) => {
             formControl={registrationForm.control}
           />
         </div>
+
         <Separator className="col-span-4 my-4" />
+
         <div className="col-span-2">
           <Controller
             name={'travelMethod'}
@@ -355,33 +412,40 @@ const EventRegistrationForm = ({ event }) => {
         </div>
 
         <div className="col-span-4">
-          <Controller
-            name={'startDate'}
-            control={registrationForm.control}
-            render={({ field, fieldState }) => (
-              <Datepicker
-                name={'startDate'}
-                formControl={registrationForm.control}
-                value={field.value as Date}
-                onChange={field.onChange}
-                placeholder={event.startDate}
-              />
-            )}
-          />
-
-          <Controller
-            name={'startDate'}
-            control={registrationForm.control}
-            render={({ field, fieldState }) => (
-              <Datepicker
-                name={'startDate'}
-                formControl={registrationForm.control}
-                value={field.value as Date}
-                onChange={field.onChange}
-                placeholder={event.endDate}
-              />
-            )}
-          />
+          <Label htmlFor={'startDate'}>Ich nehme teil von:</Label>
+          <div className="flex felx-row gap-3 items-center">
+            <Controller
+              name={'startDate'}
+              control={registrationForm.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <Datepicker
+                    name={'startDate'}
+                    formControl={registrationForm.control}
+                    value={field.value as Date}
+                    onChange={field.onChange}
+                    invalid={fieldState.invalid}
+                  />
+                </Field>
+              )}
+            />
+            <span className="text-muted-foreground">bis</span>
+            <Controller
+              name={'endDate'}
+              control={registrationForm.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <Datepicker
+                    name={'endDate'}
+                    formControl={registrationForm.control}
+                    value={field.value as Date}
+                    onChange={field.onChange}
+                    invalid={fieldState.invalid}
+                  />
+                </Field>
+              )}
+            />
+          </div>
         </div>
 
         <div className="col-span-2">
@@ -416,30 +480,33 @@ const EventRegistrationForm = ({ event }) => {
           <Controller
             name={'acceptCoC'}
             control={registrationForm.control}
-            render={({ field }) => (
-              <Label
-                htmlFor={'acceptCoC'}
-                className="flex items-center gap-x-3"
-              >
-                <Checkbox
-                  name={'acceptCoC'}
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                  disabled={!hasOpenedLink}
-                />
-                Ich habe den{' '}
-                <a
-                  onClick={() => setHasOpenedLink(true)}
-                  href="https://jugendtreffen.at/wp-content/uploads/2024/03/Verhaltenskodex-fu%CC%88r-Teilnehmende-2024.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary underline inline-flex"
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel
+                  htmlFor={'acceptCoC'}
+                  className="flex items-center gap-x-3"
                 >
-                  Verhaltenscodex
-                  <ArrowUpRight className="h-4" />
-                </a>{' '}
-                gelesen und akzeptiere diesen.
-              </Label>
+                  <Checkbox
+                    name={'acceptCoC'}
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    disabled={!hasOpenedLink}
+                    aria-invalid={fieldState.invalid}
+                  />
+                  Ich habe den{' '}
+                  <a
+                    onClick={() => setHasOpenedLink(true)}
+                    href="https://jugendtreffen.at/wp-content/uploads/2024/03/Verhaltenskodex-fu%CC%88r-Teilnehmende-2024.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary underline inline-flex"
+                  >
+                    Verhaltenscodex
+                    <ArrowUpRight className="h-4" />
+                  </a>{' '}
+                  gelesen und akzeptiere diesen.
+                </FieldLabel>
+              </Field>
             )}
           />
         </div>
@@ -448,23 +515,27 @@ const EventRegistrationForm = ({ event }) => {
           <Controller
             name={'acceptPhotos'}
             control={registrationForm.control}
-            render={({ field }) => (
-              <Label
-                htmlFor={'acceptPhotos'}
-                className="flex items-center gap-x-3"
-              >
-                <Checkbox
-                  name={'acceptPhotos'}
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-                Ich stimme zu, fotografiert oder gefilmt werden zu dürfen.
-              </Label>
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel
+                  htmlFor={'acceptPhotos'}
+                  className="flex items-center gap-x-3"
+                >
+                  <Checkbox
+                    name={'acceptPhotos'}
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    aria-invalid={fieldState.invalid}
+                  />
+                  Ich stimme zu, fotografiert oder gefilmt werden zu dürfen.
+                </FieldLabel>
+              </Field>
             )}
           />
         </div>
 
-        <Button type="submit" className="col-span-4">
+        <Button type="submit" disabled={loading} className="col-span-4">
+          {loading && <Spinner />}
           Anmelden
         </Button>
       </div>
