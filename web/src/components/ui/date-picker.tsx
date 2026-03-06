@@ -1,5 +1,5 @@
 import { PopoverTrigger } from '@/components/ui/popover'
-import { isValid } from 'date-fns'
+import { isValid, parse } from 'date-fns'
 import { format } from 'date-fns/format'
 import { CalendarIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -49,7 +49,19 @@ const Datepicker = ({
         placeholder={
           props.placeholder ? format(props.placeholder, 'dd.MM.yyyy') : ''
         }
-        onChange={props.onChange}
+        onChange={(event) => {
+          let raw = event.target.value.replace(/\D/g, '') // nur Ziffern
+          if (raw.length > 2) raw = raw.slice(0, 2) + '.' + raw.slice(2)
+          if (raw.length > 5) raw = raw.slice(0, 5) + '.' + raw.slice(5)
+          raw = raw.slice(0, 10)
+
+          setInputValue(raw)
+
+          const parsed = parse(raw, 'dd.MM.yyyy', new Date())
+          if (raw.length === 10 && isValid(parsed)) {
+            props.onChange(parsed)
+          }
+        }}
         onKeyDown={(e) => {
           if (e.key === 'ArrowDown') {
             e.preventDefault()

@@ -1,8 +1,5 @@
 import { Checkbox } from '@/components/animate-ui/components/radix/checkbox'
-import {
-  RegistrationInput,
-  RegistrationSchema,
-} from '@/components/EventRegistrationForm/EventRegistrationSchema'
+import { RegistrationInput, RegistrationSchema, } from '@/components/EventRegistrationForm/EventRegistrationSchema'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Datepicker } from '@/components/ui/date-picker'
@@ -10,27 +7,15 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Label } from '@/components/ui/label'
 import { LabeledInput } from '@/components/ui/labeled-input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, } from '@/components/ui/select'
 import { Spinner } from '@/components/ui/spinner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, Form, useForm } from '@redwoodjs/forms'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
-import { format } from 'date-fns/format'
 import { ArrowUpRight } from 'lucide-react'
-import {
-  CreateParticipantMutation,
-  CreateParticipantMutationVariables,
-} from 'types/graphql'
-import { Calendar } from '../ui/calendar'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import { useState } from 'react'
+import { CreateParticipantMutation, CreateParticipantMutationVariables, } from 'types/graphql'
 import { Separator } from '../ui/separator'
 
 const CREATE_PARTICIPANT = gql`
@@ -88,17 +73,16 @@ const EventRegistrationForm = ({ event }) => {
       participationRole: '',
     },
   })
-  const [createParticipant, { loading, error }] = useMutation<
+  const [createParticipant, { loading }] = useMutation<
     CreateParticipantMutation,
     CreateParticipantMutationVariables
   >(CREATE_PARTICIPANT, {
-    onCompleted: (data) => {
+    onCompleted: () => {
       toast.success('Deine Teilnahme wurde gespeichert')
       registrationForm.reset()
     },
   })
-  const [open, setOpen] = React.useState(false)
-  const [hasOpenedLink, setHasOpenedLink] = React.useState(false)
+  const [hasOpenedLink, setHasOpenedLink] = useState(false)
 
   const onSubmit = async (input: RegistrationInput) => {
     console.log('Redwood multistep submitted:', input)
@@ -150,37 +134,14 @@ const EventRegistrationForm = ({ event }) => {
             render={({ field, fieldState }) => (
               <Field className="mx-auto w-44" data-invalid={fieldState.error}>
                 <FieldLabel htmlFor={'birthdate'}>Geburtstag</FieldLabel>
-                <Popover open={open} onOpenChange={setOpen}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      id="date"
-                      className="justify-start font-normal bg-transparent"
-                      aria-invalid={fieldState.invalid}
-                    >
-                      {field.value
-                        ? format(field.value as Date, 'dd.MM.yyyy')
-                        : 'Select date'}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent
-                    className="w-auto overflow-hidden p-0!"
-                    align="start"
-                  >
-                    <Calendar
-                      mode="single"
-                      selected={field.value as Date}
-                      captionLayout="dropdown"
-                      onSelect={(date) => {
-                        field.value = date
-                        setOpen(false)
-                      }}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date('1900-01-01')
-                      }
-                    />
-                  </PopoverContent>
-                </Popover>
+                <Datepicker
+                  name={'birthdate'}
+                  formControl={registrationForm.control}
+                  value={field.value as Date}
+                  onChange={field.onChange}
+                  invalid={fieldState.invalid}
+                  max={new Date()}
+                />
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
                 )}
@@ -212,6 +173,7 @@ const EventRegistrationForm = ({ event }) => {
               <Field data-invalid={fieldState.error}>
                 <FieldLabel htmlFor={'gender'}>Geschlecht</FieldLabel>
                 <Select
+                  name={'gender'}
                   onValueChange={field.onChange}
                   value={field.value}
                   aria-invalid={fieldState.invalid}
@@ -425,6 +387,8 @@ const EventRegistrationForm = ({ event }) => {
                     value={field.value as Date}
                     onChange={field.onChange}
                     invalid={fieldState.invalid}
+                    min={new Date(event.startDate)}
+                    max={new Date(event.endDate)}
                   />
                 </Field>
               )}
@@ -441,6 +405,8 @@ const EventRegistrationForm = ({ event }) => {
                     value={field.value as Date}
                     onChange={field.onChange}
                     invalid={fieldState.invalid}
+                    min={new Date(event.startDate)}
+                    max={new Date(event.endDate)}
                   />
                 </Field>
               )}
