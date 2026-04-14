@@ -1,26 +1,17 @@
 import {sendTemplateBrevoEmail} from "src/lib/brevoMailer";
 
-interface EmailParams {
-  to: string
-  subject: string
-  html?: string
-  text?: string
-  from?: string
-}
-
 export type WelcomeEmailInput = {
-  to: string
-  name: string
+    to: string
+    name: string
 }
 
-export async function sendRegistrationConfirmation({
-                                         to,
-                                         name,
-                                       }: WelcomeEmailInput) {
-  const templateId = 4
+export async function sendRegistrationConfirmation({to, name}: WelcomeEmailInput) {
+    const registrationTemplateId = 4
+    const registrationSubject = "Du wurdest erfolgreich Registriert!"
 
-  return sendTemplateBrevoEmail({
-    to,
-    templateId,
-  })
+    return sendTemplateBrevoEmail({
+        to: to,
+        templateId: registrationTemplateId,
+        subject: registrationSubject
+    })
 }

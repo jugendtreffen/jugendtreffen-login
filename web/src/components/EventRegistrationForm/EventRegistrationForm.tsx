@@ -17,6 +17,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { useState } from 'react'
 import { CreateParticipantMutation, CreateParticipantMutationVariables, } from 'types/graphql'
 import { Separator } from '../ui/separator'
+import {addDays} from "date-fns";
 
 const CREATE_PARTICIPANT = gql`
   mutation CreateRegisteredParticipantMutation(
@@ -387,8 +388,8 @@ const EventRegistrationForm = ({ event }) => {
                     value={field.value as Date}
                     onChange={field.onChange}
                     invalid={fieldState.invalid}
-                    min={new Date(event.startDate)}
-                    max={new Date(event.endDate)}
+                    min={addDays(event.startDate, -1)}
+                    max={addDays(event.endDate, -1)}
                   />
                 </Field>
               )}

@@ -3,7 +3,6 @@ import type { EventRelationResolvers, QueryResolvers } from 'types/graphql'
 import { RedwoodGraphQLError, UserInputError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
-import { logger } from 'src/lib/logger'
 import '../../lib/bigIntPolyfill'
 
 export const events: QueryResolvers['events'] = () => {
@@ -17,26 +16,24 @@ export const event: QueryResolvers['event'] = async ({ id }) => {
   if (event != null) {
     return event
   }
-  throw new UserInputError('kein Event gefunden', { id })
+  throw new UserInputError('kein Event für angegebene Id gefunden', { id })
 }
 
 export const currentEvent: QueryResolvers['currentEvent'] = async () => {
-  const now = new Date()
-  const event = await db.event
-    .findFirst({
-      where: {
-        startDate: {
-          gte: new Date(),
-        },
-      },
-      orderBy: {
-        startDate: 'asc',
-      },
-    })
-    .catch(() => {
-      throw new RedwoodGraphQLError('Kein anstehendes Event gefunden')
-    })
-  return event
+    try {
+        return db.event.findFirst({
+            where: {
+                startDate: {
+                    gte: new Date(),
+                },
+            },
+            orderBy: {
+                startDate: 'asc',
+            },
+        })
+    } catch (error) {
+        throw new RedwoodGraphQLError("Es ist ein Fehler aufgetreten: " + error.message)
+    }
 }
 
 export const Event: EventRelationResolvers = {
