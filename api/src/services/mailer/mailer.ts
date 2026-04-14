@@ -17,7 +17,7 @@ export async function sendRegistrationConfirmation({
                                          to,
                                          name,
                                        }: WelcomeEmailInput) {
-  const templateId = "4"
+  const templateId = 4
 
   return sendTemplateBrevoEmail({
     to,

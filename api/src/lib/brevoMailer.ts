@@ -57,7 +57,7 @@ export async function sendRawBrevoEmail(input: SendEmailInput) {
 
 export type TemplateEmailInput = {
   to: string
-  templateId: string
+  templateId: number
 }
 
 export async function sendTemplateBrevoEmail(input: TemplateEmailInput) {
