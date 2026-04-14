@@ -67,7 +67,7 @@ export const Empty = () => (
 export const Failure = ({
   error,
 }: CellFailureProps<FindCurrentEventQueryVariables>) => (
-    <Alert id={error.name} type="error" message={error.message} />
+    <Alert id={error.name} type="error" message={error.message} dismissible={false} />
 )
 
 export const Success = ({ currentEvent }: SuccessProps) => {
