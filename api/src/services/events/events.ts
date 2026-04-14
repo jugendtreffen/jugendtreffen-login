@@ -22,7 +22,6 @@ export const event: QueryResolvers['event'] = async ({ id }) => {
 
 export const currentEvent: QueryResolvers['currentEvent'] = async () => {
   const now = new Date()
-  logger.info(`Current Event: ${now.toISOString()}`)
   const event = await db.event
     .findFirst({
       where: {
@@ -37,7 +36,6 @@ export const currentEvent: QueryResolvers['currentEvent'] = async () => {
     .catch(() => {
       throw new RedwoodGraphQLError('Kein anstehendes Event gefunden')
     })
-  logger.info(`Current Event: ${JSON.stringify(event)}`)
   return event
 }
 

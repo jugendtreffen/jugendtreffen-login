@@ -5,6 +5,8 @@ import type {
 } from 'types/graphql'
 
 import { db } from 'src/lib/db'
+import {sendRegistrationConfirmation} from "src/services/mailer/mailer";
+import {logger} from "src/lib/logger";
 
 export const participants: QueryResolvers['participants'] = () => {
   return db.participant.findMany()
@@ -16,13 +18,16 @@ export const participant: QueryResolvers['participant'] = ({ id }) => {
   })
 }
 
-export const createParticipant: MutationResolvers['createParticipant'] = ({
+export const createParticipant: MutationResolvers['createParticipant'] = async ({
   input,
 }) => {
   const { email, ...data } = input
-  return db.participant.create({
+  const result = await db.participant.create({
     data: data,
   })
+    logger.info(`Created participant with email ${email} and name ${input.name}`)
+  await sendRegistrationConfirmation({to: email, name: input.name})
+  return result
 }
 
 export const updateParticipant: MutationResolvers['updateParticipant'] = ({
