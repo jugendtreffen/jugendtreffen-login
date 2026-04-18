@@ -9,7 +9,7 @@ import { useAlert } from '@/hooks/AlertHook'
 
 const LoginPage = (props) => {
   const { next } = props
-  const { logIn, isAuthenticated, userMetadata, loading } = useAuth()
+  const { logIn, isAuthenticated, userMetadata } = useAuth()
   const { addAlert, removeAllAlerts } = useAlert()
 
   const onSubmit = async (data) => {

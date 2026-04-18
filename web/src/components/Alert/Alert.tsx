@@ -79,7 +79,7 @@ const Alert = (props: AlertProps) => {
     <div
       className={`
         relative flex items-start gap-3 p-3 mb-3
-        bg-gradient-to-r ${config.bgGradient}
+        bg-linear-to-r ${config.bgGradient}
         backdrop-blur-sm border ${config.borderColor}
         rounded-xl shadow-lg
         transition-all duration-300 ease-out
@@ -90,11 +90,11 @@ const Alert = (props: AlertProps) => {
     >
       {/* Subtle top border accent */}
       <div
-        className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r ${config.bgGradient} opacity-50`}
+        className={`absolute top-0 left-0 right-0 h-px bg-linear-to-r ${config.bgGradient} opacity-50`}
       ></div>
 
       {/* Icon */}
-      <div className={`flex-shrink-0 ${config.iconBg} rounded-lg p-2 mt-0.5`}>
+      <div className={`shrink-0 ${config.iconBg} rounded-lg p-2 mt-0.5`}>
         <IconComponent className={`w-5 h-5 ${config.textColor}`} />
       </div>
 
@@ -111,7 +111,7 @@ const Alert = (props: AlertProps) => {
         <button
           type="button"
           className={`
-            flex-shrink-0 p-1.5 rounded-lg
+            shrink-0 p-1.5 rounded-lg
             ${config.textColor}
             ${config.closeBtnHover}
             transition-all duration-200

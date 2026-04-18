@@ -28,7 +28,7 @@ describe('Alert', () => {
 
 describe('AlertCenter', () => {
   const TestComponent = () => {
-    const { addAlert, removeAlert, removeAllAlerts } = useAlert()
+    const { addAlert, removeAllAlerts } = useAlert()
 
     return (
       <div>

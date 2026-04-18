@@ -38,8 +38,6 @@ export const QUERY: TypedDocumentNode<
   }
 `
 
-type Variant = 'card' | 'date'
-
 type SuccessProps = CellSuccessProps<
   FindCurrentEventQuery,
   FindCurrentEventQueryVariables
