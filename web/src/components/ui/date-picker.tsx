@@ -1,8 +1,9 @@
-import { PopoverTrigger } from '@/components/ui/popover'
+import { useEffect, useState } from 'react'
 import { isValid, parse } from 'date-fns'
 import { format } from 'date-fns/format'
 import { CalendarIcon } from 'lucide-react'
-import { useEffect, useState } from 'react'
+
+import { PopoverTrigger } from '@/components/ui/popover'
 import { Calendar } from './calendar'
 import {
   InputGroup,

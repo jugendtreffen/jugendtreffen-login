@@ -1,7 +1,9 @@
-import { useState } from 'react'
-import { Link, navigate, routes } from '@redwoodjs/router'
-import { useAuth } from 'src/auth'
 import { ArrowRight, Menu, X } from 'lucide-react'
+import { Link, navigate, routes } from '@redwoodjs/router'
+
+import { useState } from 'react'
+
+import { useAuth } from 'src/auth'
 import { Button } from '@/components/ui/button'
 
 const Navigation = () => {

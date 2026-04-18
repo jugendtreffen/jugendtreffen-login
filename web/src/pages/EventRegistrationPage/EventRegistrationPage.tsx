@@ -1,4 +1,5 @@
 import { Metadata } from '@redwoodjs/web'
+
 import CurrentEventCell from 'src/components/CurrentEventCell'
 
 const EventRegistrationPage = () => {

@@ -1,8 +1,10 @@
+import { ArrowLeft } from 'lucide-react'
 import type {
   FindCurrentEventQuery,
   FindCurrentEventQueryVariables,
 } from 'types/graphql'
 
+import { navigate, routes } from '@redwoodjs/router'
 import type {
   CellFailureProps,
   CellSuccessProps,
@@ -18,10 +20,10 @@ import {
   CardHeader,
   CardTitle,
 } from 'src/components/ui/card'
+
 import { Skeleton } from 'src/components/ui/skeleton'
-import {Button} from "@/components/ui/button";
-import {navigate, routes} from "@redwoodjs/router";
-import {ArrowLeft} from "lucide-react";
+
+import { Button } from '@/components/ui/button'
 
 export const QUERY: TypedDocumentNode<
   FindCurrentEventQuery,
@@ -65,7 +67,12 @@ export const Empty = () => (
 export const Failure = ({
   error,
 }: CellFailureProps<FindCurrentEventQueryVariables>) => (
-    <Alert id={error.name} type="error" message={error.message} dismissible={false} />
+  <Alert
+    id={error.name}
+    type="error"
+    message={error.message}
+    dismissible={false}
+  />
 )
 
 export const Success = ({ currentEvent }: SuccessProps) => {

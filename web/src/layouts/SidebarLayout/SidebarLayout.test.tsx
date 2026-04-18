@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@redwoodjs/testing/web'
+
 import SidebarLayout from './SidebarLayout'
 
 describe('SidebarLayout', () => {
@@ -37,6 +38,6 @@ describe('SidebarLayout', () => {
     render(<SidebarLayout />)
     const logoutBtn = screen.getByRole('button', { name: 'Abmelden' })
     expect(logoutBtn).toBeInTheDocument()
-    expect(logoutBtn).not.toBeDisabled()
+    expect(logoutBtn).toBeEnabled()
   })
 })

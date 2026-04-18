@@ -9,20 +9,18 @@ import {
 
 import LoadingSpinner from 'src/components/Loading/LoadingSpinner'
 
-export const QUERY: TypedDocumentNode<
-  FindEventQuery,
-  FindEventQueryVariables
-> = gql`
-  query FindEventQuery($id: BigInt!) {
-    event: event(id: $id) {
-      id
-      name
-      desc
-      startDate
-      endDate
+export const QUERY: TypedDocumentNode<FindEventQuery, FindEventQueryVariables> =
+  gql`
+    query FindEventQuery($id: BigInt!) {
+      event: event(id: $id) {
+        id
+        name
+        desc
+        startDate
+        endDate
+      }
     }
-  }
-`
+  `
 
 export const Loading = () => <LoadingSpinner />
 

@@ -1,9 +1,10 @@
 import { render } from '@redwoodjs/testing/web'
+import { fireEvent, screen } from '@testing-library/react'
+
+import AlertCenter from 'src/components/Alert/AlertCenter'
 
 import Alert from './Alert'
 import { AlertProvider, useAlert } from '@/hooks/AlertHook'
-import AlertCenter from 'src/components/Alert/AlertCenter'
-import { fireEvent, screen } from '@testing-library/react'
 
 describe('Alert', () => {
   it('renders successfully', () => {

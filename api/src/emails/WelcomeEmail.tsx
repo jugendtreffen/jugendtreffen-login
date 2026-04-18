@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 type WelcomeEmailProps = {
   name: string
   eventName: string

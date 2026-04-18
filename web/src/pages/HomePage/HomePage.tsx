@@ -1,10 +1,9 @@
 import { Metadata } from '@redwoodjs/web'
 
-import { useAuth } from 'src/auth'
+import SidebarLayout from 'src/layouts/SidebarLayout/SidebarLayout'
 import DefaultView from 'src/pages/HomePage/DefaultView'
 import MainConetntView from 'src/pages/HomePage/MainContentView'
-import SidebarLayout from 'src/layouts/SidebarLayout/SidebarLayout'
-import NavbarLayout from 'src/layouts/NavbarLayout/NavbarLayout'
+
 import { Skeleton } from '@/components/ui/skeleton'
 
 const HomePage = () => {

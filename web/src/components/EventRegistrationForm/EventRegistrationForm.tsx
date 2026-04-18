@@ -1,5 +1,8 @@
 import { Checkbox } from '@/components/animate-ui/components/radix/checkbox'
-import { RegistrationInput, RegistrationSchema, } from '@/components/EventRegistrationForm/EventRegistrationSchema'
+import {
+  RegistrationInput,
+  RegistrationSchema,
+} from '@/components/EventRegistrationForm/EventRegistrationSchema'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Datepicker } from '@/components/ui/date-picker'
@@ -7,17 +10,32 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Label } from '@/components/ui/label'
 import { LabeledInput } from '@/components/ui/labeled-input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Spinner } from '@/components/ui/spinner'
 import { zodResolver } from '@hookform/resolvers/zod'
+
 import { Controller, Form, useForm } from '@redwoodjs/forms'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
+
+import { addDays } from 'date-fns'
 import { ArrowUpRight } from 'lucide-react'
+
 import { useState } from 'react'
-import { CreateParticipantMutation, CreateParticipantMutationVariables, } from 'types/graphql'
+
+import {
+  CreateParticipantMutation,
+  CreateParticipantMutationVariables,
+} from 'types/graphql'
+
 import { Separator } from '../ui/separator'
-import {addDays} from "date-fns";
 
 const CREATE_PARTICIPANT = gql`
   mutation CreateRegisteredParticipantMutation(
@@ -100,10 +118,12 @@ const EventRegistrationForm = ({ event }) => {
     }).catch(console.error)
   }
 
-  const isParticipant = registrationForm.watch('participationRole') === 'teilnehmer' ||
+  const isParticipant =
+    registrationForm.watch('participationRole') === 'teilnehmer' ||
     registrationForm.watch('participationRole') === ''
 
-  const isAccompanyingPerson = registrationForm.watch('participationRole') === 'begleitperson'
+  const isAccompanyingPerson =
+    registrationForm.watch('participationRole') === 'begleitperson'
 
   return (
     <Form formMethods={registrationForm} onSubmit={onSubmit}>
@@ -361,9 +381,9 @@ const EventRegistrationForm = ({ event }) => {
                       </Card>
                       {!isAccompanyingPerson && (
                         <Card className="flex items-center gap-3 p-3">
-                        <RadioGroupItem value="family" id="family" />
-                        <Label htmlFor="family">bei einer familie</Label>
-                      </Card>
+                          <RadioGroupItem value="family" id="family" />
+                          <Label htmlFor="family">bei einer familie</Label>
+                        </Card>
                       )}
                     </>
                   )}

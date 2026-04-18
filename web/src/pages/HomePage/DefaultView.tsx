@@ -1,19 +1,20 @@
 import { useEffect, useRef } from 'react'
 
-import { RollingText } from '@/components/animate-ui/primitives/texts/rolling'
-import { Button } from '@/components/ui/button'
 import { navigate, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 import { ArrowRight } from 'lucide-react'
+
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
 } from 'src/components/ui/card'
-import {useCurrentEvent} from "@/hooks/CurrenteventHook";
-import {formatDayMonth, formatYear} from "@/lib/utils";
-import {Skeleton} from "@/components/ui/skeleton";
+import { RollingText } from '@/components/animate-ui/primitives/texts/rolling'
+import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useCurrentEvent } from '@/hooks/CurrenteventHook'
+import { formatDayMonth, formatYear } from '@/lib/utils'
 
 const DefaultView = () => {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -43,7 +44,9 @@ const DefaultView = () => {
             <Skeleton className={'w-md max-w-2xl h-8 py-1'} />
           ) : (
             <h2 className={'md:text-2xl'}>
-              {formatDayMonth(currentEvent?.startDate)} bis {formatDayMonth(currentEvent?.endDate)} {formatYear(currentEvent?.endDate)} in Kremsmünster
+              {formatDayMonth(currentEvent?.startDate)} bis{' '}
+              {formatDayMonth(currentEvent?.endDate)}{' '}
+              {formatYear(currentEvent?.endDate)} in Kremsmünster
             </h2>
           )}
           <Button onClick={() => navigate(routes.eventRegistration())}>

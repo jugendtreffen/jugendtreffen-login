@@ -1,5 +1,5 @@
-import Navigation from 'src/components/Navigation/Navigation'
 import Footer from 'src/components/Navigation/Footer'
+import Navigation from 'src/components/Navigation/Navigation'
 
 type NavbarLayoutProps = {
   children?: React.ReactNode
@@ -11,7 +11,9 @@ const NavbarLayout = ({ children }: NavbarLayoutProps) => {
       <header className="fixed top-0 z-50 w-screen">
         <Navigation />
       </header>
-      <main className="relative overflow-hidden flex flex-col justify-center h-full flex-1">{children}</main>
+      <main className="relative overflow-hidden flex flex-col justify-center h-full flex-1">
+        {children}
+      </main>
       <footer>
         <Footer />
       </footer>

@@ -1,15 +1,12 @@
-import {
-  createContext,
-  useContext,
-  type PropsWithChildren,
-} from 'react'
-import { useQuery } from '@redwoodjs/web'
+import { createContext, useContext, type PropsWithChildren } from 'react'
+
+import type { TypedDocumentNode } from '@graphql-typed-document-node/core'
 
 import type {
   FindCurrentEventQuery,
   FindCurrentEventQueryVariables,
 } from 'types/graphql'
-import type { TypedDocumentNode } from '@graphql-typed-document-node/core'
+import { useQuery } from '@redwoodjs/web'
 
 export const QUERY: TypedDocumentNode<
   FindCurrentEventQuery,

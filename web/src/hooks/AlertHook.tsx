@@ -1,6 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from 'react'
 
-import { AlertProps, generateAlertId } from "@/components/Alert/Alert";
+import { AlertProps, generateAlertId } from '@/components/Alert/Alert'
 
 type Alert = {
   id: string

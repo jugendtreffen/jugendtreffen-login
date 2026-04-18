@@ -2,9 +2,10 @@ import { navigate, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 
 import { SignupForm } from '@/components/Auth/SignupForm'
-import { useAuth } from 'src/auth'
-import AlertCenter from 'src/components/Alert/AlertCenter'
 import { useAlert } from '@/hooks/AlertHook'
+import { useAuth } from 'src/auth'
+
+import AlertCenter from 'src/components/Alert/AlertCenter'
 
 export interface SignupFormValues {
   email: string

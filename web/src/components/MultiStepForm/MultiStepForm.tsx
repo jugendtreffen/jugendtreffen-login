@@ -1,8 +1,8 @@
-import { Children, ReactElement, useState } from "react";
+import { Children, ReactElement, useState } from 'react'
 
-import type { UseFormProps } from "react-hook-form";
+import type { UseFormProps } from 'react-hook-form'
 
-import { Form, Submit } from "@redwoodjs/forms";
+import { Form, Submit } from '@redwoodjs/forms'
 
 interface MultiStepFormProps<TFieldValues> {
   children: ReactElement[] | string[]

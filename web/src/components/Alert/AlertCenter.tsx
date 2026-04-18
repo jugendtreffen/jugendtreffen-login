@@ -1,5 +1,6 @@
-import Alert from "src/components/Alert/Alert";
-import { useAlert } from "@/hooks/AlertHook";
+import Alert from 'src/components/Alert/Alert'
+import { useAlert } from '@/hooks/AlertHook'
+
 
 const AlertCenter = (props: { className?: string }) => {
   const { alerts } = useAlert()

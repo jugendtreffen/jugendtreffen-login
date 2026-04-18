@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from 'class-variance-authority'
+
 import {
   CheckboxIndicator as CheckboxIndicatorPrimitive,
   Checkbox as CheckboxPrimitive,
