@@ -39,6 +39,8 @@ const CurrentEventContext = createContext<CurrentEventContextValue | undefined>(
 export const CurrentEventProvider = ({ children }: PropsWithChildren) => {
   const { data, loading, error, refetch } = useQuery(QUERY)
 
+  console.log('CurrentEventProvider', data, loading, error)
+
   const value: CurrentEventContextValue = {
     currentEvent: data?.currentEvent ?? null,
     loading,
