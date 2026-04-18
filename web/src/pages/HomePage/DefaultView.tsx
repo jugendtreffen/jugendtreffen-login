@@ -11,9 +11,13 @@ import {
   CardDescription,
   CardHeader,
 } from 'src/components/ui/card'
+import {useCurrentEvent} from "@/hooks/CurrenteventHook";
+import {formatDayMonth, formatYear} from "@/lib/utils";
+import {Skeleton} from "@/components/ui/skeleton";
 
 const DefaultView = () => {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const { loading, currentEvent } = useCurrentEvent()
 
   useEffect(() => {
     const video = videoRef.current
@@ -35,9 +39,13 @@ const DefaultView = () => {
             className="text-4xl md:text-7xl font-bold text-primary"
             text="Jugendtreffen"
           ></RollingText>
-          <h2 className={'md:text-2xl'}>
-            15. bis 20. Juli 2025 in Kremsmünster
-          </h2>
+          {loading ? (
+            <Skeleton className={'w-md max-w-2xl h-8 py-1'} />
+          ) : (
+            <h2 className={'md:text-2xl'}>
+              {formatDayMonth(currentEvent?.startDate)} bis {formatDayMonth(currentEvent?.endDate)} {formatYear(currentEvent?.endDate)} in Kremsmünster
+            </h2>
+          )}
           <Button onClick={() => navigate(routes.eventRegistration())}>
             Teilnehmen
             <ArrowRight />
@@ -115,7 +123,7 @@ const DefaultView = () => {
                   src="/spotify-white.png"
                   alt="logo"
                 />
-                <h2 className="ml-2">Jugendtreffen 2024 Worship</h2>
+                <h2 className="ml-2">Jugendtreffen Worship</h2>
               </CardContent>
             </Card>
           </a>

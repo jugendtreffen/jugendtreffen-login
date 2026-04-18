@@ -6,6 +6,7 @@ import MainConetntView from 'src/pages/HomePage/MainContentView'
 import SidebarLayout from 'src/layouts/SidebarLayout/SidebarLayout'
 import NavbarLayout from 'src/layouts/NavbarLayout/NavbarLayout'
 import { Skeleton } from '@/components/ui/skeleton'
+import {useCurrentEvent} from "@/hooks/CurrenteventHook";
 
 const HomePage = () => {
   const { loading, isAuthenticated } = useAuth()

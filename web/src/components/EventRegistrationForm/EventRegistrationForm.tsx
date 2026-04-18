@@ -100,9 +100,10 @@ const EventRegistrationForm = ({ event }) => {
     }).catch(console.error)
   }
 
-  const isParticipant =
-    registrationForm.watch('participationRole') === 'teilnehmer' ||
-    registrationForm.watch('participationRole') === undefined
+  const isParticipant = registrationForm.watch('participationRole') === 'teilnehmer' ||
+    registrationForm.watch('participationRole') === ''
+
+  const isAccompanyingPerson = registrationForm.watch('participationRole') === 'begleitperson'
 
   return (
     <Form formMethods={registrationForm} onSubmit={onSubmit}>
@@ -358,10 +359,12 @@ const EventRegistrationForm = ({ event }) => {
                         <RadioGroupItem value="subiaco" id="subiaco" />
                         <Label htmlFor="subiaco">Haus Subiaco</Label>
                       </Card>
-                      <Card className="flex items-center gap-3 p-3">
+                      {!isAccompanyingPerson && (
+                        <Card className="flex items-center gap-3 p-3">
                         <RadioGroupItem value="family" id="family" />
                         <Label htmlFor="family">bei einer familie</Label>
                       </Card>
+                      )}
                     </>
                   )}
                   <Card className="flex items-center gap-3 p-3">

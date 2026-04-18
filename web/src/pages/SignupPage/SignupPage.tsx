@@ -4,7 +4,7 @@ import { Metadata } from '@redwoodjs/web'
 import { SignupForm } from '@/components/Auth/SignupForm'
 import { useAuth } from 'src/auth'
 import AlertCenter from 'src/components/Alert/AlertCenter'
-import { useAlert } from 'src/components/Alert/AlertContext'
+import { useAlert } from '@/hooks/AlertHook'
 
 export interface SignupFormValues {
   email: string

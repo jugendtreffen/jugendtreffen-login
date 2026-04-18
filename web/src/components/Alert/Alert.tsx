@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 
 import { AlertTriangle, CheckCircle, Info, X, XCircle } from 'lucide-react'
 
-import { useAlert } from 'src/components/Alert/AlertContext'
+import { useAlert } from '@/hooks/AlertHook'
 
 export interface AlertProps {
   id: string

@@ -15,7 +15,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import Footer from 'src/components/Navigation/Footer'
 import { useAuth } from 'src/auth'
 import { navigate, routes } from '@redwoodjs/router'
-import { useAlert } from 'src/components/Alert/AlertContext'
+import { useAlert } from '@/hooks/AlertHook'
 import { useRole } from 'src/roles'
 import { useForceUpdate, isMobile} from "src/lib/utils";
 

@@ -25,6 +25,21 @@ export function formatDate(dateString: Date) {
   }
 }
 
+export function formatDayMonth(dateString: string) {
+    return new Intl.DateTimeFormat('de-AT', {
+        day: 'numeric',
+        month: 'long',
+        timeZone: 'UTC',
+    }).format(new Date(dateString))
+}
+
+export function formatYear(dateString: string) {
+    return new Intl.DateTimeFormat('de-AT', {
+        year: 'numeric',
+        timeZone: 'UTC',
+    }).format(new Date(dateString))
+}
+
 export function isMobile() {
   return window?.innerWidth < 768
 }

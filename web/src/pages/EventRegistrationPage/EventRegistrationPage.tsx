@@ -4,7 +4,7 @@ import CurrentEventCell from 'src/components/CurrentEventCell'
 const EventRegistrationPage = () => {
   return (
     <>
-      <Metadata title="Jugendtreffen-Anmeldung" />
+      <Metadata title="Anmeldung" />
 
       <div className="h-24"></div>
 

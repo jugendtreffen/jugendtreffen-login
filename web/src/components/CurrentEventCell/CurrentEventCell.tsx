@@ -75,7 +75,6 @@ export const Success = ({ currentEvent }: SuccessProps) => {
     <Card className="max-w-xl">
       <CardHeader>
         <CardTitle>Anmeldung {currentEvent.name}</CardTitle>
-        <CardDescription>{currentEvent.desc}</CardDescription>
       </CardHeader>
       <CardContent>
         <EventRegistrationForm event={currentEvent} />

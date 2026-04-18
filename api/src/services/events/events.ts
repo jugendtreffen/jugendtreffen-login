@@ -4,6 +4,7 @@ import { RedwoodGraphQLError, UserInputError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 import '../../lib/bigIntPolyfill'
+import {logger} from "src/lib/logger";
 
 export const events: QueryResolvers['events'] = () => {
   return db.event.findMany()
@@ -32,6 +33,7 @@ export const currentEvent: QueryResolvers['currentEvent'] = async () => {
             },
         })
     } catch (error) {
+        logger.error("Error fetching current event: " + error.message)
         throw new RedwoodGraphQLError("Es ist ein Fehler aufgetreten: " + error.message)
     }
 }
