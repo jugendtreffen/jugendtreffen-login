@@ -77,7 +77,7 @@ export const Failure = ({
 
 export const Success = ({ currentEvent }: SuccessProps) => {
   return (
-    <Card className="max-w-xl">
+    <Card className="max-w-2xl">
       <CardHeader>
         <CardTitle>Anmeldung {currentEvent.name}</CardTitle>
       </CardHeader>

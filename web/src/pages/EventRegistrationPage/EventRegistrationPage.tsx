@@ -9,7 +9,7 @@ const EventRegistrationPage = () => {
 
       <div className="h-24"></div>
 
-      <div className="flex justify-center mb-4">
+      <div className="flex justify-center mb-4 p-2">
         <CurrentEventCell />
       </div>
     </>

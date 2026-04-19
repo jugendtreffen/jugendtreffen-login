@@ -39,7 +39,6 @@ const Datepicker = ({
     if (value instanceof Date && isValid(value)) {
       setInputValue(format(value, 'dd.MM.yyyy'))
     }
-    console.log('Value changed:', value, isValid(value), inputValue)
   }, [value])
 
   return (
@@ -94,9 +93,15 @@ const Datepicker = ({
               mode="single"
               selected={value}
               month={value}
+              captionLayout="dropdown"
               onSelect={(event) => {
                 props.onChange(event)
                 setOpen(false)
+              }}
+              onMonthChange={(event) => {
+                if (event instanceof Date && isValid(event)) {
+                  props.onChange(event)
+                }
               }}
               disabled={(date) => {
                 const tooLate = props.max !== undefined && date > props.max

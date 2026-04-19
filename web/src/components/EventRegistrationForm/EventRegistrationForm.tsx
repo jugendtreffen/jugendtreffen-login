@@ -26,7 +26,7 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { addDays } from 'date-fns'
-import { ArrowUpRight } from 'lucide-react'
+import { Link2 } from 'lucide-react'
 
 import { useState } from 'react'
 
@@ -104,7 +104,6 @@ const EventRegistrationForm = ({ event }) => {
   const [hasOpenedLink, setHasOpenedLink] = useState(false)
 
   const onSubmit = async (input: RegistrationInput) => {
-    console.log('Redwood multistep submitted:', input)
     const variables = {
       input: {
         eventId: event.id,
@@ -128,28 +127,28 @@ const EventRegistrationForm = ({ event }) => {
   return (
     <Form formMethods={registrationForm} onSubmit={onSubmit}>
       <div className="grid grid-cols-4 gap-2">
-        <div className="col-span-2">
+        <div className="col-span-4 md:col-span-2">
           <LabeledInput
             name={'name'}
             label={'Vorname'}
             formControl={registrationForm.control}
           />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-4 md:col-span-2">
           <LabeledInput
             name={'familyName'}
             label={'Nachname'}
             formControl={registrationForm.control}
           />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-4 md:col-span-2">
           <LabeledInput
             name={'email'}
             label={'E-Mail'}
             formControl={registrationForm.control}
           />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-4 md:col-span-2">
           <Controller
             name={'birthdate'}
             control={registrationForm.control}
@@ -171,7 +170,7 @@ const EventRegistrationForm = ({ event }) => {
             )}
           />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-4 md:col-span-2">
           <LabeledInput
             name={'phoneNumber'}
             label={'Telefonnummer'}
@@ -179,7 +178,7 @@ const EventRegistrationForm = ({ event }) => {
             placeholder={'+43 123 456789'}
           />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-4 md:col-span-2">
           <LabeledInput
             name={'phoneCaretakerContact'}
             label={'Telefonnummer Erziehungsberechtigte/r'}
@@ -187,7 +186,7 @@ const EventRegistrationForm = ({ event }) => {
             placeholder={'+43 123 456789'}
           />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-4 md:col-span-2">
           <Controller
             name={'gender'}
             control={registrationForm.control}
@@ -256,14 +255,14 @@ const EventRegistrationForm = ({ event }) => {
             )}
           />
         </div>
-        <div className="col-span-1">
+        <div className="col-span-4 md:col-span-1">
           <LabeledInput
             name={'postalCode'}
             label={'Postleitzahl'}
             formControl={registrationForm.control}
           />
         </div>
-        <div className="col-span-3">
+        <div className="col-span-4 md:col-span-3">
           <LabeledInput
             name={'city'}
             label={'Stadt'}
@@ -280,7 +279,7 @@ const EventRegistrationForm = ({ event }) => {
 
         <Separator className="col-span-4 my-4" />
 
-        <div className="col-span-2">
+        <div className="col-span-4 md:col-span-2">
           <Controller
             name={'travelMethod'}
             control={registrationForm.control}
@@ -312,7 +311,7 @@ const EventRegistrationForm = ({ event }) => {
         </div>
 
         {/*TODO: refactor Labels to reusable enum*/}
-        <div className="col-span-2">
+        <div className="col-span-4 md:col-span-2">
           <Controller
             name={'participationRole'}
             control={registrationForm.control}
@@ -351,7 +350,7 @@ const EventRegistrationForm = ({ event }) => {
           />
         </div>
 
-        <div className="col-span-2">
+        <div className="col-span-4 md:col-span-2">
           <Controller
             name={'accommodation'}
             control={registrationForm.control}
@@ -438,7 +437,7 @@ const EventRegistrationForm = ({ event }) => {
           </div>
         </div>
 
-        <div className="col-span-2">
+        <div className="col-span-4 md:col-span-2">
           <Controller
             name={'foodChoice'}
             control={registrationForm.control}
@@ -483,18 +482,18 @@ const EventRegistrationForm = ({ event }) => {
                     disabled={!hasOpenedLink}
                     aria-invalid={fieldState.invalid}
                   />
-                  Ich habe den{' '}
+                  <p>Ich habe den{' '}
                   <a
                     onClick={() => setHasOpenedLink(true)}
                     href="https://jugendtreffen.at/wp-content/uploads/2024/03/Verhaltenskodex-fu%CC%88r-Teilnehmende-2024.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary underline inline-flex"
+                    className="text-primary underline inline"
                   >
+                    <Link2 className="h-5 inline" />
                     Verhaltenscodex
-                    <ArrowUpRight className="h-4" />
                   </a>{' '}
-                  gelesen und akzeptiere diesen.
+                  gelesen und akzeptiere diesen.</p>
                 </FieldLabel>
               </Field>
             )}

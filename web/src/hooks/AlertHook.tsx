@@ -19,7 +19,6 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
   const [alerts, setAlerts] = useState<Alert[]>([])
 
   const addAlert = (message: string, type?: Alert['type']) => {
-    console.log('addAlert', message, type)
     const id = generateAlertId()
     setAlerts([...alerts, { id, message, type }])
     return id
