@@ -9,7 +9,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { SignupFormValues } from '@/pages/SignupPage/SignupPage'
 import { Form, Label, SubmitHandler, useForm } from '@redwoodjs/forms'
+
 import { Link, routes } from '@redwoodjs/router'
+
 import React from 'react'
 
 export function SignupForm({

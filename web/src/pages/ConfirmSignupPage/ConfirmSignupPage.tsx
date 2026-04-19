@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 
 import { Link, navigate, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
-
-import { Card } from '@/components/ui/card'
 import { ArrowRight, Info } from 'lucide-react'
+
 import { useAuth } from 'src/auth'
 import Alert from 'src/components/Alert/Alert'
+import { Card } from '@/components/ui/card'
 
 const ConfirmSignupPage = (props) => {
   const { token_hash, email, next } = props

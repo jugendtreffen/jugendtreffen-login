@@ -13,8 +13,7 @@ const MainContentView = () => {
         <Metadata title="Dashboard" />
 
         <section className="flex flex-col md:flex-row gap-2">
-          <div className="md:ml-3">
-          </div>
+          <div className="md:ml-3"></div>
         </section>
       </>
     )
@@ -26,8 +25,7 @@ const MainContentView = () => {
         <Metadata title="Profil" />
 
         <section className="flex flex-col md:flex-row gap-2">
-          <div className="md:ml-3">
-          </div>
+          <div className="md:ml-3"></div>
         </section>
       </>
     )

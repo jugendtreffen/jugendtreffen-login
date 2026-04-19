@@ -1,11 +1,15 @@
-import type { EventsQuery, EventsQueryVariables } from "types/graphql";
+import type { EventsQuery, EventsQueryVariables } from 'types/graphql'
 
-import { routes } from "@redwoodjs/router";
-import type { CellFailureProps, CellSuccessProps, TypedDocumentNode } from "@redwoodjs/web";
+import { routes } from '@redwoodjs/router'
+import type {
+  CellFailureProps,
+  CellSuccessProps,
+  TypedDocumentNode,
+} from '@redwoodjs/web'
 
-import Alert, { generateAlertId } from "src/components/Alert/Alert";
-import Card from "src/components/Card/Card";
-import LoadingSpinner from "src/components/Loading/LoadingSpinner";
+import Alert, { generateAlertId } from 'src/components/Alert/Alert'
+import Card from 'src/components/Card/Card'
+import LoadingSpinner from 'src/components/Loading/LoadingSpinner'
 
 export const QUERY: TypedDocumentNode<EventsQuery, EventsQueryVariables> = gql`
   query EventsQuery {

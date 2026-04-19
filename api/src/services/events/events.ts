@@ -17,14 +17,12 @@ export const event: QueryResolvers['event'] = async ({ id }) => {
   if (event != null) {
     return event
   }
-  throw new UserInputError('kein Event gefunden', { id })
+  throw new UserInputError('kein Event für angegebene Id gefunden', { id })
 }
 
 export const currentEvent: QueryResolvers['currentEvent'] = async () => {
-  const now = new Date()
-  logger.info(`Current Event: ${now.toISOString()}`)
-  const event = await db.event
-    .findFirst({
+  try {
+    return db.event.findFirst({
       where: {
         startDate: {
           gte: new Date(),
@@ -34,11 +32,12 @@ export const currentEvent: QueryResolvers['currentEvent'] = async () => {
         startDate: 'asc',
       },
     })
-    .catch(() => {
-      throw new RedwoodGraphQLError('Kein anstehendes Event gefunden')
-    })
-  logger.info(`Current Event: ${JSON.stringify(event)}`)
-  return event
+  } catch (error) {
+    logger.error('Error fetching current event: ' + error.message)
+    throw new RedwoodGraphQLError(
+      'Es ist ein Fehler aufgetreten: ' + error.message
+    )
+  }
 }
 
 export const Event: EventRelationResolvers = {

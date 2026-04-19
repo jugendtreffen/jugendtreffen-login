@@ -1,4 +1,4 @@
-import { hydrateRoot, createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 
 import App from './App'
 import Routes from './Routes'

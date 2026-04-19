@@ -6,12 +6,10 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
-import FatalErrorPage from 'src/pages/FatalErrorPage'
-
 import { AuthProvider, useAuth } from 'src/auth'
-
-import './index.css'
+import FatalErrorPage from 'src/pages/FatalErrorPage'
 import { RoleProvider } from 'src/roles'
+import './index.css'
 
 interface AppProps {
   children?: ReactNode

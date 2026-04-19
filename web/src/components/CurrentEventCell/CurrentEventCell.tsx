@@ -1,8 +1,10 @@
+import { ArrowLeft } from 'lucide-react'
 import type {
   FindCurrentEventQuery,
   FindCurrentEventQueryVariables,
 } from 'types/graphql'
 
+import { navigate, routes } from '@redwoodjs/router'
 import type {
   CellFailureProps,
   CellSuccessProps,
@@ -18,7 +20,10 @@ import {
   CardHeader,
   CardTitle,
 } from 'src/components/ui/card'
+
 import { Skeleton } from 'src/components/ui/skeleton'
+
+import { Button } from '@/components/ui/button'
 
 export const QUERY: TypedDocumentNode<
   FindCurrentEventQuery,
@@ -35,8 +40,6 @@ export const QUERY: TypedDocumentNode<
   }
 `
 
-type Variant = 'card' | 'date'
-
 type SuccessProps = CellSuccessProps<
   FindCurrentEventQuery,
   FindCurrentEventQueryVariables
@@ -46,24 +49,37 @@ export const Loading = () => <Skeleton className={'w-full max-w-2xl h-96'} />
 
 export const Empty = () => (
   <Card className="w-full md:w-96">
-    <CardTitle>Kein aktuelles Event</CardTitle>
+    <CardHeader className="items-center text-center space-y-3 p-8">
+      <CardTitle className="text-2xl font-bold [text-shadow:0_3px_10px_rgba(255,255,255,0.12)]">
+        Kein anstehendes Event
+      </CardTitle>
+      <CardDescription className="max-w-sm text-sm leading-relaxed text-muted-foreground">
+        Schau später nochmal vorbei!
+      </CardDescription>
+      <Button variant="secondary" onClick={() => navigate(routes.home())}>
+        <ArrowLeft />
+        Zurück
+      </Button>
+    </CardHeader>
   </Card>
 )
 
 export const Failure = ({
   error,
 }: CellFailureProps<FindCurrentEventQueryVariables>) => (
-  <Card>
-    <Alert id={error.name} type="error" message={error.message} />
-  </Card>
+  <Alert
+    id={error.name}
+    type="error"
+    message={error.message}
+    dismissible={false}
+  />
 )
 
 export const Success = ({ currentEvent }: SuccessProps) => {
   return (
-    <Card className="max-w-xl">
+    <Card className="max-w-2xl">
       <CardHeader>
         <CardTitle>Anmeldung {currentEvent.name}</CardTitle>
-        <CardDescription>{currentEvent.desc}</CardDescription>
       </CardHeader>
       <CardContent>
         <EventRegistrationForm event={currentEvent} />

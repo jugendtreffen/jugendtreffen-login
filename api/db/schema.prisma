@@ -15,6 +15,7 @@ model Participant {
   familyName            String
   birthdate             DateTime @db.Date
   gender                String
+  email                 String
   phoneNumber           String
   phoneCaretakerContact String?
   foundUsBy             String?

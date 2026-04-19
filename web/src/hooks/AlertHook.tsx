@@ -1,6 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from 'react'
 
-import { AlertProps, generateAlertId } from "src/components/Alert/Alert";
+import { AlertProps, generateAlertId } from '@/components/Alert/Alert'
 
 type Alert = {
   id: string
@@ -13,13 +13,12 @@ type AlertContextType = {
   removeAllAlerts: () => void
 }
 
-const AlertContext = createContext<AlertContextType | null>(null)
+const AlertHook = createContext<AlertContextType | null>(null)
 
 export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
   const [alerts, setAlerts] = useState<Alert[]>([])
 
   const addAlert = (message: string, type?: Alert['type']) => {
-    console.log('addAlert', message, type)
     const id = generateAlertId()
     setAlerts([...alerts, { id, message, type }])
     return id
@@ -34,16 +33,16 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <AlertContext.Provider
+    <AlertHook.Provider
       value={{ alerts, addAlert, removeAlert, removeAllAlerts }}
     >
       {children}
-    </AlertContext.Provider>
+    </AlertHook.Provider>
   )
 }
 
 export const useAlert = () => {
-  const context = useContext(AlertContext)
+  const context = useContext(AlertHook)
   if (!context) {
     throw new Error('useAlert must be used within an AlertProvider')
   }

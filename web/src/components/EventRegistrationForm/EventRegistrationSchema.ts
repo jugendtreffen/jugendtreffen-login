@@ -15,7 +15,7 @@ export const RegistrationSchema = z
     city: z.string().min(1, 'Stadt darf nicht leer sein'),
     postalCode: z.string().min(1, 'Postleitzahl darf nicht leer sein'),
     address: z.string().min(1, 'Adresse darf nicht leer sein'),
-    travelMethod: z.string().min(1, 'Anreisemethode darf nicht leer sein'),
+    travelMethod: z.string(),
     accommodation: z.string().min(1, 'Unterkunft darf nicht leer sein'),
     startDate: z.coerce.date(),
     endDate: z.coerce.date(),

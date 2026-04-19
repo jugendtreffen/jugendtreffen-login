@@ -1,3 +1,4 @@
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   CalendarPlus,
@@ -11,13 +12,14 @@ import {
   User,
   X,
 } from 'lucide-react'
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import Footer from 'src/components/Navigation/Footer'
-import { useAuth } from 'src/auth'
+
 import { navigate, routes } from '@redwoodjs/router'
-import { useAlert } from 'src/components/Alert/AlertContext'
+
+import { useAuth } from 'src/auth'
+import Footer from 'src/components/Navigation/Footer'
+import { useAlert } from '@/hooks/AlertHook'
+import { isMobile, useForceUpdate } from 'src/lib/utils'
 import { useRole } from 'src/roles'
-import { useForceUpdate, isMobile} from "src/lib/utils";
 
 interface SidebarContextType {
   sidebarItem: 'Dashboard' | 'Profil' | 'Anmeldung' | 'Quartier' | 'Checkin'
@@ -33,7 +35,7 @@ export const useSidebar = () => {
 }
 
 function getSidebarItemsByRole(role: string) {
-  let items = [
+  const items = [
     { name: 'Dashboard', icon: LayoutDashboard },
     { name: 'Profil', icon: User },
     { name: 'Anmeldung', icon: CalendarPlus },

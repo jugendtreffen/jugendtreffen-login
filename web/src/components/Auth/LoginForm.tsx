@@ -21,7 +21,7 @@ export function LoginForm({
         <CardHeader>
           <CardTitle>Bei Jugendtreffen Anmelden</CardTitle>
           <FieldDescription>
-            Login ist nur für Mitarbeiter gedacht, stadtdessen{' '}
+            Login ist nur für Mitarbeiter gedacht, Stattdessen{' '}
             <Link to={routes.eventRegistration()}>als Teilnehmer Anmelden</Link>
           </FieldDescription>
         </CardHeader>
