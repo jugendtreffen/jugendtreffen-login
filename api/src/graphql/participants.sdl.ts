@@ -28,7 +28,7 @@ export const schema = gql`
 
   type Query {
     participants: [Participant!]! @requireAuth
-    participant(id: String!): Participant @requireAuth
+    participant(id: String!): Participant @skipAuth
   }
 
   input CreateParticipantInput {
