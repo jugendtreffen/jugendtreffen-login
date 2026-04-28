@@ -21,35 +21,15 @@ import { Link2 } from 'lucide-react'
 import { CreateParticipantMutation, CreateParticipantMutationVariables } from 'types/graphql'
 import { Separator } from '../ui/separator'
 import {navigate, routes} from "@redwoodjs/router";
-import {useAlert} from "../Alert/AlertContext";
-import AlertCenter from "../Alert/AlertCenter";
+import {useAlert} from "@/hooks/AlertHook";
+import AlertCenter from "@/components/Alert/AlertCenter";
 
 const CREATE_PARTICIPANT = gql`
   mutation CreateRegisteredParticipantMutation(
     $input: CreateParticipantInput!
   ) {
     createParticipant(input: $input) {
-      name
-      familyName
-      birthdate
-      gender
-      phoneNumber
-      phoneCaretakerContact
-      foundUsBy
-      isParent
-      country
-      city
-      postalCode
-      address
-      travelMethod
-      accommodation
-      startDate
-      endDate
-      foodChoice
-      acceptPhotos
-      acceptCoC
-      eventId
-      participationRole
+      id
     }
   }
 `

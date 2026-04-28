@@ -18,6 +18,14 @@ import {
   CardTitle,
 } from 'src/components/ui/card'
 import { Skeleton } from 'src/components/ui/skeleton'
+import {
+  formatAccomodation,
+  formatCountry,
+  formatFoodChoice,
+  formatGender, formatParticipationRole,
+  formatTravelMethod
+} from "@/lib/utils";
+import {formatDate} from "date-fns";
 
 export const QUERY: TypedDocumentNode<
   FindParticipantQuery,
@@ -82,13 +90,6 @@ export const Failure = ({
 
 type SummaryRow = { label: string; value: string | boolean | null | undefined }
 
-const formatDate = (d: string) =>
-  new Date(d).toLocaleDateString('de-AT', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  })
-
 const yesNo = (val: boolean) => (val ? 'Ja' : 'Nein')
 
 export const Success = ({
@@ -100,21 +101,21 @@ export const Success = ({
   const rows: SummaryRow[] = [
     { label: 'Vorname', value: participant.name },
     { label: 'Nachname', value: participant.familyName },
-    { label: 'Geburtsdatum', value: formatDate(participant.birthdate) },
-    { label: 'Geschlecht', value: participant.gender },
+    { label: 'Geburtsdatum', value: formatDate(participant.birthdate, 'dd.MM.yyyy') },
+    { label: 'Geschlecht', value: formatGender(participant.gender)},
     { label: 'Telefon', value: participant.phoneNumber },
-    { label: 'Land', value: participant.country },
+    { label: 'Land', value: formatCountry(participant.country) },
     { label: 'Stadt', value: participant.city },
     { label: 'PLZ', value: participant.postalCode },
     { label: 'Adresse', value: participant.address },
-    { label: 'Anreise', value: participant.travelMethod ?? '–' },
-    { label: 'Unterkunft', value: participant.accommodation },
-    { label: 'Anwesenheit von', value: formatDate(participant.startDate) },
-    { label: 'Anwesenheit bis', value: formatDate(participant.endDate) },
-    { label: 'Essenwahl', value: participant.foodChoice },
-    { label: 'Rolle', value: participant.participationRole ?? '–' },
+    { label: 'Anreise', value: formatTravelMethod(participant.travelMethod) ?? '–' },
+    { label: 'Unterkunft', value: formatAccomodation(participant.accommodation) },
+    { label: 'Anwesenheit von', value: formatDate(participant.startDate, 'dd.MM.yyyy') },
+    { label: 'Anwesenheit bis', value: formatDate(participant.endDate, 'dd.MM.yyyy') },
+    { label: 'Essenwahl', value: formatFoodChoice(participant.foodChoice) },
+    { label: 'Teilnahme als', value: formatParticipationRole(participant.participationRole) ?? '–' },
     { label: 'Fotos erlaubt', value: yesNo(participant.acceptPhotos) },
-    { label: 'CoC akzeptiert', value: yesNo(participant.acceptCoC) },
+    { label: 'Verhaltenscodex akzeptiert', value: yesNo(participant.acceptCoC) },
   ]
 
   return (
