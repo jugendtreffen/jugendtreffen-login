@@ -388,7 +388,7 @@ const EventRegistrationForm = ({ event }) => {
                   )}
                   <Card className="flex items-center gap-3 p-3">
                     <RadioGroupItem value="private" id="private" />
-                    <Label htmlFor="private">eine Private</Label>
+                    <Label htmlFor="private">Privatunterkunft (organisiert vom Jugendtreffen)</Label>
                   </Card>
                 </RadioGroup>
               </Field>
