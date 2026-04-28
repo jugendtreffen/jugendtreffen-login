@@ -244,7 +244,7 @@ const EventRegistrationForm = ({ event }) => {
                       <SelectItem value="HU">Ungarn</SelectItem>
                       <SelectItem value="CH">Schweiz</SelectItem>
                       <SelectItem value="LU">Luxemburg</SelectItem>
-                      <SelectItem value="--">Anderes</SelectItem>
+                      <SelectItem value="--">Sonstige</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -298,7 +298,7 @@ const EventRegistrationForm = ({ event }) => {
                     <SelectGroup>
                       <SelectItem value="car">mit dem Auto</SelectItem>
                       <SelectItem value="train">mit dem Zug</SelectItem>
-                      <SelectItem value="other">Anderes</SelectItem>
+                      <SelectItem value="other">anders</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -331,7 +331,7 @@ const EventRegistrationForm = ({ event }) => {
                   <SelectContent>
                     <SelectGroup>
                       <SelectItem value="teilnehmer">Teilnehmer</SelectItem>
-                      <SelectItem value="priester">Priester</SelectItem>
+                      <SelectItem value="priester">(Ordens-)Priester</SelectItem>
                       <SelectItem value="begleitperson">
                         Begleitperson
                       </SelectItem>
@@ -376,19 +376,19 @@ const EventRegistrationForm = ({ event }) => {
                     <>
                       <Card className="flex items-center gap-3 p-3">
                         <RadioGroupItem value="subiaco" id="subiaco" />
-                        <Label htmlFor="subiaco">Haus Subiaco</Label>
+                        <Label htmlFor="subiaco">Haus Subiaco (x€/Nacht)</Label>
                       </Card>
                       {!isAccompanyingPerson && (
                         <Card className="flex items-center gap-3 p-3">
                           <RadioGroupItem value="family" id="family" />
-                          <Label htmlFor="family">bei einer familie</Label>
+                          <Label htmlFor="family">Privatunterkunft (organisiert vom Jugendtreffen)</Label>
                         </Card>
                       )}
                     </>
                   )}
                   <Card className="flex items-center gap-3 p-3">
                     <RadioGroupItem value="private" id="private" />
-                    <Label htmlFor="private">Privatunterkunft (organisiert vom Jugendtreffen)</Label>
+                    <Label htmlFor="private">unabhängig vom Jugendtreffen</Label>
                   </Card>
                 </RadioGroup>
               </Field>
