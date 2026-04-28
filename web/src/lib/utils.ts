@@ -36,7 +36,6 @@ export function formatDayMonth(dateString: string) {
   } catch (error) {
     return ''
   }
-
 }
 
 export function formatYear(dateString: string) {
@@ -47,6 +46,66 @@ export function formatYear(dateString: string) {
     }).format(new Date(dateString))
   } catch (error) {
     return ''
+  }
+}
+
+export function formatGender(gender: string) {
+  switch (gender) {
+    case 'male': return 'Männlich'
+    case 'female': return 'Weiblich'
+    default: return '-'
+  }
+}
+
+export function formatCountry(countryCode: string) {
+  switch (countryCode) {
+    case 'AT': return 'Österreich'
+    case 'DE': return 'Deutschland'
+    case 'CH': return 'Schweiz'
+    case 'IT': return 'Italien'
+    case 'FR': return 'Frankreich'
+    case 'HU': return 'Ungarn'
+    case 'LU': return 'Luxemburg'
+    case '--': return 'Sonstiges'
+    default: return '-'
+  }
+}
+
+export function formatTravelMethod(travelMethod: string) {
+  switch (travelMethod) {
+    case 'car': return 'Auto'
+    case 'train': return 'Zug'
+    case 'bus': return 'Bus'
+    default: return '-'
+  }
+}
+
+export function formatAccomodation(accommodation: string) {
+  switch (accommodation) {
+    case 'jugendtreffen': return 'Beim Jugendtreffen'
+    case 'private': return 'unabhängig vom Jugendtreffen'
+    case 'subiaco': return 'Haus Subiaco'
+    case 'family': return 'Privatunterkunft (organisiert vom Jugendtreffen)'
+    default: return '-'
+  }
+}
+
+export function formatFoodChoice(foodChoice: string) {
+    switch (foodChoice) {
+      case 'any': return 'Nicht Wählerisch'
+      case 'vegetarian': return 'Vegetarisch'
+      case 'gluten-free': return 'Glutenfrei'
+      default: return '-'
+    }
+}
+
+export function formatParticipationRole(participationRole: string) {
+  switch (participationRole) {
+    case 'teilnehmer': return 'Teilnehmer'
+    case 'priester': return '(Ordens-)Priester'
+    case 'ordensmann/ordensfrau': return 'Ordensmann/Ordensfrau'
+    case 'begleitperson': return 'Begleitperson'
+    case 'vortragender': return 'Vortragender'
   }
 }
 

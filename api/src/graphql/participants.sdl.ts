@@ -3,6 +3,7 @@ export const schema = gql`
     id: String!
     name: String!
     familyName: String!
+    email: String!
     birthdate: DateTime!
     gender: String!
     phoneNumber: String!
@@ -28,7 +29,7 @@ export const schema = gql`
 
   type Query {
     participants: [Participant!]! @requireAuth
-    participant(id: String!): Participant @requireAuth
+    participant(id: String!): Participant @skipAuth
   }
 
   input CreateParticipantInput {
@@ -59,6 +60,7 @@ export const schema = gql`
   input UpdateParticipantInput {
     name: String
     familyName: String
+    email: String
     birthdate: DateTime
     gender: String
     phoneNumber: String

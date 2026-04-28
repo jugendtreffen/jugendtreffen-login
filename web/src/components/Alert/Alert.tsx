@@ -83,7 +83,7 @@ const Alert = (props: AlertProps) => {
         backdrop-blur-sm border ${config.borderColor}
         rounded-xl shadow-lg
         transition-all duration-300 ease-out
-        hover:shadow-xl hover:-translate-y-0.5
+        hover:shadow-xl
       `}
       role="alert"
       id={props.id}

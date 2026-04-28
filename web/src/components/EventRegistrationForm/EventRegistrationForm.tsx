@@ -10,59 +10,26 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field'
 import { Label } from '@/components/ui/label'
 import { LabeledInput } from '@/components/ui/labeled-input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, } from '@/components/ui/select'
 import { Spinner } from '@/components/ui/spinner'
 import { zodResolver } from '@hookform/resolvers/zod'
-
 import { Controller, Form, useForm } from '@redwoodjs/forms'
 import { useMutation } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
-
+import { useState } from 'react'
 import { addDays } from 'date-fns'
 import { Link2 } from 'lucide-react'
-
-import { useState } from 'react'
-
-import {
-  CreateParticipantMutation,
-  CreateParticipantMutationVariables,
-} from 'types/graphql'
-
+import { CreateParticipantMutation, CreateParticipantMutationVariables } from 'types/graphql'
 import { Separator } from '../ui/separator'
+import {navigate, routes} from "@redwoodjs/router";
+import {useAlert} from "@/hooks/AlertHook";
+import AlertCenter from "@/components/Alert/AlertCenter";
 
 const CREATE_PARTICIPANT = gql`
   mutation CreateRegisteredParticipantMutation(
     $input: CreateParticipantInput!
   ) {
     createParticipant(input: $input) {
-      name
-      familyName
-      birthdate
-      gender
-      phoneNumber
-      phoneCaretakerContact
-      foundUsBy
-      isParent
-      country
-      city
-      postalCode
-      address
-      travelMethod
-      accommodation
-      startDate
-      endDate
-      foodChoice
-      acceptPhotos
-      acceptCoC
-      eventId
-      participationRole
+      id
     }
   }
 `
@@ -96,11 +63,11 @@ const EventRegistrationForm = ({ event }) => {
     CreateParticipantMutation,
     CreateParticipantMutationVariables
   >(CREATE_PARTICIPANT, {
-    onCompleted: () => {
-      toast.success('Deine Teilnahme wurde gespeichert')
-      registrationForm.reset()
+    onCompleted: (data) => {
+      navigate(routes.registrationSuccess({ id: data.createParticipant.id }))
     },
   })
+  const {addAlert} = useAlert()
   const [hasOpenedLink, setHasOpenedLink] = useState(false)
 
   const onSubmit = async (input: RegistrationInput) => {
@@ -114,7 +81,7 @@ const EventRegistrationForm = ({ event }) => {
 
     await createParticipant({
       variables: variables,
-    }).catch(console.error)
+    }).catch(error => addAlert(`Bitte versuche es später erneut oder wende dich an den support: ${error.name}`, "error"))
   }
 
   const isParticipant =
@@ -528,6 +495,7 @@ const EventRegistrationForm = ({ event }) => {
           Anmelden
         </Button>
       </div>
+      <AlertCenter className="mt-2"/>
     </Form>
   )
 }
