@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuth } from 'src/auth'
 
 import AlertCenter from 'src/components/Alert/AlertCenter'
+import {useAlert} from "@/hooks/AlertHook";
 
 const LoginPage = (props) => {
   const { next } = props
