@@ -57,7 +57,7 @@ const DefaultView = () => {
         <video
           ref={videoRef}
           src="/aftermovie2025.webm"
-          preload="auto"
+          preload="metadata"
           autoPlay
           muted
           loop
@@ -68,6 +68,7 @@ const DefaultView = () => {
 
       <section
         id="Socials"
+        style={{ contentVisibility: 'auto', containIntrinsicSize: '0 400px' }}
         className="flex flex-col p-6 md:px-12 mx-auto lg:py-0 h-full w-full my-12 gap-2"
       >
         <div className="flex flex-row flex-wrap gap-4 w-full">
@@ -82,9 +83,13 @@ const DefaultView = () => {
               </CardHeader>
               <CardContent className="flex flex-row">
                 <img
+                  loading="lazy"
+                  width={32}
+                  height={32}
                   className="h-8 rounded-full"
                   src="/website-white.png"
                   alt="logo"
+                  decoding="async"
                 />
                 <h2 className="ml-2">Website</h2>
               </CardContent>
@@ -101,9 +106,13 @@ const DefaultView = () => {
               </CardHeader>
               <CardContent className="flex flex-row">
                 <img
+                  loading="lazy"
+                  width={32}
+                  height={32}
                   className="h-8 rounded-full"
                   src="/instagramm-white.png"
                   alt="logo"
+                  decoding="async"
                 />
                 <h2 className="ml-2">jugendtreffen</h2>
               </CardContent>
@@ -122,9 +131,13 @@ const DefaultView = () => {
               </CardHeader>
               <CardContent className="flex flex-row">
                 <img
+                  loading="lazy"
+                  width={32}
+                  height={32}
                   className="h-8 rounded-full"
                   src="/spotify-white.png"
                   alt="logo"
+                  decoding="async"
                 />
                 <h2 className="ml-2">Jugendtreffen Worship</h2>
               </CardContent>
@@ -143,9 +156,13 @@ const DefaultView = () => {
               </CardHeader>
               <CardContent className="flex flex-row">
                 <img
+                  loading="lazy"
+                  width={32}
+                  height={32}
                   className="h-8 rounded-full"
                   src="/youtube-white.png"
                   alt="logo"
+                  decoding="async"
                 />
                 <h2 className="ml-2">@jugendtreffenkremsmuenster</h2>
               </CardContent>

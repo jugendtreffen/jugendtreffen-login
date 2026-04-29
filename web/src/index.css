@@ -128,15 +128,11 @@
   }
 
   h3 {
-    @apply text-lg h-fit
+    @apply text-lg font-bold leading-tight tracking-tight text-white
   }
 
   p {
     @apply leading-tight;
-  }
-
-  h3 {
-    @apply text-lg font-bold leading-tight tracking-tight text-white
   }
 
   p {
