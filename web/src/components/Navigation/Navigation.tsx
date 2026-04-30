@@ -36,7 +36,7 @@ const Navigation = () => {
           ) : (
             <div className="flex space-x-2 me-2">
               <Button onClick={() => navigate(routes.login())}>
-                Mitarbeiter Login
+                Admin Login
                 <ArrowRight />
               </Button>
             </div>
