@@ -27,7 +27,7 @@ export const createParticipant: MutationResolvers['createParticipant'] =
     logger.info(
       `Created participant with email ${email} and name ${input.name}`
     )
-    await sendRegistrationConfirmation({ to: email, name: input.name })
+    await sendRegistrationConfirmation({ to: email, name: input.name, participantId: result.id })
     return result
   }
 
