@@ -61,6 +61,7 @@ export type TemplateEmailInput = {
   to: string
   templateId: number
   subject: string
+  params?: Record<string, string>
 }
 
 export async function sendTemplateBrevoEmail(input: TemplateEmailInput) {
@@ -78,6 +79,7 @@ export async function sendTemplateBrevoEmail(input: TemplateEmailInput) {
         name: senderName,
       },
       templateId: templateId,
+      params: input.params,
       subject: subject,
       messageVersions: [
         {

@@ -332,13 +332,22 @@ const EventRegistrationForm = ({ event }) => {
                   aria-invalid={fieldState.invalid}
                 >
                   {isParticipant ? (
-                    <Card className="flex items-center gap-3 p-3">
-                      <RadioGroupItem
-                        value="jugendtreffen"
-                        id="jugendtreffen"
-                      />
-                      <Label htmlFor="jugendtreffen">beim Jugendtreffen</Label>
-                    </Card>
+                    <>
+                      <Card className="flex items-center gap-3 p-3">
+                        <RadioGroupItem
+                          value="jugendtreffen"
+                          id="jugendtreffen"
+                        />
+                        <Label htmlFor="jugendtreffen">beim Jugendtreffen</Label>
+                      </Card>
+                      <Card className="flex items-center gap-3 p-3">
+                        <RadioGroupItem
+                          value="value-für-datenbank"
+                          id="value-für-datenbank"
+                        />
+                        <Label htmlFor="value-für-datenbank">Angezeigter Text</Label>
+                      </Card>
+                    </>
                   ) : (
                     <>
                       <Card className="flex items-center gap-3 p-3">

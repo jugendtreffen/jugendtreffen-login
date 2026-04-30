@@ -1,11 +1,18 @@
 import { z } from 'zod'
 
+const getCutoffBirthdate = () => {
+  const currentYear = new Date().getFullYear()
+  return new Date(currentYear - 13, 6, 1) // 1. Juli, Monat 6 = Juli
+}
+
 export const RegistrationSchema = z
   .object({
     name: z.string().min(1, 'Bitte gib deinen Vornamen an'),
     familyName: z.string().min(1, 'Bitte gib deinen Nachnamen an'),
     email: z.email('Bitte gib eine gültige E-Mail-Adresse ein'),
-    birthdate: z.coerce.date(),
+    birthdate: z.coerce.date().refine((date) => date <= getCutoffBirthdate(), {
+      message: 'Du musst am 1. Juli des aktuellen Jahres mindestens 13 Jahre alt sein.'
+    }),
     gender: z.string().min(1, 'Geschlecht darf nicht leer sein'),
     phoneNumber: z.string().min(1, 'Telefonnummer darf nicht leer sein'),
     phoneCaretakerContact: z.string().optional().nullable(),
