@@ -461,7 +461,7 @@ const EventRegistrationForm = ({ event }) => {
                   <p>Ich habe den{' '}
                   <a
                     onClick={() => setHasOpenedLink(true)}
-                    href="https://jugendtreffen.at/wp-content/uploads/2024/03/Verhaltenskodex-fu%CC%88r-Teilnehmende-2024.pdf"
+                    href="https://jugendtreffen.at/wp-content/uploads/2026/04/Verhaltenskodex-fu%CC%88r-Teilnehmende-2026.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary underline inline"
