@@ -345,14 +345,14 @@ const EventRegistrationForm = ({ event }) => {
                           value="value-für-datenbank"
                           id="value-für-datenbank"
                         />
-                        <Label htmlFor="value-für-datenbank">Angezeigter Text</Label>
+                        <Label htmlFor="value-für-datenbank">Haus Subiaco (35€/Nacht)</Label>
                       </Card>
                     </>
                   ) : (
                     <>
                       <Card className="flex items-center gap-3 p-3">
                         <RadioGroupItem value="subiaco" id="subiaco" />
-                        <Label htmlFor="subiaco">Haus Subiaco (x€/Nacht)</Label>
+                        <Label htmlFor="subiaco">Haus Subiaco (35€/Nacht)</Label>
                       </Card>
                       {!isAccompanyingPerson && (
                         <Card className="flex items-center gap-3 p-3">
@@ -467,7 +467,7 @@ const EventRegistrationForm = ({ event }) => {
                     className="text-primary underline inline"
                   >
                     <Link2 className="h-5 inline" />
-                    Verhaltenscodex
+                    Verhaltenskodex
                   </a>{' '}
                   gelesen und akzeptiere diesen.</p>
                 </FieldLabel>
