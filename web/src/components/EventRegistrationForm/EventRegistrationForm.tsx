@@ -492,7 +492,7 @@ const EventRegistrationForm = ({ event }) => {
                     onCheckedChange={field.onChange}
                     aria-invalid={fieldState.invalid}
                   />
-                  Ich stimme zu, fotografiert oder gefilmt werden zu dürfen.
+                  Ich stimme zu, fotografiert oder gefilmt werden zu dürfen. Zudem stimme ich zu, dass das Bildmaterial in den Kommunikationsmitteln des Jugendtreffens verwendet werden darf.
                 </FieldLabel>
               </Field>
             )}
