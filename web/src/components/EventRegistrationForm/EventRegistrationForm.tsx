@@ -239,7 +239,7 @@ const EventRegistrationForm = ({ event }) => {
         <div className="col-span-4">
           <LabeledInput
             name={'address'}
-            label={'Addresse'}
+            label={'Adresse'}
             formControl={registrationForm.control}
           />
         </div>
@@ -469,7 +469,7 @@ const EventRegistrationForm = ({ event }) => {
                     <Link2 className="h-5 inline" />
                     Verhaltenskodex
                   </a>{' '}
-                  gelesen und akzeptiere diesen.</p>
+                  gelesen und akzeptiere diesen. (Auf Link klicken!)</p>
                 </FieldLabel>
               </Field>
             )}
