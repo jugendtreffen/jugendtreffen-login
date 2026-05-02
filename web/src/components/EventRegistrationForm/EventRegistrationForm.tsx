@@ -345,7 +345,7 @@ const EventRegistrationForm = ({ event }) => {
                           value="value-für-datenbank"
                           id="value-für-datenbank"
                         />
-                        <Label htmlFor="value-für-datenbank">Haus Subiaco (35€/Nacht)</Label>
+                        <Label htmlFor="value-für-datenbank">Haus Subiaco (ab 18, 35€/Nacht, Plätze limitiert)</Label>
                       </Card>
                     </>
                   ) : (
@@ -492,7 +492,7 @@ const EventRegistrationForm = ({ event }) => {
                     onCheckedChange={field.onChange}
                     aria-invalid={fieldState.invalid}
                   />
-                  Ich stimme zu, fotografiert oder gefilmt werden zu dürfen. Zudem stimme ich zu, dass das Bildmaterial in den Kommunikationsmitteln des Jugendtreffens verwendet werden darf.
+                  Ich stimme zu, fotografiert oder gefilmt werden zu dürfen. Zudem stimme ich zu, dass das Bildmaterial in den Kommunikationsmitteln des Jugendtreffens und seiner Kooperationspartner verwendet werden darf.
                 </FieldLabel>
               </Field>
             )}
