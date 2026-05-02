@@ -36,8 +36,12 @@ export const getCurrentUser = async (
   if (!decoded) {
     return null
   }
-
-  return { ...decoded }
+  console.log('decoded JWT:', JSON.stringify(decoded, null, 2))
+  return {
+    id: decoded.sub,
+    email: decoded.email,
+    roles: decoded.user_role ? [decoded.user_role] : [],
+  }
 }
 
 /**
