@@ -12,6 +12,7 @@ import {
   InputGroupInput,
 } from './input-group'
 import { Popover, PopoverContent } from './popover'
+import {useMediaQuery} from "@/hooks/MediaQueryHook";
 
 interface DatepickerProps {
   name: string
@@ -30,6 +31,7 @@ const Datepicker = ({
   value,
   ...props
 }: DatepickerProps) => {
+  const isMobile = useMediaQuery('(max-width: 768px)')
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState(
     value instanceof Date && isValid(value) ? format(value, 'dd.MM.yyyy') : ''
@@ -46,6 +48,7 @@ const Datepicker = ({
       <InputGroupInput
         id={name}
         value={inputValue}
+        readOnly={open}
         placeholder={
           props.placeholder ? format(props.placeholder, 'dd.MM.yyyy') : ''
         }
@@ -88,12 +91,14 @@ const Datepicker = ({
             align="end"
             alignOffset={-8}
             sideOffset={10}
+            onTouchStart={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
           >
             <Calendar
               mode="single"
               selected={value}
               month={value}
-              captionLayout="dropdown"
+              captionLayout={ isMobile ? "label": "dropdown"}
               onSelect={(event) => {
                 props.onChange(event)
                 setOpen(false)

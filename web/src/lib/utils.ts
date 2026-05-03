@@ -75,7 +75,7 @@ export function formatTravelMethod(travelMethod: string) {
   switch (travelMethod) {
     case 'car': return 'Auto'
     case 'train': return 'Zug'
-    case 'bus': return 'Bus'
+    case 'other': return 'Anders'
     default: return '-'
   }
 }

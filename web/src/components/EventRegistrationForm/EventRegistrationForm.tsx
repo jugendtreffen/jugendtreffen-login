@@ -342,10 +342,10 @@ const EventRegistrationForm = ({ event }) => {
                       </Card>
                       <Card className="flex items-center gap-3 p-3">
                         <RadioGroupItem
-                          value="value-für-datenbank"
-                          id="value-für-datenbank"
+                          value="subiaco"
+                          id="subiaco"
                         />
-                        <Label htmlFor="value-für-datenbank">Haus Subiaco (ab 18, 35€/Nacht, Plätze limitiert)</Label>
+                        <Label htmlFor="subiaco">Haus Subiaco (ab 18, 35€/Nacht, Plätze limitiert)</Label>
                       </Card>
                     </>
                   ) : (
