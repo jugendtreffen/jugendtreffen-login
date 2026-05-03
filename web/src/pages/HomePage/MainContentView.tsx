@@ -7,6 +7,8 @@ const MainContentView = () => {
   const { currentUser } = useAuth()
   const { sidebarItem } = useSidebar()
 
+  console.log(currentUser)
+
   if (sidebarItem === 'Dashboard') {
     return (
       <>
@@ -38,7 +40,7 @@ const MainContentView = () => {
 
         <section className="flex flex-col md:flex-row gap-2">
           <div className="md:ml-3">
-            <EventRegistrationPage></EventRegistrationPage>
+
           </div>
         </section>
       </>

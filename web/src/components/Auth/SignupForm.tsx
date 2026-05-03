@@ -4,24 +4,38 @@ import {
   Field,
   FieldDescription,
   FieldGroup,
-  FieldLabel,
 } from '@/components/ui/field'
-import { Input } from '@/components/ui/input'
-import { SignupFormValues } from '@/pages/SignupPage/SignupPage'
-import { Form, Label, SubmitHandler, useForm } from '@redwoodjs/forms'
+import { Form, useForm } from '@redwoodjs/forms'
 
 import { Link, routes } from '@redwoodjs/router'
 
 import React from 'react'
+import {zodResolver} from "@hookform/resolvers/zod";
+import {z} from "zod";
+import {LabeledInput} from "@/components/ui/labeled-input";
+
+const SignUpSchema = z
+  .object({
+    email: z.string().email('Bitte gib deine Email-Adresse an'),
+    password: z.string().min(6),
+    confirmPassword: z.string().min(6),
+  })
+
+export type SignupInput = z.infer<typeof SignUpSchema>
 
 export function SignupForm({
   ...props
 }: React.ComponentProps<typeof Card> & {
-  onSubmit: SubmitHandler<SignupFormValues>
+  onSubmit: (input: SignupInput) => void | Promise<void>
 }) {
-  const formMethods = useForm({
+  const signUpForm = useForm({
     mode: 'onBlur',
-    resolver: null,
+    resolver: zodResolver(SignUpSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
   })
 
   return (
@@ -34,42 +48,29 @@ export function SignupForm({
         </FieldDescription>
       </CardHeader>
       <CardContent>
-        <Form onSubmit={props.onSubmit} formMethods={formMethods}>
-          <FieldGroup>
-            <Field>
-              <Label name="email">Email</Label>
-              <Input
-                type="email"
-                name="email"
-                placeholder="your@mail.com"
-                validation={{
-                  required: true,
-                  pattern: {
-                    value: /[^@]+@[^.]+\..+/,
-                    message: 'Bitte gib eine gültige E-Mail-Adresse ein',
-                  },
-                }}
+        <Form onSubmit={props.onSubmit} formMethods={signUpForm}>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <LabeledInput
+                name={'email'}
+                label={'Email'}
+                formControl={signUpForm.control}
               />
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Input id="password" type="password" name="password" required />
-              <FieldDescription>
-                Must be at least 6 characters long.
-              </FieldDescription>
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="confirm-password">
-                Confirm Password
-              </FieldLabel>
-              <Input
-                id="confirm-password"
-                type="password"
-                name="confirm-password"
-                required
+            </div>
+            <div>
+              <LabeledInput
+                name={'password'}
+                label={'Passwort'}
+                formControl={signUpForm.control}
               />
-              <FieldDescription>Please confirm your password.</FieldDescription>
-            </Field>
+            </div>
+            <div>
+              <LabeledInput
+                name={'confirmPassword'}
+                label={'Passwort Bestätigen'}
+                formControl={signUpForm.control}
+              />
+            </div>
             <FieldGroup>
               <Field>
                 <Button type="submit">Create Account</Button>
@@ -79,7 +80,7 @@ export function SignupForm({
                 </FieldDescription>
               </Field>
             </FieldGroup>
-          </FieldGroup>
+          </div>
         </Form>
       </CardContent>
     </Card>

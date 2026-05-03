@@ -27,6 +27,7 @@ const LabeledInput = ({
             placeholder={placeholder ?? label}
             aria-invalid={fieldState.invalid}
             {...field}
+            type={field.name.toLowerCase().includes('password') ? 'password' : 'text'}
           />
           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
         </Field>
