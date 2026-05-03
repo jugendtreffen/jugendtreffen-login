@@ -7,8 +7,6 @@ const MainContentView = () => {
   const { currentUser } = useAuth()
   const { sidebarItem } = useSidebar()
 
-  console.log(currentUser)
-
   if (sidebarItem === 'Dashboard') {
     return (
       <>

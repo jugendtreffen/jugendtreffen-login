@@ -13,12 +13,13 @@ const LoginPage = (props) => {
   const { logIn, isAuthenticated, userMetadata } = useAuth()
   const { addAlert, removeAllAlerts } = useAlert()
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (input) => {
+    if (!input.email) return
     removeAllAlerts()
     try {
       const response = await logIn({
-        email: data.email,
-        password: data.password,
+        email: input.email,
+        password: input.password,
         authMethod: 'password',
       })
       response?.error?.message
