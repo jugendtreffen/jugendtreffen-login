@@ -9,6 +9,22 @@ datasource db {
   directUrl = env("SUPABASE_SESSION_POOLER_URL")
 }
 
+enum UserRoleEnum {
+  admin
+  checkin
+  quartier
+  none
+}
+
+model UserRole {
+  id    String   @id @default(uuid()) @db.Uuid
+  role  UserRoleEnum
+  userId String   @db.Uuid
+
+  @@unique([userId, role]) // user can only have one role
+  @@map("user_roles")
+}
+
 model Participant {
   id                    String   @id @default(uuid()) @db.Uuid
   name                  String

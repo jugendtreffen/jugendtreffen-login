@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import {createContext, useContext, useState} from 'react'
 
 import { AlertProps, generateAlertId } from '@/components/Alert/Alert'
 
@@ -20,12 +20,12 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
 
   const addAlert = (message: string, type?: Alert['type']) => {
     const id = generateAlertId()
-    setAlerts([...alerts, { id, message, type }])
+    setAlerts(prev => [...prev, { id, message, type }])
     return id
   }
 
   const removeAlert = (id: string) => {
-    setAlerts(alerts.filter((alert: { id: string }) => alert.id !== id))
+    setAlerts(prev => prev.filter((alert: { id: string }) => alert.id !== id))
   }
 
   const removeAllAlerts = () => {
