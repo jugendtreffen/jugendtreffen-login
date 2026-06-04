@@ -2,7 +2,7 @@
 <!-- Kurz erklären, was sich ändert -->
 
 ## Checks
-- [ ] target Branch `dev`
+- [ ] target Branch `staging`
 - [ ] db änderungen mit einer migration auf Datenbank
 
 ## Sonstiges
