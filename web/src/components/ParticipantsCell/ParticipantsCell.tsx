@@ -90,7 +90,7 @@ export const columns: ColumnDef<ParticipantQueryResult, any>[] = [
       <DataTableColumnHeader column={column} title="Details" label="Details" />
     ),
     cell: ({ row }) => (
-      <a href={`/participant/${row.getValue("id")}`} className="text-muted-foreground hover:underline inline-flex gap-1">
+      <a href={`/register-success/${row.getValue("id")}`} className="text-muted-foreground hover:underline inline-flex gap-1">
         Bearbeiten <UserRoundPen className="h-4 w-4" />
       </a>
     ),
