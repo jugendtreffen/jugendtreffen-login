@@ -27,11 +27,13 @@ const SignupPage = () => {
       })
       if (response?.error?.message) {
         addAlert(response.error.message, 'error')
+      } else {
+        setIsDialogOpen(true)
       }
     } catch (error) {
       addAlert(error.message, 'error')
+      setIsDialogOpen(false)
     }
-    setIsDialogOpen(true)
   }
 
   if (isAuthenticated) {

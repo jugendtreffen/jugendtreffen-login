@@ -3,13 +3,14 @@ import { Route, Router, Set } from '@redwoodjs/router'
 import { useAuth } from 'src/auth'
 import GlobalLayout from 'src/layouts/GlobalLayout'
 import NavbarLayout from 'src/layouts/NavbarLayout'
+import VerifySignupPage from "@/pages/VerifySignupPage/VerifySignupPage";
 
 const Routes = () => {
   return (
     <Router useAuth={useAuth}>
       <Set wrap={GlobalLayout}>
         <Route path="/" page={HomePage} name="home" />
-        <Route path="/verify" page={ConfirmSignupPage} name="confirmSignup" />
+        <Route path="/verify" page={VerifySignupPage} name="confirmSignup" />
         <Set wrap={NavbarLayout}>
           <Route path="/login" page={LoginPage} name="login" />
           <Route path="/signup" page={SignupPage} name="signup" />
