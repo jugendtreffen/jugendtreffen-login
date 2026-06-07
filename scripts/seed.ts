@@ -11,22 +11,6 @@ import { db } from 'api/src/lib/db'
 
 export default async () => {
   try {
-    const systemRoles = [
-      { id: 0, desc: 'admin' },
-      { id: 1, desc: 'anmeldung' },
-      { id: 2, desc: 'quartier' },
-      { id: 3, desc: 'teilnehmer' },
-    ]
-
-    const participationRoles = [
-      { id: 0, desc: 'Teilnehmer' },
-      { id: 1, desc: 'Priester' },
-      { id: 2, desc: 'Mitarbeiter' },
-      { id: 3, desc: 'Begleitperson' },
-      { id: 4, desc: 'Vortragender' },
-      { id: 5, desc: 'Ordensmann/Ordensfrau' },
-    ]
-
     const events = [
       {
         id: 0,
@@ -37,26 +21,6 @@ export default async () => {
         endDate: new Date(2025, 0, 7),
       },
     ]
-    console.info('seeding systemRoles')
-    await Promise.all(
-      systemRoles.map((item) =>
-        db.systemRole.upsert({
-          where: { desc: item.desc },
-          update: {},
-          create: item,
-        })
-      )
-    )
-    console.info('-> done')
-    console.info('seeding ParticipationRoles')
-    for (const item of participationRoles) {
-      await db.ParticipationRole.upsert({
-        where: { id: item.id },
-        update: { desc: item.desc },
-        create: { id: item.id, desc: item.desc },
-      })
-    }
-    console.info('-> done')
     console.info('seeding events')
     for (const item of events) {
       await db.Event.upsert({

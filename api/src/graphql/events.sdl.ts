@@ -10,6 +10,6 @@ export const schema = gql`
   type Query {
     events: [Event!] @skipAuth
     event(id: BigInt!): Event! @skipAuth
-    currentEvent: Event! @skipAuth
+    currentEvent: Event @skipAuth
   }
 `

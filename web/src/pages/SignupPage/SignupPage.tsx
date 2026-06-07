@@ -1,39 +1,62 @@
-import React from 'react'
-import {navigate, routes} from '@redwoodjs/router'
-import { Metadata } from '@redwoodjs/web'
+import {Metadata} from '@redwoodjs/web'
 
+import {SignupForm, SignupInput} from '@/components/Auth/SignupForm'
+import { useAlert } from '@/hooks/AlertHook'
 import { useAuth } from 'src/auth'
-import AlertCenter from 'src/components/Alert/AlertCenter'
-import { useAlert } from 'src/components/Alert/AlertContext'
-import {SignupForm} from "@/components/Auth/SignupForm";
 
-export interface SignupFormValues {
-  email: string
-  password: string
-  confirm_password: string
-}
+import AlertCenter from 'src/components/Alert/AlertCenter'
+import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
+import {Dialog} from "@/components/ui/dialog";
+import React, {useState} from "react";
+import {SignupSuccessDialog} from "@/components/Auth/SignupSuccessDialog";
 
 const SignupPage = () => {
-  const { client, isAuthenticated } = useAuth()
+  const { client, isAuthenticated, currentUser } = useAuth()
   const { addAlert, removeAllAlerts } = useAlert()
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [email, setEmail] = useState('')
 
-  const onSubmit = async (input: SignupFormValues) => {
+  const onSubmit = async (input: SignupInput) => {
+    if (!input.email) return
     removeAllAlerts()
+    setEmail(input.email)
     try {
       const response = await client.auth.signUp({
         email: input.email,
         password: input.password,
       })
-      if(response?.error?.message) {
+      if (response?.error?.message) {
         addAlert(response.error.message, 'error')
       }
     } catch (error) {
       addAlert(error.message, 'error')
     }
+    setIsDialogOpen(true)
   }
 
   if (isAuthenticated) {
-    navigate(routes.home())
+    return (
+      <>
+        <Metadata
+          title="Anmeldung"
+          description="Erstelle einen Mitarbeiter Account"
+        />
+
+        <div className="flex w-full items-center justify-center p-6 md:p-10">
+          <div className="w-full max-w-md">
+            <Card className="flex flex-col gap-1">
+              <CardHeader>
+                <CardTitle className="text-center">Angemeldet als</CardTitle>
+                <CardDescription className="text-center">{currentUser?.email}</CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        </div>
+        <div className="w-1/2 mx-auto">
+          <AlertCenter className="mt-2"></AlertCenter>
+        </div>
+      </>
+    )
   }
 
   return (
@@ -43,14 +66,18 @@ const SignupPage = () => {
         description="Erstelle einen Mitarbeiter Account"
       />
 
-      <div className="flex w-full items-center justify-center p-6 md:p-10">
-        <div className="w-full max-w-sm">
-          <SignupForm onSubmit={onSubmit} />
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <SignupSuccessDialog email={email} />
+
+        <div className="flex w-full items-center justify-center p-6 md:p-10">
+          <div className="w-full max-w-md">
+            <SignupForm onSubmit={onSubmit} />
+          </div>
         </div>
-      </div>
-      <div className="w-1/2 mx-auto">
-        <AlertCenter className="mt-2"></AlertCenter>
-      </div>
+        <div className="w-1/2 mx-auto">
+          <AlertCenter className="mt-2"></AlertCenter>
+        </div>
+      </Dialog>
     </>
   )
 }

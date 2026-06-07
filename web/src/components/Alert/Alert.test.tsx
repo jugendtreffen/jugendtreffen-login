@@ -1,9 +1,10 @@
 import { render } from '@redwoodjs/testing/web'
+import { fireEvent, screen } from '@testing-library/react'
+
+import AlertCenter from 'src/components/Alert/AlertCenter'
 
 import Alert from './Alert'
-import { AlertProvider, useAlert } from 'src/components/Alert/AlertContext'
-import AlertCenter from 'src/components/Alert/AlertCenter'
-import { fireEvent, screen } from '@testing-library/react'
+import { AlertProvider, useAlert } from '@/hooks/AlertHook'
 
 describe('Alert', () => {
   it('renders successfully', () => {
@@ -28,7 +29,7 @@ describe('Alert', () => {
 
 describe('AlertCenter', () => {
   const TestComponent = () => {
-    const { addAlert, removeAlert, removeAllAlerts } = useAlert()
+    const { addAlert, removeAllAlerts } = useAlert()
 
     return (
       <div>

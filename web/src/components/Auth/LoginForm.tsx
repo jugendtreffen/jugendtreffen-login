@@ -1,73 +1,76 @@
-import {cn} from "@/lib/utils"
-import {Button} from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-} from "@/components/ui/field"
-import {Form, Label, useForm} from "@redwoodjs/forms";
-import {Link, routes} from "@redwoodjs/router";
-import {Input} from "@/components/ui/input";
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Field, FieldDescription } from '@/components/ui/field'
+import { cn } from '@/lib/utils'
+import { Form, useForm} from '@redwoodjs/forms'
+import { Link, routes } from '@redwoodjs/router'
+import z from "zod"
+import {zodResolver} from "@hookform/resolvers/zod";
+import {LabeledInput} from "@/components/ui/labeled-input";
+import React from "react";
+import {SignupInput} from "@/components/Auth/SignupForm";
 
-export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
-  const formMethods = useForm({
+const LoginSchema = z
+  .object({
+    email: z.string().email('Bitte gib deine Email-Adresse an'),
+    password: z.string(),
+  })
+
+export type LoginInput = z.infer<typeof LoginSchema>
+
+export function LoginForm({className, ...props}: React.ComponentProps<'div'> & {onSubmit: (input: SignupInput) => void | Promise<void>}) {
+  const loginForm = useForm({
     mode: 'onBlur',
-    resolver: null,
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   })
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader>
           <CardTitle>Bei Jugendtreffen Anmelden</CardTitle>
           <FieldDescription>
-            Login ist nur für Mitarbeiter gedacht, stadtdessen <Link to={"#"}>als Teilnehmer Anmelden</Link>
+            Login ist nur für Mitarbeiter gedacht, Stattdessen{' '}
+            <Link to={routes.eventRegistration()}>als Teilnehmer Anmelden</Link>
           </FieldDescription>
         </CardHeader>
         <CardContent>
-          <Form onSubmit={props.onSubmit} formMethods={formMethods}>
-            <FieldGroup>
-              <Field>
-                <Label name="email">
-                  Email
-                </Label>
-                <Input
-                  type="email"
-                  name="email"
-                  placeholder="your@mail.com"
-                  required
+          <Form onSubmit={props.onSubmit} formMethods={loginForm}>
+            <div className="grid grid-cols-1 gap-6">
+              <div>
+                <LabeledInput
+                  name={'email'}
+                  label={'Email'}
+                  formControl={loginForm.control}
                 />
-              </Field>
-              <Field>
-                <div className="flex items-center">
-                  <Label name="password">Passwort</Label>
+              </div>
+              <div>
+                <LabeledInput
+                  name={'password'}
+                  label={'Passwort'}
+                  formControl={loginForm.control}
+                />
+                <div className="flex justify-end mt-1">
                   <Link
                     to="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                    className=" inline-block text-sm underline-offset-4 hover:underline"
                   >
-                    Forgot your password?
+                    Passwort vergessen?
                   </Link>
                 </div>
-                <Input
-                  type="password"
-                  name="password"
-                  placeholder="••••••••"
-                  required
-                />
-              </Field>
+              </div>
               <Field>
                 <Button type="submit">Login</Button>
                 <FieldDescription className="text-center">
-                  Du hast keinen Account? <Link to={routes.signup()}>Registrieren</Link>
+                  Du hast keinen Account?{' '}
+                  <Link to={routes.signup()}>Registrieren</Link>
                 </FieldDescription>
               </Field>
-            </FieldGroup>
+            </div>
           </Form>
         </CardContent>
       </Card>

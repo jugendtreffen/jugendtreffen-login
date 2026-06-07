@@ -1,4 +1,5 @@
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
+import {logger} from "src/lib/logger";
 
 /**
  * Represents the user attributes returned by the decoding the
@@ -36,8 +37,12 @@ export const getCurrentUser = async (
   if (!decoded) {
     return null
   }
-
-  return { ...decoded }
+  logger.info("decoded user: " + decoded.email + ", role: " + decoded.user_role)
+  return {
+    id: decoded.sub,
+    email: decoded.email,
+    roles: decoded.user_role ? [decoded.user_role] : [],
+  }
 }
 
 /**

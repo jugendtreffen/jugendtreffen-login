@@ -1,3 +1,4 @@
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   CalendarPlus,
@@ -8,19 +9,22 @@ import {
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
-  User,
+  User, UserStar,
   X,
 } from 'lucide-react'
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import Footer from 'src/components/Navigation/Footer'
-import { useAuth } from 'src/auth'
+
 import { navigate, routes } from '@redwoodjs/router'
-import { useAlert } from 'src/components/Alert/AlertContext'
+
+import { useAuth } from 'src/auth'
+import Footer from 'src/components/Navigation/Footer'
+import { useAlert } from '@/hooks/AlertHook'
+import { isMobile, useForceUpdate } from 'src/lib/utils'
 import { useRole } from 'src/roles'
-import { useForceUpdate, isMobile} from "src/lib/utils";
+import {Button} from "@/components/ui/button";
+import items from "ajv/lib/vocabularies/applicator/items";
 
 interface SidebarContextType {
-  sidebarItem: 'Dashboard' | 'Profil' | 'Anmeldung' | 'Quartier' | 'Checkin'
+  sidebarItem: 'Join the Team' | 'Dashboard' | 'Quartier' | 'Checkin'
   setSidebarItem: (item: string) => void
 }
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined)
@@ -33,12 +37,12 @@ export const useSidebar = () => {
 }
 
 function getSidebarItemsByRole(role: string) {
-  let items = [
-    { name: 'Dashboard', icon: LayoutDashboard },
-    { name: 'Profil', icon: User },
-    { name: 'Anmeldung', icon: CalendarPlus },
+  const items = [
+    { name: 'Join the Team', icon: UserStar },
   ]
   switch (role) {
+    case 'admin':
+      items.push({ name: 'Dashboard', icon: LayoutDashboard },)
     case 'checkin':
       items.push({ name: 'Checkin', icon: LaptopMinimalCheck })
       break
@@ -56,13 +60,13 @@ type SidebarLayoutProps = {
 const SidebarLayout = ({ children }: SidebarLayoutProps) => {
   const [open, setOpen] = useState(!isMobile())
   const [expanded, setExpanded] = useState(true)
-  const [selectedItem, setSelectedItem] = useState('Dashboard')
+  const [selectedItem, setSelectedItem] = useState('Join the Team')
   const { logOut, loading } = useAuth()
   const { addAlert } = useAlert()
-  const { role } = useRole()
+  const { currentUser } = useAuth()
   const forceUpdate = useForceUpdate()
 
-  const sidebarItems = getSidebarItemsByRole(role)
+  const sidebarItems = getSidebarItemsByRole(currentUser.roles.at(0) || 'none')
 
   const getWidthByState = () => {
     return open ? (expanded ? 240 : 72) : 0
@@ -140,7 +144,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
             </nav>
 
             <div className="p-2">
-              <button
+              <Button
                 title="Abmelden"
                 onClick={() => {
                   logOut().catch(() => {
@@ -149,13 +153,11 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
                   navigate(routes.home())
                 }}
                 disabled={loading}
-                className={`flex w-full items-center rounded-xl px-3 py-2 text-accent hover:bg-gray-700 ${
-                  expanded ? 'gap-3 justify-start' : 'justify-center'
-                }`}
+                className="w-full"
               >
                 <LogOut className="h-5 w-5" />
                 {expanded && <span>Abmelden</span>}
-              </button>
+              </Button>
             </div>
           </motion.aside>
 

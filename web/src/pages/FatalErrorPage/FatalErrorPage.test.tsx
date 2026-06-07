@@ -1,4 +1,5 @@
 import { render, screen } from '@redwoodjs/testing/web'
+
 import FatalErrorPage from './FatalErrorPage'
 
 describe('FatalErrorPage', () => {

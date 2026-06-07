@@ -1,39 +1,22 @@
-import * as React from "react";
+import * as React from 'react'
 
-import {cn} from "src/lib/utils";
-import {InputField, PasswordField} from "@redwoodjs/forms";
+import { cn } from 'src/lib/utils'
 
-const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
-  ({name, className, type, ...props}, ref) => {
-    switch (type) {
-      case "password":
-        return (
-          <PasswordField
-            name={name}
-            className={cn(
-              "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-              className
-            )}
-            ref={ref}
-            {...props}
-          />
-        );
-      default:
-        return (
-          <InputField
-            name={name}
-            className={cn(
-              "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-              className
-            )}
-            ref={ref}
-            {...props}
-          />
-        );
-    }
-
+const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
+  ({ className, type, ...props }, ref) => {
+    return (
+      <input
+        type={type}
+        className={cn(
+          'dark:flex dark:h-9 dark:w-full dark:rounded-md dark:border dark:border-input dark:bg-transparent dark:px-3 dark:py-1 dark:text-base dark:shadow-sm dark:transition-colors dark:file:border-0 dark:file:bg-transparent dark:file:text-sm dark:file:font-medium dark:file:text-foreground dark:placeholder:text-muted-foreground dark:focus-visible:outline-none dark:focus-visible:ring-1 dark:focus-visible:ring-ring dark:disabled:cursor-not-allowed dark:disabled:opacity-50 dark:md:text-sm',
+          className
+        )}
+        ref={ref}
+        {...props}
+      />
+    )
   }
 )
-Input.displayName = "Input"
+Input.displayName = 'Input'
 
-export {Input}
+export { Input }
