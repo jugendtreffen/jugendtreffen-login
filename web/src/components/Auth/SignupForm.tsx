@@ -36,6 +36,18 @@ export function SignupForm({
     },
   })
 
+  const onSubmit = (input: SignupInput) => {
+    if (input.password !== input.confirmPassword) {
+      signUpForm.setError('confirmPassword', {
+        type: 'manual',
+        message: 'Die Passwörter stimmen nicht überein',
+      })
+      return
+    }
+    props.onSubmit(input)
+    signUpForm.reset()
+  }
+
   return (
     <Card {...props}>
       <CardHeader>
@@ -46,7 +58,7 @@ export function SignupForm({
         </FieldDescription>
       </CardHeader>
       <CardContent>
-        <Form onSubmit={props.onSubmit} formMethods={signUpForm}>
+        <Form onSubmit={onSubmit} formMethods={signUpForm}>
           <div className="grid grid-cols-1 gap-6">
             <div>
               <LabeledInput

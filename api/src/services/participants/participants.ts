@@ -21,6 +21,8 @@ export const participant: QueryResolvers['participant'] = ({ id }) => {
 export const createParticipant: MutationResolvers['createParticipant'] =
   async ({ input }) => {
     const { email } = input
+    logger.info(`participant birthday: ${input.birthdate}`)
+    logger.info(`participant birthday: ${new Date(input.birthdate).toLocaleDateString()}`)
     const result = await db.participant.create({
       data: input,
     })
