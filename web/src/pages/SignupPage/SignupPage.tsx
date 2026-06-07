@@ -34,7 +34,6 @@ const SignupPage = () => {
       addAlert(error.message, 'error')
       setIsDialogOpen(false)
     }
-    setIsDialogOpen(true)
   }
 
   if (isAuthenticated) {
