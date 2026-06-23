@@ -74,8 +74,8 @@ const VerifySignupPage = (props) => {
                   <span className={'text-green-500'}>
                     <Info/>
                   </span>
-                  <p>Deine Email wurde erfolgreich bestätigt!</p>
-                  <Button typeof={'outline'} onClick={() => navigate(next || routes.home())}
+                  <span>Deine Email wurde erfolgreich bestätigt!</span>
+                  <Button typeof={'outline'} onClick={() => navigate(next || routes.login())}
                           className="primary inline-flex items-center mt-2"
                   >
                     Weiter
