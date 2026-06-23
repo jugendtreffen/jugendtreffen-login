@@ -53,20 +53,25 @@ export type ParticipantQueryResult = {
   endDate: string;
 };
 
+function calculateAge(birthdateString: string) {
+  console.log(birthdateString)
+  const birthdate = new Date(birthdateString)
+  const today = new Date()
+
+  let age = today.getFullYear() - birthdate.getFullYear()
+
+  if (
+    today.getMonth() < birthdate.getMonth() ||
+    (today.getMonth() === birthdate.getMonth() &&
+      today.getDate() < birthdate.getDate())
+  ) {
+    age--
+  }
+  console.log(age)
+  return age
+}
+
 export const columns: ColumnDef<ParticipantQueryResult, any>[] = [
-  {
-    accessorKey: "checkbox",
-    header: () => <Checkbox />,
-    cell: ({ row }) => {
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Eingecheckt"
-      />
-    },
-    enableSorting: false,
-    enableHiding: false,
-  },
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -110,22 +115,25 @@ export const columns: ColumnDef<ParticipantQueryResult, any>[] = [
   {
     accessorKey: "birthdate",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Geburtsdatum" label="Geburtsdatum" />
-    ),
-    cell: ({ row }) => {
-      const raw = row.getValue("birthdate");
-      return <span>{new Date(raw).toLocaleDateString("de-AT")}</span>;
-    },
-  },
-  {
-    accessorKey: "id",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Details" label="Details" />
+      <DataTableColumnHeader column={column} title="Alter" label="Alter" />
     ),
     cell: ({ row }) => (
-      <a href={`/register-success/${row.getValue("id")}`} className="text-muted-foreground hover:underline inline-flex gap-1">
-        Bearbeiten <UserRoundPen className="h-4 w-4" />
-      </a>
+      <span>
+        {calculateAge(row.getValue("birthdate"))}
+      </span>
+    ),
+  },
+  {
+    accessorKey: "checkbox",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Eingecheckt" label="Eingecheckt" />
+    ),
+    cell: ({ row }) => (
+      <Checkbox w-10 justify-center
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Eingecheckt"
+      />
     ),
     enableSorting: false,
     enableHiding: false,
@@ -147,6 +155,7 @@ export const Success = ({
 }: CellSuccessProps<ParticipantsQuery, ParticipantsQueryVariables>) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [rowSelection, setRowSelection] = React.useState({})
 
   // Kombinierter Suchstate für Vor- und Nachname
   const [globalSearch, setGlobalSearch] = React.useState("");
@@ -158,7 +167,10 @@ export const Success = ({
       sorting,
       columnFilters,
       globalFilter: globalSearch,
+      rowSelection,
     },
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalSearch,
