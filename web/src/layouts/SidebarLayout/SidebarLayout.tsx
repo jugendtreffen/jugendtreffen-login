@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
-  CalendarPlus,
   Home,
   LaptopMinimalCheck,
   LayoutDashboard,
@@ -9,23 +8,24 @@ import {
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
-  User, UserStar,
+  UserPen, UserStar,
   X,
 } from 'lucide-react'
 
 import { navigate, routes } from '@redwoodjs/router'
 
 import { useAuth } from 'src/auth'
-import Footer from 'src/components/Navigation/Footer'
 import { useAlert } from '@/hooks/AlertHook'
 import { isMobile, useForceUpdate } from 'src/lib/utils'
-import { useRole } from 'src/roles'
 import {Button} from "@/components/ui/button";
-import items from "ajv/lib/vocabularies/applicator/items";
+
+export type SidebarItem = 'Dashboard' | 'Quartier' | 'Checkin' | 'Join the Team' | 'Mitarbeiter'
 
 interface SidebarContextType {
-  sidebarItem: 'Join the Team' | 'Dashboard' | 'Quartier' | 'Checkin'
-  setSidebarItem: (item: string) => void
+  sidebarItem: SidebarItem
+  setSidebarItem: (item: SidebarItem) => void
+  subState: string | null
+  setSubState: (state: string | null) => void
 }
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined)
 
@@ -43,6 +43,7 @@ function getSidebarItemsByRole(role: string) {
   switch (role) {
     case 'admin':
       items.push({ name: 'Dashboard', icon: LayoutDashboard },)
+      items.push({ name: 'Mitarbeiter', icon: UserPen },)
     case 'checkin':
       items.push({ name: 'Checkin', icon: LaptopMinimalCheck })
       break
@@ -168,7 +169,6 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
             }}
           >
             <main className="flex-1 overflow-visible p-6">{children}</main>
-            <Footer />
           </div>
         </div>
       </div>

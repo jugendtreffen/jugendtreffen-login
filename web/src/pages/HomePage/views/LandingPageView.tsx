@@ -9,14 +9,14 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-} from 'src/components/ui/card'
+} from '@/components/ui/card'
 import { RollingText } from '@/components/animate-ui/primitives/texts/rolling'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useCurrentEvent } from '@/hooks/CurrenteventHook'
 import { formatDayMonth, formatYear } from '@/lib/utils'
 
-const DefaultView = () => {
+const LandingPageView = () => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const { loading, currentEvent } = useCurrentEvent()
 
@@ -174,4 +174,4 @@ const DefaultView = () => {
   )
 }
 
-export default DefaultView
+export default LandingPageView
