@@ -62,6 +62,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
   const [open, setOpen] = useState(!isMobile())
   const [expanded, setExpanded] = useState(true)
   const [selectedItem, setSelectedItem] = useState('Join the Team')
+  const [subState, setSubState] = useState(null)
   const { logOut, loading } = useAuth()
   const { addAlert } = useAlert()
   const { currentUser } = useAuth()
@@ -85,7 +86,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
 
   return (
     <SidebarContext.Provider
-      value={{ sidebarItem: selectedItem, setSidebarItem: setSelectedItem }}
+      value={{ sidebarItem: selectedItem, setSidebarItem: setSelectedItem, subState: subState, setSubState: setSubState }}
     >
       <div className="flex flex-col h-screen w-screen">
         <div className="flex md:hidden w-full bg-gray-900 text-white p-4 items-center justify-between border-gray-600 border-b">
