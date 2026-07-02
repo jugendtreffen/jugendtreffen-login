@@ -1,5 +1,5 @@
 import React from 'react';
-import ParticipantsCell from '@/components/ParticipantsCell/ParticipantsCell'
+import ParticipantsCell from '@/components/ParticipantsTableCell/ParticipantsTableCell'
 
 const CheckinOverview = () => {
   return (

@@ -65,7 +65,6 @@ export const Success = ({
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 
-  // Kombinierter Suchstate für Vor- und Nachname
   const [globalSearch, setGlobalSearch] = React.useState("");
 
   const columns: ColumnDef<ParticipantQueryResult, any>[] = [

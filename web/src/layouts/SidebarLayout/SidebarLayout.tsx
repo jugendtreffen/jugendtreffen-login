@@ -61,7 +61,10 @@ type SidebarLayoutProps = {
 const SidebarLayout = ({ children }: SidebarLayoutProps) => {
   const [open, setOpen] = useState(!isMobile())
   const [expanded, setExpanded] = useState(true)
-  const [selectedItem, setSelectedItem] = useState('Join the Team')
+  const [activeSidebarItem, setActiveSidebarItem] = useState(() => {
+    const saved = localStorage.getItem("activeSidebarItem");
+    return (saved as SidebarItem) ?? "Join the Team";
+  })
   const [subState, setSubState] = useState(null)
   const { logOut, loading } = useAuth()
   const { addAlert } = useAlert()
@@ -79,6 +82,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
       if (isMobile()) setExpanded(false)
       forceUpdate()
     }
+    localStorage.setItem('activeSidebarItem', activeSidebarItem)
 
     window.addEventListener('resize', handleResiize)
     return () => window.removeEventListener('resize', handleResiize)
@@ -86,7 +90,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
 
   return (
     <SidebarContext.Provider
-      value={{ sidebarItem: selectedItem, setSidebarItem: setSelectedItem, subState: subState, setSubState: setSubState }}
+      value={{ sidebarItem: activeSidebarItem, setSidebarItem: setActiveSidebarItem, subState: subState, setSubState: setSubState }}
     >
       <div className="flex flex-col h-screen w-screen">
         <div className="flex md:hidden w-full bg-gray-900 text-white p-4 items-center justify-between border-gray-600 border-b">
@@ -134,10 +138,10 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
                 <button
                   key={name}
                   title={name}
-                  onClick={() => setSelectedItem(name)}
+                  onClick={() => setActiveSidebarItem(name)}
                   className={`flex items-center rounded-xl px-3 py-2 text-gray-300 hover:bg-gray-700 focus:outline-none ${
                     expanded ? 'gap-3 justify-start' : 'justify-center'
-                  } ${selectedItem === name ? 'bg-gray-700 font-bold' : ''}`}
+                  } ${activeSidebarItem === name ? 'bg-gray-700 font-bold' : ''}`}
                 >
                   <Icon className="h-5 w-5" />
                   {expanded && <span>{name}</span>}

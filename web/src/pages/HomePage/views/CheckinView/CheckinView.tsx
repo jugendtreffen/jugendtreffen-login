@@ -1,7 +1,7 @@
 import {useSidebar} from "@/layouts/SidebarLayout/SidebarLayout";
 import CheckinDetails from "@/pages/HomePage/views/CheckinView/CheckinDetails";
 import CheckinOverview from "@/pages/HomePage/views/CheckinView/CheckinOverview";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 
 const subViewMap: Record<string, React.ComponentType> = {
   "Overview": CheckinOverview,
