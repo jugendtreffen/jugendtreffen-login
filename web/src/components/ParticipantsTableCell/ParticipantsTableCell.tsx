@@ -20,7 +20,10 @@ import {
 import {DataTableToolbar} from "@/components/data-table/data-table-toolbar";
 import {Input} from "@/components/ui/input";
 import {DataTable} from "@/components/data-table/data-table";
-import {UserRoundPen} from "lucide-react";
+import {MoreHorizontal } from "lucide-react";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
+import {Button} from "@/components/ui/button";
+import {useSidebar} from "@/layouts/SidebarLayout/SidebarLayout";
 
 export const QUERY: TypedDocumentNode<
   ParticipantsQuery,
@@ -45,60 +48,6 @@ export type ParticipantQueryResult = {
   birthdate: string;
 };
 
-export const columns: ColumnDef<ParticipantQueryResult, any>[] = [
-  {
-    accessorKey: "name",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Vorname" label="Vorname" />
-    ),
-    cell: ({ row }) => <span>{row.getValue("name")}</span>,
-    enableSorting: true,
-  },
-  {
-    accessorKey: "familyName",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Nachname" label="Nachname" />
-    ),
-    cell: ({ row }) => <span>{row.getValue("familyName")}</span>,
-    enableSorting: true,
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="E-Mail" label="E-Mail"/>
-    ),
-    cell: ({ row }) => (
-      <span>
-        {row.getValue("email")}
-      </span>
-    ),
-    enableColumnFilter: false,
-  },
-  {
-    accessorKey: "birthdate",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Geburtsdatum" label="Geburtsdatum" />
-    ),
-    cell: ({ row }) => {
-      const raw = row.getValue("birthdate");
-      return <span>{new Date(raw).toLocaleDateString("de-AT")}</span>;
-    },
-  },
-  {
-    accessorKey: "id",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Details" label="Details" />
-    ),
-    cell: ({ row }) => (
-      <a href={`/register-success/${row.getValue("id")}`} className="text-muted-foreground hover:underline inline-flex gap-1">
-        Bearbeiten <UserRoundPen className="h-4 w-4" />
-      </a>
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  }
-];
-
 export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => <div>Empty</div>
@@ -112,11 +61,79 @@ export const Failure = ({
 export const Success = ({
   participants,
 }: CellSuccessProps<ParticipantsQuery, ParticipantsQueryVariables>) => {
+  const {setSubState} = useSidebar()
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 
-  // Kombinierter Suchstate für Vor- und Nachname
   const [globalSearch, setGlobalSearch] = React.useState("");
+
+  const columns: ColumnDef<ParticipantQueryResult, any>[] = [
+    {
+      accessorKey: "name",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Vorname" label="Vorname" />
+      ),
+      cell: ({ row }) => <span>{row.getValue("name")}</span>,
+      enableSorting: true,
+    },
+    {
+      accessorKey: "familyName",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Nachname" label="Nachname" />
+      ),
+      cell: ({ row }) => <span>{row.getValue("familyName")}</span>,
+      enableSorting: true,
+    },
+    {
+      accessorKey: "email",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="E-Mail" label="E-Mail"/>
+      ),
+      cell: ({ row }) => (
+        <span>
+        {row.getValue("email")}
+      </span>
+      ),
+      enableColumnFilter: false,
+    },
+    {
+      accessorKey: "birthdate",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Geburtsdatum" label="Geburtsdatum" />
+      ),
+      cell: ({ row }) => {
+        const raw = row.getValue("birthdate");
+        return <span>{new Date(raw).toLocaleDateString("de-AT")}</span>;
+      },
+    },
+    {
+      accessorKey: "id",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Details" label="Details" />
+      ),
+      cell: function Cell() {
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <MoreHorizontal className="h-4 w-4" />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => {setSubState("Details")}}>Edit</DropdownMenuItem>
+              <DropdownMenuItem className="text-destructive hover:bg-destructive/10">
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+      size: 32,
+      enableSorting: false,
+      enableHiding: false,
+    }
+  ];
 
   const table = useReactTable({
     data: participants,
