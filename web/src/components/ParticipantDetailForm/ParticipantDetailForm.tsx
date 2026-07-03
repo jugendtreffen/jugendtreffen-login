@@ -417,14 +417,14 @@ const ParticipantDetailForm = ({ participantId }: Props) => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.error}>
-                <FieldLabel htmlFor="foodChoice">Ernährung</FieldLabel>
+                <FieldLabel htmlFor="foodChoice">Essenswahl</FieldLabel>
                 <Select name="foodChoice" onValueChange={field.onChange} value={field.value ?? ''} aria-invalid={fieldState.invalid}>
                   <SelectTrigger className="w-full max-w-96">
                     <SelectValue placeholder="Bitte wähle" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="any">eigentlich alles</SelectItem>
+                      <SelectItem value="any">normal</SelectItem>
                       <SelectItem value="vegetarian">vegetarisch</SelectItem>
                     </SelectGroup>
                   </SelectContent>

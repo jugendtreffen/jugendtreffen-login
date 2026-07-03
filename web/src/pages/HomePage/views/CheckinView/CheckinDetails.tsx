@@ -7,6 +7,9 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import {useSidebar} from "@/layouts/SidebarLayout/SidebarLayout";
+import ParticipantDetailForm from "@/components/ParticipantDetailForm/ParticipantDetailForm";
+
+
 
 type Props = {
   participantId: string
@@ -29,9 +32,7 @@ const CheckinDetails = ({participantId}: Props) => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <h1>{}</h1>
-      Detailview id
-      <span>{participantId}</span>
+      <ParticipantDetailForm participantId={participantId} />
     </>
   );
 };
