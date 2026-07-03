@@ -8,7 +8,7 @@ import type {
   CellFailureProps,
   TypedDocumentNode,
 } from '@redwoodjs/web'
-import {DataTableColumnHeader} from "@/components/data-table/data-table-column-header";
+import {DataTableColumnHeader} from "@/components/ui/data-table/data-table-column-header";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -17,9 +17,9 @@ import {
   getPaginationRowModel,
   getSortedRowModel, SortingState, useReactTable
 } from "@tanstack/react-table";
-import {DataTableToolbar} from "@/components/data-table/data-table-toolbar";
+import {DataTableToolbar} from "@/components/ui/data-table/data-table-toolbar";
 import {Input} from "@/components/ui/input";
-import {DataTable} from "@/components/data-table/data-table";
+import {DataTable} from "@/components/ui/data-table/data-table";
 import {MoreHorizontal } from "lucide-react";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";

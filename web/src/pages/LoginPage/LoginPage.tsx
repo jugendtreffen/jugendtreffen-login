@@ -5,7 +5,7 @@ import { LoginForm } from '@/components/Auth/LoginForm'
 import {Card, CardDescription, CardHeader, CardTitle} from '@/components/ui/card'
 import { useAuth } from 'src/auth'
 
-import AlertCenter from 'src/components/Alert/AlertCenter'
+import AlertCenter from '@/components/ui/Alert/AlertCenter'
 import {useAlert} from "@/hooks/AlertHook";
 import React from "react";
 
