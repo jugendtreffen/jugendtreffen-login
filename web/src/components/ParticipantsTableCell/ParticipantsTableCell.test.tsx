@@ -1,7 +1,7 @@
 import { render } from '@redwoodjs/testing/web'
 
-import { Loading, Empty, Failure, Success } from './ParticipantCell'
-import { standard } from './ParticipantCell.mock'
+import { Loading, Empty, Failure, Success } from './ParticipantsTableCell'
+import { standard } from './ParticipantsTableCell.mock'
 
 // Generated boilerplate tests do not account for all circumstances
 // and can fail without adjustments, e.g. Float and DateTime types.
@@ -9,7 +9,7 @@ import { standard } from './ParticipantCell.mock'
 //        https://redwoodjs.com/docs/testing#testing-cells
 // https://redwoodjs.com/docs/testing#jest-expect-type-considerations
 
-describe('ParticipantCell', () => {
+describe('ParticipantsCell', () => {
   it('renders Loading successfully', () => {
     expect(() => {
       render(<Loading />)
@@ -24,7 +24,7 @@ describe('ParticipantCell', () => {
 
   it('renders Failure successfully', async () => {
     expect(() => {
-      render(<Failure id={'42'} error={new Error('Oh no')} />)
+      render(<Failure error={new Error('Oh no')} />)
     }).not.toThrow()
   })
 
@@ -36,7 +36,7 @@ describe('ParticipantCell', () => {
 
   it('renders Success successfully', async () => {
     expect(() => {
-      render(<Success id={'42'} participant={standard().participant} />)
+      render(<Success participants={standard().participants} />)
     }).not.toThrow()
   })
 })

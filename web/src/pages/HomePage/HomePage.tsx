@@ -1,11 +1,11 @@
 import { Metadata } from '@redwoodjs/web'
 
-import SidebarLayout from 'src/layouts/SidebarLayout/SidebarLayout'
-import DefaultView from 'src/pages/HomePage/DefaultView'
-import MainConetntView from 'src/pages/HomePage/MainContentView'
+import SidebarLayout, {SidebarItem, useSidebar} from 'src/layouts/SidebarLayout/SidebarLayout'
+import LandingPageView from '@/pages/HomePage/views/LandingPageView'
 import { Skeleton } from '@/components/ui/skeleton'
 import NavbarLayout from "@/layouts/NavbarLayout/NavbarLayout";
 import {useAuth} from "@/auth";
+import StaffViewRouter from "@/pages/HomePage/views/StaffViewRouter";
 
 const HomePage = () => {
   const { loading, isAuthenticated } = useAuth()
@@ -28,14 +28,14 @@ const HomePage = () => {
   if (isAuthenticated) {
     return (
       <SidebarLayout>
-        <MainConetntView />
+        <StaffViewRouter />
       </SidebarLayout>
     )
   }
 
   return (
     <NavbarLayout>
-      <DefaultView />
+      <LandingPageView />
     </NavbarLayout>
   )
 }
