@@ -21,9 +21,11 @@ import {
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/data-table/data-table";
-import { UserRoundPen } from "lucide-react";
+import { Search, UserRoundPen } from "lucide-react";
 import { Row } from 'react-day-picker';
 import { Checkbox } from '../ui/checkbox';
+import { ParticipantsFilters } from "src/components/AccomodationParticipants/ParticipantsFilters"
+import { ro } from 'date-fns/locale';
 
 export const QUERY: TypedDocumentNode<
   ParticipantsQuery,
@@ -34,11 +36,13 @@ export const QUERY: TypedDocumentNode<
       id
       name
       familyName
+      gender
       birthdate
       phoneNumber
       phoneCaretakerContact
       startDate
       endDate
+      accommodation
       accomodationCheckIns {
         id
       }
@@ -61,14 +65,16 @@ const TOGGLE_CHECKIN_MUTATION = gql`
 `
 
 export type ParticipantQueryResult = {
-  id: string;
-  name: string;
-  familyName: string;
-  birthdate: string;
-  phoneNumber: string;
-  phoneCaretakerContact: string;
-  startDate: string;
-  endDate: string;
+  id: string
+  name: string
+  familyName: string
+  gender: string
+  birthdate: string
+  phoneNumber: string
+  phoneCaretakerContact: string
+  startDate: string
+  endDate: string
+  accomodation: string
   accomodationCheckIns: {
     id: number
   }[]
@@ -137,6 +143,18 @@ export const Success = ({
       enableSorting: true,
     },
     {
+      accessorKey: "gender",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Geschlecht" label="Geschlecht" />
+      ),
+      cell: ({ row }) => <span>{row.getValue("gender")}</span>,
+      enableSorting: true,
+      filterFn: (row, id, value) => {
+        if (!value) return true
+        return row.getValue(id) === value
+      },
+    },
+    {
       accessorKey: "phoneNumber",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Telefonnummer (Teilnehmer)" label="Telefonnummer (Teilnehmer)" />
@@ -170,6 +188,34 @@ export const Success = ({
           {calculateAge(row.getValue("birthdate"))}
         </span>
       ),
+    },
+    {
+      id: "age",
+      accessorFn: (row) => calculateAge(row.birthdate),
+      enableHiding: false,
+      enableColumnFilter: true,
+      filterFn: (row, id, value) => {
+        const age = calculateAge(row.getValue("birthdate"))
+        if (!value) return true
+        if (value === "under18") return age < 18
+        if (value === "18plus") return age >= 18
+        return true
+      }
+    },
+    {
+      accessorKey: "accommodation",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Unterkunft" label="Unterkunft" />
+      ),
+      cell: ({ row }) => (
+        <span>
+          {row.getValue("accommodation")}
+        </span>
+      ),
+      filterFn: (row, id, value) => {
+        if (!value) return true
+        return row.getValue(id) === value
+      }
     },
     {
       accessorKey: "checkbox",
@@ -207,6 +253,11 @@ export const Success = ({
       columnFilters,
       globalFilter: globalSearch,
     },
+    initialState: {
+      columnVisibility: {
+        age: false
+      }
+    },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalSearch,
@@ -226,16 +277,16 @@ export const Success = ({
   return (
     <div className="space-y-4 w-full">
       <DataTableToolbar table={table}>
-        {/* Suchfeld für Vor- und Nachname */}
         <Input
           placeholder="Nach Vor- oder Nachname suchen..."
           value={globalSearch}
           onChange={(e) => setGlobalSearch(e.target.value)}
           className="h-8 w-96"
         />
+        <ParticipantsFilters table={table}></ParticipantsFilters>
       </DataTableToolbar>
 
       <DataTable table={table} />
     </div>
-  );
+  )
 }
