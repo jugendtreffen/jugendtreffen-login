@@ -9,13 +9,39 @@ import { logger } from 'src/lib/logger'
 import { sendRegistrationConfirmation } from 'src/services/mailer/mailer'
 
 export const participants: QueryResolvers['participants'] = () => {
-  return db.participant.findMany()
+  return db.participant.findMany({
+    include: {
+      accomodationCheckIns: true,
+    }
+  })
 }
 
 export const participant: QueryResolvers['participant'] = ({ id }) => {
   return db.participant.findUnique({
     where: { id },
   })
+}
+
+export const accomodationParticipants: QueryResolvers['date'] = ({date}) => {
+  const accomodationParticipants = db.participant.findMany({
+    where: {
+      startDate: {
+        lte: date
+      },
+      endDate: {
+        gt: date
+      }
+    },
+    include: {
+      accomodationCheckIns: {
+        where: {
+          date: date
+        }
+      }
+    }
+  })
+  console.log(accomodationParticipants)
+  return accomodationParticipants
 }
 
 export const createParticipant: MutationResolvers['createParticipant'] =

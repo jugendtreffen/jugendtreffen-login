@@ -25,11 +25,16 @@ export const schema = gql`
     participationRole: String
     createdAt: DateTime!
     event: Event!
+    accomodationCheckIns: [AccomodationCheckIn]
   }
 
   type Query {
     participants: [Participant!]! @skipAuth
     participant(id: String!): Participant @skipAuth
+  }
+
+  type Query {
+    accomodationParticipants(date: Date!): [Participant!]! @skipAuth
   }
 
   input CreateParticipantInput {

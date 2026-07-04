@@ -3,10 +3,11 @@ import type {
   ParticipantsQueryVariables,
 } from 'types/graphql'
 
-import type {
-  CellSuccessProps,
-  CellFailureProps,
-  TypedDocumentNode,
+import {
+  type CellSuccessProps,
+  type CellFailureProps,
+  type TypedDocumentNode,
+  useMutation,
 } from '@redwoodjs/web'
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import {
@@ -28,8 +29,8 @@ export const QUERY: TypedDocumentNode<
   ParticipantsQuery,
   ParticipantsQueryVariables
 > = gql`
-  query ParticipantsQuery {
-    participants {
+  query AccomodationParticipantsQuery($date: Date!) {
+    accomodationParticipants(date: $date) {
       id
       name
       familyName
@@ -38,6 +39,23 @@ export const QUERY: TypedDocumentNode<
       phoneCaretakerContact
       startDate
       endDate
+      accomodationCheckIns {
+        id
+      }
+    }
+  }
+`
+
+const TOGGLE_CHECKIN_MUTATION = gql`
+  mutation ToggleAccomodationCheckIn(
+    $participantId: String!
+    $date: Date!
+  ) {
+    toggleAccommodationCheckIn(
+      participantId: $participantId
+      date: $date
+    ) {
+      id
     }
   }
 `
@@ -51,7 +69,10 @@ export type ParticipantQueryResult = {
   phoneCaretakerContact: string;
   startDate: string;
   endDate: string;
-};
+  accomodationCheckIns: {
+    id: number
+  }[]
+}
 
 function calculateAge(birthdateString: string) {
   console.log(birthdateString)
@@ -71,75 +92,6 @@ function calculateAge(birthdateString: string) {
   return age
 }
 
-export const columns: ColumnDef<ParticipantQueryResult, any>[] = [
-  {
-    accessorKey: "name",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Vorname" label="Vorname" />
-    ),
-    cell: ({ row }) => <span>{row.getValue("name")}</span>,
-    enableSorting: true,
-  },
-  {
-    accessorKey: "familyName",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Nachname" label="Nachname" />
-    ),
-    cell: ({ row }) => <span>{row.getValue("familyName")}</span>,
-    enableSorting: true,
-  },
-  {
-    accessorKey: "phoneNumber",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Telefonnummer (Teilnehmer)" label="Telefonnummer (Teilnehmer)" />
-    ),
-    cell: ({ row }) => (
-      <span>
-        {row.getValue("phoneNumber")}
-      </span>
-    ),
-    enableColumnFilter: false,
-  },
-  {
-    accessorKey: "phoneCaretakerContact",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Telefonnummer (Erziehungsberechtigter)" label="Telefonnummer (Erziehungsberechtigter)" />
-    ),
-    cell: ({ row }) => (
-      <span>
-        {row.getValue("phoneCaretakerContact")}
-      </span>
-    ),
-    enableColumnFilter: false,
-  },
-  {
-    accessorKey: "birthdate",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Alter" label="Alter" />
-    ),
-    cell: ({ row }) => (
-      <span>
-        {calculateAge(row.getValue("birthdate"))}
-      </span>
-    ),
-  },
-  {
-    accessorKey: "checkbox",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Eingecheckt" label="Eingecheckt" />
-    ),
-    cell: ({ row }) => (
-      <Checkbox w-10 justify-center
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Eingecheckt"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  }
-];
-
 export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => <div>Empty</div>
@@ -151,26 +103,110 @@ export const Failure = ({
 )
 
 export const Success = ({
-  participants,
+  accomodationParticipants,
+  date,
 }: CellSuccessProps<ParticipantsQuery, ParticipantsQueryVariables>) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [rowSelection, setRowSelection] = React.useState({})
 
   // Kombinierter Suchstate für Vor- und Nachname
   const [globalSearch, setGlobalSearch] = React.useState("");
 
+  const [setAccomodationCheckIn] = useMutation(
+    TOGGLE_CHECKIN_MUTATION,
+    {
+      refetchQueries: ['AccomodationParticipantsQuery']
+    }
+  )
+
+  const columns: ColumnDef<ParticipantQueryResult, any>[] = [
+    {
+      accessorKey: "name",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Vorname" label="Vorname" />
+      ),
+      cell: ({ row }) => <span>{row.getValue("name")}</span>,
+      enableSorting: true,
+    },
+    {
+      accessorKey: "familyName",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Nachname" label="Nachname" />
+      ),
+      cell: ({ row }) => <span>{row.getValue("familyName")}</span>,
+      enableSorting: true,
+    },
+    {
+      accessorKey: "phoneNumber",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Telefonnummer (Teilnehmer)" label="Telefonnummer (Teilnehmer)" />
+      ),
+      cell: ({ row }) => (
+        <span>
+          {row.getValue("phoneNumber")}
+        </span>
+      ),
+      enableColumnFilter: false,
+    },
+    {
+      accessorKey: "phoneCaretakerContact",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Telefonnummer (Erziehungsberechtigter)" label="Telefonnummer (Erziehungsberechtigter)" />
+      ),
+      cell: ({ row }) => (
+        <span>
+          {row.getValue("phoneCaretakerContact")}
+        </span>
+      ),
+      enableColumnFilter: false,
+    },
+    {
+      accessorKey: "birthdate",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Alter" label="Alter" />
+      ),
+      cell: ({ row }) => (
+        <span>
+          {calculateAge(row.getValue("birthdate"))}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "checkbox",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Eingecheckt" label="Eingecheckt" />
+      ),
+      cell: ({ row }) => {
+        const participant = row.original
+        return (
+          <Checkbox w-10 justify-center
+            checked={participant.accomodationCheckIns.length > 0}
+            onCheckedChange={(checked) => {
+              setAccomodationCheckIn({
+                variables: {
+                  participantId: participant.id,
+                  date: date
+                }
+              })
+            }
+            }
+            aria-label="Eingecheckt"
+          />
+        )
+      },
+      enableSorting: false,
+      enableHiding: false,
+    }
+  ];
+
   const table = useReactTable({
-    data: participants,
+    data: accomodationParticipants,
     columns,
     state: {
       sorting,
       columnFilters,
       globalFilter: globalSearch,
-      rowSelection,
     },
-    enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalSearch,
