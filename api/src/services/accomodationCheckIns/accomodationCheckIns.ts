@@ -34,9 +34,20 @@ export const toggleAccommodationCheckIn: MutationResolvers['toggleAccomodationCh
       where: { id: existing.id }
     })
   }
+
+  const participant = await db.participant.findUnique({
+    where: { id: participantId },
+    select: { eventId: true }
+  })
+
+  if (!participant) {
+    throw new Error('Participant not found')
+  }
+
   return db.accomodationCheckIn.create({
     data: {
       participantId,
+      eventId: participant.eventId,
       date,
     }
   })
