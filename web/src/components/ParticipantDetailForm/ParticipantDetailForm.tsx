@@ -7,7 +7,7 @@ import { addDays } from 'date-fns'
 import { Save } from 'lucide-react'
 import { z } from 'zod'
 
-import AlertCenter from '@/components/Alert/AlertCenter'
+import AlertCenter from '@/components/ui/Alert/AlertCenter'
 import { Button } from '@/components/ui/button'
 import { Datepicker } from '@/components/ui/date-picker'
 import { Field, FieldLabel } from '@/components/ui/field'

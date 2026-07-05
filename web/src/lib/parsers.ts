@@ -1,12 +1,12 @@
 import { createParser } from "nuqs/server";
 import { z } from "zod";
 
-import { dataTableConfig } from "src/components/data-table/data-table";
+import { dataTableConfig } from "@/components/ui/data-table/data-table";
 
 import type {
   ExtendedColumnFilter,
   ExtendedColumnSort,
-} from "src/components/data-table/data-table";
+} from "@/components/ui/data-table/data-table";
 
 const sortingItemSchema = z.object({
   id: z.string(),

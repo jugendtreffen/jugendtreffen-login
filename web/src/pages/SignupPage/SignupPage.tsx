@@ -4,7 +4,7 @@ import {SignupForm, SignupInput} from '@/components/Auth/SignupForm'
 import { useAlert } from '@/hooks/AlertHook'
 import { useAuth } from 'src/auth'
 
-import AlertCenter from 'src/components/Alert/AlertCenter'
+import AlertCenter from '@/components/ui/Alert/AlertCenter'
 import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Dialog} from "@/components/ui/dialog";
 import React, {useState} from "react";
