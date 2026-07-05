@@ -5,7 +5,7 @@ import {Metadata} from '@redwoodjs/web'
 import {ArrowRight, Info} from 'lucide-react'
 
 import {useAuth} from 'src/auth'
-import Alert from 'src/components/Alert/Alert'
+import Alert from '@/components/ui/Alert/Alert'
 import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card'
 import {Button} from "@/components/ui/button";
 

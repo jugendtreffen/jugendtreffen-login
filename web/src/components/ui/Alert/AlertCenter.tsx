@@ -1,4 +1,4 @@
-import Alert from 'src/components/Alert/Alert'
+import Alert from '@/components/ui/Alert/Alert'
 import { useAlert } from '@/hooks/AlertHook'
 
 
