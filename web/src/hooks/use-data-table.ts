@@ -29,7 +29,7 @@ import * as React from "react";
 
 import { useDebouncedCallback } from "src/hooks/use-debounced-callback";
 import { getSortingStateParser } from "src/lib/parsers";
-import type { ExtendedColumnSort, QueryKeys } from "src/components/data-table/data-table";
+import type { ExtendedColumnSort, QueryKeys } from "@/components/ui/data-table/data-table";
 
 const PAGE_KEY = "page";
 const PER_PAGE_KEY = "perPage";

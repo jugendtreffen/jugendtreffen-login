@@ -22,7 +22,7 @@ import { CreateParticipantMutation, CreateParticipantMutationVariables } from 't
 import { Separator } from '../ui/separator'
 import {navigate, routes} from "@redwoodjs/router";
 import {useAlert} from "@/hooks/AlertHook";
-import AlertCenter from "@/components/Alert/AlertCenter";
+import AlertCenter from "@/components/ui/Alert/AlertCenter";
 
 const CREATE_PARTICIPANT = gql`
   mutation CreateRegisteredParticipantMutation(

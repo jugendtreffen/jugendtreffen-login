@@ -5,7 +5,7 @@ import LandingPageView from '@/pages/HomePage/views/LandingPageView'
 import { Skeleton } from '@/components/ui/skeleton'
 import NavbarLayout from "@/layouts/NavbarLayout/NavbarLayout";
 import {useAuth} from "@/auth";
-import StaffViewRouter from "@/pages/HomePage/views/StaffViewRouter";
+import ViewRouter from "@/pages/HomePage/views/ViewRouter";
 
 const HomePage = () => {
   const { loading, isAuthenticated } = useAuth()
@@ -28,7 +28,7 @@ const HomePage = () => {
   if (isAuthenticated) {
     return (
       <SidebarLayout>
-        <StaffViewRouter />
+        <ViewRouter />
       </SidebarLayout>
     )
   }
