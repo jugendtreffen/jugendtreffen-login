@@ -12,10 +12,11 @@ import type {
 } from '@redwoodjs/web'
 import { useMutation } from '@redwoodjs/web'
 
-import Alert from '@/components/Alert/Alert'
+import Alert from '@/components/ui/Alert/Alert'
 import { Skeleton } from '@/components/ui/skeleton'
-import StaffRoleForm from '@/components/StaffCell/StaffRoleForm'
+import StaffRoleForm from '@/components/StaffRoleForm/StaffRoleForm'
 import { useAlert } from '@/hooks/AlertHook'
+import AlertCenter from "@/components/ui/Alert/AlertCenter";
 
 export const QUERY: TypedDocumentNode<
   StaffUsersQuery,
@@ -77,7 +78,7 @@ export const Success = ({
     UpdateStaffRoleMutation,
     UpdateStaffRoleMutationVariables
   >(UPDATE_STAFF_ROLE, {
-    onCompleted: () => addAlert('Rolle erfolgreich aktualisiert', 'success'),
+    onCompleted: () => addAlert(`Rolle erfolgreich aktualisiert`, 'success'),
     onError: (error) => addAlert(`Fehler: ${error.message}`, 'error'),
     refetchQueries: [{ query: QUERY }],
   })
@@ -96,6 +97,7 @@ export const Success = ({
           isSaving={loading}
         />
       ))}
+      <AlertCenter />
     </div>
   )
 }

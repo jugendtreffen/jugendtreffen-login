@@ -14,10 +14,12 @@ import {
 // Muss synchron mit getSidebarItemsByRole in SidebarLayout.tsx bleiben
 const AVAILABLE_ROLES = [
   { value: 'checkin', label: 'Check-in' },
-  { value: 'quartier', label: 'Quartier' },
+  { value: 'quartier_boys', label: 'Quartier Burschen' },
+  { value: 'quartier_girls', label: 'Quartier Mädchen' },
+  { value: 'admin', label: 'Admin' },
 ]
 
-const NO_ROLE_VALUE = '__none__'
+const NO_ROLE_VALUE = 'none'
 
 type StaffUser = { id: string; email: string; role: string | null }
 

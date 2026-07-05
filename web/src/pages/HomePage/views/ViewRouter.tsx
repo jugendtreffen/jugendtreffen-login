@@ -8,15 +8,17 @@ const viewMap: Record<SidebarItem, React.ComponentType> = {
   "Dashboard": DashboardView,
   "Quartier": QuartierView,
   "Checkin": CheckinView,
-  "Join the Team": JoinStaffView
+  "Join the Team": JoinStaffView,
+  "Mitarbeiter": ManageStaffView,
 }
 
 import React from 'react';
+import ManageStaffView from "@/pages/HomePage/views/ManageStaffView/ManageStaffView";
 
-const StaffViewRouter = () => {
+const ViewRouter = () => {
   const { sidebarItem } = useSidebar()
   const View = viewMap[sidebarItem]
   return View ? <View /> : null
 };
 
-export default StaffViewRouter;
+export default ViewRouter;

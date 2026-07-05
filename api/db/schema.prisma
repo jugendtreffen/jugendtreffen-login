@@ -12,14 +12,23 @@ datasource db {
 enum UserRoleEnum {
   admin
   checkin
-  quartier
+  quartier_boys
+  quartier_girls
   none
+}
+
+enum BandColourEnum {
+  red
+  orange
+  green
+  blue
+  white
 }
 
 model UserRole {
   id    String   @id @default(uuid()) @db.Uuid
   role  UserRoleEnum
-  userId String   @db.Uuid
+  userId String   @db.Uuid @unique
 
   @@unique([userId, role]) // user can only have one role
   @@map("user_roles")
@@ -49,6 +58,9 @@ model Participant {
   acceptCoC             Boolean
   eventId               BigInt   @db.BigInt
   participationRole     String?
+  price                 Float?
+  bandColour            BandColourEnum?
+  checkinConfirmed      Boolean  @default(false)
   createdAt             DateTime @default(now())
   event                 Event    @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 

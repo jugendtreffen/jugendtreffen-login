@@ -9,10 +9,9 @@ const ManageStaffView = () => {
 
       <section className="mx-auto max-w-2xl space-y-6">
         <div>
-          <h1 className="text-xl font-bold">Staff verwalten</h1>
+          <h1 className="text-xl font-bold">Mitarbeiter verwalten</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Weise Benutzern Rollen zu oder entferne sie. Änderungen werden
-            sofort in den Supabase App-Metadaten gespeichert.
+            Weise Benutzern Rollen zu oder entferne sie.
           </p>
         </div>
         <StaffCell />
