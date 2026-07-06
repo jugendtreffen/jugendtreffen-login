@@ -24,6 +24,8 @@ import {MoreHorizontal } from "lucide-react";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 import {useSidebar} from "@/layouts/SidebarLayout/SidebarLayout";
+import Alert from "@/components/ui/Alert/Alert";
+import {Skeleton} from "@/components/ui/skeleton";
 
 export const QUERY: TypedDocumentNode<
   ParticipantsQuery,
@@ -48,9 +50,13 @@ export type ParticipantQueryResult = {
   birthdate: string;
 };
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () =>
+  <>
+    <Skeleton className="h-8 w-full rounded-xl" />
+    <Skeleton className="h-150 w-full rounded-xl" />
+  </>
 
-export const Empty = () => <div>Empty</div>
+export const Empty = () => <Alert id="empty-alert" message="Es haben sich noch keine Teilnehmer angemeldet" type="info" dismissible={false}></Alert>
 
 export const Failure = ({
   error,
