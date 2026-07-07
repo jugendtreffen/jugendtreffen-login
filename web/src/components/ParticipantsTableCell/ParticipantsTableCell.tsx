@@ -73,6 +73,11 @@ export const Success = ({
 
   const [globalSearch, setGlobalSearch] = React.useState("");
 
+  const onEdit = (id: string) => {
+    localStorage.setItem('selectedParticipantId', id)
+    setSubState('Details')
+  }
+
   const columns: ColumnDef<ParticipantQueryResult, any>[] = [
     {
       accessorKey: "name",
@@ -117,7 +122,7 @@ export const Success = ({
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Details" label="Details" />
       ),
-      cell: function Cell() {
+      cell: function Cell({ row }) {
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -127,7 +132,7 @@ export const Success = ({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => {setSubState("Details")}}>Edit</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onEdit(row.getValue("id"))}>Edit</DropdownMenuItem>
               <DropdownMenuItem className="text-destructive hover:bg-destructive/10">
                 Delete
               </DropdownMenuItem>

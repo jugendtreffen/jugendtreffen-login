@@ -8,15 +8,49 @@ import {
 } from "@/components/ui/breadcrumb";
 import {useSidebar} from "@/layouts/SidebarLayout/SidebarLayout";
 import ParticipantDetailForm from "@/components/ParticipantDetailForm/ParticipantDetailForm";
+import { useQuery } from '@redwoodjs/web'
 
+const GET_PARTICIPANT_QUERY = gql`
+  query ParticipantDetailQuery($id: String!) {
+    participant(id: $id) {
+      id
+      name
+      familyName
+      birthdate
+      gender
+      email
+      phoneNumber
+      phoneCaretakerContact
+      foundUsBy
+      isParent
+      country
+      city
+      postalCode
+      address
+      travelMethod
+      accommodation
+      startDate
+      endDate
+      foodChoice
+      acceptPhotos
+      acceptCoC
+      participationRole
+      eventId
+      event {
+        startDate
+        endDate
+      }
+    }
+  }
+`
 
-
-type Props = {
-  participantId: string
-}
-
-const CheckinDetails = ({participantId}: Props) => {
+const CheckinDetails = () => {
   const {setSubState} = useSidebar()
+  const participantId = localStorage.getItem('selectedParticipantId')
+
+  const { data, loading } = useQuery(GET_PARTICIPANT_QUERY, {
+    variables: { id: participantId },
+  })
 
   return (
     <>
@@ -27,12 +61,12 @@ const CheckinDetails = ({participantId}: Props) => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>{participantId}</BreadcrumbPage>
+            <BreadcrumbPage>{data?.participant?.name} {data?.participant?.familyName}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      <ParticipantDetailForm participantId={participantId} />
+      <ParticipantDetailForm participant={data?.participant} loading={loading} />
     </>
   );
 };
