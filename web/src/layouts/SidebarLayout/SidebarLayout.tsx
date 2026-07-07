@@ -92,7 +92,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
     <SidebarContext.Provider
       value={{ sidebarItem: activeSidebarItem, setSidebarItem: setActiveSidebarItem, subState: subState, setSubState: setSubState }}
     >
-      <div className="flex flex-col h-screen w-screen">
+      <div className="flex flex-col h-screen w-screen overflow-hidden">
         <div className="flex md:hidden w-full bg-gray-900 text-white p-4 items-center justify-between border-gray-600 border-b">
           <button onClick={() => setOpen(!open)}>
             {open ? <X size={24} /> : <Menu size={24} />}

@@ -54,7 +54,7 @@ const CheckinDetails = () => {
 
   return (
     <>
-      <Breadcrumb>
+      <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink onClick={() => setSubState("Overview")} >Übersicht</BreadcrumbLink>
