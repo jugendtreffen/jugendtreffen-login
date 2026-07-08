@@ -2,13 +2,10 @@ import { useEffect } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, Form, useForm } from '@redwoodjs/forms'
-import { useMutation, useQuery } from '@redwoodjs/web'
+import { useMutation } from '@redwoodjs/web'
 import { addDays } from 'date-fns'
-import { Save } from 'lucide-react'
-import { z } from 'zod'
 
 import AlertCenter from '@/components/ui/Alert/AlertCenter'
-import { Button } from '@/components/ui/button'
 import { Datepicker } from '@/components/ui/date-picker'
 import { Field, FieldLabel } from '@/components/ui/field'
 import { Label } from '@/components/ui/label'
@@ -23,14 +20,19 @@ import {
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Spinner } from '@/components/ui/spinner'
 import { useAlert } from '@/hooks/AlertHook'
+import { Participant } from 'types/graphql'
+import {
+  EditInput,
+  EditSchema,
+} from '@/components/ParticipantDetailForm/ParticipantDetailSchema'
+import { Checkbox } from '@/components/animate-ui/components/radix/checkbox'
+import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import { Switch } from '@/components/ui/switch'
 
-// ─── GraphQL ────────────────────────────────────────────────────────────────
-
-const GET_PARTICIPANT_QUERY = gql`
-  query GetParticipantDetail($id: String!) {
-    participant(id: $id) {
+const UPDATE_PARTICIPANT_MUTATION = gql`
+  mutation UpdateParticipantDetail($id: String!, $input: UpdateParticipantInput!) {
+    updateParticipant(id: $id, input: $input) {
       id
       name
       familyName
@@ -39,68 +41,23 @@ const GET_PARTICIPANT_QUERY = gql`
       email
       phoneNumber
       phoneCaretakerContact
-      foundUsBy
-      isParent
       country
-      city
       postalCode
+      city
       address
       travelMethod
+      participationRole
       accommodation
+      foodChoice
       startDate
       endDate
-      foodChoice
       acceptPhotos
-      acceptCoC
-      participationRole
-      eventId
-      event {
-        startDate
-        endDate
-      }
+      price
+      bandColour
+      checkinConfirmed
     }
   }
 `
-
-const UPDATE_PARTICIPANT_MUTATION = gql`
-  mutation UpdateParticipantDetail($id: String!, $input: UpdateParticipantInput!) {
-    updateParticipant(id: $id, input: $input) {
-      id
-      name
-      familyName
-    }
-  }
-`
-
-// ─── Schema (nur die editierbaren Felder validieren) ─────────────────────────
-
-const EditSchema = z.object({
-  name:                   z.string().min(1),
-  familyName:             z.string().min(1),
-  email:                  z.string().email(),
-  birthdate:              z.coerce.date(),
-  gender:                 z.string().min(1),
-  phoneNumber:            z.string().min(1),
-  phoneCaretakerContact:  z.string().optional().nullable(),
-  country:                z.string().min(1),
-  city:                   z.string().min(1),
-  postalCode:             z.string().min(1),
-  address:                z.string().min(1),
-  travelMethod:           z.string().optional().nullable(),
-  participationRole:      z.string().optional().nullable(),
-  accommodation:          z.string().min(1),
-  startDate:              z.coerce.date(),
-  endDate:                z.coerce.date(),
-  foodChoice:             z.string().min(1),
-  acceptPhotos:           z.boolean(),
-  acceptCoC:              z.boolean(),
-  foundUsBy:              z.string().optional().nullable(),
-  isParent:               z.boolean(),
-})
-
-type EditInput = z.infer<typeof EditSchema>
-
-// ─── Skeleton beim Laden ─────────────────────────────────────────────────────
 
 const FormSkeleton = () => (
   <div className="grid grid-cols-4 gap-4 p-6">
@@ -113,20 +70,13 @@ const FormSkeleton = () => (
   </div>
 )
 
-// ─── Props ───────────────────────────────────────────────────────────────────
-
 type Props = {
-  participantId: string
+  participant: Participant
+  loading: boolean
 }
 
-// ─── Hauptkomponente ──────────────────────────────────────────────────────────
-
-const ParticipantDetailForm = ({ participantId }: Props) => {
+const ParticipantDetailForm = ({ participant, loading }: Props) => {
   const { addAlert } = useAlert()
-
-  const { data, loading } = useQuery(GET_PARTICIPANT_QUERY, {
-    variables: { id: participantId },
-  })
 
   const [updateParticipant, { loading: saving }] = useMutation(
     UPDATE_PARTICIPANT_MUTATION,
@@ -141,22 +91,20 @@ const ParticipantDetailForm = ({ participantId }: Props) => {
     resolver: zodResolver(EditSchema),
   })
 
-  // Formular befüllen sobald die Query zurückkommt
   useEffect(() => {
-    if (!data?.participant) return
-    const p = data.participant
+    if (!participant) return
     form.reset({
-      ...p,
-      birthdate: new Date(p.birthdate),
-      startDate: new Date(p.startDate),
-      endDate:   new Date(p.endDate),
+      ...participant,
+      birthdate: new Date(participant.birthdate),
+      startDate: new Date(participant.startDate),
+      endDate:   new Date(participant.endDate),
     })
-  }, [data])
+  }, [participant])
 
   const onSubmit = (values: EditInput) => {
     updateParticipant({
       variables: {
-        id: participantId,
+        id: participant.id,
         input: values,
       },
     })
@@ -165,29 +113,38 @@ const ParticipantDetailForm = ({ participantId }: Props) => {
   const participationRole = form.watch('participationRole')
   const isParticipant =
     participationRole === 'teilnehmer' || !participationRole
-  const isAccompanyingPerson = participationRole === 'begleitperson'
 
-  const event = data?.participant?.event
+  const event = participant?.event
 
   if (loading) return <FormSkeleton />
 
   return (
     <Form formMethods={form} onSubmit={onSubmit}>
       <div className="grid grid-cols-4 gap-2">
-
-        {/* ── Persönliche Daten ── */}
         <p className="col-span-4 text-sm font-semibold text-muted-foreground uppercase tracking-wide pt-2">
           Persönliche Daten
         </p>
 
         <div className="col-span-4 md:col-span-2">
-          <LabeledInput name="name" label="Vorname" formControl={form.control} />
+          <LabeledInput
+            name="name"
+            label="Vorname"
+            formControl={form.control}
+          />
         </div>
         <div className="col-span-4 md:col-span-2">
-          <LabeledInput name="familyName" label="Nachname" formControl={form.control} />
+          <LabeledInput
+            name="familyName"
+            label="Nachname"
+            formControl={form.control}
+          />
         </div>
         <div className="col-span-4 md:col-span-2">
-          <LabeledInput name="email" label="E-Mail" formControl={form.control} />
+          <LabeledInput
+            name="email"
+            label="E-Mail"
+            formControl={form.control}
+          />
         </div>
         <div className="col-span-4 md:col-span-2">
           <Controller
@@ -209,10 +166,20 @@ const ParticipantDetailForm = ({ participantId }: Props) => {
           />
         </div>
         <div className="col-span-4 md:col-span-2">
-          <LabeledInput name="phoneNumber" label="Telefonnummer" formControl={form.control} placeholder="+43 123 456789" />
+          <LabeledInput
+            name="phoneNumber"
+            label="Telefonnummer"
+            formControl={form.control}
+            placeholder="+43 123 456789"
+          />
         </div>
         <div className="col-span-4 md:col-span-2">
-          <LabeledInput name="phoneCaretakerContact" label="Telefon Erziehungsberechtigte/r" formControl={form.control} placeholder="+43 123 456789" />
+          <LabeledInput
+            name="phoneCaretakerContact"
+            label="Telefon Erziehungsberechtigte/r"
+            formControl={form.control}
+            placeholder="+43 123 456789"
+          />
         </div>
         <div className="col-span-4 md:col-span-2">
           <Controller
@@ -221,7 +188,12 @@ const ParticipantDetailForm = ({ participantId }: Props) => {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.error}>
                 <FieldLabel htmlFor="gender">Geschlecht</FieldLabel>
-                <Select name="gender" onValueChange={field.onChange} value={field.value ?? ''} aria-invalid={fieldState.invalid}>
+                <Select
+                  name="gender"
+                  onValueChange={field.onChange}
+                  value={field.value ?? ''}
+                  aria-invalid={fieldState.invalid}
+                >
                   <SelectTrigger className="w-full max-w-96">
                     <SelectValue placeholder="Bitte wähle" />
                   </SelectTrigger>
@@ -232,6 +204,29 @@ const ParticipantDetailForm = ({ participantId }: Props) => {
                     </SelectGroup>
                   </SelectContent>
                 </Select>
+              </Field>
+            )}
+          />
+        </div>
+
+        <div className="col-span-4 md:col-span-2 h-full">
+          <Controller
+            name={'ageChecked'}
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel
+                  htmlFor={'ageChecked'}
+                  className="flex items-center gap-x-3 my-auto"
+                >
+                  <Checkbox
+                    name={'ageChecked'}
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    aria-invalid={fieldState.invalid}
+                  />
+                  <p>Ich habe das Geburtsdatum überprüft</p>
+                </FieldLabel>
               </Field>
             )}
           />
@@ -251,7 +246,12 @@ const ParticipantDetailForm = ({ participantId }: Props) => {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.error}>
                 <FieldLabel htmlFor="country">Land</FieldLabel>
-                <Select name="country" onValueChange={field.onChange} value={field.value ?? ''} aria-invalid={fieldState.invalid}>
+                <Select
+                  name="country"
+                  onValueChange={field.onChange}
+                  value={field.value ?? ''}
+                  aria-invalid={fieldState.invalid}
+                >
                   <SelectTrigger className="w-full max-w-96">
                     <SelectValue placeholder="Bitte wähle" />
                   </SelectTrigger>
@@ -273,13 +273,21 @@ const ParticipantDetailForm = ({ participantId }: Props) => {
           />
         </div>
         <div className="col-span-4 md:col-span-1">
-          <LabeledInput name="postalCode" label="PLZ" formControl={form.control} />
+          <LabeledInput
+            name="postalCode"
+            label="PLZ"
+            formControl={form.control}
+          />
         </div>
         <div className="col-span-4 md:col-span-3">
           <LabeledInput name="city" label="Stadt" formControl={form.control} />
         </div>
         <div className="col-span-4">
-          <LabeledInput name="address" label="Adresse" formControl={form.control} />
+          <LabeledInput
+            name="address"
+            label="Adresse"
+            formControl={form.control}
+          />
         </div>
 
         <Separator className="col-span-4 my-4" />
@@ -296,7 +304,11 @@ const ParticipantDetailForm = ({ participantId }: Props) => {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.error}>
                 <FieldLabel htmlFor="travelMethod">Anreise</FieldLabel>
-                <Select name="travelMethod" onValueChange={field.onChange} value={field.value ?? ''}>
+                <Select
+                  name="travelMethod"
+                  onValueChange={field.onChange}
+                  value={field.value ?? ''}
+                >
                   <SelectTrigger className="w-full max-w-96">
                     <SelectValue placeholder="Bitte wähle" />
                   </SelectTrigger>
@@ -319,17 +331,29 @@ const ParticipantDetailForm = ({ participantId }: Props) => {
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.error}>
-                <FieldLabel htmlFor="participationRole">Teilnahme als</FieldLabel>
-                <Select name="participationRole" onValueChange={field.onChange} value={field.value ?? ''}>
+                <FieldLabel htmlFor="participationRole">
+                  Teilnahme als
+                </FieldLabel>
+                <Select
+                  name="participationRole"
+                  onValueChange={field.onChange}
+                  value={field.value ?? ''}
+                >
                   <SelectTrigger className="w-full max-w-96">
                     <SelectValue placeholder="Bitte wähle" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       <SelectItem value="teilnehmer">Teilnehmer</SelectItem>
-                      <SelectItem value="priester">(Ordens-)Priester</SelectItem>
-                      <SelectItem value="begleitperson">Begleitperson</SelectItem>
-                      <SelectItem value="ordensmann/ordensfrau">Ordensmann/Ordensfrau</SelectItem>
+                      <SelectItem value="priester">
+                        (Ordens-)Priester
+                      </SelectItem>
+                      <SelectItem value="begleitperson">
+                        Begleitperson
+                      </SelectItem>
+                      <SelectItem value="ordensmann/ordensfrau">
+                        Ordensmann/Ordensfrau
+                      </SelectItem>
                       <SelectItem value="vortragender">Vortragender</SelectItem>
                     </SelectGroup>
                   </SelectContent>
@@ -346,22 +370,58 @@ const ParticipantDetailForm = ({ participantId }: Props) => {
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.error}>
                 <FieldLabel htmlFor="accommodation">Unterkunft</FieldLabel>
-                <Select name="accommodation" onValueChange={field.onChange} value={field.value ?? ''} aria-invalid={fieldState.invalid}>
+                <Select
+                  name="accommodation"
+                  onValueChange={field.onChange}
+                  value={field.value ?? ''}
+                  aria-invalid={fieldState.invalid}
+                >
                   <SelectTrigger className="w-full max-w-96">
                     <SelectValue placeholder="Bitte wähle" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       {isParticipant && (
-                        <SelectItem value="jugendtreffen">beim Jugendtreffen</SelectItem>
+                        <SelectItem value="jugendtreffen">
+                          beim Jugendtreffen
+                        </SelectItem>
                       )}
-                      <SelectItem value="subiaco">
-                        Haus Subiaco{!isParticipant ? ' (35€/Nacht)' : ''}
-                      </SelectItem>
-                      {!isParticipant && !isAccompanyingPerson && (
-                        <SelectItem value="family">Privatunterkunft</SelectItem>
+                      <SelectItem value="subiaco">Haus Subiaco</SelectItem>
+                      {!isParticipant && (
+                        <SelectItem value="family">
+                          bei einer Familie
+                        </SelectItem>
                       )}
-                      <SelectItem value="private">unabhängig vom Jugendtreffen</SelectItem>
+                      <SelectItem value="private">Privatunterkunft</SelectItem>
+                      <SelectItem value="sonstige">Sonstiges</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </Field>
+            )}
+          />
+        </div>
+
+        <div className="col-span-4 md:col-span-2">
+          <Controller
+            name="foodChoice"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.error}>
+                <FieldLabel htmlFor="foodChoice">Essenswahl</FieldLabel>
+                <Select
+                  name="foodChoice"
+                  onValueChange={field.onChange}
+                  value={field.value ?? ''}
+                  aria-invalid={fieldState.invalid}
+                >
+                  <SelectTrigger className="w-full max-w-96">
+                    <SelectValue placeholder="Bitte wähle" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="any">normal</SelectItem>
+                      <SelectItem value="vegetarian">vegetarisch</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -384,8 +444,12 @@ const ParticipantDetailForm = ({ participantId }: Props) => {
                     value={field.value as Date}
                     onChange={field.onChange}
                     invalid={fieldState.invalid}
-                    min={event ? addDays(new Date(event.startDate), -1) : undefined}
-                    max={event ? addDays(new Date(event.endDate), -1) : undefined}
+                    min={
+                      event ? addDays(new Date(event.startDate), -1) : undefined
+                    }
+                    max={
+                      event ? addDays(new Date(event.endDate), -1) : undefined
+                    }
                   />
                 </Field>
               )}
@@ -411,83 +475,56 @@ const ParticipantDetailForm = ({ participantId }: Props) => {
           </div>
         </div>
 
+        <Separator className="col-span-4 my-4" />
+
+        <p className="col-span-4 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+          Zustimmungen
+        </p>
+
         <div className="col-span-4 md:col-span-2">
           <Controller
-            name="foodChoice"
+            name="acceptPhotos"
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.error}>
-                <FieldLabel htmlFor="foodChoice">Essenswahl</FieldLabel>
-                <Select name="foodChoice" onValueChange={field.onChange} value={field.value ?? ''} aria-invalid={fieldState.invalid}>
-                  <SelectTrigger className="w-full max-w-96">
-                    <SelectValue placeholder="Bitte wähle" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="any">normal</SelectItem>
-                      <SelectItem value="vegetarian">vegetarisch</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <Card>
+                  <Label htmlFor="acceptPhotos">
+                    <CardHeader className="p-3">
+                      <CardTitle>
+                        Foto- und Filmaufnahmen erlaubt
+                        <Switch id="acceptPhotos" className="ms-3" value={field.value}></Switch>
+                      </CardTitle>
+                    </CardHeader>
+                  </Label>
+                </Card>
               </Field>
             )}
           />
         </div>
 
         <div className="col-span-4 md:col-span-2">
-          <LabeledInput name="foundUsBy" label="Wie gefunden?" formControl={form.control} />
-        </div>
-
-        <Separator className="col-span-4 my-4" />
-
-        {/* ── Zustimmungen (nur lesen + korrigieren) ── */}
-        <p className="col-span-4 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-          Zustimmungen
-        </p>
-
-        <div className="col-span-4 md:col-span-2 flex items-center gap-3 py-2">
           <Controller
-            name="acceptCoC"
+            name="parentConfirmationChecked"
             control={form.control}
-            render={({ field }) => (
-              <label className="flex items-center gap-2 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-border"
-                  checked={field.value}
-                  onChange={field.onChange}
-                />
-                <span className="text-sm">Verhaltenskodex akzeptiert</span>
-              </label>
-            )}
-          />
-        </div>
-
-        <div className="col-span-4 md:col-span-2 flex items-center gap-3 py-2">
-          <Controller
-            name="acceptPhotos"
-            control={form.control}
-            render={({ field }) => (
-              <label className="flex items-center gap-2 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-border"
-                  checked={field.value}
-                  onChange={field.onChange}
-                />
-                <span className="text-sm">Foto- und Filmaufnahmen erlaubt</span>
-              </label>
-            )}
-          />
-        </div>
-
-        {/* ── Speichern ── */}
-        <div className="col-span-4 pt-2">
-          <Button type="submit" disabled={saving}>
-            {saving && <Spinner />}
-            <Save className="h-4 w-4 mr-2" />
-            Speichern
-          </Button>
+            render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.error}>
+                  <Card>
+                    <Label htmlFor="parentConfirmationChecked">
+                      <CardHeader className="p-3">
+                        <CardTitle>
+                          Elternbestätigung abgegeben
+                          <Switch
+                              id="parentConfirmationChecked"
+                              className="ms-3"
+                              value={field.value}
+                              onChange={field.onChange}
+                          ></Switch>
+                        </CardTitle>
+                      </CardHeader>
+                    </Label>
+                </Card>
+              </Field>
+            )}></Controller>
         </div>
       </div>
 
