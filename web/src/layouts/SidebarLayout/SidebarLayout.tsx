@@ -138,7 +138,10 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
                 <button
                   key={name}
                   title={name}
-                  onClick={() => setActiveSidebarItem(name)}
+                  onClick={() => {
+                    setActiveSidebarItem(name)
+                    setSubState(null)
+                  }}
                   className={`flex items-center rounded-xl px-3 py-2 text-gray-300 hover:bg-gray-700 focus:outline-none ${
                     expanded ? 'gap-3 justify-start' : 'justify-center'
                   } ${activeSidebarItem === name ? 'bg-gray-700 font-bold' : ''}`}
