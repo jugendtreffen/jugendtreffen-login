@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
-  CalendarPlus,
   Home,
   LaptopMinimalCheck,
   LayoutDashboard,
@@ -9,21 +8,24 @@ import {
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
-  User,
+  UserPen, UserStar,
   X,
 } from 'lucide-react'
 
 import { navigate, routes } from '@redwoodjs/router'
 
 import { useAuth } from 'src/auth'
-import Footer from 'src/components/Navigation/Footer'
 import { useAlert } from '@/hooks/AlertHook'
 import { isMobile, useForceUpdate } from 'src/lib/utils'
-import { useRole } from 'src/roles'
+import {Button} from "@/components/ui/button";
+
+export type SidebarItem = 'Dashboard' | 'Quartier' | 'Checkin' | 'Join the Team' | 'Mitarbeiter'
 
 interface SidebarContextType {
-  sidebarItem: 'Dashboard' | 'Profil' | 'Anmeldung' | 'Quartier' | 'Checkin'
-  setSidebarItem: (item: string) => void
+  sidebarItem: SidebarItem
+  setSidebarItem: (item: SidebarItem) => void
+  subState: string | null
+  setSubState: (state: string | null) => void
 }
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined)
 
@@ -36,11 +38,12 @@ export const useSidebar = () => {
 
 function getSidebarItemsByRole(role: string) {
   const items = [
-    { name: 'Dashboard', icon: LayoutDashboard },
-    { name: 'Profil', icon: User },
-    { name: 'Anmeldung', icon: CalendarPlus },
+    { name: 'Join the Team', icon: UserStar },
   ]
   switch (role) {
+    case 'admin':
+      items.push({ name: 'Dashboard', icon: LayoutDashboard },)
+      items.push({ name: 'Mitarbeiter', icon: UserPen },)
     case 'checkin':
       items.push({ name: 'Checkin', icon: LaptopMinimalCheck })
       break
@@ -58,13 +61,17 @@ type SidebarLayoutProps = {
 const SidebarLayout = ({ children }: SidebarLayoutProps) => {
   const [open, setOpen] = useState(!isMobile())
   const [expanded, setExpanded] = useState(true)
-  const [selectedItem, setSelectedItem] = useState('Dashboard')
+  const [activeSidebarItem, setActiveSidebarItem] = useState(() => {
+    const saved = localStorage.getItem("activeSidebarItem");
+    return (saved as SidebarItem) ?? "Join the Team";
+  })
+  const [subState, setSubState] = useState(null)
   const { logOut, loading } = useAuth()
   const { addAlert } = useAlert()
-  const { role } = useRole()
+  const { currentUser } = useAuth()
   const forceUpdate = useForceUpdate()
 
-  const sidebarItems = getSidebarItemsByRole(role)
+  const sidebarItems = getSidebarItemsByRole(currentUser.roles.at(0) || 'none')
 
   const getWidthByState = () => {
     return open ? (expanded ? 240 : 72) : 0
@@ -75,6 +82,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
       if (isMobile()) setExpanded(false)
       forceUpdate()
     }
+    localStorage.setItem('activeSidebarItem', activeSidebarItem)
 
     window.addEventListener('resize', handleResiize)
     return () => window.removeEventListener('resize', handleResiize)
@@ -82,7 +90,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
 
   return (
     <SidebarContext.Provider
-      value={{ sidebarItem: selectedItem, setSidebarItem: setSelectedItem }}
+      value={{ sidebarItem: activeSidebarItem, setSidebarItem: setActiveSidebarItem, subState: subState, setSubState: setSubState }}
     >
       <div className="flex flex-col h-screen w-screen">
         <div className="flex md:hidden w-full bg-gray-900 text-white p-4 items-center justify-between border-gray-600 border-b">
@@ -130,10 +138,10 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
                 <button
                   key={name}
                   title={name}
-                  onClick={() => setSelectedItem(name)}
+                  onClick={() => setActiveSidebarItem(name)}
                   className={`flex items-center rounded-xl px-3 py-2 text-gray-300 hover:bg-gray-700 focus:outline-none ${
                     expanded ? 'gap-3 justify-start' : 'justify-center'
-                  } ${selectedItem === name ? 'bg-gray-700 font-bold' : ''}`}
+                  } ${activeSidebarItem === name ? 'bg-gray-700 font-bold' : ''}`}
                 >
                   <Icon className="h-5 w-5" />
                   {expanded && <span>{name}</span>}
@@ -142,7 +150,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
             </nav>
 
             <div className="p-2">
-              <button
+              <Button
                 title="Abmelden"
                 onClick={() => {
                   logOut().catch(() => {
@@ -151,13 +159,11 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
                   navigate(routes.home())
                 }}
                 disabled={loading}
-                className={`flex w-full items-center rounded-xl px-3 py-2 text-accent hover:bg-gray-700 ${
-                  expanded ? 'gap-3 justify-start' : 'justify-center'
-                }`}
+                className="w-full"
               >
                 <LogOut className="h-5 w-5" />
                 {expanded && <span>Abmelden</span>}
-              </button>
+              </Button>
             </div>
           </motion.aside>
 
@@ -168,7 +174,6 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
             }}
           >
             <main className="flex-1 overflow-visible p-6">{children}</main>
-            <Footer />
           </div>
         </div>
       </div>

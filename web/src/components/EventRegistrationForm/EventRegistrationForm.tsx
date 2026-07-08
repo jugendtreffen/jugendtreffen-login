@@ -22,7 +22,7 @@ import { CreateParticipantMutation, CreateParticipantMutationVariables } from 't
 import { Separator } from '../ui/separator'
 import {navigate, routes} from "@redwoodjs/router";
 import {useAlert} from "@/hooks/AlertHook";
-import AlertCenter from "@/components/Alert/AlertCenter";
+import AlertCenter from "@/components/ui/Alert/AlertCenter";
 
 const CREATE_PARTICIPANT = gql`
   mutation CreateRegisteredParticipantMutation(
@@ -71,11 +71,6 @@ const EventRegistrationForm = ({ event }) => {
   const [hasOpenedLink, setHasOpenedLink] = useState(false)
 
   const onSubmit = async (input: RegistrationInput) => {
-    // set Time to UTC Midnight to prevent UTC Midnight shift
-    input.birthdate.setHours(input.birthdate.getTimezoneOffset() / -60)
-    input.startDate.setHours(input.startDate.getTimezoneOffset() / -60)
-    input.endDate.setHours(input.endDate.getTimezoneOffset() / -60)
-
     const variables = {
       input: {
         eventId: event.id,
@@ -83,8 +78,6 @@ const EventRegistrationForm = ({ event }) => {
         ...input,
       },
     }
-
-    console.log("variables: ", variables)
 
     await createParticipant({
       variables: variables,

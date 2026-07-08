@@ -11,7 +11,7 @@ import type {
   TypedDocumentNode,
 } from '@redwoodjs/web'
 
-import Alert from '@/components/Alert/Alert'
+import Alert from '@/components/ui/Alert/Alert'
 import EventRegistrationForm from '@/components/EventRegistrationForm/EventRegistrationForm'
 import {
   Card,

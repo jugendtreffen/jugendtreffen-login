@@ -4,16 +4,22 @@ import {SignupForm, SignupInput} from '@/components/Auth/SignupForm'
 import { useAlert } from '@/hooks/AlertHook'
 import { useAuth } from 'src/auth'
 
-import AlertCenter from 'src/components/Alert/AlertCenter'
+import AlertCenter from '@/components/ui/Alert/AlertCenter'
 import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
+import {Dialog} from "@/components/ui/dialog";
+import React, {useState} from "react";
+import {SignupSuccessDialog} from "@/components/Auth/SignupSuccessDialog";
 
 const SignupPage = () => {
   const { client, isAuthenticated, currentUser } = useAuth()
   const { addAlert, removeAllAlerts } = useAlert()
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [email, setEmail] = useState('')
 
   const onSubmit = async (input: SignupInput) => {
     if (!input.email) return
     removeAllAlerts()
+    setEmail(input.email)
     try {
       const response = await client.auth.signUp({
         email: input.email,
@@ -21,9 +27,12 @@ const SignupPage = () => {
       })
       if (response?.error?.message) {
         addAlert(response.error.message, 'error')
+      } else {
+        setIsDialogOpen(true)
       }
     } catch (error) {
       addAlert(error.message, 'error')
+      setIsDialogOpen(false)
     }
   }
 
@@ -59,14 +68,18 @@ const SignupPage = () => {
         description="Erstelle einen Mitarbeiter Account"
       />
 
-      <div className="flex w-full items-center justify-center p-6 md:p-10">
-        <div className="w-full max-w-md">
-          <SignupForm onSubmit={onSubmit} />
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <SignupSuccessDialog email={email} />
+
+        <div className="flex w-full items-center justify-center p-6 md:p-10">
+          <div className="w-full max-w-md">
+            <SignupForm onSubmit={onSubmit} />
+          </div>
         </div>
-      </div>
-      <div className="w-1/2 mx-auto">
-        <AlertCenter className="mt-2"></AlertCenter>
-      </div>
+        <div className="w-1/2 mx-auto">
+          <AlertCenter className="mt-2"></AlertCenter>
+        </div>
+      </Dialog>
     </>
   )
 }

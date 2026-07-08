@@ -1,16 +1,17 @@
-import { Link, navigate, routes } from '@redwoodjs/router'
+import { navigate, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 
 import { LoginForm } from '@/components/Auth/LoginForm'
-import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import {Card, CardDescription, CardHeader, CardTitle} from '@/components/ui/card'
 import { useAuth } from 'src/auth'
 
-import AlertCenter from 'src/components/Alert/AlertCenter'
+import AlertCenter from '@/components/ui/Alert/AlertCenter'
 import {useAlert} from "@/hooks/AlertHook";
+import React from "react";
 
 const LoginPage = (props) => {
   const { next } = props
-  const { logIn, isAuthenticated, userMetadata } = useAuth()
+  const { logIn, isAuthenticated, currentUser } = useAuth()
   const { addAlert, removeAllAlerts } = useAlert()
 
   const onSubmit = async (input) => {
@@ -31,24 +32,26 @@ const LoginPage = (props) => {
   }
 
   if (isAuthenticated) {
-    if (next) {
-      navigate(next)
-    }
     return (
       <>
-        <Metadata title="Anmelden" description="Login page" />
+        <Metadata
+          title="Anmeldung"
+          description="Erstelle einen Mitarbeiter Account"
+        />
 
-        <Card className="flex flex-col gap-1">
-          <CardHeader>
-            <CardTitle>
-              You are already logged in as{' '}
-              <span className="code">{userMetadata.email}</span>
-            </CardTitle>
-          </CardHeader>
-          <Link className="primary" to={routes.home()}>
-            Home
-          </Link>
-        </Card>
+        <div className="flex w-full items-center justify-center p-6 md:p-10">
+          <div className="w-full max-w-md">
+            <Card className="flex flex-col gap-1">
+              <CardHeader>
+                <CardTitle className="text-center">Angemeldet als</CardTitle>
+                <CardDescription className="text-center">{currentUser?.email}</CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        </div>
+        <div className="w-1/2 mx-auto">
+          <AlertCenter className="mt-2"></AlertCenter>
+        </div>
       </>
     )
   }
