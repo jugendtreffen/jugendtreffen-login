@@ -35,6 +35,7 @@ const GET_PARTICIPANT_QUERY = gql`
       acceptPhotos
       acceptCoC
       participationRole
+      checkinConfirmed
       eventId
       event {
         startDate

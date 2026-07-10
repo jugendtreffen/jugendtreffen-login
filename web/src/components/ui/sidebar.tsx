@@ -145,7 +145,7 @@ const SidebarProvider = React.forwardRef<
               } as React.CSSProperties
             }
             className={cn(
-              "dark:group/sidebar-wrapper dark:flex dark:min-h-svh dark:w-full dark:has-[[data-variant=inset]]:bg-sidebar",
+              "dark:group/sidebar-wrapper dark:flex dark:min-h-svh dark:w-full dark:has-data-[variant=inset]:bg-sidebar",
               className
             )}
             ref={ref}
@@ -308,7 +308,7 @@ const SidebarRail = React.forwardRef<
       onClick={toggleSidebar}
       title="Toggle Sidebar"
       className={cn(
-        "dark:absolute dark:inset-y-0 dark:z-20 dark:hidden dark:w-4 dark:-translate-x-1/2 dark:transition-all dark:ease-linear dark:after:absolute dark:after:inset-y-0 dark:after:left-1/2 dark:after:w-[2px] dark:hover:after:bg-sidebar-border dark:group-data-[side=left]:-right-4 dark:group-data-[side=right]:left-0 dark:sm:flex",
+        "dark:absolute dark:inset-y-0 dark:z-20 dark:hidden dark:w-4 dark:-translate-x-1/2 dark:transition-all dark:ease-linear dark:after:absolute dark:after:inset-y-0 dark:after:left-1/2 dark:after:w-0.5 dark:hover:after:bg-sidebar-border dark:group-data-[side=left]:-right-4 dark:group-data-[side=right]:left-0 dark:sm:flex",
         "dark:[[data-side=left]_&]:cursor-w-resize dark:[[data-side=right]_&]:cursor-e-resize",
         "dark:[[data-side=left][data-state=collapsed]_&]:cursor-e-resize dark:[[data-side=right][data-state=collapsed]_&]:cursor-w-resize",
         "dark:group-data-[collapsible=offcanvas]:translate-x-0 dark:group-data-[collapsible=offcanvas]:after:left-full dark:group-data-[collapsible=offcanvas]:hover:bg-sidebar",
