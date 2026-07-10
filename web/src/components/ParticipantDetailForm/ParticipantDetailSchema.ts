@@ -21,7 +21,7 @@ export const EditSchema = z.object({
   acceptPhotos: z.boolean(),
   acceptCoC: z.boolean(),
   foundUsBy: z.string().optional().nullable(),
-  isParent: z.boolean(),
+  price: z.float32().optional().nullable(),
   ageChecked: z.boolean(),
   parentConfirmationChecked: z.boolean(),
   checkinConfirmed: z.boolean()

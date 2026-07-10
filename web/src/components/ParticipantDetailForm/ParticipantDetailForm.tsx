@@ -31,6 +31,7 @@ import {Card, CardHeader, CardTitle} from '@/components/ui/card'
 import {Switch} from '@/components/ui/switch'
 import {Button} from "@/components/ui/button";
 import {Save, UserCheck} from "lucide-react";
+import { MaskInput } from "../ui/mask-input"
 
 const UPDATE_PARTICIPANT_MUTATION = gql`
   mutation UpdateParticipantDetail($id: String!, $input: UpdateParticipantInput!) {
@@ -528,6 +529,27 @@ const ParticipantDetailForm = ({participant, loading}: Props) => {
               )}
             />
           </div>
+        </div>
+
+        <div className="col-span-4 md:col-span-2">
+          <Controller
+            name={"price"}
+            control={form.control}
+            render={({field, fieldState}) => (
+              <Field data-invalid={fieldState.error}>
+                <FieldLabel htmlFor={"price"}>Preis</FieldLabel>
+                <MaskInput
+                  id={"price"}
+                  mask="currency"
+                  currency="EUR"
+                  locale="de-DE"
+                  placeholder="0,00 €"
+                  value={String(field.value)}
+                  onValueChange={(value) => field.onChange(parseFloat(value.slice(0, value.length-1)))}
+                />
+              </Field>
+            )}
+          />
         </div>
 
         <Separator className="col-span-4 my-4"/>

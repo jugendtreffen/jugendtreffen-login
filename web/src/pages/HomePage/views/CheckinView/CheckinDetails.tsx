@@ -36,6 +36,7 @@ const GET_PARTICIPANT_QUERY = gql`
       acceptCoC
       participationRole
       checkinConfirmed
+      price
       eventId
       event {
         startDate
