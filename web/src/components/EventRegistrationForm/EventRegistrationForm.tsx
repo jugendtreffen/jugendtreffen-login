@@ -84,8 +84,6 @@ const EventRegistrationForm = ({ event }) => {
       },
     }
 
-    console.log("variables: ", variables)
-
     await createParticipant({
       variables: variables,
     }).catch(error => addAlert(`Bitte versuche es später erneut oder wende dich an den support: ${error.name}`, "error"))
