@@ -240,7 +240,7 @@ const ParticipantDetailForm = ({ participant, loading }: Props) => {
           />
         </div>
         <div className="col-span-4 md:col-span-2 h-full flex flex-col justify-end">
-          <Field data-invalid={!form.getValues('ageChecked')}>
+          <Field>
               <Card className="h-9 rounded-sm">
                 <Label htmlFor={'ageChecked'}>
                   <CardHeader className="p-2 flex flex-row gap-2">
