@@ -20,12 +20,14 @@ import {
 import {DataTableToolbar} from "@/components/ui/data-table/data-table-toolbar";
 import {Input} from "@/components/ui/input";
 import {DataTable} from "@/components/ui/data-table/data-table";
-import {MoreHorizontal } from "lucide-react";
+import {ArrowRight, MoreHorizontal, UserCheck} from "lucide-react";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 import {useSidebar} from "@/layouts/SidebarLayout/SidebarLayout";
 import Alert from "@/components/ui/Alert/Alert";
 import {Skeleton} from "@/components/ui/skeleton";
+import {useAuth} from "@/auth";
+import {Badge} from "@/components/ui/badge";
 
 export const QUERY: TypedDocumentNode<
   ParticipantsQuery,
@@ -38,6 +40,7 @@ export const QUERY: TypedDocumentNode<
       name
       familyName
       birthdate
+      checkinConfirmed
     }
   }
 `
@@ -68,10 +71,16 @@ export const Success = ({
   participants,
 }: CellSuccessProps<ParticipantsQuery, ParticipantsQueryVariables>) => {
   const {setSubState} = useSidebar()
+  const { currentUser } = useAuth()
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 
   const [globalSearch, setGlobalSearch] = React.useState("");
+
+  const onEdit = (id: string) => {
+    localStorage.setItem('selectedParticipantId', id)
+    setSubState('Details')
+  }
 
   const columns: ColumnDef<ParticipantQueryResult, any>[] = [
     {
@@ -113,27 +122,47 @@ export const Success = ({
       },
     },
     {
+      accessorKey: "checkinConfirmed",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Eingecheckt" label="Eingecheckt"/>
+      ),
+      cell: ({ row }) => (
+        <span>
+        {row.getValue("checkinConfirmed") ? (<Badge variant="success">Ja</Badge>) : (<Badge variant="destructive">Nein</Badge>)}
+      </span>
+      ),
+      enableColumnFilter: false,
+    },
+    {
       accessorKey: "id",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Details" label="Details" />
+        <DataTableColumnHeader column={column} title="Aktionen" label="Aktionen" />
       ),
-      cell: function Cell() {
+      cell: function Cell({ row }) {
+        if (currentUser.roles.at(0) === 'admin') {
+          return (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <MoreHorizontal className="h-4 w-4" />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => onEdit(row.getValue("id"))}>Edit</DropdownMenuItem>
+                <DropdownMenuItem className="text-destructive hover:bg-destructive/10">
+                  Delete
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )
+        }
         return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <MoreHorizontal className="h-4 w-4" />
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => {setSubState("Details")}}>Edit</DropdownMenuItem>
-              <DropdownMenuItem className="text-destructive hover:bg-destructive/10">
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        );
+          <Button variant="ghost" className="p-2" onClick={() => onEdit(row.getValue("id"))}>
+            Checkin
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        )
       },
       size: 32,
       enableSorting: false,

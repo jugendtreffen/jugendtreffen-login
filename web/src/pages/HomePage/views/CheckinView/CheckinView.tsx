@@ -18,7 +18,7 @@ const CheckinView = () => {
   }, [setSubState]);
 
   if (subState == "Details")
-    return <CheckinDetails participantId="9a9d3011-5775-41e0-9ae9-c0f453b59641"/>
+    return <CheckinDetails />
 
   return SubView ? <SubView /> : <CheckinOverview />
 };
