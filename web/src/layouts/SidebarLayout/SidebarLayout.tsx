@@ -171,7 +171,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
           </motion.aside>
 
           <div
-            className="h-full w-full flex flex-col overflow-auto"
+            className="h-full w-full flex flex-col overflow-y-visible"
             onClick={() => {
               if (isMobile()) setOpen(false)
             }}

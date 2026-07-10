@@ -22,8 +22,9 @@ export const EditSchema = z.object({
   acceptCoC: z.boolean(),
   foundUsBy: z.string().optional().nullable(),
   isParent: z.boolean(),
-  ageChecked: z.literal(true),
-  parentConfirmationChecked: z.literal(true),
+  ageChecked: z.boolean(),
+  parentConfirmationChecked: z.boolean(),
+  checkinConfirmed: z.boolean()
 })
 
 export type EditInput = z.infer<typeof EditSchema>

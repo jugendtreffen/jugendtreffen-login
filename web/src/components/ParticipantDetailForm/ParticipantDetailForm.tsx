@@ -21,14 +21,16 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useAlert } from '@/hooks/AlertHook'
-import { Participant } from 'types/graphql'
+import {Participant, UpdateParticipantInput} from 'types/graphql'
 import {
   EditInput,
   EditSchema,
 } from '@/components/ParticipantDetailForm/ParticipantDetailSchema'
 import { Checkbox } from '@/components/animate-ui/components/radix/checkbox'
-import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import {Card, CardDescription, CardHeader, CardTitle} from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
+import {Button} from "@/components/ui/button";
+import {Save, UserCheck} from "lucide-react";
 
 const UPDATE_PARTICIPANT_MUTATION = gql`
   mutation UpdateParticipantDetail($id: String!, $input: UpdateParticipantInput!) {
@@ -101,25 +103,54 @@ const ParticipantDetailForm = ({ participant, loading }: Props) => {
     })
   }, [participant])
 
-  const onSubmit = (values: EditInput) => {
+  const onCheckin = () => {
+    const valid = form.trigger()
+    const {
+      ageChecked,
+      parentConfirmationChecked,
+      ...values } = form.getValues()
+
+    if (!ageChecked) {
+      addAlert('Für den Check-in muss das Geburtsdatum überprüft werden.', 'error')
+      return
+    }
+
+    if (!parentConfirmationChecked) {
+      addAlert('Für den Check-in muss die Elternbestätigung abgegeben sein.', 'error')
+      return
+    }
+
+    const input: UpdateParticipantInput = {
+      ...values,
+      checkinConfirmed: true,
+    }
     updateParticipant({
       variables: {
         id: participant.id,
-        input: values,
+        input
+      },
+      onCompleted: () => {
+        addAlert('Teilnehmer erfolgreich eingecheckt.', 'success')
+      },
+      onError: (e) => {
+        addAlert(`Fehler beim Speichern: ${e.message}`, 'error')
       },
     })
+  }
+
+  const onSave = () => {
+    // addAlert('Teilnehmer erfolgreich gespeichert.', 'success')
   }
 
   const participationRole = form.watch('participationRole')
   const isParticipant =
     participationRole === 'teilnehmer' || !participationRole
-
   const event = participant?.event
 
   if (loading) return <FormSkeleton />
 
   return (
-    <Form formMethods={form} onSubmit={onSubmit}>
+    <Form formMethods={form}>
       <div className="grid grid-cols-4 gap-2">
         <p className="col-span-4 text-sm font-semibold text-muted-foreground uppercase tracking-wide pt-2">
           Persönliche Daten
@@ -144,41 +175,6 @@ const ParticipantDetailForm = ({ participant, loading }: Props) => {
             name="email"
             label="E-Mail"
             formControl={form.control}
-          />
-        </div>
-        <div className="col-span-4 md:col-span-2">
-          <Controller
-            name="birthdate"
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.error}>
-                <FieldLabel htmlFor="birthdate">Geburtstag</FieldLabel>
-                <Datepicker
-                  name="birthdate"
-                  formControl={form.control}
-                  value={field.value as Date}
-                  onChange={field.onChange}
-                  invalid={fieldState.invalid}
-                  max={new Date()}
-                />
-              </Field>
-            )}
-          />
-        </div>
-        <div className="col-span-4 md:col-span-2">
-          <LabeledInput
-            name="phoneNumber"
-            label="Telefonnummer"
-            formControl={form.control}
-            placeholder="+43 123 456789"
-          />
-        </div>
-        <div className="col-span-4 md:col-span-2">
-          <LabeledInput
-            name="phoneCaretakerContact"
-            label="Telefon Erziehungsberechtigte/r"
-            formControl={form.control}
-            placeholder="+43 123 456789"
           />
         </div>
         <div className="col-span-4 md:col-span-2">
@@ -208,33 +204,59 @@ const ParticipantDetailForm = ({ participant, loading }: Props) => {
             )}
           />
         </div>
-
-        <div className="col-span-4 md:col-span-2 h-full">
+        <div className="col-span-4 md:col-span-2">
+          <LabeledInput
+            name="phoneNumber"
+            label="Telefonnummer"
+            formControl={form.control}
+            placeholder="+43 123 456789"
+          />
+        </div>
+        <div className="col-span-4 md:col-span-2">
+          <LabeledInput
+            name="phoneCaretakerContact"
+            label="Telefon Erziehungsberechtigte/r"
+            formControl={form.control}
+            placeholder="+43 123 456789"
+          />
+        </div>
+        <div className="col-span-4 md:col-span-2">
           <Controller
-            name={'ageChecked'}
+            name="birthdate"
             control={form.control}
             render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel
-                  htmlFor={'ageChecked'}
-                  className="flex items-center gap-x-3 my-auto"
-                >
-                  <Checkbox
-                    name={'ageChecked'}
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    aria-invalid={fieldState.invalid}
-                  />
-                  <p>Ich habe das Geburtsdatum überprüft</p>
-                </FieldLabel>
+              <Field data-invalid={fieldState.error}>
+                <FieldLabel htmlFor="birthdate">Geburtstag</FieldLabel>
+                <Datepicker
+                  name="birthdate"
+                  formControl={form.control}
+                  value={field.value as Date}
+                  onChange={field.onChange}
+                  invalid={fieldState.invalid}
+                  max={new Date()}
+                />
               </Field>
             )}
           />
         </div>
+        <div className="col-span-4 md:col-span-2 h-full flex flex-col justify-end">
+          <Field data-invalid={!form.getValues('ageChecked')}>
+              <Card className="h-9 rounded-sm">
+                <Label htmlFor={'ageChecked'}>
+                  <CardHeader className="p-2 flex flex-row gap-2">
+                    <Checkbox
+                      name={'ageChecked'}
+                      id={'ageChecked'}
+                    />
+                    <CardTitle>Ich habe das Geburtsdatum überprüft</CardTitle>
+                  </CardHeader>
+                </Label>
+              </Card>
+          </Field>
+        </div>
 
         <Separator className="col-span-4 my-4" />
 
-        {/* ── Adresse ── */}
         <p className="col-span-4 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
           Adresse
         </p>
@@ -292,7 +314,6 @@ const ParticipantDetailForm = ({ participant, loading }: Props) => {
 
         <Separator className="col-span-4 my-4" />
 
-        {/* ── Veranstaltung ── */}
         <p className="col-span-4 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
           Veranstaltung
         </p>
@@ -525,6 +546,19 @@ const ParticipantDetailForm = ({ participant, loading }: Props) => {
                 </Card>
               </Field>
             )}></Controller>
+        </div>
+
+        <Separator className="col-span-4 my-4" />
+
+        <div className="flex flex-row justify-between w-full col-span-4">
+          <Button variant="outline" disabled={saving} onClick={onSave}>
+            Speichern
+            <Save className="ml-1 h-4 w-4" />
+          </Button>
+          <Button onClick={onCheckin} disabled={saving}>
+            Speichern und Einchecken
+            <UserCheck className="ml-1 h-4 w-4" />
+          </Button>
         </div>
       </div>
 
