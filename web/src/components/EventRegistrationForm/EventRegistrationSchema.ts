@@ -27,8 +27,8 @@ export const RegistrationSchema = z
     startDate: z.coerce.date(),
     endDate: z.coerce.date(),
     foodChoice: z.string().min(1, 'Essenswunsch darf nicht leer sein'),
-    acceptPhotos: z.boolean(),
-    acceptCoC: z.literal(true),
+    acceptPhotos: z.literal(true, 'Zustimmung zu Fotos und Videos ist verpflichtend'),
+    acceptCoC: z.literal(true, 'Der Verhaltenscodex muss akzeptiert werden'),
     participationRole: z.string().min(1, 'Teilnahmerolle darf nicht leer sein'),
   })
   .refine((data) => data.startDate <= data.endDate, {

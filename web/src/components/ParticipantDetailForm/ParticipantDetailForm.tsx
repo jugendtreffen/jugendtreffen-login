@@ -28,7 +28,6 @@ import {
 } from '@/components/ParticipantDetailForm/ParticipantDetailSchema'
 import {Checkbox} from '@/components/animate-ui/components/radix/checkbox'
 import {Card, CardHeader, CardTitle} from '@/components/ui/card'
-import {Switch} from '@/components/ui/switch'
 import {Button} from "@/components/ui/button";
 import {Save, UserCheck} from "lucide-react";
 import { MaskInput } from "../ui/mask-input"
@@ -550,57 +549,6 @@ const ParticipantDetailForm = ({participant, loading}: Props) => {
               </Field>
             )}
           />
-        </div>
-
-        <Separator className="col-span-4 my-4"/>
-
-        <p className="col-span-4 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-          Zustimmungen
-        </p>
-
-        <div className="col-span-4 md:col-span-2">
-          <Controller
-            name="acceptPhotos"
-            control={form.control}
-            render={({field, fieldState}) => (
-              <Field data-invalid={fieldState.error}>
-                <Card className="h-9 rounded-sm">
-                  <Label htmlFor="acceptPhotos">
-                    <CardHeader className="p-2 flex flex-row gap-2">
-                      <CardTitle>
-                        Foto- und Filmaufnahmen erlaubt
-                        <Switch id="acceptPhotos" className="ms-3" value={field.value}></Switch>
-                      </CardTitle>
-                    </CardHeader>
-                  </Label>
-                </Card>
-              </Field>
-            )}
-          />
-        </div>
-
-        <div className="col-span-4 md:col-span-2">
-          <Controller
-            name="parentConfirmationChecked"
-            control={form.control}
-            render={({field, fieldState}) => (
-              <Field data-invalid={fieldState.error}>
-                <Card className="h-9 rounded-sm">
-                  <Label htmlFor={'parentConfirmationChecked'}>
-                    <CardHeader className="p-2 flex flex-row gap-2">
-                      <Checkbox
-                        name={'parentConfirmationChecked'}
-                        id={'parentConfirmationChecked'}
-                        value={field.value}
-                        onClick={() => field.onChange(!field.value)}
-                        aria-invalid={fieldState.invalid}
-                      />
-                      <CardTitle>Elternbestätigung abgegeben</CardTitle>
-                    </CardHeader>
-                  </Label>
-                </Card>
-              </Field>
-            )}></Controller>
         </div>
 
         <Separator className="col-span-4 my-4"/>
