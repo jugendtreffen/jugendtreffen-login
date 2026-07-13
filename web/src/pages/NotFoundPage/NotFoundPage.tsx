@@ -1,50 +1,32 @@
-import { Link, routes } from '@redwoodjs/router'
+import {navigate, routes} from '@redwoodjs/router'
+import {ArrowLeft, Home, ShieldAlert} from "lucide-react";
+import {Button} from "@/components/ui/button";
+import {Card} from "@/components/ui/card";
 
 export default () => (
-  <main>
-    <style
-      dangerouslySetInnerHTML={{
-        __html: `
-              html, body {
-                margin: 0;
-              }
-              html * {
-                box-sizing: border-box;
-              }
-              main {
-                display: flex;
-                align-items: center;
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-                text-align: center;
-                background-color: #111827;
-                height: 100vh;
-              }
-              section {
-                width: 32rem;
-                padding: 1rem;
-                margin: 0 auto;
-              }
-            `,
-      }}
-    />
-    <section className="bg-gray-900">
-      <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-        <div className="mx-auto max-w-screen-sm text-center">
-          <h1 className="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 text-blue-600">
-            404
-          </h1>
-          <p className="mb-4 text-3xl tracking-tight font-bold md:text-4xl text-white">
-            Something's missing.
-          </p>
-          <p className="mb-4 text-lg font-light text-gray-400">
-            Sorry, we can't find that page. You'll find lots to explore on the
-            home page.{' '}
-          </p>
-          <Link to={routes.home()} className="secondary">
-            Back to Homepage
-          </Link>
-        </div>
+  <main className="flex min-h-[100svh] items-center justify-center px-6 py-10">
+    <Card className={"p-8 shadow-sm flex flex-col items-center"}>
+      <div className="mb-6 rounded-full border bg-muted/40 p-4">
+        <ShieldAlert className="size-6 text-muted-foreground" />
       </div>
-    </section>
+
+      <p className="mb-2 text-sm font-medium text-muted-foreground">404 error</p>
+      <h1 className="text-3xl font-semibold tracking-tight">Page not found</h1>
+      <p className="mt-3 max-w-md text-sm text-muted-foreground">
+        The page you’re looking for doesn’t exist or may have been moved.
+      </p>
+
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+        <Button onClick={() => navigate(routes.home())}>
+          <Home className="size-4" />
+          Back home
+        </Button>
+
+        <Button onClick={() => window.history.back()} variant="outline">
+          <ArrowLeft className="size-4" />
+          Go back
+        </Button>
+      </div>
+    </Card>
   </main>
 )
