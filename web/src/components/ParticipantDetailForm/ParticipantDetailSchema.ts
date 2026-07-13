@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const EditSchema = z.object({
+export const ParticipantDetailSchema = z.object({
   name: z.string().min(1),
   familyName: z.string().min(1),
   email: z.string().email(),
@@ -22,9 +22,6 @@ export const EditSchema = z.object({
   acceptCoC: z.boolean(),
   foundUsBy: z.string().optional().nullable(),
   price: z.float32().optional().nullable(),
-  ageChecked: z.boolean(),
-  parentConfirmationChecked: z.boolean(),
-  checkinConfirmed: z.boolean()
 })
 
-export type EditInput = z.infer<typeof EditSchema>
+export type ParticipantDetailType = z.infer<typeof ParticipantDetailSchema>

@@ -79,7 +79,6 @@ const EventRegistrationForm = ({ event }) => {
     const variables = {
       input: {
         eventId: event.id,
-        isParent: false, // TODO: what to do with this field
         ...input,
       },
     }

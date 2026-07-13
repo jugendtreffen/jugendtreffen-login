@@ -18,11 +18,12 @@ enum UserRoleEnum {
 }
 
 enum BandColourEnum {
-  red
-  orange
-  green
-  blue
-  white
+  red_mitarbeiter
+  white_team
+  yellow_tagesgaeste
+  blue_ue18
+  dark_green_ue16
+  lime_ue14
 }
 
 model UserRole {
@@ -44,7 +45,6 @@ model Participant {
   phoneNumber           String
   phoneCaretakerContact String?
   foundUsBy             String?
-  isParent              Boolean  @default(false)
   country               String
   city                  String
   postalCode            String
