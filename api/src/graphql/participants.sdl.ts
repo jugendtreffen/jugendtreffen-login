@@ -9,7 +9,6 @@ export const schema = gql`
     phoneNumber: String!
     phoneCaretakerContact: String
     foundUsBy: String
-    isParent: Boolean!
     country: String!
     city: String!
     postalCode: String!
@@ -44,7 +43,6 @@ export const schema = gql`
     phoneNumber: String!
     phoneCaretakerContact: String
     foundUsBy: String
-    isParent: Boolean!
     country: String!
     city: String!
     postalCode: String!
@@ -69,7 +67,6 @@ export const schema = gql`
     phoneNumber: String
     phoneCaretakerContact: String
     foundUsBy: String
-    isParent: Boolean
     country: String
     city: String
     postalCode: String
