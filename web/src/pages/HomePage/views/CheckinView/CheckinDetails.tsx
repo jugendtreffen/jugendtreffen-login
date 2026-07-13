@@ -22,7 +22,6 @@ const GET_PARTICIPANT_QUERY = gql`
       phoneNumber
       phoneCaretakerContact
       foundUsBy
-      isParent
       country
       city
       postalCode
@@ -37,6 +36,7 @@ const GET_PARTICIPANT_QUERY = gql`
       participationRole
       checkinConfirmed
       price
+      bandColour
       eventId
       event {
         startDate
