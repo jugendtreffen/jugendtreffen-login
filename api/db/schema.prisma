@@ -18,11 +18,12 @@ enum UserRoleEnum {
 }
 
 enum BandColourEnum {
-  red
-  orange
-  green
-  blue
-  white
+  red_mitarbeiter
+  white_team
+  yellow_tagesgäste
+  blue_18+
+  dark_green_16+
+  lime_14+
 }
 
 model UserRole {
