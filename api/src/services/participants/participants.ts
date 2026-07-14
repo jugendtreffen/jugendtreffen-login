@@ -1,15 +1,12 @@
-import type {
-  MutationResolvers,
-  ParticipantRelationResolvers,
-  QueryResolvers,
-} from 'types/graphql'
+import type {MutationResolvers, ParticipantRelationResolvers, QueryResolvers,} from 'types/graphql'
 
-import { db } from 'src/lib/db'
-import { BandColourEnum } from '@prisma/client'
-import { logger } from 'src/lib/logger'
-import { sendRegistrationConfirmation } from 'src/services/mailer/mailer'
+import {db} from 'src/lib/db'
+import {BandColourEnum } from '@prisma/client'
+import {logger} from 'src/lib/logger'
+import {sendRegistrationConfirmation} from 'src/services/mailer/mailer'
 import {event} from "src/services/events/events";
-import { getAge} from "src/lib/utils";
+import {getAge} from "src/lib/utils";
+import {validate} from "@redwoodjs/api";
 
 export const participants: QueryResolvers['participants'] = () => {
   return db.participant.findMany()
@@ -21,9 +18,15 @@ export const participant: QueryResolvers['participant'] = ({ id }) => {
   })
 }
 
-export const participantByAccomodation: QueryResolvers['participantByAccommodation'] = ({ gender, accommodation }) => {
+export const participantsByAccommodation: QueryResolvers['participantsByAccommodation'] = ({ input }) => {
+  validate(input.gender, 'gender', {
+    inclusion: ['male', 'female'],
+  })
   return db.participant.findMany({
-    where: { accommodation, gender },
+    where: {
+      accommodation: input.accommodation,
+      gender: input.gender,
+    },
   })
 }
 
