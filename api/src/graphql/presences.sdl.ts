@@ -2,26 +2,27 @@ export const schema = gql`
   type Presence {
     id: BigInt!
     date: DateTime!
-    status: String!
-    userId: String!
-    event: Event!
+    participantId: String!
+    participant: Participant
+    eventId: BigInt!
+    event: Event
   }
 
   type Query {
     presences: [Presence!] @requireAuth
+    presencesByDate(date: DateTime!): [Presence!] @requireAuth
+    presencesByParticipant(participantId: String!): [Presence!] @requireAuth
   }
 
   input CreatePresenceInput {
     date: DateTime!
-    status: String!
-    userId: String!
+    participantId: String!
     eventId: BigInt!
   }
 
   input UpdatePresenceInput {
     date: DateTime
-    status: String
-    userId: String
+    participantId: String
     eventId: BigInt
   }
 

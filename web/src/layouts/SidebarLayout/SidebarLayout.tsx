@@ -60,6 +60,9 @@ function getSidebarItemsByRole(role: string) {
     case 'admin':
       items.push({ name: 'Dashboard', icon: LayoutDashboard })
       items.push({ name: 'Mitarbeiter', icon: UserPen })
+      items.push({ name: 'Checkin', icon: LaptopMinimalCheck })
+      items.push({ name: 'Quartier', icon: Home })
+      break
     case 'checkin':
       items.push({ name: 'Checkin', icon: LaptopMinimalCheck })
       break

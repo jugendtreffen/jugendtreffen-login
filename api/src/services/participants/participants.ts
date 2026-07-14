@@ -21,6 +21,12 @@ export const participant: QueryResolvers['participant'] = ({ id }) => {
   })
 }
 
+export const participantByAccomodation: QueryResolvers['participantByAccommodation'] = ({ gender, accommodation }) => {
+  return db.participant.findMany({
+    where: { accommodation, gender },
+  })
+}
+
 export const createParticipant: MutationResolvers['createParticipant'] =
   async ({ input }) => {
 

@@ -27,19 +27,19 @@ enum BandColourEnum {
 }
 
 model UserRole {
-  id    String   @id @default(uuid()) @db.Uuid
-  role  UserRoleEnum
-  userId String   @db.Uuid @unique
+  id     String       @id @default(uuid()) @db.Uuid
+  role   UserRoleEnum
+  userId String       @unique @db.Uuid
 
   @@unique([userId, role]) // user can only have one role
   @@map("user_roles")
 }
 
 model Participant {
-  id                    String   @id @default(uuid()) @db.Uuid
+  id                    String          @id @default(uuid()) @db.Uuid
   name                  String
   familyName            String
-  birthdate             DateTime @db.Date
+  birthdate             DateTime        @db.Date
   gender                String
   email                 String
   phoneNumber           String
@@ -51,18 +51,19 @@ model Participant {
   address               String
   travelMethod          String?
   accommodation         String
-  startDate             DateTime @db.Date
-  endDate               DateTime @db.Date
+  startDate             DateTime        @db.Date
+  endDate               DateTime        @db.Date
   foodChoice            String
   acceptPhotos          Boolean
   acceptCoC             Boolean
-  eventId               BigInt   @db.BigInt
+  eventId               BigInt          @db.BigInt
   participationRole     String?
   price                 Float?
   bandColour            BandColourEnum?
-  checkinConfirmed      Boolean  @default(false)
-  createdAt             DateTime @default(now())
-  event                 Event    @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  checkinConfirmed      Boolean         @default(false)
+  createdAt             DateTime        @default(now())
+  event                 Event           @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  Presence              Presence[]
 
   @@map("participants")
 }
@@ -81,13 +82,13 @@ model Event {
 }
 
 model Presence {
-  id      BigInt   @id @default(autoincrement()) @db.BigInt
-  date    DateTime @db.Date
-  status  String
-  userId  String   @db.Uuid
-  eventId BigInt   @db.BigInt
-  event   Event    @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  id            BigInt      @id @default(autoincrement()) @db.BigInt
+  date          DateTime    @db.Date
+  participantId String      @db.Uuid
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  eventId       BigInt      @db.BigInt
+  event         Event       @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 
-  @@index([userId])
+  @@unique([participantId, date])
   @@map("presences")
 }

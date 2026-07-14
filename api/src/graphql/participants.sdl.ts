@@ -29,9 +29,15 @@ export const schema = gql`
     event: Event!
   }
 
+  type AccommodationInput {
+    gender: String!
+    accommodation: String!
+  }
+
   type Query {
     participants: [Participant!]! @requireAuth
     participant(id: String!): Participant @skipAuth
+    participantsByAccommodation(input: AccommodationInput!): [Participant!]! @requireAuth
   }
 
   input CreateParticipantInput {

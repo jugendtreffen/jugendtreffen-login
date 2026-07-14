@@ -10,9 +10,15 @@ export const presences: QueryResolvers['presences'] = () => {
   return db.presence.findMany()
 }
 
-export const presence: QueryResolvers['presence'] = ({ id }) => {
-  return db.presence.findUnique({
-    where: { id },
+export const presencesByDate: QueryResolvers['presencesByDate'] = ({ date }) => {
+  return db.presence.findMany({
+    where: { date },
+  })
+}
+
+export const presencesByParticipant: QueryResolvers['presencesByParticipant'] = ({ participantId }) => {
+  return db.presence.findMany({
+    where: { participantId },
   })
 }
 
