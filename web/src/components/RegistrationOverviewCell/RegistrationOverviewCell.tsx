@@ -16,15 +16,15 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from 'src/components/ui/card'
-import { Skeleton } from 'src/components/ui/skeleton'
+} from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   formatAccomodation,
   formatCountry,
   formatFoodChoice,
   formatGender, formatParticipationRole,
   formatTravelMethod
-} from "@/lib/utils";
+} from "./registrationOverview.utils";
 import {formatDate} from "date-fns";
 
 export const QUERY: TypedDocumentNode<
