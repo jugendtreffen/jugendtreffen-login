@@ -29,7 +29,7 @@ export const createParticipant: MutationResolvers['createParticipant'] =
 
     let bandColor = 'blue_ue18'
     if(age < 18) {
-      bandColor = 'dark_green_ue16'
+      bandColor = 'darkgreen_ue16'
     } if(age < 16) {
       bandColor = 'lime_ue14'
     }

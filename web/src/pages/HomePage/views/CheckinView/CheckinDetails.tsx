@@ -9,6 +9,7 @@ import {
 import {useSidebar} from "@/layouts/SidebarLayout/SidebarLayout";
 import ParticipantDetailForm from "@/components/ParticipantDetailForm/ParticipantDetailForm";
 import { useQuery } from '@redwoodjs/web'
+import {Dialog} from "@/components/ui/dialog";
 
 const GET_PARTICIPANT_QUERY = gql`
   query ParticipantDetailQuery($id: String!) {
@@ -55,7 +56,7 @@ const CheckinDetails = () => {
   })
 
   return (
-    <>
+    <Dialog>
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -68,8 +69,9 @@ const CheckinDetails = () => {
         </BreadcrumbList>
       </Breadcrumb>
 
+
       <ParticipantDetailForm participant={data?.participant} loading={loading} />
-    </>
+    </Dialog>
   );
 };
 
