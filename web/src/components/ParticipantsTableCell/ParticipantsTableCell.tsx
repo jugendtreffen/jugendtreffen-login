@@ -20,7 +20,7 @@ import {
 import {DataTableToolbar} from "@/components/ui/data-table/data-table-toolbar";
 import {Input} from "@/components/ui/input";
 import {DataTable} from "@/components/ui/data-table/data-table";
-import {ArrowRight, MoreHorizontal, UserCheck} from "lucide-react";
+import {ArrowRight, MoreHorizontal} from "lucide-react";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 import {useSidebar} from "@/layouts/SidebarLayout/SidebarLayout";

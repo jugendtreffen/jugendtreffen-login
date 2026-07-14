@@ -16,8 +16,7 @@ import {
   type ChartConfig,
 } from 'src/components/ui/chart'
 
-import DashboardSectionCard from './DashboardSectionCard'
-import type { FoodChartData } from './dashboard.types'
+import type {FoodChartData} from './dashboard.types'
 
 const FOOD_COLORS = [
   'var(--chart-1)',
@@ -51,57 +50,47 @@ const FoodChoiceByDayChart = ({
                               }: FoodChoiceByDayChartProps) => {
   if (foodStats.data.length === 0) {
     return (
-      <DashboardSectionCard
-        title="Food Choice nach Tagen"
-        description="Gestapelte Tagesübersicht basierend auf Aufenthaltszeitraum je Teilnehmer:in."
-      >
-        <div className="flex h-80 items-center justify-center rounded-lg border border-dashed border-border bg-muted/30">
-          <p className="text-sm text-muted-foreground">
-            Keine Verpflegungsdaten vorhanden.
-          </p>
-        </div>
-      </DashboardSectionCard>
+      <div className="flex h-80 items-center justify-center rounded-lg border border-dashed border-border bg-muted/30">
+        <p className="text-sm text-muted-foreground">
+          Keine Verpflegungsdaten vorhanden.
+        </p>
+      </div>
     )
   }
 
   const chartConfig = buildFoodChartConfig(foodStats.foodChoices)
 
   return (
-    <DashboardSectionCard
-      title="Food Choice nach Tagen"
-      description="Gestapelte Tagesübersicht basierend auf Aufenthaltszeitraum je Teilnehmer:in."
-    >
-      <ChartContainer config={chartConfig} className="h-90 w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={foodStats.data}>
-            <CartesianGrid vertical={false} strokeDasharray="3 3" />
-            <XAxis
-              dataKey="label"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
+    <ChartContainer config={chartConfig} className="h-90 w-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={foodStats.data}>
+          <CartesianGrid vertical={false} strokeDasharray="3 3"/>
+          <XAxis
+            dataKey="label"
+            tickLine={false}
+            axisLine={false}
+            tickMargin={8}
+          />
+          <YAxis
+            allowDecimals={false}
+            tickLine={false}
+            axisLine={false}
+            width={36}
+          />
+          <ChartTooltip content={<ChartTooltipContent/>}/>
+          <ChartLegend content={<ChartLegendContent/>}/>
+          {foodStats.foodChoices.map((foodChoice) => (
+            <Bar
+              key={foodChoice}
+              dataKey={foodChoice}
+              stackId="food"
+              fill={`var(--color-${foodChoice})`}
+              radius={[4, 4, 0, 0]}
             />
-            <YAxis
-              allowDecimals={false}
-              tickLine={false}
-              axisLine={false}
-              width={36}
-            />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
-            {foodStats.foodChoices.map((foodChoice) => (
-              <Bar
-                key={foodChoice}
-                dataKey={foodChoice}
-                stackId="food"
-                fill={`var(--color-${foodChoice})`}
-                radius={[4, 4, 0, 0]}
-              />
-            ))}
-          </BarChart>
-        </ResponsiveContainer>
-      </ChartContainer>
-    </DashboardSectionCard>
+          ))}
+        </BarChart>
+      </ResponsiveContainer>
+    </ChartContainer>
   )
 }
 

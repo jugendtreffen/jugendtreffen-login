@@ -16,8 +16,7 @@ import {
   type ChartConfig,
 } from 'src/components/ui/chart'
 
-import DashboardSectionCard from './DashboardSectionCard'
-import type { QuartierAgeRow } from './dashboard.types'
+import type {QuartierAgeRow} from './dashboard.types'
 
 const chartConfig = {
   boys: {
@@ -34,46 +33,41 @@ type QuartierAgeChartProps = {
   data: QuartierAgeRow[]
 }
 
-const QuartierAgeChart = ({ data }: QuartierAgeChartProps) => {
+const QuartierAgeChart = ({data}: QuartierAgeChartProps) => {
   return (
-    <DashboardSectionCard
-      title="Quartier nach Alter"
-      description="Burschen und Mädchen getrennt nach Altersgruppen."
-    >
-      <ChartContainer config={chartConfig} className="h-80w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} barGap={8}>
-            <CartesianGrid vertical={false} strokeDasharray="3 3" />
-            <XAxis
-              dataKey="ageGroup"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-            />
-            <YAxis
-              allowDecimals={false}
-              tickLine={false}
-              axisLine={false}
-              width={36}
-            />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
-            <Bar
-              dataKey="boys"
-              name="Burschen"
-              fill="var(--color-boys)"
-              radius={[6, 6, 0, 0]}
-            />
-            <Bar
-              dataKey="girls"
-              name="Mädchen"
-              fill="var(--color-girls)"
-              radius={[6, 6, 0, 0]}
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      </ChartContainer>
-    </DashboardSectionCard>
+    <ChartContainer config={chartConfig} className="h-80w-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data} barGap={8}>
+          <CartesianGrid vertical={false} strokeDasharray="3 3"/>
+          <XAxis
+            dataKey="ageGroup"
+            tickLine={false}
+            axisLine={false}
+            tickMargin={8}
+          />
+          <YAxis
+            allowDecimals={false}
+            tickLine={false}
+            axisLine={false}
+            width={36}
+          />
+          <ChartTooltip content={<ChartTooltipContent/>}/>
+          <ChartLegend content={<ChartLegendContent/>}/>
+          <Bar
+            dataKey="boys"
+            name="Burschen"
+            fill="var(--color-boys)"
+            radius={[6, 6, 0, 0]}
+          />
+          <Bar
+            dataKey="girls"
+            name="Mädchen"
+            fill="var(--color-girls)"
+            radius={[6, 6, 0, 0]}
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </ChartContainer>
   )
 }
 

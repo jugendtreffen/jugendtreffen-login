@@ -43,10 +43,7 @@ type RoleAccommodationChartProps = {
 
 const RoleAccommodationChart = ({ data }: RoleAccommodationChartProps) => {
   return (
-    <DashboardSectionCard
-      title="Unterkunft für besondere Rollen"
-      description="Verteilung für Priester, Ordensmann und Vortragende."
-    >
+    <>
       {data.length === 0 ? (
         <div className="flex h-80 items-center justify-center rounded-lg border border-dashed border-border bg-muted/30">
           <p className="text-sm text-muted-foreground">
@@ -98,7 +95,7 @@ const RoleAccommodationChart = ({ data }: RoleAccommodationChartProps) => {
           </ResponsiveContainer>
         </ChartContainer>
       )}
-    </DashboardSectionCard>
+    </>
   )
 }
 

@@ -8,6 +8,7 @@ import QuartierAgeChart from '@/components/DashboardView/QuartierAgeChart'
 import RoleAccommodationChart from '@/components/DashboardView/RoleAccommodationChart'
 import type { ParticipantDashboardItem } from '@/components/DashboardView/dashboard.types'
 import { buildDashboardSummary } from '@/components/DashboardView/dashboard.utils'
+import DashboardSectionCard from "@/components/DashboardView/DashboardSectionCard";
 
 export const DASHBOARD_VIEW_QUERY = gql`
   query DashboardViewQuery {
@@ -76,7 +77,10 @@ const DashboardView = () => {
       />
 
       <div className="grid gap-6 xl:grid-cols-2">
-        <QuartierAgeChart data={summary.quartierData} />
+        <DashboardSectionCard
+          title={"Unterkunft nach Alter"}
+          chart={<QuartierAgeChart data={summary.quartierData} />}
+        />
         <RoleAccommodationChart data={summary.roleAccommodationData} />
       </div>
 
