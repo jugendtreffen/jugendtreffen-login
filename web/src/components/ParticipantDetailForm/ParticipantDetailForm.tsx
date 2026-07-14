@@ -40,6 +40,7 @@ import {
   DialogTrigger
 } from "@/components/ui/dialog";
 import {Checkbox} from "@/components/animate-ui/components/radix/checkbox";
+import {ColorSwatch} from "@/components/ui/color-swatch";
 
 const UPDATE_PARTICIPANT_MUTATION = gql`
   mutation UpdateParticipantDetail($id: String!, $input: UpdateParticipantInput!) {
@@ -80,6 +81,15 @@ const FormSkeleton = () => (
     ))}
   </div>
 )
+
+const bandColorDescMap = {
+  "white_team": "Team",
+  "red_mitarbeiter": "Mitarbeiter",
+  "yellow_tagesgaeste": "Tagesgäste",
+  "blue_ue18": "Über 18",
+  "darkgreen_ue16": "Über 16",
+  "lime_ue14": "Über 14",
+}
 
 type Props = {
   participant: Participant
@@ -267,6 +277,19 @@ const ParticipantDetailForm = ({participant, loading}: Props) => {
                 </Field>
               )}
             />
+          </div>
+
+          <div className="col-span-4 md:col-span-2">
+            <Field>
+              <FieldLabel htmlFor='bandColour'>Bandfarbe</FieldLabel>
+              <div className="flex flex-row gap-2 items-center">
+                <ColorSwatch color={participant?.bandColour?.split("_").at(0) ?? "rgba(0,0,0,0)"}/>
+                <p className={"text-muted-foreground"}>{
+                  bandColorDescMap[participant.bandColour] ?? "keine Angabe"
+                }</p>
+              </div>
+
+            </Field>
           </div>
 
           <Separator className="col-span-4 my-4"/>

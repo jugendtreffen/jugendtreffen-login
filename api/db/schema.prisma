@@ -22,7 +22,7 @@ enum BandColourEnum {
   white_team
   yellow_tagesgaeste
   blue_ue18
-  dark_green_ue16
+  darkgreen_ue16
   lime_ue14
 }
 
