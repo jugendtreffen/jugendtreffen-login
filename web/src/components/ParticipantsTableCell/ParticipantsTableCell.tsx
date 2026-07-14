@@ -20,7 +20,7 @@ import {
 import {DataTableToolbar} from "@/components/ui/data-table/data-table-toolbar";
 import {Input} from "@/components/ui/input";
 import {DataTable} from "@/components/ui/data-table/data-table";
-import {ArrowRight, MoreHorizontal, UserCheck} from "lucide-react";
+import {ArrowRight, MoreHorizontal} from "lucide-react";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 import {useSidebar} from "@/layouts/SidebarLayout/SidebarLayout";
@@ -64,7 +64,7 @@ export const Empty = () => <Alert id="empty-alert" message="Es haben sich noch k
 export const Failure = ({
   error,
 }: CellFailureProps<ParticipantsQueryVariables>) => (
-  <div style={{ color: 'red' }}>Error: {error?.message}</div>
+  <Alert id={"tableCellAlert"} message={"Fehler beim Laden der Teilnehmer: " + error.message} type="error" dismissible={false}></Alert>
 )
 
 export const Success = ({
