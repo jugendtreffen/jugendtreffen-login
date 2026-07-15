@@ -24,12 +24,12 @@ export const currentEvent: QueryResolvers['currentEvent'] = async () => {
   try {
     return db.event.findFirst({
       where: {
-        startDate: {
+        endDate: {
           gte: new Date(),
         },
       },
       orderBy: {
-        startDate: 'asc',
+        endDate: 'asc',
       },
     })
   } catch (error) {
