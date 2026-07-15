@@ -27,7 +27,7 @@ export const schema = gql`
   }
 
   type Mutation {
-    createPresence(input: CreatePresenceInput!): Presence! @requireAuth
+    createPresence(input: CreatePresenceInput!): Presence! @skipAuth
     updatePresence(id: BigInt!, input: UpdatePresenceInput!): Presence!
       @requireAuth
     deletePresence(id: BigInt!): Presence! @requireAuth
