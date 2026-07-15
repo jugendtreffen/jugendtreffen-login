@@ -1829,6 +1829,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@diceui/listbox@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@diceui/listbox@npm:0.2.0"
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-dom": "*"
+    react: ^18.0 || ^19.0 || ^19.0.0-rc
+    react-dom: ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 10c0/7d84c539e9f2adfba5f2c9b7731ecccef7ef98003a253b2eb631e3b40a7d8e69273b6d949f6d9802c668741cac1ee2759d65946e6c5601d58ed9d74164671b55
+  languageName: node
+  linkType: hard
+
 "@emnapi/core@npm:^1.7.1, @emnapi/core@npm:^1.8.1":
   version: 1.8.1
   resolution: "@emnapi/core@npm:1.8.1"
@@ -21127,6 +21144,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:web"
   dependencies:
+    "@diceui/listbox": "npm:^0.2.0"
     "@hookform/resolvers": "npm:5.2.2"
     "@radix-ui/react-dialog": "npm:^1.1.15"
     "@radix-ui/react-dropdown-menu": "npm:^2.1.16"

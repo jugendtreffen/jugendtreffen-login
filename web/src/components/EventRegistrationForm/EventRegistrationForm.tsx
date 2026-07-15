@@ -23,6 +23,11 @@ import { Separator } from '../ui/separator'
 import {navigate, routes} from "@redwoodjs/router";
 import {useAlert} from "@/hooks/AlertHook";
 import AlertCenter from "@/components/ui/Alert/AlertCenter";
+import {
+  Listbox,
+  ListboxItem,
+  ListboxItemIndicator,
+} from '@/components/ui/listbox'
 
 const CREATE_PARTICIPANT = gql`
   mutation CreateRegisteredParticipantMutation(
@@ -302,7 +307,9 @@ const EventRegistrationForm = ({ event }) => {
                   <SelectContent>
                     <SelectGroup>
                       <SelectItem value="teilnehmer">Teilnehmer</SelectItem>
-                      <SelectItem value="priester">(Ordens-)Priester</SelectItem>
+                      <SelectItem value="priester">
+                        (Ordens-)Priester
+                      </SelectItem>
                       <SelectItem value="begleitperson">
                         Begleitperson
                       </SelectItem>
@@ -342,33 +349,40 @@ const EventRegistrationForm = ({ event }) => {
                           value="jugendtreffen"
                           id="jugendtreffen"
                         />
-                        <Label htmlFor="jugendtreffen">beim Jugendtreffen</Label>
+                        <Label htmlFor="jugendtreffen">
+                          beim Jugendtreffen
+                        </Label>
                       </Card>
                       <Card className="flex items-center gap-3 p-3">
-                        <RadioGroupItem
-                          value="subiaco"
-                          id="subiaco"
-                        />
-                        <Label htmlFor="subiaco">Haus Subiaco (ab 18, 35€/Nacht, Plätze limitiert)</Label>
+                        <RadioGroupItem value="subiaco" id="subiaco" />
+                        <Label htmlFor="subiaco">
+                          Haus Subiaco (ab 18, 35€/Nacht, Plätze limitiert)
+                        </Label>
                       </Card>
                     </>
                   ) : (
                     <>
                       <Card className="flex items-center gap-3 p-3">
                         <RadioGroupItem value="subiaco" id="subiaco" />
-                        <Label htmlFor="subiaco">Haus Subiaco (35€/Nacht)</Label>
+                        <Label htmlFor="subiaco">
+                          Haus Subiaco (35€/Nacht)
+                        </Label>
                       </Card>
                       {!isAccompanyingPerson && (
                         <Card className="flex items-center gap-3 p-3">
                           <RadioGroupItem value="family" id="family" />
-                          <Label htmlFor="family">Privatunterkunft (organisiert vom Jugendtreffen)</Label>
+                          <Label htmlFor="family">
+                            Privatunterkunft (organisiert vom Jugendtreffen)
+                          </Label>
                         </Card>
                       )}
                     </>
                   )}
                   <Card className="flex items-center gap-3 p-3">
                     <RadioGroupItem value="private" id="private" />
-                    <Label htmlFor="private">unabhängig vom Jugendtreffen</Label>
+                    <Label htmlFor="private">
+                      unabhängig vom Jugendtreffen
+                    </Label>
                   </Card>
                 </RadioGroup>
               </Field>
@@ -423,23 +437,33 @@ const EventRegistrationForm = ({ event }) => {
             control={registrationForm.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.error}>
-                <FieldLabel htmlFor={'foodChoice'}>Ich esse</FieldLabel>
-                <RadioGroup
+                <FieldLabel htmlFor={'foodChoice'}>Essenswahl</FieldLabel>
+                <Listbox
                   name={'foodChoice'}
-                  className="w-full"
+                  className="w-full p-2"
                   value={field.value}
                   onValueChange={field.onChange}
                   aria-invalid={fieldState.invalid}
                 >
-                  <Card className="flex items-center gap-3 p-3">
-                    <RadioGroupItem value="any" id="any" />
-                    <Label htmlFor="any">eigentlich alles</Label>
-                  </Card>
-                  <Card className="flex items-center gap-3 p-3">
-                    <RadioGroupItem value="vegetarian" id="vegetarian" />
-                    <Label htmlFor="vegetarian">vegetarisch</Label>
-                  </Card>
-                </RadioGroup>
+                  <ListboxItem key={'any'} value={'any'}>
+                    <div className={'flex flex-col'}>
+                      <h4>Alles</h4>
+                      <p className={'text-muted-foreground text-sm'}>
+                        wenn du nicht wählerisch bist und alles isst.
+                      </p>
+                    </div>
+                    <ListboxItemIndicator />
+                  </ListboxItem>
+                  <ListboxItem key={'vegetarian'} value={'vegetarian'}>
+                    <div className={'flex flex-col'}>
+                      <h4>Vegetarisch</h4>
+                      <p className={'text-muted-foreground text-sm'}>
+                        wenn du kein Fleisch isst.
+                      </p>
+                    </div>
+                    <ListboxItemIndicator />
+                  </ListboxItem>
+                </Listbox>
               </Field>
             )}
           />
@@ -462,18 +486,20 @@ const EventRegistrationForm = ({ event }) => {
                     disabled={!hasOpenedLink}
                     aria-invalid={fieldState.invalid}
                   />
-                  <p>Ich habe den{' '}
-                  <a
-                    onClick={() => setHasOpenedLink(true)}
-                    href="https://jugendtreffen.at/wp-content/uploads/2026/04/Verhaltenskodex-fu%CC%88r-Teilnehmende-2026.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary underline inline"
-                  >
-                    <Link2 className="h-5 inline" />
-                    Verhaltenskodex
-                  </a>{' '}
-                  gelesen und akzeptiere diesen. (Auf Link klicken!)</p>
+                  <p>
+                    Ich habe den{' '}
+                    <a
+                      onClick={() => setHasOpenedLink(true)}
+                      href="https://jugendtreffen.at/wp-content/uploads/2026/04/Verhaltenskodex-fu%CC%88r-Teilnehmende-2026.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary underline inline"
+                    >
+                      <Link2 className="h-5 inline" />
+                      Verhaltenskodex
+                    </a>{' '}
+                    gelesen und akzeptiere diesen. (Auf Link klicken!)
+                  </p>
                 </FieldLabel>
               </Field>
             )}
@@ -496,7 +522,10 @@ const EventRegistrationForm = ({ event }) => {
                     onCheckedChange={field.onChange}
                     aria-invalid={fieldState.invalid}
                   />
-                  Ich stimme zu, fotografiert oder gefilmt werden zu dürfen. Zudem stimme ich zu, dass das Bildmaterial in den Kommunikationsmitteln des Jugendtreffens und seiner Kooperationspartner verwendet werden darf.
+                  Ich stimme zu, fotografiert oder gefilmt werden zu dürfen.
+                  Zudem stimme ich zu, dass das Bildmaterial in den
+                  Kommunikationsmitteln des Jugendtreffens und seiner
+                  Kooperationspartner verwendet werden darf.
                 </FieldLabel>
               </Field>
             )}
@@ -508,7 +537,7 @@ const EventRegistrationForm = ({ event }) => {
           Anmelden
         </Button>
       </div>
-      <AlertCenter className="mt-2"/>
+      <AlertCenter className="mt-2" />
     </Form>
   )
 }
