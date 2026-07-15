@@ -5,6 +5,7 @@ import type {
 } from 'types/graphql'
 
 import { db } from 'src/lib/db'
+import { BandColourEnum } from '@prisma/client'
 import { logger } from 'src/lib/logger'
 import { sendRegistrationConfirmation } from 'src/services/mailer/mailer'
 import {event} from "src/services/events/events";
@@ -27,11 +28,11 @@ export const createParticipant: MutationResolvers['createParticipant'] =
     const e = await event({id: eventId})
     const age = getAge(new Date(birthdate), e.startDate)
 
-    let bandColor = 'blue_ue18'
+    let bandColor = BandColourEnum.blue_ue18
     if(age < 18) {
-      bandColor = 'darkgreen_ue16'
+      bandColor = BandColourEnum.dark_green_ue16
     } if(age < 16) {
-      bandColor = 'lime_ue14'
+      bandColor = BandColourEnum.lime_ue14
     }
 
     const result = await db.participant.create({
