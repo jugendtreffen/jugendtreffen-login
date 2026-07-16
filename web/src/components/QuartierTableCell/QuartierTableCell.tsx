@@ -1,12 +1,11 @@
 import type {
-  ParticipantsByAccommodationQuery,
   ParticipantsByAccommodationQueryVariables,
 } from 'types/graphql'
 
 import {
   CellSuccessProps,
   CellFailureProps,
-  TypedDocumentNode, useMutation,
+  TypedDocumentNode,
 } from '@redwoodjs/web'
 import {useAuth} from "@/auth";
 import {Skeleton} from "@/components/ui/skeleton";
@@ -19,12 +18,12 @@ import {
   SortingState,
   useReactTable
 } from "@tanstack/react-table";
-import {Checkbox} from "@/components/animate-ui/components/radix/checkbox";
 import {DataTableColumnHeader} from "@/components/ui/data-table/data-table-column-header";
-import {Badge} from "@/components/ui/badge";
 import {DataTableToolbar} from "@/components/ui/data-table/data-table-toolbar";
 import {Input} from "@/components/ui/input";
 import {DataTable} from "@/components/ui/data-table/data-table";
+import { ColorSwatch } from '@/components/ui/color-swatch'
+import { getColor } from '@/lib/utils'
 
 export const QUERY: TypedDocumentNode<
   ParticipantsByAccommodationQuery,
@@ -36,19 +35,11 @@ export const QUERY: TypedDocumentNode<
       name
       familyName
       birthdate
+      bandColour
       phoneNumber
       phoneCaretakerContact
       startDate
       endDate
-    }
-  }
-`
-
-const CHECKIN_PARTICIPANT = gql`
-  mutation CheckinParticipantFromQuartier($participantId: String!, $) {
-    checkinParticipant(id: $id) {
-      id
-      checkinConfirmed
     }
   }
 `
@@ -64,15 +55,15 @@ type ParticipantQueryResult= {
   endDate: string
 }
 
-export const beforeQuery = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+export const beforeQuery = ({gender, location}: {gender: string, location: string}) => {
   const { currentUser } = useAuth()
-  const role = currentUser?.roles?.at(0).split('_')[1]
+  const role = currentUser.roles.at(0)
+  console.log('beforeQuery: ', { gender, location })
   return {
     variables: {
       input: {
-        gender: role ?? '',
-        accommodation: 'jugendtreffen',
+        gender: gender ?? '',
+        accommodation: location ?? '',
       },
     },
     // Re-fetch when the role changes (e.g. on login)
@@ -119,45 +110,15 @@ export const Success = ({
   )
   const [globalSearch, setGlobalSearch] = React.useState('')
 
-  const [checkinParticipant] = useMutation(CHECKIN_PARTICIPANT, {
-    // Apollo updates the cache automatically because we return `id` + the
-    // changed field – no manual refetch needed.
-  })
-
   const columns: ColumnDef<ParticipantQueryResult, any>[] = [
-    {
-      accessorKey: 'checkinConfirmed',
-      header: ({ column }) => (
-        <DataTableColumnHeader
-          column={column}
-          title="Anwesend"
-          label="Anwesend"
-        />
-      ),
-      cell: ({ row }) => {
-        const confirmed = !!row.getValue('checkinConfirmed')
-        const id: string = row.getValue('id')
-
-        return (
-          <Checkbox
-            checked={confirmed}
-            disabled={confirmed} // once checked-in, prevent accidental un-check
-            onCheckedChange={(checked) => {
-              if (checked) {
-                checkinParticipant({ variables: { id } })
-              }
-            }}
-            aria-label={`Anwesenheit bestätigen für ${row.getValue('name')} ${row.getValue('familyName')}`}
-          />
-        )
-      },
-      enableSorting: true,
-    },
-    // ── Name ───────────────────────────────────────────────────────────────
     {
       accessorKey: 'name',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Vorname" label="Vorname" />
+        <DataTableColumnHeader
+          column={column}
+          title="Vorname"
+          label="Vorname"
+        />
       ),
       cell: ({ row }) => <span>{row.getValue('name')}</span>,
       enableSorting: true,
@@ -174,7 +135,6 @@ export const Success = ({
       cell: ({ row }) => <span>{row.getValue('familyName')}</span>,
       enableSorting: true,
     },
-    // ── Birthdate ──────────────────────────────────────────────────────────
     {
       accessorKey: 'birthdate',
       header: ({ column }) => (
@@ -190,19 +150,40 @@ export const Success = ({
         </span>
       ),
     },
-    // ── Status badge ───────────────────────────────────────────────────────
     {
-      accessorKey: 'id',
-      header: () => null,
-      cell: ({ row }) =>
-        row.getValue('checkinConfirmed') ? (
-          <Badge variant="success">Eingecheckt</Badge>
-        ) : (
-          <Badge variant="destructive">Ausstehend</Badge>
-        ),
-      enableSorting: false,
-      enableHiding: false,
-      size: 120,
+      accessorKey: 'bandColour',
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title="Bandfarbe"
+          label="Bandfarbe"
+        />
+      ),
+      cell: ({ row }) => (
+        <ColorSwatch color={getColor(row.getValue('bandColour') ?? '')} />
+      ),
+    },
+    {
+      accessorKey: 'phoneNumber',
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title="Telefonnummer"
+          label="Telefinnummer"
+        />
+      ),
+      cell: ({ row }) => <span>{row.getValue('phoneNumber')}</span>,
+    },
+    {
+      accessorKey: 'phoneCaretakerContact',
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title="Tel.Nr. Elternteil"
+          label="Tel.Nr. Elternteil"
+        />
+      ),
+      cell: ({ row }) => <span>{row.getValue('phoneNumber')}</span>,
     },
   ]
 
