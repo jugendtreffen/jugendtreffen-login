@@ -119,7 +119,6 @@ export function useForceUpdate() {
 }
 
 export function getColor(bandColor: string) {
-  console.log(bandColor)
   return bandColor
     .split("_")
     .slice(0, -1)

@@ -1,4 +1,5 @@
 import type {
+  ParticipantsByAccommodationQuery,
   ParticipantsByAccommodationQueryVariables,
 } from 'types/graphql'
 
@@ -24,24 +25,31 @@ import {Input} from "@/components/ui/input";
 import {DataTable} from "@/components/ui/data-table/data-table";
 import { ColorSwatch } from '@/components/ui/color-swatch'
 import { getColor } from '@/lib/utils'
+import { Checkbox } from '@/components/animate-ui/components/radix/checkbox'
 
 export const QUERY: TypedDocumentNode<
   ParticipantsByAccommodationQuery,
   ParticipantsByAccommodationQueryVariables
 > = gql`
-  query ParticipantsByAccommodationQuery($input: AccommodationInput!) {
-    participantsByAccommodation(input: $input) {
-      id
-      name
-      familyName
-      birthdate
-      bandColour
-      phoneNumber
-      phoneCaretakerContact
-      startDate
-      endDate
-    }
+  query ParticipantsByAccommodationQuery(
+  $input: AccommodationInput!
+  $date: Date!
+) {
+  participantsByAccommodation(input: $input) {
+    id
+    name
+    familyName
+    birthdate
+    phoneNumber
+    phoneCaretakerContact
+    startDate
+    endDate
   }
+  presencesByDate(date: $date) {
+    id
+    participantId
+  }
+}
 `
 
 type ParticipantQueryResult= {
@@ -55,19 +63,19 @@ type ParticipantQueryResult= {
   endDate: string
 }
 
-export const beforeQuery = ({gender, location}: {gender: string, location: string}) => {
+export const beforeQuery = ({gender, location, date}: {gender: string, location: string, date: string}) => {
   const { currentUser } = useAuth()
   const role = currentUser.roles.at(0)
-  console.log('beforeQuery: ', { gender, location })
+  console.log('beforeQuery: ', { gender, location, date })
   return {
     variables: {
       input: {
         gender: gender ?? '',
-        accommodation: location ?? '',
+        accommodation: location ?? 'jugendtreffen',
       },
+      date: date ?? new Date().toISOString().split('T')[0],
     },
-    // Re-fetch when the role changes (e.g. on login)
-    skip: !role,
+    skip: !role
   }
 }
 
@@ -99,7 +107,7 @@ export const Failure = ({
 )
 
 export const Success = ({
-                          participantsByAccommodation,
+                          participantsByAccommodation, presencesByDate,
                         }: CellSuccessProps<
   ParticipantsByAccommodationQuery,
   ParticipantsByAccommodationQueryVariables
@@ -111,6 +119,23 @@ export const Success = ({
   const [globalSearch, setGlobalSearch] = React.useState('')
 
   const columns: ColumnDef<ParticipantQueryResult, any>[] = [
+    {
+      accessorKey: 'presence',
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title="Anwesenheit"
+          label="Anwesenheit"
+        />
+      ),
+      cell: ({ row }) =>
+        <Checkbox
+          value={row.getValue('name')}
+          variant={"accent"}
+          onCheckedChange={console.log}
+        ></Checkbox>,
+      enableSorting: true,
+    },
     {
       accessorKey: 'name',
       header: ({ column }) => (
@@ -184,6 +209,36 @@ export const Success = ({
         />
       ),
       cell: ({ row }) => <span>{row.getValue('phoneNumber')}</span>,
+    },
+    {
+      accessorKey: 'startDate',
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title="Ankunft"
+          label="Ankunft"
+        />
+      ),
+      cell: ({ row }) => (
+        <span>
+          {new Date(row.getValue('startDate')).toLocaleDateString('de-AT')}
+        </span>
+      ),
+    },
+    {
+      accessorKey: 'endDate',
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title="Abreise"
+          label="Abreise"
+        />
+      ),
+      cell: ({ row }) => (
+        <span>
+          {new Date(row.getValue('endDate')).toLocaleDateString('de-AT')}
+        </span>
+      ),
     },
   ]
 

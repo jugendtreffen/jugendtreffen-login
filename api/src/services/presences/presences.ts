@@ -12,6 +12,7 @@ export const presences: QueryResolvers['presences'] = () => {
 }
 
 export const presencesByDate: QueryResolvers['presencesByDate'] = ({ date }) => {
+  console.log("date: ", date)
   return db.presence.findMany({
     where: { date },
   })
@@ -23,12 +24,16 @@ export const presencesByParticipant: QueryResolvers['presencesByParticipant'] = 
   })
 }
 
-export const createPresence: MutationResolvers['createPresence'] = ({
+export const createPresence: MutationResolvers['createPresence'] = async ({
   input,
 }) => {
-  logger.info(`user ${context.currentUser.email} created presence for ${input.participantId} on ${input.date}`)
+  logger.info(`user ${context.currentUser?.email ?? ''} created presence for ${input.participantId} on ${input.date}`)
   return db.presence.create({
-    data: input,
+    data: {
+      participantId: input.participantId,
+      date: input.date,
+      eventId: input.eventId,
+    },
   })
 }
 
@@ -37,10 +42,14 @@ export const updatePresence: MutationResolvers['updatePresence'] = ({
   input,
 }) => {
   logger.info(`user ${context.currentUser.email} updating presence with id ${id}`)
-  return db.presence.update({
-    data: input,
-    where: { id },
-  })
+  try {
+    return db.presence.update({
+      data: input,
+      where: { id },
+    })
+  } catch (error) {
+    logger.error(error)
+  }
 }
 
 export const deletePresence: MutationResolvers['deletePresence'] = ({ id }) => {

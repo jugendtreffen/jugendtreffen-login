@@ -66,7 +66,10 @@ function getSidebarItemsByRole(role: string) {
     case 'checkin':
       items.push({ name: 'Checkin', icon: LaptopMinimalCheck })
       break
-    case 'quartier':
+    case 'quartier_boys':
+      items.push({ name: 'Quartier', icon: Home })
+      break
+    case 'quartier_girls':
       items.push({ name: 'Quartier', icon: Home })
       break
   }
