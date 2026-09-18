@@ -45,7 +45,7 @@ describe('participants', () => {
         address: 'String',
         accommodation: 'String',
         startDate: '2026-02-23T21:05:28.445Z',
-        endDate: '2026-02-23T21:05:28.445Z',
+        endDate: '2026-02-24T21:05:28.445Z',
         foodChoice: 'String',
         acceptPhotos: true,
         acceptCoC: true,
@@ -64,10 +64,11 @@ describe('participants', () => {
     expect(result.address).toEqual('String')
     expect(result.accommodation).toEqual('String')
     expect(result.startDate).toEqual(new Date('2026-02-23T21:05:28.445Z'))
-    expect(result.endDate).toEqual(new Date('2026-02-23T21:05:28.445Z'))
+    expect(result.endDate).toEqual(new Date('2026-02-24T21:05:28.445Z'))
     expect(result.foodChoice).toEqual('String')
     expect(result.acceptPhotos).toEqual(true)
     expect(result.acceptCoC).toEqual(true)
+    expect(result.price).toEqual(90)
     expect(result.eventId).toEqual(scenario.participant.two.eventId)
   })
 
