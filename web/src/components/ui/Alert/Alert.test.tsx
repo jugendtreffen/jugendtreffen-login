@@ -20,6 +20,7 @@ describe('Alert', () => {
     expect(() => {
       render(
         <AlertProvider>
+          {/* @ts-expect-error id fehlt absichtlich */}
           <Alert type={'warning'} message={'message'} />
         </AlertProvider>
       )

@@ -15,7 +15,7 @@ const JoinStaffView = () => {
       <section className="flex flex-col md:flex-row gap-2">
         <div className="md:ml-3 flex flex-col gap-4">
 
-          {currentUser.roles.at(0) == 'none' && <Card>
+          {(currentUser?.roles?.at(0) ?? 'none') === 'none' && <Card>
             <CardHeader>
               <CardTitle>Du bist noch nicht als Mitarbeiter aufgenommen!</CardTitle>
             </CardHeader>

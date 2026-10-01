@@ -36,7 +36,7 @@ const CheckinDialog = ({onCheckin, saving, acceptPhotos, form}: CheckinDialogPro
         <div className="flex flex-row items-center gap-2">
           <Checkbox
             id="ageChecked"
-            value={ageChecked}
+            checked={ageChecked}
             onCheckedChange={(value) => setAgeChecked(value as boolean)}
           />
           <Label htmlFor="ageChecked" className="ml-2">
@@ -46,7 +46,7 @@ const CheckinDialog = ({onCheckin, saving, acceptPhotos, form}: CheckinDialogPro
         <div className="flex flex-row items-center gap-2">
           <Checkbox
             id="parentConfirmationChecked"
-            value={parentConfirmationChecked}
+            checked={parentConfirmationChecked}
             onCheckedChange={(value) => setParentConfirmationChecked(value as boolean)}
           />
           <Label htmlFor="parentConfirmationChecked" className="ml-2">
@@ -62,7 +62,7 @@ const CheckinDialog = ({onCheckin, saving, acceptPhotos, form}: CheckinDialogPro
                 <>
                   <Checkbox
                     id="acceptPhotos"
-                    value={field.value}
+                    checked={field.value}
                     onCheckedChange={field.onChange}
                     aria-invalid={fieldState.invalid}
                   />

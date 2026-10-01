@@ -22,7 +22,7 @@ export const standard = (/* vars, { ctx, req } */) => ({
     participationRole: 'teilnehmer',
     event: {
       __typename: 'Event' as const,
-      id: '1',
+      id: 1,
       name: 'Jugendtreffen 2026',
       startDate: '2026-07-01',
       endDate: '2026-07-05',
