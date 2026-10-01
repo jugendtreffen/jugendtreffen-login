@@ -22,7 +22,7 @@ export const event: QueryResolvers['event'] = async ({ id }) => {
 
 export const currentEvent: QueryResolvers['currentEvent'] = async () => {
   try {
-    return db.event.findFirst({
+    return await db.event.findFirst({
       where: {
         endDate: {
           gte: new Date(),

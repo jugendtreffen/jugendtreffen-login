@@ -2,56 +2,48 @@ import type { Participant, Prisma } from '@prisma/client'
 
 import type { ScenarioData } from '@redwoodjs/testing/api'
 
+const participantData = (name: string, birthdate: string) => ({
+  name,
+  familyName: 'Muster',
+  email: `${name.toLowerCase()}@example.com`,
+  birthdate: new Date(birthdate),
+  gender: 'female',
+  phoneNumber: '+43 660 1234567',
+  country: 'AT',
+  city: 'Kremsmünster',
+  postalCode: '4550',
+  address: 'Stiftsplatz 1',
+  accommodation: 'jugendtreffen',
+  startDate: new Date('2026-07-01'),
+  endDate: new Date('2026-07-05'),
+  foodChoice: 'any',
+  acceptPhotos: true,
+  acceptCoC: true,
+  participationRole: 'teilnehmer',
+})
+
 export const standard = defineScenario<Prisma.ParticipantCreateArgs>({
   participant: {
     one: {
       data: {
-        name: 'String',
-        familyName: 'String',
-        birthdate: '2026-02-23T21:05:28.580Z',
-        gender: 'String',
-        phoneNumber: 'String',
-        country: 'String',
-        city: 'String',
-        postalCode: 'String',
-        address: 'String',
-        accommodation: 'String',
-        startDate: '2026-02-23T21:05:28.580Z',
-        endDate: '2026-02-23T21:05:28.580Z',
-        foodChoice: 'String',
-        acceptPhotos: true,
-        acceptCoC: true,
+        ...participantData('Anna', '2008-03-01'),
         event: {
           create: {
-            name: 'String4737526',
-            startDate: '2026-02-23T21:05:28.589Z',
-            endDate: '2026-02-23T21:05:28.589Z',
+            name: 'Jugendtreffen 2026',
+            startDate: new Date('2026-07-01'),
+            endDate: new Date('2026-07-05'),
           },
         },
       },
     },
     two: {
       data: {
-        name: 'String',
-        familyName: 'String',
-        birthdate: '2026-02-23T21:05:28.589Z',
-        gender: 'String',
-        phoneNumber: 'String',
-        country: 'String',
-        city: 'String',
-        postalCode: 'String',
-        address: 'String',
-        accommodation: 'String',
-        startDate: '2026-02-23T21:05:28.589Z',
-        endDate: '2026-02-23T21:05:28.589Z',
-        foodChoice: 'String',
-        acceptPhotos: true,
-        acceptCoC: true,
+        ...participantData('Ben', '2010-11-20'),
         event: {
           create: {
-            name: 'String8739202',
-            startDate: '2026-02-23T21:05:28.597Z',
-            endDate: '2026-02-23T21:05:28.597Z',
+            name: 'Jugendtreffen 2027',
+            startDate: new Date('2027-07-01'),
+            endDate: new Date('2027-07-05'),
           },
         },
       },

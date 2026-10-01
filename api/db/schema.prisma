@@ -62,7 +62,7 @@ model Participant {
   bandColour            BandColourEnum?
   checkinConfirmed      Boolean  @default(false)
   createdAt             DateTime @default(now())
-  event                 Event    @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  event                 Event    @relation(fields: [eventId], references: [id], onDelete: Restrict, onUpdate: Cascade)
 
   @@map("participants")
 }
@@ -86,7 +86,7 @@ model Presence {
   status  String
   userId  String   @db.Uuid
   eventId BigInt   @db.BigInt
-  event   Event    @relation(fields: [eventId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  event   Event    @relation(fields: [eventId], references: [id], onDelete: Restrict, onUpdate: Cascade)
 
   @@index([userId])
   @@map("presences")

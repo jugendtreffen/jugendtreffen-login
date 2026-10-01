@@ -1,7 +1,10 @@
-import {RedwoodError} from '@redwoodjs/api'
-import {supabase} from 'src/lib/supabase'
-import {requireAuth} from 'src/lib/auth'
-import {db} from "src/lib/db";
+import type { UserRoleEnum } from '@prisma/client'
+
+import { RedwoodError } from '@redwoodjs/api'
+
+import { requireAuth } from 'src/lib/auth'
+import { db } from 'src/lib/db'
+import { supabase } from 'src/lib/supabase'
 
 export const staffUsers = async () => {
   requireAuth({roles: ['admin']})
@@ -26,13 +29,13 @@ export const updateStaffRole = async ({
 }) => {
   requireAuth({roles: ['admin']})
   try {
-    const userRole = await db.userRole.update({
-        where: { userId: input.userId },
-        data: {
-          role: input.role ?? 'none',
-        }
-      }
-    )
+    // upsert: Benutzer ohne user_roles-Eintrag (z.B. vor Einrichtung des Supabase-Triggers) abdecken
+    const role = (input.role ?? 'none') as UserRoleEnum
+    const userRole = await db.userRole.upsert({
+      where: { userId: input.userId },
+      update: { role },
+      create: { userId: input.userId, role },
+    })
     const {data, error} = await supabase.auth.admin.getUserById(input.userId)
     if (error) {
       throw error

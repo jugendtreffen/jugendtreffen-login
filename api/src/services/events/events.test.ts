@@ -1,11 +1,8 @@
 import { currentEvent, event, events } from './events'
 import type { StandardScenario } from './events.scenarios'
 
-// Generated boilerplate tests do not account for all circumstances
-// and can fail without adjustments, e.g. Float.
-//           Please refer to the RedwoodJS Testing Docs:
-//       https://redwoodjs.com/docs/testing#testing-services
-// https://redwoodjs.com/docs/testing#jest-expect-type-considerations
+// Redwood typisiert den BigInt-Scalar in den Resolver-Typen als number
+const asId = (id: bigint) => id as unknown as number
 
 describe('events', () => {
   scenario('returns all events', async (scenario: StandardScenario) => {
@@ -15,22 +12,37 @@ describe('events', () => {
   })
 
   scenario('returns a single event', async (scenario: StandardScenario) => {
-    const result = await event({ id: scenario.event.one.id })
+    const result = await event({ id: asId(scenario.event.next.id) })
 
-    expect(result).toEqual(scenario.event.one)
+    expect(result).toEqual(scenario.event.next)
+  })
+
+  scenario('throws for an unknown event id', async () => {
+    await expect(event({ id: 999999 })).rejects.toThrow(
+      'kein Event für angegebene Id gefunden'
+    )
   })
 
   scenario(
-    'returns the most recent event before today',
+    'returns the next upcoming event as current event',
     async (scenario: StandardScenario) => {
       const result = await currentEvent()
-      // Should be the event with the latest startDate < today
-      const today = new Date('2025-09-20')
-      const expected = Object.values(scenario.event)
-        .filter((e) => new Date(e.startDate) < today)
-        .sort((a, b) => new Date(b.startDate) - new Date(a.startDate))[0]
 
-      expect(result).toEqual(expected)
+      expect(result).toEqual(scenario.event.next)
     }
   )
+
+  scenario(
+    'running',
+    'returns an event that ends today',
+    async (scenario: StandardScenario) => {
+      const result = await currentEvent()
+
+      expect(result).toEqual(scenario.event.current)
+    }
+  )
+
+  scenario('onlyPast', 'returns null when no event is upcoming', async () => {
+    expect(await currentEvent()).toBeNull()
+  })
 })
