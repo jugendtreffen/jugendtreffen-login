@@ -82,7 +82,7 @@ const bandColorDescMap = {
   "red_mitarbeiter": "Mitarbeiter",
   "yellow_tagesgaeste": "Tagesgäste",
   "blue_ue18": "Über 18",
-  "darkgreen_ue16": "Über 16",
+  "dark_green_ue16": "Über 16",
   "lime_ue14": "Über 14",
 }
 
@@ -118,8 +118,8 @@ const ParticipantDetailForm = ({participant, loading}: Props) => {
     })
   }, [participant])
 
-  const onCheckin = () => {
-    const valid = form.trigger()
+  const onCheckin = async () => {
+    const valid = await form.trigger()
     if (!valid) {
       addAlert('Bitte korrigiere zuerst die Formularfehler.', 'error')
       return
@@ -143,8 +143,8 @@ const ParticipantDetailForm = ({participant, loading}: Props) => {
     })
   }
 
-  const onSave = () => {
-    const valid = form.trigger()
+  const onSave = async () => {
+    const valid = await form.trigger()
     if (!valid) {
       addAlert('Bitte korrigiere zuerst die Formularfehler.', 'error')
       return
@@ -562,7 +562,7 @@ const ParticipantDetailForm = ({participant, loading}: Props) => {
               Zurück zur Übersicht
             </Button>
           ) : (
-            <DialogTrigger>
+            <DialogTrigger asChild>
               <Button disabled={saving}>
                 Speichern und Einchecken
                 <ArrowRight className="h-4 w-4"/>

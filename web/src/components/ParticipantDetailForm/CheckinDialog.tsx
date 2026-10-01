@@ -27,7 +27,7 @@ const CheckinDialog = ({onCheckin, saving, acceptPhotos, form}: CheckinDialogPro
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Teilnehhmer Einchecken</DialogTitle>
+        <DialogTitle>Teilnehmer Einchecken</DialogTitle>
         <DialogDescription>
           Bitte überprüfe noch Folgende Dinge (verpflichtend!)
         </DialogDescription>
@@ -75,12 +75,12 @@ const CheckinDialog = ({onCheckin, saving, acceptPhotos, form}: CheckinDialogPro
         )}
       </div>
       <DialogFooter>
-        <DialogClose>
+        <DialogClose asChild>
           <Button variant="outline">
             Abbrechen
           </Button>
         </DialogClose>
-        <DialogClose>
+        <DialogClose asChild>
           <Button onClick={onCheckin} disabled={saving || !ageChecked || !parentConfirmationChecked}>
             Einchecken
             <UserCheck className="h-4 w-4"/>

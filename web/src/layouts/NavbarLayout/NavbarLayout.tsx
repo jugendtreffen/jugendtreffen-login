@@ -14,9 +14,7 @@ const NavbarLayout = ({ children }: NavbarLayoutProps) => {
       <main className="relative overflow-hidden flex flex-col justify-center h-full flex-1">
         {children}
       </main>
-      <footer>
-        <Footer />
-      </footer>
+      <Footer />
     </>
   )
 }

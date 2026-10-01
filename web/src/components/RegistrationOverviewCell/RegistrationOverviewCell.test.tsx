@@ -1,42 +1,45 @@
-import { render } from '@redwoodjs/testing/web'
+import { render, screen } from '@redwoodjs/testing/web'
 
-import { Loading, Empty, Failure, Success } from './RegistrationOverviewCell'
+import { AlertProvider } from '@/hooks/AlertHook'
+
+import { Empty, Failure, Loading, Success } from './RegistrationOverviewCell'
 import { standard } from './RegistrationOverviewCell.mock'
 
-// Generated boilerplate tests do not account for all circumstances
-// and can fail without adjustments, e.g. Float and DateTime types.
-//           Please refer to the RedwoodJS Testing Docs:
-//        https://redwoodjs.com/docs/testing#testing-cells
-// https://redwoodjs.com/docs/testing#jest-expect-type-considerations
+const renderWithAlert = (ui: React.ReactElement) =>
+  render(<AlertProvider>{ui}</AlertProvider>)
 
-describe('ParticipantCell', () => {
+describe('RegistrationOverviewCell', () => {
   it('renders Loading successfully', () => {
-    expect(() => {
-      render(<Loading />)
-    }).not.toThrow()
+    expect(() => render(<Loading />)).not.toThrow()
   })
 
-  it('renders Empty successfully', async () => {
-    expect(() => {
-      render(<Empty />)
-    }).not.toThrow()
+  it('renders Empty with a not-found message', () => {
+    renderWithAlert(<Empty />)
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Anmeldung nicht gefunden'
+    )
   })
 
-  it('renders Failure successfully', async () => {
-    expect(() => {
-      render(<Failure id={'42'} error={new Error('Oh no')} />)
-    }).not.toThrow()
+  it('renders Failure with the error name', () => {
+    renderWithAlert(<Failure id={'42'} error={new Error('Oh no')} />)
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Bitte versuche es später erneut: Error'
+    )
   })
 
-  // When you're ready to test the actual output of your component render
-  // you could test that, for example, certain text is present:
-  //
-  // 1. import { screen } from '@redwoodjs/testing/web'
-  // 2. Add test: expect(screen.getByText('Hello, world')).toBeInTheDocument()
+  it('renders the formatted registration summary', () => {
+    renderWithAlert(<Success id={'42'} participant={standard().participant} />)
 
-  it('renders Success successfully', async () => {
-    expect(() => {
-      render(<Success id={'42'} participant={standard().participant} />)
-    }).not.toThrow()
+    expect(screen.getByText('Anmeldung erfolgreich!')).toBeInTheDocument()
+    expect(screen.getByText('Jugendtreffen 2026')).toBeInTheDocument()
+    expect(screen.getByText('Mustermann')).toBeInTheDocument()
+    expect(screen.getByText('17.05.2008')).toBeInTheDocument()
+    expect(screen.getByText('Männlich')).toBeInTheDocument()
+    expect(screen.getByText('Österreich')).toBeInTheDocument()
+    expect(screen.getByText('Zug')).toBeInTheDocument()
+    expect(screen.getByText('Beim Jugendtreffen')).toBeInTheDocument()
+    expect(screen.getByText('Vegetarisch')).toBeInTheDocument()
+    expect(screen.getByText('Teilnehmer')).toBeInTheDocument()
+    expect(screen.getAllByText('Ja')).toHaveLength(2)
   })
 })

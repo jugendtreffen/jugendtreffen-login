@@ -1,42 +1,37 @@
-import { render } from '@redwoodjs/testing/web'
+import { render, screen } from '@redwoodjs/testing/web'
 
-import { Loading, Empty, Failure, Success } from './StaffCell'
+import { AlertProvider } from '@/hooks/AlertHook'
+
+import { Empty, Failure, Loading, Success } from './StaffCell'
 import { standard } from './StaffCell.mock'
 
-// Generated boilerplate tests do not account for all circumstances
-// and can fail without adjustments, e.g. Float and DateTime types.
-//           Please refer to the RedwoodJS Testing Docs:
-//        https://redwoodjs.com/docs/testing#testing-cells
-// https://redwoodjs.com/docs/testing#jest-expect-type-considerations
+const renderWithAlert = (ui: React.ReactElement) =>
+  render(<AlertProvider>{ui}</AlertProvider>)
 
 describe('StaffCell', () => {
   it('renders Loading successfully', () => {
-    expect(() => {
-      render(<Loading />)
-    }).not.toThrow()
+    expect(() => render(<Loading />)).not.toThrow()
   })
 
-  it('renders Empty successfully', async () => {
-    expect(() => {
-      render(<Empty />)
-    }).not.toThrow()
+  it('renders Empty with a message', () => {
+    renderWithAlert(<Empty />)
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Keine Benutzer gefunden.'
+    )
   })
 
-  it('renders Failure successfully', async () => {
-    expect(() => {
-      render(<Failure id={42} error={new Error('Oh no')} />)
-    }).not.toThrow()
+  it('renders Failure with the error message', () => {
+    renderWithAlert(<Failure error={new Error('Oh no')} />)
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Fehler beim Laden der Benutzer: Oh no'
+    )
   })
 
-  // When you're ready to test the actual output of your component render
-  // you could test that, for example, certain text is present:
-  //
-  // 1. import { screen } from '@redwoodjs/testing/web'
-  // 2. Add test: expect(screen.getByText('Hello, world')).toBeInTheDocument()
+  it('renders one role form per staff user', () => {
+    renderWithAlert(<Success staffUsers={standard().staffUsers} />)
 
-  it('renders Success successfully', async () => {
-    expect(() => {
-      render(<Success id={42} staff={standard().staff} />)
-    }).not.toThrow()
+    expect(screen.getByText('anna@example.com')).toBeInTheDocument()
+    expect(screen.getByText('ben@example.com')).toBeInTheDocument()
+    expect(screen.getAllByRole('button', { name: /Speichern/ })).toHaveLength(2)
   })
 })
