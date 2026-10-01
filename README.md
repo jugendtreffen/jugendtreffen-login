@@ -119,13 +119,56 @@ Also consider taking a look into the [Tailwind docs](https://tailwindcss.com/doc
 
 ## Testing with Jest
 
-It'd be hard to scale from side project to startup without a few tests. Redwood fully integrates Jest with both the front- and back-ends, and makes it easy to keep your whole app covered by generating test files with all your components and services:
+Both sides are tested with Jest. Redwood adds database [scenarios](https://redwoodjs.com/docs/testing#scenarios) for the api and [GraphQL mocking](https://redwoodjs.com/docs/testing#mocking-graphql-calls) for the web side. `yarn rw test` starts in watch mode; add `--no-watch` to run once (e.g. in CI).
 
-```
-yarn rw test
-```
+| What | Command |
+| --- | --- |
+| All tests (web + api) | `yarn rw test --no-watch` |
+| Only the web side | `yarn rw test web --no-watch` |
+| Only the api side | `yarn rw test api --no-watch` |
+| A single test file (name pattern) | `yarn rw test web LoginPage --no-watch` |
+| Single tests by name | `yarn rw test api participants -t "band colour" --no-watch` |
+| With coverage report | `yarn rw test web --coverage --no-watch` |
+| Watch mode on all files | `yarn test` |
 
-To make the integration even more seamless, Redwood augments Jest with database [scenarios](https://redwoodjs.com/docs/testing#scenarios) and [GraphQL mocking](https://redwoodjs.com/docs/testing#mocking-graphql-calls).
+### Web tests
+
+The web tests need no database or network. External services are mocked:
+
+- `@supabase/supabase-js` is mocked globally in `web/src/test/supabaseMock.ts`.
+- `web/src/test/setupTests.ts` adds browser APIs missing in jsdom (`matchMedia`, `ResizeObserver`, `IntersectionObserver`, …) and clears `localStorage` before every test.
+- Components that use `useAlert`, `useCurrentEvent` or `useSidebar` need the providers from `GlobalLayout`/`SidebarLayout`. Use the helper:
+
+  ```tsx
+  import { renderWithProviders } from '@/test/renderWithProviders'
+
+  renderWithProviders(<MyComponent />)                       // Alert + CurrentEvent provider
+  renderWithProviders(<MyComponent />, { withSidebar: true }) // additionally inside SidebarLayout
+  ```
+
+- Log in a fake user with `mockCurrentUser({ id, email, roles: ['admin'] })` and answer GraphQL calls with `mockGraphQLQuery('QueryName', () => data)` / `mockGraphQLMutation(...)`. To control `logIn` or the supabase `client` (login/signup pages), mock `src/auth` with `jest.mock('src/auth', () => ({ useAuth: jest.fn() }))`.
+
+### API tests
+
+The api tests run the services against a real **PostgreSQL test database**. Before each run the database is wiped and rebuilt from `schema.prisma` (`prisma db push --force-reset`), so **never use a database with real data**.
+
+1. Start a local Postgres, e.g. with Docker:
+
+   ```
+   docker run -d --name jt-test-db -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:16
+   ```
+
+2. Add the connection to your `.env`:
+
+   ```
+   TEST_DATABASE_URL=postgresql://postgres:postgres@localhost:5432/jugendtreffen_test
+   ```
+
+3. Run `yarn rw test api --no-watch`.
+
+`api/jest.config.js` redirects `SUPABASE_TRANSACTION_POOLER_URL` and `SUPABASE_SESSION_POOLER_URL` to `TEST_DATABASE_URL`, and refuses to run without it, so the tests can't reach the Supabase database by accident. Supabase (`src/lib/supabase`) and Brevo (`src/services/mailer`, `@whatwg-node/fetch`) are mocked in the tests that use them, so no keys are needed.
+
+Test data lives in the `*.scenarios.ts` files next to each service; use `mockCurrentUser(...)` to test the role checks (`requireAuth({ roles })`).
 
 ## Deployment & Furhter Infos
 

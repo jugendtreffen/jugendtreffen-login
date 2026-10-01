@@ -11,9 +11,10 @@ Registration and staff app for the "Jugendtreffen Kremsmünster" event. RedwoodJ
 ```bash
 yarn install
 yarn rw dev                      # web on :8910, api/GraphQL on :8911
-yarn rw test                     # all Jest tests (root `yarn test` adds --watchAll)
-yarn rw test web                 # only web side (or: yarn rw test api)
-yarn rw test web ParticipantDetailForm   # single test file by name pattern
+yarn rw test --no-watch          # all Jest tests (watch mode without --no-watch)
+yarn rw test web --no-watch      # only web side (or: yarn rw test api)
+yarn rw test web ParticipantDetailForm --no-watch   # single test file by name pattern
+yarn rw test api participants -t "band colour" --no-watch   # single tests by name
 yarn rw lint                     # ESLint (eslint.config.mts); add --fix to autofix
 yarn rw type-check
 yarn rw build
@@ -46,7 +47,11 @@ Add shadcn UI components with `yarn dlx shadcn@latest add <component>` (lands in
 - Routing (`Routes.tsx`) is minimal. The logged-in app is a single-page dashboard at `/`: `HomePage` shows `LandingPageView` when anonymous, otherwise `SidebarLayout` + `pages/HomePage/views/ViewRouter.tsx`. Sidebar entries are chosen per role in `SidebarLayout.getSidebarItemsByRole`, the active entry is persisted in `localStorage`, and `ViewRouter`'s `viewMap` maps the `SidebarItem` name to a view component. To add a dashboard section: extend the `SidebarItem` type, add it in `getSidebarItemsByRole`, and register it in `viewMap`.
 - Data fetching uses Redwood Cells (`*Cell.tsx` with `.mock.ts`/`.test.tsx`). `hooks/CurrenteventHook.tsx` provides the current event via context.
 - Forms: react-hook-form + zod schemas (`*Schema.ts` next to the form). Tables: TanStack Table wrapper in `components/ui/data-table` with `hooks/use-data-table.ts` (URL state via `nuqs`). Styling: Tailwind v4 + shadcn/Radix; `components/animate-ui` holds animated primitives.
-- Web tests run with `web/src/test/supabaseMock.ts`, which globally mocks `@supabase/supabase-js`.
+- Web tests: setup in `web/src/test/setupTests.ts` (global supabase mock, jsdom polyfills). Use `renderWithProviders` from `web/src/test/renderWithProviders.tsx` for components needing `useAlert`/`useCurrentEvent`/`useSidebar`.
+
+### Tests
+- API tests need a Postgres `TEST_DATABASE_URL` (wiped on every run). `api/jest.config.js` redirects the Supabase pooler env vars to it and aborts without it — keep that, otherwise scenarios would run against the real DB. Supabase admin client and Brevo are mocked per test file.
+- Redwood types the `BigInt` scalar as `number` in resolver types; cast Prisma `bigint` ids in api tests (`id as unknown as number`).
 
 ## Conventions
 
