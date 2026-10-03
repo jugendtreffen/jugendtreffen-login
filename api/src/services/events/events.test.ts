@@ -24,8 +24,7 @@ describe('events', () => {
     'returns the most recent event before today',
     async (scenario: StandardScenario) => {
       const result = await currentEvent()
-      // Should be the event with the latest startDate < today
-      const today = new Date('2025-09-20')
+      const today = new Date()
       const expected = Object.values(scenario.event)
         .filter((e) => new Date(e.startDate) < today)
         .sort((a, b) => new Date(b.startDate) - new Date(a.startDate))[0]

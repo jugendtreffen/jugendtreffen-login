@@ -1,5 +1,6 @@
 import type { Participant } from '@prisma/client'
 
+import { sendRegistrationConfirmation } from 'src/services/mailer/mailer'
 import {
   createParticipant,
   deleteParticipant,
@@ -9,6 +10,10 @@ import {
 } from './participants'
 import type { StandardScenario } from './participants.scenarios'
 
+jest.mock('src/services/mailer/mailer', () => ({
+  sendRegistrationConfirmation: jest.fn().mockResolvedValue(undefined),
+}))
+
 // Generated boilerplate tests do not account for all circumstances
 // and can fail without adjustments, e.g. Float.
 //           Please refer to the RedwoodJS Testing Docs:
@@ -16,6 +21,10 @@ import type { StandardScenario } from './participants.scenarios'
 // https://redwoodjs.com/docs/testing#jest-expect-type-considerations
 
 describe('participants', () => {
+  beforeEach(() => {
+    jest.mocked(sendRegistrationConfirmation).mockResolvedValue(undefined as any)
+  })
+
   scenario('returns all participants', async (scenario: StandardScenario) => {
     const result = await participants()
 
@@ -36,6 +45,7 @@ describe('participants', () => {
       input: {
         name: 'String',
         familyName: 'String',
+        email: 'new@example.com',
         birthdate: '2026-02-23T21:05:28.445Z',
         gender: 'String',
         phoneNumber: 'String',
@@ -50,12 +60,13 @@ describe('participants', () => {
         acceptPhotos: true,
         acceptCoC: true,
         eventId: scenario.participant.two.eventId,
+        participationRole: 'teilnehmer',
       },
     })
 
     expect(result.name).toEqual('String')
     expect(result.familyName).toEqual('String')
-    expect(result.birthdate).toEqual(new Date('2026-02-23T21:05:28.445Z'))
+    expect(result.birthdate).toEqual(new Date('2026-02-23T00:00:00.000Z'))
     expect(result.gender).toEqual('String')
     expect(result.phoneNumber).toEqual('String')
     expect(result.country).toEqual('String')
@@ -63,8 +74,8 @@ describe('participants', () => {
     expect(result.postalCode).toEqual('String')
     expect(result.address).toEqual('String')
     expect(result.accommodation).toEqual('String')
-    expect(result.startDate).toEqual(new Date('2026-02-23T21:05:28.445Z'))
-    expect(result.endDate).toEqual(new Date('2026-02-24T21:05:28.445Z'))
+    expect(result.startDate).toEqual(new Date('2026-02-23T00:00:00.000Z'))
+    expect(result.endDate).toEqual(new Date('2026-02-24T00:00:00.000Z'))
     expect(result.foodChoice).toEqual('String')
     expect(result.acceptPhotos).toEqual(true)
     expect(result.acceptCoC).toEqual(true)
@@ -78,7 +89,7 @@ describe('participants', () => {
     })) as Participant
     const result = await updateParticipant({
       id: original.id,
-      input: { name: 'String2' },
+      input: { name: 'String2', participationRole: 'teilnehmer' },
     })
 
     expect(result.name).toEqual('String2')

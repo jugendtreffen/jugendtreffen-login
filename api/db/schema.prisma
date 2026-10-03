@@ -73,9 +73,9 @@ model Event {
   desc         String?
   startDate    DateTime      @db.Date
   endDate      DateTime      @db.Date
-  pricePerDay  Float?
-  EarlyBirdCutoff Date?
-  participants Participant[]
+  pricePerDay     Float?
+  earlyBirdCutoff DateTime? @db.Date
+  participants    Participant[]
   presences    Presence[]
   createdAt    DateTime      @default(now())
 

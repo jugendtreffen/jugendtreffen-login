@@ -17,7 +17,9 @@
     "push-db": "redwood prisma db push",
     "seed": "redwood prisma db seed",
     "generate types": "redwood generate types",
-    "test": "redwood test --watchAll"
+    "test": "redwood test --watchAll",
+    "test:services": "bash -lc 'bash ./scripts/run-test-db.sh && set -a && . ./.env.test && set +a && yarn rw test --watch=false --runInBand api/src/services'",
+    "test:services:watch": "bash -lc 'bash ./scripts/run-test-db.sh && set -a && . ./.env.test && set +a && yarn rw test --watch api/src/services'"
   },
   "devDependencies": {
     "@redwoodjs/auth-supabase-setup": "8.9.0",

@@ -44,8 +44,8 @@ export const calculateParticipantPrice = async ({
   const pricePerDay = (eventData as { pricePerDay?: number | null } | null)
     ?.pricePerDay
   const earlyBirdCutoff = (
-    eventData as { EarlyBirdCutoff?: Date | string | null } | null
-  )?.EarlyBirdCutoff
+    eventData as { earlyBirdCutoff?: Date | string | null } | null
+  )?.earlyBirdCutoff
 
   if (pricePerDay == null) {
     return 0
@@ -112,7 +112,9 @@ export const updateParticipant: MutationResolvers['updateParticipant'] = ({
   id,
   input,
 }) => {
-  logger.info(`user ${context.currentUser.email} updating participant with id ${id}`)
+  logger.info(
+    `user ${context?.currentUser?.email ?? 'unknown'} updating participant with id ${id}`
+  )
   return db.participant.update({
     data: input,
     where: { id },
@@ -122,7 +124,9 @@ export const updateParticipant: MutationResolvers['updateParticipant'] = ({
 export const deleteParticipant: MutationResolvers['deleteParticipant'] = ({
   id,
 }) => {
-  logger.info(`user ${context.currentUser.email} deleting participant with id ${id}`)
+  logger.info(
+    `user ${context?.currentUser?.email ?? 'unknown'} deleting participant with id ${id}`
+  )
   return db.participant.delete({
     where: { id },
   })

@@ -4,7 +4,7 @@ import {requireAuth} from 'src/lib/auth'
 import {db} from "src/lib/db";
 
 export const staffUsers = async () => {
-  requireAuth({roles: ['admin']})
+  requireAuth({ roles: ['admin'] })
 
   const { data, error } = await supabase.auth.admin.listUsers()
   const roles = await db.userRole.findMany()
@@ -12,11 +12,16 @@ export const staffUsers = async () => {
     throw new RedwoodError('Fehler beim Laden der Benutzer: ' + error.message)
   }
 
-  return data.users.filter((user) => user.id !== context.currentUser.id).map((user) => ({
-    id: user.id,
-    email: user.email ?? '',
-    role: roles.find((role) => role.userId === user.id)?.role ?? null,
-  }))
+  const currentUserId =
+    globalThis.context?.currentUser?.id ?? context?.currentUser?.id
+
+  return data.users
+    .filter((user) => user.id !== currentUserId)
+    .map((user) => ({
+      id: user.id,
+      email: user.email ?? '',
+      role: roles.find((role) => role.userId === user.id)?.role ?? null,
+    }))
 }
 
 export const updateStaffRole = async ({
