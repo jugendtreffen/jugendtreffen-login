@@ -4,7 +4,7 @@
 
 > **Prerequisites**
 >
-> - Redwood requires [Node.js](https://nodejs.org/en/) (=20.x) and [Yarn](https://yarnpkg.com/)
+> - Redwood requires [Node.js](https://nodejs.org/en/) (=24.x) and [Yarn](https://yarnpkg.com/)
 > - Are you on Windows? For best results, follow our [Windows development setup](https://redwoodjs.com/docs/how-to/windows-development-setup) guide
 
 Start by installing dependencies:
@@ -45,31 +45,19 @@ yarn rw prisma migrate dev
 
 `rw` is short for `redwood`
 
-### Custom SQL
+### Supabase auth setup
 
-> I couldn't figure out how to effectively connect the users with their personal Data so I just manually insert this foreign Key, please don't forget to run this before and after creating a new migration!
-> (Otherwise you will get an error)
->
-> Remove the fkey causing the trouble:
-> ```
-> yarn rw  prisma db execute --file=./api/db/pre_migration.sql
-> ```
-> Then execute your migration or push your schema to the db:
-> ```
-> yarn rw prisma migrate dev
-> ```
->  ```
-> yarn rw prisma push db
-> ```
->
-> After that add the fkey to the db with:
-> ```
-> yarn rw  prisma db execute --file=./api/db/add_personalDatas_users_fkey.sql
-> ```
->
-> Tipp: You can also add the snippet, that creates the fkey, to your migration.sql file
+Prisma can't access Supabase's `auth` schema, so tables in `public` are not linked to `auth.users` by foreign keys. Roles are stored in `public.user_roles`. The migration `20260502070949_add_role_handling` creates two functions, which have to be enabled once per Supabase project:
 
-The above methods can be used if you have relations to other schemas in supabase and don't want to touch them.
+- `custom_access_token_hook`: adds the user's role as the `user_role` claim to the JWT. Enable it under *Authentication → Hooks → Customize Access Token*.
+- `handle_new_user`: gives every new user the role `none`. Create the trigger in the Supabase SQL editor:
+  ```sql
+  CREATE TRIGGER on_auth_user_created
+    AFTER INSERT ON auth.users
+    FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
+  ```
+
+To change schema, edit `schema.prisma` and run `yarn rw prisma migrate dev`. No extra SQL steps are required.
 
 ## API
 
