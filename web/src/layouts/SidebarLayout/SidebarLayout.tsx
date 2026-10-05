@@ -3,6 +3,7 @@ import {
   Home,
   LaptopMinimalCheck,
   LayoutDashboard,
+  ClipboardList,
   LogOut,
   UserPen,
   UserStar,
@@ -31,6 +32,7 @@ import {
 export type SidebarItem =
   | 'Dashboard'
   | 'Quartier'
+  | 'Quartier Overview'
   | 'Checkin'
   | 'Join the Team'
   | 'Mitarbeiter'
@@ -62,15 +64,18 @@ function getSidebarItemsByRole(role: string) {
       items.push({ name: 'Mitarbeiter', icon: UserPen })
       items.push({ name: 'Checkin', icon: LaptopMinimalCheck })
       items.push({ name: 'Quartier', icon: Home })
+      items.push({ name: 'Quartier Overview', icon: ClipboardList })
       break
     case 'checkin':
       items.push({ name: 'Checkin', icon: LaptopMinimalCheck })
       break
     case 'quartier_boys':
       items.push({ name: 'Quartier', icon: Home })
+      items.push({ name: 'Quartier Overview', icon: ClipboardList })
       break
     case 'quartier_girls':
       items.push({ name: 'Quartier', icon: Home })
+      items.push({ name: 'Quartier Overview', icon: ClipboardList })
       break
   }
   return items
