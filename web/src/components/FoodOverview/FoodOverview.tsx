@@ -23,13 +23,12 @@ import {
 import { useAlert } from '@/hooks/AlertHook'
 import {
   buildFoodOverview,
+  buildIntoleranceDays,
   downloadFoodOverviewExcel,
   FOOD_CHOICES,
   FoodParticipant,
-  formatPeriod,
   IntoleranceParticipant,
   MEALS,
-  sortIntolerances,
 } from './foodOverview'
 
 // Die shadcn-Tabelle setzt ihre Klassen mit "dark:"-Prefix, daher auch hier "dark:"
@@ -52,12 +51,12 @@ const FoodOverview = ({
   const { addAlert } = useAlert()
   const [downloading, setDownloading] = useState(false)
   const foodDays = buildFoodOverview(participants)
-  const intolerancePeople = sortIntolerances(intolerances)
+  const intoleranceDays = buildIntoleranceDays(intolerances)
 
   const onDownload = async () => {
     setDownloading(true)
     try {
-      await downloadFoodOverviewExcel(foodDays, intolerances)
+      await downloadFoodOverviewExcel(foodDays, intoleranceDays)
     } catch (error) {
       addAlert(`Excel-Download fehlgeschlagen: ${error.message}`, 'error')
     } finally {
@@ -83,7 +82,7 @@ const FoodOverview = ({
           onClick={onDownload}
           disabled={
             downloading ||
-            (foodDays.length === 0 && intolerancePeople.length === 0)
+            (foodDays.length === 0 && intoleranceDays.length === 0)
           }
         >
           <Download className="h-4 w-4" />
@@ -148,41 +147,36 @@ const FoodOverview = ({
               <Badge variant="outline">Beispieldaten</Badge>
             )}
           </div>
-          {intolerancePeople.length === 0 ? (
+          {intoleranceDays.length === 0 ? (
             <p className="text-sm text-muted-foreground">
               Keine Unverträglichkeiten angegeben.
             </p>
           ) : (
-            <Table className={tableText}>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Unverträglichkeit</TableHead>
-                  <TableHead>Zeitraum</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {intolerancePeople.map((person) => (
-                  <TableRow key={`${person.familyName}-${person.name}`}>
-                    <TableCell className="font-medium">
-                      {person.name} {person.familyName}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex flex-wrap gap-1">
-                        {person.intolerances.map((intolerance) => (
-                          <Badge key={intolerance} variant="secondary">
-                            {intolerance}
-                          </Badge>
-                        ))}
-                      </div>
-                    </TableCell>
-                    <TableCell className="whitespace-nowrap tabular-nums">
-                      {formatPeriod(person.startDate, person.endDate)}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <ul className="divide-y rounded-lg border">
+              {intoleranceDays.map((day) => (
+                <li
+                  key={day.date}
+                  className="flex flex-col gap-2 p-3 sm:flex-row sm:items-center sm:gap-4"
+                >
+                  <span className="text-sm font-medium sm:w-28 sm:shrink-0">
+                    {day.label}
+                  </span>
+                  <ul className="flex flex-wrap gap-2">
+                    {day.counts.map(({ intolerance, count }) => (
+                      <li
+                        key={intolerance}
+                        className="inline-flex items-center gap-2 rounded-full border bg-muted/50 py-1 pl-3 pr-1 text-sm"
+                      >
+                        {intolerance}
+                        <Badge className="rounded-full px-2 tabular-nums">
+                          {count}
+                        </Badge>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
           )}
         </div>
       </CardContent>

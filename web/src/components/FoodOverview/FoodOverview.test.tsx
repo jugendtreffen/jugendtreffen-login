@@ -24,19 +24,11 @@ const participants = [
 
 const intolerances = [
   {
-    name: 'Ben',
-    familyName: 'Gruber',
-    intolerances: ['Gluten', 'Nüsse'],
+    intolerances: ['Gluten', 'Laktose'],
     startDate: '2026-07-02',
-    endDate: '2026-07-05',
+    endDate: '2026-07-02',
   },
-  {
-    name: 'Anna',
-    familyName: 'Berger',
-    intolerances: ['Laktose'],
-    startDate: '2026-07-01',
-    endDate: '2026-07-03',
-  },
+  { intolerances: ['Laktose'], startDate: '2026-07-01', endDate: '2026-07-02' },
 ]
 
 const renderOverview = (
@@ -86,7 +78,7 @@ describe('FoodOverview', () => {
 
     await waitFor(() => expect(mockedDownload).toHaveBeenCalledTimes(1))
     expect(mockedDownload.mock.calls[0][0]).toHaveLength(2)
-    expect(mockedDownload.mock.calls[0][1]).toBe(intolerances)
+    expect(mockedDownload.mock.calls[0][1]).toHaveLength(2)
   })
 
   it('shows an alert when the download fails', async () => {
@@ -102,14 +94,13 @@ describe('FoodOverview', () => {
     ).toBeInTheDocument()
   })
 
-  it('lists the intolerances sorted by family name', () => {
+  it('lists the intolerance counts per day', () => {
     renderOverview()
 
-    const rows = within(screen.getAllByRole('table')[1]).getAllByRole('row')
-    expect(rows.map((row) => row.textContent)).toEqual([
-      'NameUnverträglichkeitZeitraum',
-      'Anna BergerLaktose01.07. – 03.07.',
-      'Ben GruberGlutenNüsse02.07. – 05.07.',
+    const days = screen.getAllByRole('list')[0].querySelectorAll(':scope > li')
+    expect([...days].map((day) => day.textContent)).toEqual([
+      'Mi., 01.07.Laktose1',
+      'Do., 02.07.Laktose2Gluten1',
     ])
   })
 

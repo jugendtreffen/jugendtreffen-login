@@ -2,10 +2,9 @@ import writeExcelFile from 'write-excel-file/browser'
 
 import {
   buildFoodOverview,
+  buildIntoleranceDays,
   downloadFoodOverviewExcel,
-  formatPeriod,
   getDays,
-  sortIntolerances,
 } from './foodOverview'
 
 jest.mock('write-excel-file/browser', () => {
@@ -79,30 +78,54 @@ describe('buildFoodOverview', () => {
   })
 })
 
-const person = (name: string, familyName: string, intolerances: string[]) => ({
-  name,
-  familyName,
+const person = (
+  intolerances: string[],
+  startDate: string,
+  endDate: string
+) => ({
   intolerances,
-  startDate: '2026-07-01T00:00:00.000Z',
-  endDate: '2026-07-05T00:00:00.000Z',
+  startDate: `${startDate}T00:00:00.000Z`,
+  endDate: `${endDate}T00:00:00.000Z`,
 })
 
-describe('intolerances', () => {
-  it('formats the period of stay', () => {
-    expect(formatPeriod('2026-07-01', '2026-07-05')).toBe('01.07. – 05.07.')
+describe('buildIntoleranceDays', () => {
+  it('counts the intolerances of everyone present per day', () => {
+    const days = buildIntoleranceDays([
+      person(['Laktose'], '2026-07-01', '2026-07-02'),
+      person(['Gluten', 'Laktose'], '2026-07-02', '2026-07-02'),
+    ])
+
+    expect(days).toEqual([
+      {
+        date: '2026-07-01',
+        label: 'Mi., 01.07.',
+        counts: [{ intolerance: 'Laktose', count: 1 }],
+      },
+      {
+        date: '2026-07-02',
+        label: 'Do., 02.07.',
+        counts: [
+          { intolerance: 'Laktose', count: 2 },
+          { intolerance: 'Gluten', count: 1 },
+        ],
+      },
+    ])
   })
 
-  it('sorts by family name and skips people without intolerance', () => {
-    const sorted = sortIntolerances([
-      person('Ben', 'Gruber', ['Gluten']),
-      person('Eva', 'Maier', []),
-      person('Anna', 'Berger', ['Laktose']),
+  it('sorts equal counts alphabetically', () => {
+    const [day] = buildIntoleranceDays([
+      person(['Nüsse', 'Ei'], '2026-07-01', '2026-07-01'),
     ])
+    expect(day.counts.map(({ intolerance }) => intolerance)).toEqual([
+      'Ei',
+      'Nüsse',
+    ])
+  })
 
-    expect(sorted.map(({ familyName }) => familyName)).toEqual([
-      'Berger',
-      'Gruber',
-    ])
+  it('skips people without intolerances', () => {
+    expect(
+      buildIntoleranceDays([person([], '2026-07-01', '2026-07-03')])
+    ).toEqual([])
   })
 })
 
@@ -112,9 +135,12 @@ describe('downloadFoodOverviewExcel', () => {
       participant('vegetarian', '2026-07-01', '2026-07-02'),
     ])
 
-    await downloadFoodOverviewExcel(days, [
-      person('Ben', 'Gruber', ['Gluten', 'Nüsse']),
-    ])
+    await downloadFoodOverviewExcel(
+      days,
+      buildIntoleranceDays([
+        person(['Gluten', 'Nüsse'], '2026-07-01', '2026-07-01'),
+      ])
+    )
 
     const [[meals, intolerances]] = (writeExcelFile as jest.Mock).mock.calls[0]
     const values = (rows) =>
@@ -133,8 +159,9 @@ describe('downloadFoodOverviewExcel', () => {
 
     expect(intolerances.sheet).toBe('Unverträglichkeiten')
     expect(values(intolerances.data)).toEqual([
-      ['Name', 'Unverträglichkeiten', 'Zeitraum'],
-      ['Ben Gruber', 'Gluten, Nüsse', '01.07. – 05.07.'],
+      ['Tag', 'Unverträglichkeit', 'Anzahl'],
+      ['Mi., 01.07.', 'Gluten', 1],
+      ['Mi., 01.07.', 'Nüsse', 1],
     ])
 
     const { toFile } = (writeExcelFile as jest.Mock).mock.results[0].value

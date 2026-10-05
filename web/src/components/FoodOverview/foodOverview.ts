@@ -10,11 +10,15 @@ export type FoodParticipant = {
 export type FoodCounts = Record<string, number> & { total: number }
 
 export type IntoleranceParticipant = {
-  name: string
-  familyName: string
   intolerances: string[]
   startDate: string
   endDate: string
+}
+
+export type IntoleranceDay = {
+  date: string // YYYY-MM-DD
+  label: string // z.B. "Mi., 01.07."
+  counts: { intolerance: string; count: number }[] // häufigste zuerst
 }
 
 export type FoodDay = {
@@ -48,25 +52,6 @@ const formatDayLabel = (dateKey: string) =>
     month: '2-digit',
     timeZone: 'UTC',
   }).format(new Date(dateKey))
-
-/** Zeitraum als "01.07. – 05.07." */
-export const formatPeriod = (start: string, end: string) => {
-  const format = (date: string) =>
-    new Intl.DateTimeFormat('de-AT', {
-      day: '2-digit',
-      month: '2-digit',
-      timeZone: 'UTC',
-    }).format(new Date(date))
-  return `${format(start)} – ${format(end)}`
-}
-
-/** Teilnehmer mit Unverträglichkeiten, sortiert nach Nachname */
-export const sortIntolerances = (participants: IntoleranceParticipant[]) =>
-  participants
-    .filter(({ intolerances }) => intolerances.length > 0)
-    .sort((a, b) =>
-      `${a.familyName} ${a.name}`.localeCompare(`${b.familyName} ${b.name}`)
-    )
 
 /** Alle Tage von start bis end (inklusive) als YYYY-MM-DD */
 export const getDays = (start: string, end: string) => {
@@ -120,16 +105,46 @@ export const buildFoodOverview = (
   return Object.values(days).sort((a, b) => a.date.localeCompare(b.date))
 }
 
+/** Zählt pro Tag, wie viele anwesende Personen welche Unverträglichkeit haben */
+export const buildIntoleranceDays = (
+  participants: IntoleranceParticipant[]
+): IntoleranceDay[] => {
+  const days: Record<string, Record<string, number>> = {}
+
+  for (const participant of participants) {
+    for (const date of getDays(participant.startDate, participant.endDate)) {
+      const counts = (days[date] ??= {})
+      for (const intolerance of participant.intolerances) {
+        counts[intolerance] = (counts[intolerance] ?? 0) + 1
+      }
+    }
+  }
+
+  return Object.entries(days)
+    .filter(([, counts]) => Object.keys(counts).length > 0)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([date, counts]) => ({
+      date,
+      label: formatDayLabel(date),
+      counts: Object.entries(counts)
+        .map(([intolerance, count]) => ({ intolerance, count }))
+        .sort(
+          (a, b) =>
+            b.count - a.count || a.intolerance.localeCompare(b.intolerance)
+        ),
+    }))
+}
+
 const bold = (values: string[]) =>
   values.map((value) => ({ value, fontWeight: 'bold' as const }))
 
 /**
  * Lädt die Übersicht als Excel-Datei herunter:
- * Blatt 1 eine Zeile pro Tag und Mahlzeit, Blatt 2 die Unverträglichkeiten
+ * Blatt 1 eine Zeile pro Tag und Mahlzeit, Blatt 2 eine Zeile pro Tag und Unverträglichkeit
  */
 export const downloadFoodOverviewExcel = (
   foodDays: FoodDay[],
-  intolerances: IntoleranceParticipant[]
+  intoleranceDays: IntoleranceDay[]
 ) => {
   const mealRows = foodDays.flatMap((day) =>
     MEALS.map(({ key, label }) => [
@@ -139,11 +154,9 @@ export const downloadFoodOverviewExcel = (
       day.meals[key].total,
     ])
   )
-  const intoleranceRows = sortIntolerances(intolerances).map((person) => [
-    `${person.name} ${person.familyName}`,
-    person.intolerances.join(', '),
-    formatPeriod(person.startDate, person.endDate),
-  ])
+  const intoleranceRows = intoleranceDays.flatMap((day) =>
+    day.counts.map(({ intolerance, count }) => [day.label, intolerance, count])
+  )
 
   return writeExcelFile([
     {
@@ -160,10 +173,7 @@ export const downloadFoodOverviewExcel = (
     },
     {
       sheet: 'Unverträglichkeiten',
-      data: [
-        bold(['Name', 'Unverträglichkeiten', 'Zeitraum']),
-        ...intoleranceRows,
-      ],
+      data: [bold(['Tag', 'Unverträglichkeit', 'Anzahl']), ...intoleranceRows],
     },
   ]).toFile(`Essensuebersicht_${toDateKey(new Date())}.xlsx`)
 }

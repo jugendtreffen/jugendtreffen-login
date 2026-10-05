@@ -4,29 +4,21 @@ import type { IntoleranceParticipant } from './foodOverview'
 // (z.B. ein Feld "intolerances" in der DashboardParticipantsQuery)
 export const DUMMY_INTOLERANCES: IntoleranceParticipant[] = [
   {
-    name: 'Anna',
-    familyName: 'Huber',
     intolerances: ['Laktose'],
     startDate: '2026-07-01',
     endDate: '2026-07-05',
   },
   {
-    name: 'Ben',
-    familyName: 'Gruber',
     intolerances: ['Gluten', 'Nüsse'],
     startDate: '2026-07-02',
     endDate: '2026-07-05',
   },
   {
-    name: 'Clara',
-    familyName: 'Berger',
     intolerances: ['Fruktose'],
     startDate: '2026-07-01',
     endDate: '2026-07-03',
   },
   {
-    name: 'David',
-    familyName: 'Steiner',
     intolerances: ['Laktose', 'Ei'],
     startDate: '2026-07-03',
     endDate: '2026-07-05',
