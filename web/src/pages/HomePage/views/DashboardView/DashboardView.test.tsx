@@ -1,6 +1,14 @@
 import { render, screen, within } from '@redwoodjs/testing/web'
 
+import { AlertProvider } from '@/hooks/AlertHook'
 import DashboardView from './DashboardView'
+
+const renderDashboard = () =>
+  render(
+    <AlertProvider>
+      <DashboardView />
+    </AlertProvider>
+  )
 
 const participant = (
   id: string,
@@ -19,7 +27,9 @@ const participant = (
 })
 
 const kpi = (label: string) =>
-  within(screen.getByText(label).parentElement as HTMLElement)
+  within(
+    screen.getByText(label, { selector: 'p' }).parentElement as HTMLElement
+  )
 
 describe('DashboardView', () => {
   it('shows key figures of all participants', async () => {
@@ -31,7 +41,7 @@ describe('DashboardView', () => {
         participant('4', 'male', 'priester'),
       ],
     }))
-    render(<DashboardView />)
+    renderDashboard()
 
     expect(await screen.findByText('Admin Dashboard')).toBeInTheDocument()
     expect(kpi('Gesamt').getByText('4')).toBeInTheDocument()
@@ -39,11 +49,12 @@ describe('DashboardView', () => {
     expect(kpi('Mädchen').getByText('2')).toBeInTheDocument()
     expect(kpi('Priester / Ordens / Vortr.').getByText('1')).toBeInTheDocument()
     expect(screen.getByText('25.0 %')).toBeInTheDocument()
+    expect(screen.getByText('Essensübersicht')).toBeInTheDocument()
   })
 
   it('handles an empty participant list', async () => {
     mockGraphQLQuery('DashboardParticipantsQuery', () => ({ participants: [] }))
-    render(<DashboardView />)
+    renderDashboard()
 
     expect(await screen.findByText('0.0 %')).toBeInTheDocument()
   })
@@ -52,7 +63,7 @@ describe('DashboardView', () => {
     mockGraphQLQuery('DashboardParticipantsQuery', () => {
       throw new Error('Kein Zugriff')
     })
-    render(<DashboardView />)
+    renderDashboard()
 
     expect(await screen.findByText(/Fehler:/)).toBeInTheDocument()
     expect(screen.queryByText('Admin Dashboard')).not.toBeInTheDocument()
