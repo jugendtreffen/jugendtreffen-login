@@ -6,18 +6,26 @@ export type FoodParticipant = {
   foodChoice: string
 }
 
+/** Anzahl pro Essenswahl (z.B. any, vegetarian) plus Gesamtzahl */
+export type FoodCounts = Record<string, number> & { total: number }
+
 export type FoodDay = {
   date: string // YYYY-MM-DD
   label: string // z.B. "Mi., 01.07."
-  total: number
-  [foodChoice: string]: string | number
+  meals: Record<string, FoodCounts>
 }
 
-// Essenswahl aus dem Anmeldeformular. Reihenfolge = Reihenfolge in Chart, Tabelle und Excel.
+// Essenswahl aus dem Anmeldeformular. Reihenfolge = Reihenfolge in Tabelle und Excel.
 // Andere Werte zählen nur in "Gesamt".
 export const FOOD_CHOICES = [
-  { key: 'any', label: 'Alles', color: 'var(--chart-1)' },
-  { key: 'vegetarian', label: 'Vegetarisch', color: 'var(--chart-4)' },
+  { key: 'any', label: 'Alles' },
+  { key: 'vegetarian', label: 'Vegetarisch' },
+]
+
+export const MEALS = [
+  { key: 'breakfast', label: 'Frühstück' },
+  { key: 'lunch', label: 'Mittagessen' },
+  { key: 'dinner', label: 'Abendessen' },
 ]
 
 const isKnownFoodChoice = (foodChoice: string) =>
@@ -46,13 +54,23 @@ export const getDays = (start: string, end: string) => {
   return days
 }
 
-const emptyDay = (date: string): FoodDay => {
-  const day: FoodDay = { date, label: formatDayLabel(date), total: 0 }
-  FOOD_CHOICES.forEach(({ key }) => (day[key] = 0))
-  return day
+const emptyCounts = (): FoodCounts => {
+  const counts = { total: 0 } as FoodCounts
+  FOOD_CHOICES.forEach(({ key }) => (counts[key] = 0))
+  return counts
 }
 
-/** Zählt pro Tag, wie viele Teilnehmer welche Essenswahl haben */
+const emptyDay = (date: string): FoodDay => ({
+  date,
+  label: formatDayLabel(date),
+  meals: Object.fromEntries(MEALS.map(({ key }) => [key, emptyCounts()])),
+})
+
+/**
+ * Zählt pro Tag und Mahlzeit, wie viele Teilnehmer welche Essenswahl haben.
+ * In der Datenbank gibt es noch keine Angabe pro Mahlzeit: Wer an einem Tag da ist,
+ * zählt für Frühstück, Mittag- und Abendessen.
+ */
 export const buildFoodOverview = (
   participants: FoodParticipant[]
 ): FoodDay[] => {
@@ -61,10 +79,13 @@ export const buildFoodOverview = (
   for (const participant of participants) {
     for (const date of getDays(participant.startDate, participant.endDate)) {
       const day = (days[date] ??= emptyDay(date))
-      day.total += 1
-      if (isKnownFoodChoice(participant.foodChoice)) {
-        day[participant.foodChoice] =
-          (day[participant.foodChoice] as number) + 1
+
+      for (const { key: meal } of MEALS) {
+        const counts = day.meals[meal]
+        counts.total += 1
+        if (isKnownFoodChoice(participant.foodChoice)) {
+          counts[participant.foodChoice] += 1
+        }
       }
     }
   }
@@ -72,14 +93,22 @@ export const buildFoodOverview = (
   return Object.values(days).sort((a, b) => a.date.localeCompare(b.date))
 }
 
-/** Lädt die Übersicht als Excel-Datei herunter */
+/** Lädt die Übersicht als Excel-Datei herunter (eine Zeile pro Tag und Mahlzeit) */
 export const downloadFoodOverviewExcel = (foodDays: FoodDay[]) => {
-  const header = ['Tag', ...FOOD_CHOICES.map(({ label }) => label), 'Gesamt']
-  const rows = foodDays.map((day) => [
-    day.label,
-    ...FOOD_CHOICES.map(({ key }) => day[key] as number),
-    day.total,
-  ])
+  const header = [
+    'Tag',
+    'Mahlzeit',
+    ...FOOD_CHOICES.map(({ label }) => label),
+    'Gesamt',
+  ]
+  const rows = foodDays.flatMap((day) =>
+    MEALS.map(({ key, label }) => [
+      day.label,
+      label,
+      ...FOOD_CHOICES.map((choice) => day.meals[key][choice.key]),
+      day.meals[key].total,
+    ])
+  )
 
   return writeExcelFile([
     header.map((value) => ({ value, fontWeight: 'bold' as const })),

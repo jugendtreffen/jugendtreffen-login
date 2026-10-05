@@ -175,7 +175,7 @@ const DashboardView = () => {
   }
 
   return (
-    <div className="space-y-8 p-6">
+    <div className="space-y-8 sm:p-6">
       <div>
         <h1 className="text-2xl font-bold text-foreground">Admin Dashboard</h1>
         <p className="mt-1 text-sm text-muted-foreground">

@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 
 import { Download } from 'lucide-react'
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts'
 
 import AlertCenter from '@/components/ui/Alert/AlertCenter'
 import { Button } from '@/components/ui/button'
@@ -12,14 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart'
 import {
   Table,
   TableBody,
@@ -34,18 +25,13 @@ import {
   downloadFoodOverviewExcel,
   FOOD_CHOICES,
   FoodParticipant,
+  MEALS,
 } from './foodOverview'
-
-const chartConfig: ChartConfig = Object.fromEntries(
-  FOOD_CHOICES.map(({ key, label, color }) => [key, { label, color }])
-)
-
-// Legende in derselben Reihenfolge wie die gestapelten Balken
-const byFoodChoiceOrder = (item: { dataKey?: unknown }) =>
-  FOOD_CHOICES.findIndex(({ key }) => key === item.dataKey)
 
 // Die shadcn-Tabelle setzt ihre Klassen mit "dark:"-Prefix, daher auch hier "dark:"
 const numberColumn = 'dark:text-right tabular-nums'
+// Mobil etwas kleinere Schrift, damit alle Spalten ohne Scrollen Platz haben
+const tableText = 'dark:text-xs sm:dark:text-sm'
 
 type Props = {
   participants: FoodParticipant[]
@@ -69,17 +55,19 @@ const FoodOverview = ({ participants }: Props) => {
 
   return (
     <Card>
-      <CardHeader className="flex-row items-start justify-between gap-4 space-y-0">
+      {/* Mobil untereinander, ab sm nebeneinander, damit der Button nicht aus der Karte ragt */}
+      <CardHeader className="gap-4 space-y-0 p-4 sm:flex-row sm:items-start sm:justify-between sm:p-6">
         <div className="space-y-1.5">
           <CardTitle>Essensübersicht</CardTitle>
           <CardDescription>
-            Anzahl der Essen pro Tag, basierend auf dem Aufenthaltszeitraum der
-            Teilnehmer
+            Anzahl der Essen pro Tag und Mahlzeit, basierend auf dem
+            Aufenthaltszeitraum der Teilnehmer
           </CardDescription>
         </div>
         <Button
           variant="outline"
           size="sm"
+          className="shrink-0 self-start"
           onClick={onDownload}
           disabled={downloading || foodDays.length === 0}
         >
@@ -88,75 +76,54 @@ const FoodOverview = ({ participants }: Props) => {
         </Button>
       </CardHeader>
 
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 p-4 pt-0 sm:p-6 sm:pt-0">
         <AlertCenter />
         {foodDays.length === 0 ? (
           <p className="rounded-lg border border-dashed p-8 text-center text-sm text-muted-foreground">
             Noch keine Anmeldungen vorhanden.
           </p>
         ) : (
-          <>
-            <ChartContainer config={chartConfig} className="h-72 w-full">
-              <BarChart data={foodDays}>
-                <CartesianGrid vertical={false} stroke="var(--border)" />
-                <XAxis dataKey="label" tickLine={false} axisLine={false} />
-                <YAxis
-                  allowDecimals={false}
-                  tickLine={false}
-                  axisLine={false}
-                  width={32}
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <ChartLegend
-                  content={<ChartLegendContent />}
-                  itemSorter={byFoodChoiceOrder}
-                />
-                {FOOD_CHOICES.map(({ key }, index) => (
-                  <Bar
-                    key={key}
-                    dataKey={key}
-                    stackId="food"
-                    fill={`var(--color-${key})`}
-                    stroke="var(--card)"
-                    strokeWidth={2}
-                    // nur das oberste Segment bekommt runde Ecken
-                    radius={
-                      index === FOOD_CHOICES.length - 1 ? [4, 4, 0, 0] : 0
-                    }
-                  />
+          <Table className={tableText}>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Mahlzeit</TableHead>
+                {FOOD_CHOICES.map(({ key, label }) => (
+                  <TableHead key={key} className={numberColumn}>
+                    {label}
+                  </TableHead>
                 ))}
-              </BarChart>
-            </ChartContainer>
-
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Tag</TableHead>
-                  {FOOD_CHOICES.map(({ key, label }) => (
-                    <TableHead key={key} className={numberColumn}>
-                      {label}
-                    </TableHead>
-                  ))}
-                  <TableHead className={numberColumn}>Gesamt</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {foodDays.map((day) => (
-                  <TableRow key={day.date}>
-                    <TableCell>{day.label}</TableCell>
-                    {FOOD_CHOICES.map(({ key }) => (
-                      <TableCell key={key} className={numberColumn}>
-                        {day[key]}
-                      </TableCell>
-                    ))}
-                    <TableCell className={`${numberColumn} font-medium`}>
-                      {day.total}
+                <TableHead className={numberColumn}>Gesamt</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {foodDays.map((day) => (
+                <Fragment key={day.date}>
+                  {/* Der Tag als Zwischenüberschrift spart mobil eine Spalte */}
+                  <TableRow className="bg-muted/50 hover:bg-muted/50">
+                    <TableCell
+                      colSpan={FOOD_CHOICES.length + 2}
+                      className="font-medium"
+                    >
+                      {day.label}
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </>
+                  {MEALS.map((meal) => (
+                    <TableRow key={meal.key}>
+                      <TableCell>{meal.label}</TableCell>
+                      {FOOD_CHOICES.map((choice) => (
+                        <TableCell key={choice.key} className={numberColumn}>
+                          {day.meals[meal.key][choice.key]}
+                        </TableCell>
+                      ))}
+                      <TableCell className={`${numberColumn} font-medium`}>
+                        {day.meals[meal.key].total}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </Fragment>
+              ))}
+            </TableBody>
+          </Table>
         )}
       </CardContent>
     </Card>

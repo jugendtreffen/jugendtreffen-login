@@ -42,18 +42,26 @@ describe('buildFoodOverview', () => {
     ])
 
     expect(
-      days.map(({ date, any, vegetarian, total }) => ({
-        date,
-        any,
-        vegetarian,
-        total,
-      }))
+      days.map(({ date, meals }) => ({ date, lunch: meals.lunch }))
     ).toEqual([
-      { date: '2026-07-01', any: 1, vegetarian: 0, total: 1 },
-      { date: '2026-07-02', any: 1, vegetarian: 1, total: 2 },
-      { date: '2026-07-03', any: 2, vegetarian: 1, total: 3 },
+      { date: '2026-07-01', lunch: { any: 1, vegetarian: 0, total: 1 } },
+      { date: '2026-07-02', lunch: { any: 1, vegetarian: 1, total: 2 } },
+      { date: '2026-07-03', lunch: { any: 2, vegetarian: 1, total: 3 } },
     ])
     expect(days[0].label).toBe('Mi., 01.07.')
+  })
+
+  it('uses the daily count for breakfast, lunch and dinner', () => {
+    const [day] = buildFoodOverview([
+      participant('vegetarian', '2026-07-01', '2026-07-01'),
+    ])
+
+    const expected = { any: 0, vegetarian: 1, total: 1 }
+    expect(day.meals).toEqual({
+      breakfast: expected,
+      lunch: expected,
+      dinner: expected,
+    })
   })
 
   it('counts unknown food choices only in the total', () => {
@@ -61,9 +69,7 @@ describe('buildFoodOverview', () => {
       participant('vegan', '2026-07-01', '2026-07-01'),
     ])
 
-    expect(day.total).toBe(1)
-    expect(day.any).toBe(0)
-    expect(day.vegetarian).toBe(0)
+    expect(day.meals.lunch).toEqual({ any: 0, vegetarian: 0, total: 1 })
   })
 
   it('returns no days without participants', () => {
@@ -72,7 +78,7 @@ describe('buildFoodOverview', () => {
 })
 
 describe('downloadFoodOverviewExcel', () => {
-  it('writes a header row and one row per day', async () => {
+  it('writes a header row and one row per day and meal', async () => {
     const days = buildFoodOverview([
       participant('vegetarian', '2026-07-01', '2026-07-02'),
     ])
@@ -82,13 +88,18 @@ describe('downloadFoodOverviewExcel', () => {
     const [rows] = (writeExcelFile as jest.Mock).mock.calls[0]
     expect(rows[0].map((cell) => cell.value)).toEqual([
       'Tag',
+      'Mahlzeit',
       'Alles',
       'Vegetarisch',
       'Gesamt',
     ])
     expect(rows.slice(1)).toEqual([
-      ['Mi., 01.07.', 0, 1, 1],
-      ['Do., 02.07.', 0, 1, 1],
+      ['Mi., 01.07.', 'Frühstück', 0, 1, 1],
+      ['Mi., 01.07.', 'Mittagessen', 0, 1, 1],
+      ['Mi., 01.07.', 'Abendessen', 0, 1, 1],
+      ['Do., 02.07.', 'Frühstück', 0, 1, 1],
+      ['Do., 02.07.', 'Mittagessen', 0, 1, 1],
+      ['Do., 02.07.', 'Abendessen', 0, 1, 1],
     ])
 
     const { toFile } = (writeExcelFile as jest.Mock).mock.results[0].value

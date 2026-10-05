@@ -32,15 +32,26 @@ const renderOverview = (list = participants) =>
 describe('FoodOverview', () => {
   beforeEach(() => mockedDownload.mockClear())
 
-  it('shows a table row with the counts per day', () => {
+  it('shows one row per day and meal with the counts', () => {
     renderOverview()
 
     const rows = within(screen.getByRole('table')).getAllByRole('row')
     expect(rows.map((row) => row.textContent)).toEqual([
-      'TagAllesVegetarischGesamt',
-      'Mi., 01.07.101',
-      'Do., 02.07.112',
+      'MahlzeitAllesVegetarischGesamt',
+      'Mi., 01.07.',
+      'Frühstück101',
+      'Mittagessen101',
+      'Abendessen101',
+      'Do., 02.07.',
+      'Frühstück112',
+      'Mittagessen112',
+      'Abendessen112',
     ])
+  })
+
+  it('does not render a chart anymore', () => {
+    const { container } = renderOverview()
+    expect(container.querySelector('.recharts-wrapper')).toBeNull()
   })
 
   it('downloads the overview as excel file', async () => {
