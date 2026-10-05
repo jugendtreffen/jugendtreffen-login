@@ -22,6 +22,7 @@ const SignUpSchema = z
 export type SignupInput = z.infer<typeof SignUpSchema>
 
 export function SignupForm({
+  onSubmit: onValidSubmit,
   ...props
 }: React.ComponentProps<typeof Card> & {
   onSubmit: (input: SignupInput) => void | Promise<void>
@@ -44,7 +45,7 @@ export function SignupForm({
       })
       return
     }
-    props.onSubmit(input)
+    onValidSubmit(input)
     signUpForm.reset()
   }
 

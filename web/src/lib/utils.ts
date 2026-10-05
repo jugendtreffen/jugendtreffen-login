@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function calculateDuration(start: Date, end: Date) {
-  const diffTime = Math.abs(end.getDate() - start.getDate())
+  const diffTime = Math.abs(end.getTime() - start.getTime())
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 }
 

@@ -21,7 +21,7 @@ export const schema = gql`
     acceptPhotos: Boolean!
     acceptCoC: Boolean!
     eventId: BigInt!
-    participationRole: String!
+    participationRole: String
     checkinConfirmed: Boolean
     price: Float
     bandColour: String
@@ -79,7 +79,7 @@ export const schema = gql`
     acceptPhotos: Boolean
     acceptCoC: Boolean
     eventId: BigInt
-    participationRole: String!
+    participationRole: String
     checkinConfirmed: Boolean
     price: Float
     bandColour: String
@@ -91,7 +91,6 @@ export const schema = gql`
       id: String!
       input: UpdateParticipantInput!
     ): Participant! @requireAuth
-    checkinParticipant(id: String!): Participant! @requireAuth
     deleteParticipant(id: String!): Participant! @requireAuth
   }
 `

@@ -27,7 +27,7 @@ const CheckinDialog = ({onCheckin, saving, acceptPhotos, form}: CheckinDialogPro
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Teilnehhmer Einchecken</DialogTitle>
+        <DialogTitle>Teilnehmer Einchecken</DialogTitle>
         <DialogDescription>
           Bitte überprüfe noch Folgende Dinge (verpflichtend!)
         </DialogDescription>
@@ -36,7 +36,7 @@ const CheckinDialog = ({onCheckin, saving, acceptPhotos, form}: CheckinDialogPro
         <div className="flex flex-row items-center gap-2">
           <Checkbox
             id="ageChecked"
-            value={ageChecked}
+            checked={ageChecked}
             onCheckedChange={(value) => setAgeChecked(value as boolean)}
           />
           <Label htmlFor="ageChecked" className="ml-2">
@@ -46,7 +46,7 @@ const CheckinDialog = ({onCheckin, saving, acceptPhotos, form}: CheckinDialogPro
         <div className="flex flex-row items-center gap-2">
           <Checkbox
             id="parentConfirmationChecked"
-            value={parentConfirmationChecked}
+            checked={parentConfirmationChecked}
             onCheckedChange={(value) => setParentConfirmationChecked(value as boolean)}
           />
           <Label htmlFor="parentConfirmationChecked" className="ml-2">
@@ -62,7 +62,7 @@ const CheckinDialog = ({onCheckin, saving, acceptPhotos, form}: CheckinDialogPro
                 <>
                   <Checkbox
                     id="acceptPhotos"
-                    value={field.value}
+                    checked={field.value}
                     onCheckedChange={field.onChange}
                     aria-invalid={fieldState.invalid}
                   />
@@ -75,12 +75,12 @@ const CheckinDialog = ({onCheckin, saving, acceptPhotos, form}: CheckinDialogPro
         )}
       </div>
       <DialogFooter>
-        <DialogClose>
+        <DialogClose asChild>
           <Button variant="outline">
             Abbrechen
           </Button>
         </DialogClose>
-        <DialogClose>
+        <DialogClose asChild>
           <Button onClick={onCheckin} disabled={saving || !ageChecked || !parentConfirmationChecked}>
             Einchecken
             <UserCheck className="h-4 w-4"/>

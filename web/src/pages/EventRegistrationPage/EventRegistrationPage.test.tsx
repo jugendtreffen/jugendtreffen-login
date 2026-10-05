@@ -1,14 +1,31 @@
-import { render } from '@redwoodjs/testing/web'
+import { render, screen } from '@redwoodjs/testing/web'
 
-import RegistrationFormPage from './EventRegistrationPage'
+import { standard } from '@/components/CurrentEventCell/CurrentEventCell.mock'
+import { AlertProvider } from '@/hooks/AlertHook'
 
-//   Improve this test with help from the Redwood Testing Doc:
-//   https://redwoodjs.com/docs/testing#testing-pages-layouts
+import EventRegistrationPage from './EventRegistrationPage'
 
-describe('RegistrationFormPage', () => {
-  it('renders successfully', () => {
-    expect(() => {
-      render(<RegistrationFormPage />)
-    }).not.toThrow()
+const renderPage = () =>
+  render(
+    <AlertProvider>
+      <EventRegistrationPage />
+    </AlertProvider>
+  )
+
+describe('EventRegistrationPage', () => {
+  it('shows the registration form for the current event', async () => {
+    mockGraphQLQuery('FindCurrentEventQuery', () => standard())
+    renderPage()
+
+    expect(
+      await screen.findByText('Anmeldung Jugendtreffen 2026')
+    ).toBeInTheDocument()
+  })
+
+  it('tells the user when no event is upcoming', async () => {
+    mockGraphQLQuery('FindCurrentEventQuery', () => ({ currentEvent: null }))
+    renderPage()
+
+    expect(await screen.findByText('Kein anstehendes Event')).toBeInTheDocument()
   })
 })

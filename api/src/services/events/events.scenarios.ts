@@ -2,24 +2,61 @@ import type { Event, Prisma } from '@prisma/client'
 
 import type { ScenarioData } from '@redwoodjs/testing/api'
 
+const daysFromNow = (days: number) => {
+  const date = new Date()
+  date.setUTCHours(0, 0, 0, 0)
+  date.setUTCDate(date.getUTCDate() + days)
+  return date
+}
+
 export const standard = defineScenario<Prisma.EventCreateArgs>({
   event: {
-    one: {
+    past: {
       data: {
-        name: 'Jugendtreffen 2025',
-        desc: 'Annual youth gathering with workshops and activities.',
-        startDate: new Date('2025-07-15T09:00:00.000Z'),
-        endDate: new Date('2025-07-20T18:00:00.000Z'),
-        createdAt: new Date('2025-06-01T12:00:00.000Z'),
+        name: 'Jugendtreffen Vorjahr',
+        desc: 'Bereits vorbei',
+        startDate: daysFromNow(-370),
+        endDate: daysFromNow(-365),
       },
     },
-    two: {
+    next: {
       data: {
-        name: 'Winter Retreat 2025',
-        desc: 'A cozy winter event for reflection and fun.',
-        startDate: new Date('2025-12-10T10:00:00.000Z'),
-        endDate: new Date('2025-12-15T16:00:00.000Z'),
-        createdAt: new Date('2025-11-01T12:00:00.000Z'),
+        name: 'Jugendtreffen Nächstes',
+        desc: 'Das nächste anstehende Event',
+        startDate: daysFromNow(30),
+        endDate: daysFromNow(35),
+      },
+    },
+    later: {
+      data: {
+        name: 'Jugendtreffen Übernächstes',
+        desc: null,
+        startDate: daysFromNow(400),
+        endDate: daysFromNow(405),
+      },
+    },
+  },
+})
+
+export const running = defineScenario<Prisma.EventCreateArgs>({
+  event: {
+    current: {
+      data: {
+        name: 'Jugendtreffen Läuft',
+        startDate: daysFromNow(-2),
+        endDate: daysFromNow(0),
+      },
+    },
+  },
+})
+
+export const onlyPast = defineScenario<Prisma.EventCreateArgs>({
+  event: {
+    past: {
+      data: {
+        name: 'Jugendtreffen Vorbei',
+        startDate: daysFromNow(-10),
+        endDate: daysFromNow(-5),
       },
     },
   },

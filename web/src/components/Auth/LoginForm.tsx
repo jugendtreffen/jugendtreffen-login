@@ -18,7 +18,7 @@ const LoginSchema = z
 
 export type LoginInput = z.infer<typeof LoginSchema>
 
-export function LoginForm({className, ...props}: React.ComponentProps<'div'> & {onSubmit: (input: SignupInput) => void | Promise<void>}) {
+export function LoginForm({className, onSubmit, ...props}: React.ComponentProps<'div'> & {onSubmit: (input: SignupInput) => void | Promise<void>}) {
   const loginForm = useForm({
     mode: 'onBlur',
     resolver: zodResolver(LoginSchema),
@@ -39,7 +39,7 @@ export function LoginForm({className, ...props}: React.ComponentProps<'div'> & {
           </FieldDescription>
         </CardHeader>
         <CardContent>
-          <Form onSubmit={props.onSubmit} formMethods={loginForm}>
+          <Form onSubmit={onSubmit} formMethods={loginForm}>
             <div className="grid grid-cols-1 gap-6">
               <div>
                 <LabeledInput

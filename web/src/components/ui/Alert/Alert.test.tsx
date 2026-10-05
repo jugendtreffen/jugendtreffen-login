@@ -20,6 +20,7 @@ describe('Alert', () => {
     expect(() => {
       render(
         <AlertProvider>
+          {/* @ts-expect-error id fehlt absichtlich */}
           <Alert type={'warning'} message={'message'} />
         </AlertProvider>
       )
@@ -66,7 +67,7 @@ describe('AlertCenter', () => {
     const alert = screen.getByText('Test Alert')
     expect(alert).toBeInTheDocument()
 
-    const closeButton = screen.getByText('Close')
+    const closeButton = screen.getByRole('button', { name: 'Alert schließen' })
     fireEvent.click(closeButton)
     expect(alert).not.toBeInTheDocument()
   })
@@ -81,11 +82,11 @@ describe('AlertCenter', () => {
     fireEvent.click(screen.getByText('Add Alert'))
     fireEvent.click(screen.getByText('Add Alert'))
 
-    const alerts = screen.getAllByTestId('alert')
+    const alerts = screen.getAllByRole('alert')
     expect(alerts.length).toBe(2)
 
     fireEvent.click(screen.getByText('Remove All'))
 
-    expect(screen.queryByTestId('alert')).not.toBeInTheDocument()
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 })
