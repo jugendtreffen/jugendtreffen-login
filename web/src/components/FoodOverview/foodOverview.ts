@@ -9,6 +9,14 @@ export type FoodParticipant = {
 /** Anzahl pro Essenswahl (z.B. any, vegetarian) plus Gesamtzahl */
 export type FoodCounts = Record<string, number> & { total: number }
 
+export type IntoleranceParticipant = {
+  name: string
+  familyName: string
+  intolerances: string[]
+  startDate: string
+  endDate: string
+}
+
 export type FoodDay = {
   date: string // YYYY-MM-DD
   label: string // z.B. "Mi., 01.07."
@@ -40,6 +48,25 @@ const formatDayLabel = (dateKey: string) =>
     month: '2-digit',
     timeZone: 'UTC',
   }).format(new Date(dateKey))
+
+/** Zeitraum als "01.07. – 05.07." */
+export const formatPeriod = (start: string, end: string) => {
+  const format = (date: string) =>
+    new Intl.DateTimeFormat('de-AT', {
+      day: '2-digit',
+      month: '2-digit',
+      timeZone: 'UTC',
+    }).format(new Date(date))
+  return `${format(start)} – ${format(end)}`
+}
+
+/** Teilnehmer mit Unverträglichkeiten, sortiert nach Nachname */
+export const sortIntolerances = (participants: IntoleranceParticipant[]) =>
+  participants
+    .filter(({ intolerances }) => intolerances.length > 0)
+    .sort((a, b) =>
+      `${a.familyName} ${a.name}`.localeCompare(`${b.familyName} ${b.name}`)
+    )
 
 /** Alle Tage von start bis end (inklusive) als YYYY-MM-DD */
 export const getDays = (start: string, end: string) => {
@@ -93,15 +120,18 @@ export const buildFoodOverview = (
   return Object.values(days).sort((a, b) => a.date.localeCompare(b.date))
 }
 
-/** Lädt die Übersicht als Excel-Datei herunter (eine Zeile pro Tag und Mahlzeit) */
-export const downloadFoodOverviewExcel = (foodDays: FoodDay[]) => {
-  const header = [
-    'Tag',
-    'Mahlzeit',
-    ...FOOD_CHOICES.map(({ label }) => label),
-    'Gesamt',
-  ]
-  const rows = foodDays.flatMap((day) =>
+const bold = (values: string[]) =>
+  values.map((value) => ({ value, fontWeight: 'bold' as const }))
+
+/**
+ * Lädt die Übersicht als Excel-Datei herunter:
+ * Blatt 1 eine Zeile pro Tag und Mahlzeit, Blatt 2 die Unverträglichkeiten
+ */
+export const downloadFoodOverviewExcel = (
+  foodDays: FoodDay[],
+  intolerances: IntoleranceParticipant[]
+) => {
+  const mealRows = foodDays.flatMap((day) =>
     MEALS.map(({ key, label }) => [
       day.label,
       label,
@@ -109,9 +139,31 @@ export const downloadFoodOverviewExcel = (foodDays: FoodDay[]) => {
       day.meals[key].total,
     ])
   )
+  const intoleranceRows = sortIntolerances(intolerances).map((person) => [
+    `${person.name} ${person.familyName}`,
+    person.intolerances.join(', '),
+    formatPeriod(person.startDate, person.endDate),
+  ])
 
   return writeExcelFile([
-    header.map((value) => ({ value, fontWeight: 'bold' as const })),
-    ...rows,
+    {
+      sheet: 'Essensübersicht',
+      data: [
+        bold([
+          'Tag',
+          'Mahlzeit',
+          ...FOOD_CHOICES.map(({ label }) => label),
+          'Gesamt',
+        ]),
+        ...mealRows,
+      ],
+    },
+    {
+      sheet: 'Unverträglichkeiten',
+      data: [
+        bold(['Name', 'Unverträglichkeiten', 'Zeitraum']),
+        ...intoleranceRows,
+      ],
+    },
   ]).toFile(`Essensuebersicht_${toDateKey(new Date())}.xlsx`)
 }

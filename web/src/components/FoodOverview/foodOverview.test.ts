@@ -3,7 +3,9 @@ import writeExcelFile from 'write-excel-file/browser'
 import {
   buildFoodOverview,
   downloadFoodOverviewExcel,
+  formatPeriod,
   getDays,
+  sortIntolerances,
 } from './foodOverview'
 
 jest.mock('write-excel-file/browser', () => {
@@ -77,29 +79,62 @@ describe('buildFoodOverview', () => {
   })
 })
 
+const person = (name: string, familyName: string, intolerances: string[]) => ({
+  name,
+  familyName,
+  intolerances,
+  startDate: '2026-07-01T00:00:00.000Z',
+  endDate: '2026-07-05T00:00:00.000Z',
+})
+
+describe('intolerances', () => {
+  it('formats the period of stay', () => {
+    expect(formatPeriod('2026-07-01', '2026-07-05')).toBe('01.07. – 05.07.')
+  })
+
+  it('sorts by family name and skips people without intolerance', () => {
+    const sorted = sortIntolerances([
+      person('Ben', 'Gruber', ['Gluten']),
+      person('Eva', 'Maier', []),
+      person('Anna', 'Berger', ['Laktose']),
+    ])
+
+    expect(sorted.map(({ familyName }) => familyName)).toEqual([
+      'Berger',
+      'Gruber',
+    ])
+  })
+})
+
 describe('downloadFoodOverviewExcel', () => {
-  it('writes a header row and one row per day and meal', async () => {
+  it('writes the meals and the intolerances into two sheets', async () => {
     const days = buildFoodOverview([
       participant('vegetarian', '2026-07-01', '2026-07-02'),
     ])
 
-    await downloadFoodOverviewExcel(days)
-
-    const [rows] = (writeExcelFile as jest.Mock).mock.calls[0]
-    expect(rows[0].map((cell) => cell.value)).toEqual([
-      'Tag',
-      'Mahlzeit',
-      'Alles',
-      'Vegetarisch',
-      'Gesamt',
+    await downloadFoodOverviewExcel(days, [
+      person('Ben', 'Gruber', ['Gluten', 'Nüsse']),
     ])
-    expect(rows.slice(1)).toEqual([
+
+    const [[meals, intolerances]] = (writeExcelFile as jest.Mock).mock.calls[0]
+    const values = (rows) =>
+      rows.map((row) => row.map((cell) => cell?.value ?? cell))
+
+    expect(meals.sheet).toBe('Essensübersicht')
+    expect(values(meals.data)).toEqual([
+      ['Tag', 'Mahlzeit', 'Alles', 'Vegetarisch', 'Gesamt'],
       ['Mi., 01.07.', 'Frühstück', 0, 1, 1],
       ['Mi., 01.07.', 'Mittagessen', 0, 1, 1],
       ['Mi., 01.07.', 'Abendessen', 0, 1, 1],
       ['Do., 02.07.', 'Frühstück', 0, 1, 1],
       ['Do., 02.07.', 'Mittagessen', 0, 1, 1],
       ['Do., 02.07.', 'Abendessen', 0, 1, 1],
+    ])
+
+    expect(intolerances.sheet).toBe('Unverträglichkeiten')
+    expect(values(intolerances.data)).toEqual([
+      ['Name', 'Unverträglichkeiten', 'Zeitraum'],
+      ['Ben Gruber', 'Gluten, Nüsse', '01.07. – 05.07.'],
     ])
 
     const { toFile } = (writeExcelFile as jest.Mock).mock.results[0].value

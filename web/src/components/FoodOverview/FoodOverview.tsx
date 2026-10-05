@@ -3,6 +3,7 @@ import { Fragment, useState } from 'react'
 import { Download } from 'lucide-react'
 
 import AlertCenter from '@/components/ui/Alert/AlertCenter'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -25,7 +26,10 @@ import {
   downloadFoodOverviewExcel,
   FOOD_CHOICES,
   FoodParticipant,
+  formatPeriod,
+  IntoleranceParticipant,
   MEALS,
+  sortIntolerances,
 } from './foodOverview'
 
 // Die shadcn-Tabelle setzt ihre Klassen mit "dark:"-Prefix, daher auch hier "dark:"
@@ -35,17 +39,25 @@ const tableText = 'dark:text-xs sm:dark:text-sm'
 
 type Props = {
   participants: FoodParticipant[]
+  intolerances: IntoleranceParticipant[]
+  /** Hinweis anzeigen, solange die Unverträglichkeiten Beispieldaten sind */
+  intolerancesAreDummyData?: boolean
 }
 
-const FoodOverview = ({ participants }: Props) => {
+const FoodOverview = ({
+  participants,
+  intolerances,
+  intolerancesAreDummyData = false,
+}: Props) => {
   const { addAlert } = useAlert()
   const [downloading, setDownloading] = useState(false)
   const foodDays = buildFoodOverview(participants)
+  const intolerancePeople = sortIntolerances(intolerances)
 
   const onDownload = async () => {
     setDownloading(true)
     try {
-      await downloadFoodOverviewExcel(foodDays)
+      await downloadFoodOverviewExcel(foodDays, intolerances)
     } catch (error) {
       addAlert(`Excel-Download fehlgeschlagen: ${error.message}`, 'error')
     } finally {
@@ -69,7 +81,10 @@ const FoodOverview = ({ participants }: Props) => {
           size="sm"
           className="shrink-0 self-start"
           onClick={onDownload}
-          disabled={downloading || foodDays.length === 0}
+          disabled={
+            downloading ||
+            (foodDays.length === 0 && intolerancePeople.length === 0)
+          }
         >
           <Download className="h-4 w-4" />
           Excel herunterladen
@@ -125,6 +140,51 @@ const FoodOverview = ({ participants }: Props) => {
             </TableBody>
           </Table>
         )}
+
+        <div className="space-y-2 pt-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="font-semibold">Unverträglichkeiten</h3>
+            {intolerancesAreDummyData && (
+              <Badge variant="outline">Beispieldaten</Badge>
+            )}
+          </div>
+          {intolerancePeople.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              Keine Unverträglichkeiten angegeben.
+            </p>
+          ) : (
+            <Table className={tableText}>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Unverträglichkeit</TableHead>
+                  <TableHead>Zeitraum</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {intolerancePeople.map((person) => (
+                  <TableRow key={`${person.familyName}-${person.name}`}>
+                    <TableCell className="font-medium">
+                      {person.name} {person.familyName}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {person.intolerances.map((intolerance) => (
+                          <Badge key={intolerance} variant="secondary">
+                            {intolerance}
+                          </Badge>
+                        ))}
+                      </div>
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap tabular-nums">
+                      {formatPeriod(person.startDate, person.endDate)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </div>
       </CardContent>
     </Card>
   )

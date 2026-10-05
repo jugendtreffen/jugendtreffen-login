@@ -1,5 +1,6 @@
 import { useQuery } from '@redwoodjs/web'
 
+import { DUMMY_INTOLERANCES } from '@/components/FoodOverview/dummyIntolerances'
 import FoodOverview from '@/components/FoodOverview/FoodOverview'
 
 const PARTICIPANTS_QUERY = gql`
@@ -194,7 +195,12 @@ const DashboardView = () => {
         />
       </div>
 
-      <FoodOverview participants={participants} />
+      {/* TODO: Unverträglichkeiten aus der API laden, sobald das Backend sie liefert */}
+      <FoodOverview
+        participants={participants}
+        intolerances={DUMMY_INTOLERANCES}
+        intolerancesAreDummyData
+      />
     </div>
   )
 }

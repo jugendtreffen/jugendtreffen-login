@@ -22,10 +22,35 @@ const participants = [
   { foodChoice: 'vegetarian', startDate: '2026-07-02', endDate: '2026-07-02' },
 ]
 
-const renderOverview = (list = participants) =>
+const intolerances = [
+  {
+    name: 'Ben',
+    familyName: 'Gruber',
+    intolerances: ['Gluten', 'Nüsse'],
+    startDate: '2026-07-02',
+    endDate: '2026-07-05',
+  },
+  {
+    name: 'Anna',
+    familyName: 'Berger',
+    intolerances: ['Laktose'],
+    startDate: '2026-07-01',
+    endDate: '2026-07-03',
+  },
+]
+
+const renderOverview = (
+  list = participants,
+  people = intolerances,
+  dummy = false
+) =>
   render(
     <AlertProvider>
-      <FoodOverview participants={list} />
+      <FoodOverview
+        participants={list}
+        intolerances={people}
+        intolerancesAreDummyData={dummy}
+      />
     </AlertProvider>
   )
 
@@ -35,7 +60,7 @@ describe('FoodOverview', () => {
   it('shows one row per day and meal with the counts', () => {
     renderOverview()
 
-    const rows = within(screen.getByRole('table')).getAllByRole('row')
+    const rows = within(screen.getAllByRole('table')[0]).getAllByRole('row')
     expect(rows.map((row) => row.textContent)).toEqual([
       'MahlzeitAllesVegetarischGesamt',
       'Mi., 01.07.',
@@ -61,6 +86,7 @@ describe('FoodOverview', () => {
 
     await waitFor(() => expect(mockedDownload).toHaveBeenCalledTimes(1))
     expect(mockedDownload.mock.calls[0][0]).toHaveLength(2)
+    expect(mockedDownload.mock.calls[0][1]).toBe(intolerances)
   })
 
   it('shows an alert when the download fails', async () => {
@@ -76,8 +102,32 @@ describe('FoodOverview', () => {
     ).toBeInTheDocument()
   })
 
-  it('shows a hint and disables the download without registrations', () => {
-    renderOverview([])
+  it('lists the intolerances sorted by family name', () => {
+    renderOverview()
+
+    const rows = within(screen.getAllByRole('table')[1]).getAllByRole('row')
+    expect(rows.map((row) => row.textContent)).toEqual([
+      'NameUnverträglichkeitZeitraum',
+      'Anna BergerLaktose01.07. – 03.07.',
+      'Ben GruberGlutenNüsse02.07. – 05.07.',
+    ])
+  })
+
+  it('marks dummy intolerances as sample data', () => {
+    renderOverview(participants, intolerances, true)
+    expect(screen.getByText('Beispieldaten')).toBeInTheDocument()
+  })
+
+  it('shows a hint when nobody has an intolerance', () => {
+    renderOverview(participants, [])
+    expect(
+      screen.getByText('Keine Unverträglichkeiten angegeben.')
+    ).toBeInTheDocument()
+    expect(screen.queryByText('Beispieldaten')).not.toBeInTheDocument()
+  })
+
+  it('shows a hint and disables the download without any data', () => {
+    renderOverview([], [])
 
     expect(
       screen.getByText('Noch keine Anmeldungen vorhanden.')
