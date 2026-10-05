@@ -13048,6 +13048,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fflate@npm:^0.8.2":
+  version: 0.8.3
+  resolution: "fflate@npm:0.8.3"
+  checksum: 10c0/eab181ca37f5348ae76d4b6f840e0026e30220e33153289ac942222d8b9638237d486507dbcc09878d724095bd354993a2ee48bbee99c8f2c6440d4448719aa7
+  languageName: node
+  linkType: hard
+
 "figures@npm:^3.0.0":
   version: 3.2.0
   resolution: "figures@npm:3.2.0"
@@ -21172,6 +21179,7 @@ __metadata:
     typescript: "npm:5.9.3"
     vite: "npm:7.3.5"
     vite-plugin-node-polyfills: "npm:^0.25.0"
+    write-excel-file: "npm:4.1.1"
     zod: "npm:^4.3.6"
   languageName: unknown
   linkType: soft
@@ -21405,6 +21413,15 @@ __metadata:
   version: 1.0.2
   resolution: "wrappy@npm:1.0.2"
   checksum: 10c0/56fece1a4018c6a6c8e28fbc88c87e0fbf4ea8fd64fc6c63b18f4acc4bd13e0ad2515189786dd2c30d3eec9663d70f4ecf699330002f8ccb547e4a18231fc9f0
+  languageName: node
+  linkType: hard
+
+"write-excel-file@npm:4.1.1":
+  version: 4.1.1
+  resolution: "write-excel-file@npm:4.1.1"
+  dependencies:
+    fflate: "npm:^0.8.2"
+  checksum: 10c0/6c301bdd99af643687aadc3dd3697ea9e647dd8f6fe3df8a43d61924cda8c21bdff08aa0c79b44e09160d84485dab69d8dcb3deec5317f5593154c88c3042bfa
   languageName: node
   linkType: hard
 
